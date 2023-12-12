@@ -20,9 +20,13 @@ Before you begin, ensure you have the following installed:
    cd P2P-Lending-Mobile-Application
 
 # Install virtualenv if you don't have it
+
+```bash
 pip install virtualenv
 
 # Create a virtual environment
+
+
 python -m venv venv
 
 # Activate the virtual environment
