@@ -21,20 +21,22 @@ Before you begin, ensure you have the following installed:
 
 # Install virtualenv if you don't have it
 
-pip install virtualenv
+```pip install virtualenv```
 
 ## Create a virtual environment
 
 
-python -m venv venv
+```python -m venv venv```
 
 ## Activate the virtual environment
 
 ## On Windows
-venv\Scripts\activate
+
+```venv\Scripts\activate```
 
 ## On Unix or MacOS
-source venv/bin/activate
+
+```source venv/bin/activate```
 
 
 # Install Dependencies
@@ -45,3 +47,21 @@ pip install -r requirements.txt
 # Now Start APP
 
 python main.py
+
+
+# Project path
+
+P2P-Lending-Mobile-Application/
+|-- assets/
+|   |-- images/
+|   |-- fonts/
+|-- screens/
+|   |-- __init__.py
+|   |-- home_screen.py
+|   |-- loan_screen.py
+|   |-- profile_screen.py
+|-- .gitignore
+|-- main.py
+|-- requirements.txt
+|-- README.md
+|-- venv/  

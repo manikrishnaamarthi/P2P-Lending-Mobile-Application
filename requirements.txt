@@ -1,0 +1,8 @@
+# requirements.txt
+
+# Specify your dependencies and their versions
+kivy==2.1.0
+kivymd==0.104.2
+
+# Add other dependencies as needed
+# package_name==version
