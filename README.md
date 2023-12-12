@@ -23,17 +23,17 @@ Before you begin, ensure you have the following installed:
 
 pip install virtualenv
 
-# Create a virtual environment
+## Create a virtual environment
 
 
 python -m venv venv
 
-# Activate the virtual environment
+## Activate the virtual environment
 
-# On Windows
+## On Windows
 venv\Scripts\activate
 
-# On Unix or MacOS
+## On Unix or MacOS
 source venv/bin/activate
 
 
