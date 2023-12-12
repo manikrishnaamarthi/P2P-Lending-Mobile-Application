@@ -38,17 +38,6 @@ Before you begin, ensure you have the following installed:
 
 ```source venv/bin/activate```
 
-
-# Install Dependencies
-
-```bash
-pip install -r requirements.txt
-
-# Now Start APP
-
-python main.py
-
-
 # Project path
 
 P2P-Lending-Mobile-Application/
@@ -65,3 +54,15 @@ P2P-Lending-Mobile-Application/
 |-- requirements.txt
 |-- README.md
 |-- venv/  
+
+
+# Install Dependencies
+
+```bash
+pip install -r requirements.txt
+
+# Now Start APP
+
+python main.py
+
+
