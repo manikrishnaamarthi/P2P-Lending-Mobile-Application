@@ -21,7 +21,6 @@ Before you begin, ensure you have the following installed:
 
 # Install virtualenv if you don't have it
 
-```bash
 pip install virtualenv
 
 # Create a virtual environment
@@ -37,10 +36,12 @@ venv\Scripts\activate
 # On Unix or MacOS
 source venv/bin/activate
 
+
 # Install Dependencies
 
-Run ```pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
 
 # Now Start APP
 
-Run ``` python main.py```
+python main.py
