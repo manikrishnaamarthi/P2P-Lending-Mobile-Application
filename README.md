@@ -38,8 +38,6 @@ Before you begin, ensure you have the following installed:
 
 ```source venv/bin/activate```
 
- 
-
 
 # Install Dependencies
 
@@ -54,7 +52,7 @@ python main.py
 # Project path
 
 
-```P2P-Lending-Mobile-Application/
+P2P-Lending-Mobile-Application/
 |-- assets/
 |   |-- images/
 |   |-- fonts/
@@ -67,4 +65,4 @@ python main.py
 |-- main.py
 |-- requirements.txt
 |-- README.md
-|-- venv/ ```
+|-- venv/
