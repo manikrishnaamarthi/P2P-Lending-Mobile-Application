@@ -38,22 +38,7 @@ Before you begin, ensure you have the following installed:
 
 ```source venv/bin/activate```
 
-# Project path
-
-P2P-Lending-Mobile-Application/
-|-- assets/
-|   |-- images/
-|   |-- fonts/
-|-- screens/
-|   |-- __init__.py
-|   |-- home_screen.py
-|   |-- loan_screen.py
-|   |-- profile_screen.py
-|-- .gitignore
-|-- main.py
-|-- requirements.txt
-|-- README.md
-|-- venv/  
+ 
 
 
 # Install Dependencies
@@ -66,3 +51,20 @@ pip install -r requirements.txt
 python main.py
 
 
+# Project path
+
+
+```P2P-Lending-Mobile-Application/
+|-- assets/
+|   |-- images/
+|   |-- fonts/
+|-- screens/
+|   |-- __init__.py
+|   |-- home_screen.py
+|   |-- loan_screen.py
+|   |-- profile_screen.py
+|-- .gitignore
+|-- main.py
+|-- requirements.txt
+|-- README.md
+|-- venv/ ```
