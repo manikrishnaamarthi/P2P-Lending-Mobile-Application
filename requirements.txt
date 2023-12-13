@@ -1,8 +1,11 @@
 # requirements.txt
 
-# Specify your dependencies and their versions
-kivy==2.1.0
-kivymd==0.104.2
+# Kivy and KivyMD versions
+kivy==2.2.1
+kivymd==1.1.1
 
-# Add other dependencies as needed
-# package_name==version
+# SQLAlchemy for database interactions
+SQLAlchemy==1.4.25
+
+# PostgreSQL adapter for Python
+psycopg2-binary==2.9.1

@@ -9,13 +9,18 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     username = Column(String)
+    mobile_no = Column(Integer)
     email = Column(String)
+    password = Column(String)
+
+
+
 
 # Add more classes for additional tables as needed
 
-# Example: class Loan(Base):
-#     __tablename__ = 'loans'
-#     id = Column(Integer, primary_key=True)
-#     amount = Column(Integer)
-#     borrower_id = Column(Integer, ForeignKey('users.id'))
-#     borrower = relationship(User)
+class Loan(Base):
+    __tablename__ = 'loans'
+    id = Column(Integer, primary_key=True)
+    amount = Column(Integer)
+    borrower_id = Column(Integer, ForeignKey('users.id'))
+    borrower = relationship(User)
