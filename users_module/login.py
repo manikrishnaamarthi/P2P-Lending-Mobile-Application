@@ -4,6 +4,8 @@ from kivymd.app import MDApp
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton, MDRectangleFlatButton
 import sqlite3
+from borrower_module import borrower_registration_forms
+from lender_module import lender_registration_form
 
 kv = '''
 <MainScreen>:
@@ -171,7 +173,7 @@ kv = '''
             MDRaisedButton:
                 id: borrower
                 text: "Borrower Registration"
-
+                on_release:app.on_next_button_click()
 
             MDRaisedButton:
                 id: lender
