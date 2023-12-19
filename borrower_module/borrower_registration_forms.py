@@ -849,7 +849,7 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'bor_reg_institutional_bank_form1' 
+                            on_release: app.root.ids.screen_manager.current = 'borrower_reg_form8' 
                                 
         Screen:
             name: 'bor_reg_business_form1'
@@ -1141,16 +1141,16 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_institutional_form2'
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_business_form2'
 
                         MDRectangleFlatButton:
                             text: 'Next'
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_institutional_form4' 
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_business_form4' 
         Screen:
-            name: 'len_reg_institutional_form4'
+            name: 'bor_reg_business_form4'
             MDRectangleFlatButton:
                 text: 'HOME'
                 text_color: 0, 0, 0, 1  # Black text color
@@ -1241,16 +1241,16 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_institutional_form3'
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_business_form3'
 
                         MDRectangleFlatButton:
                             text: 'Next'
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_institutional_form5'
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_business_form5'
         Screen:
-            name: 'len_reg_institutional_form5'
+            name: 'bor_reg_business_form5'
             MDRectangleFlatButton:
                 text: 'HOME'
                 text_color: 0, 0, 0, 1  # Black text color
@@ -1346,17 +1346,17 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_institutional_form4'
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_business_form4'
 
                         MDRectangleFlatButton:
                             text: 'Next'
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_institutional_bank_form1'
+                            on_release: app.root.ids.screen_manager.current = 'borrower_reg_form8'
 
         Screen:
-            name: 'len_reg_individual_form1'
+            name: 'bor_reg_employee_form1'
             MDRectangleFlatButton:
                 text: 'HOME'
                 text_color: 0, 0, 0, 1  # Black text color
@@ -1432,17 +1432,17 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'lender_reg_form5'
+                            on_release: app.root.ids.screen_manager.current = 'borrower_reg_form7'
 
                         MDRectangleFlatButton:
                             text: 'Next'
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_individual_form2'        
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_employee_form2'        
 
         Screen:
-            name: 'len_reg_individual_form2'
+            name: 'bor_reg_employee_form2'
             MDRectangleFlatButton:
                 text: 'HOME'
                 text_color: 0, 0, 0, 1  # Black text color
@@ -1520,14 +1520,14 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_individual_form1'
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_employee_form1'
 
                         MDRectangleFlatButton:
                             text: 'Next'
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_individual_form3'       
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_employee_form3'       
         Screen:
             name: 'bor_reg_employee_form3'
             MDRectangleFlatButton:
@@ -1637,11 +1637,286 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_individual_bank_form1'        
-
+                            on_release: app.root.ids.screen_manager.current = 'borrower_reg_form8'        
 
         Screen:
-            name: 'len_reg_individual_bank_form1'
+            name: 'borrower_reg_form8'
+            MDRectangleFlatButton:
+                text: 'HOME'
+                text_color: 0, 0, 0, 1  # Black text color
+                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'top': 1}
+                on_release: app.go_home()
+                size_hint: (0.1, 0.03)
+                font_size: "13sp"
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: dp(10)
+                padding: dp(10)
+                size_hint_y: None
+                height: self.minimum_height
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: None
+                width: 300
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: None, None
+                    size: "280dp", "480dp"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+                    MDLabel:
+                        text: 'Borrower Registration Form'
+                        font_size: 25
+                        halign: 'center'
+                        bold: True
+
+                    MDTextField:
+                        id: marrital_status_field
+                        multiline: False
+                        hint_text: "Select one"
+                        on_focus: if self.focus: app.show_profession_menu()
+                        height: self.minimum_height
+                        readonly: True
+                        width: 300
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        theme_text_color: "Custom"
+                        hint_text_color: (0, 0, 0, 1)  # Black hint text color
+                        text_color: (0, 0, 0, 1)  # Black text color
+                        size_hint_x: None
+                        size_hint_y: None
+                        helper_text_mode: "on_focus"
+                        font_name: "Roboto-Bold"
+
+                    BoxLayout:
+                        spacing: dp(10)
+                        size_hint_x: None
+                        height: "60dp"
+                        width: "60dp"
+                        pos_hint: {'center_x': 0.4, 'center_y': 0.6}
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                        md_bg_color: 0, 0, 0, 1
+                        MDRectangleFlatButton:
+                            text: 'Back'
+                            text_color: 0, 0, 0, 1  # Black text color
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                            md_bg_color: 0.031, 0.463, 0.91, 1
+                            on_release: app.root.ids.screen_manager.current = 'borrower_reg_form7'
+
+                        MDRectangleFlatButton:
+                            text: 'Next'
+                            text_color: 0, 0, 0, 1  # Black text color
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                            md_bg_color: 0.031, 0.463, 0.91, 1
+                            on_release: app.on_next_button_click() 
+        
+        Screen:
+            name: 'bor_reg_spouse_form1'
+            MDRectangleFlatButton:
+                text: 'HOME'
+                text_color: 0, 0, 0, 1  # Black text color
+                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'top': 1}
+                on_release: app.go_home()
+                size_hint: (0.1, 0.03)
+                font_size: "13sp"
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: dp(10)
+                padding: dp(10)
+                size_hint_y: None
+                height: self.minimum_height
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: None
+                width: 300
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: None, None
+                    size: "280dp", "480dp"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+
+                    MDLabel:
+                        text: 'Step-1'
+                        font_size: 25
+                        halign: 'center'
+                        bold: True
+
+                    MDTextField:
+                        id: spouse_name
+                        hint_text: 'Enter spouse name '
+                        multiline: False
+                        helper_text_mode: 'on_focus'
+                        size_hint_y: None
+                        height: self.minimum_height
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        size_hint_x: None
+                        width: 300
+
+                    MDTextField:
+                        id: spouse_date_textfield
+                        hint_text: "Select Date"
+                        icon_right: "calendar"
+                        readonly: True
+                        width: 300
+                        size_hint_x: None
+                        size_hint_y: None
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        on_focus: if self.focus: app.show_date_picker()
+                        font_name: "Roboto-Bold"
+                        
+                    MDTextField:
+                        id:spouse_mobile
+                        hint_text: 'Enter spouse mobile no'
+                        multiline: False                        
+                        helper_text_mode: 'on_focus'
+                        size_hint_y: None
+                        height: self.minimum_height
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        size_hint_x: None
+                        width: 300
+                        
+                    MDTextField:
+                        id: spouse_profession
+                        hint_text: 'Enter spouse profession '
+                        multiline: False
+                        helper_text_mode: 'on_focus'
+                        size_hint_y: None
+                        height: self.minimum_height
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        size_hint_x: None
+                        width: 300
+                        
+                    BoxLayout:
+                        spacing: dp(10)
+                        size_hint_x: None
+                        height: "60dp"
+                        width: "60dp"
+                        pos_hint: {'center_x': 0.4, 'center_y': 0.6}
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                        md_bg_color: 0, 0, 0, 1
+                        MDRectangleFlatButton:
+                            text: 'Back'
+                            text_color: 0, 0, 0, 1  # Black text color
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                            md_bg_color: 0.031, 0.463, 0.91, 1
+                            on_release: app.root.ids.screen_manager.current = 'borrower_reg_form8'
+
+                        MDRectangleFlatButton:
+                            text: 'Next'
+                            text_color: 0, 0, 0, 1  # Black text color
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                            md_bg_color: 0.031, 0.463, 0.91, 1
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_spouse_form2'
+                           
+        Screen:
+            name: 'bor_reg_spouse_form2'
+            MDRectangleFlatButton:
+                text: 'HOME'
+                text_color: 0, 0, 0, 1  # Black text color
+                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'top': 1}
+                on_release: app.go_home()
+                size_hint: (0.1, 0.03)
+                font_size: "13sp"
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: dp(10)
+                padding: dp(10)
+                size_hint_y: None
+                height: self.minimum_height
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: None
+                width: 300
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: None, None
+                    size: "280dp", "480dp"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+
+                    MDLabel:
+                        text: 'Step-2'
+                        font_size: 25
+                        halign: 'center'
+                        bold: True
+
+                    MDTextField:
+                        id: spouse_company_name
+                        hint_text: 'Enter spouse company name '
+                        multiline: False
+                        helper_text_mode: 'on_focus'
+                        size_hint_y: None
+                        height: self.minimum_height
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        size_hint_x: None
+                        width: 300
+
+
+                    MDTextField:
+                        id: spouse_company_address
+                        hint_text: 'Enter spouse company address'
+                        multiline: False                   
+                        helper_text_mode: 'on_focus'
+                        size_hint_y: None
+                        height: self.minimum_height
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        size_hint_x: None
+                        width: 300
+                    MDTextField:
+                        id:  spouse_annual_salary
+                        hint_text: 'Enter annual salary'
+                        multiline: False
+
+                        helper_text_mode: 'on_focus'
+                        size_hint_y: None
+                        height: self.minimum_height
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        size_hint_x: None
+                        width: 300
+                    MDTextField:
+                        id:spouse_office_no
+                        hint_text: 'Enter spouse office no'
+                        multiline: False                        
+                        helper_text_mode: 'on_focus'
+                        size_hint_y: None
+                        height: self.minimum_height
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        size_hint_x: None
+                        width: 300
+
+                    BoxLayout:
+                        spacing: dp(10)
+                        size_hint_x: None
+                        height: "60dp"
+                        width: "60dp"
+                        pos_hint: {'center_x': 0.4, 'center_y': 0.6}
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                        md_bg_color: 0, 0, 0, 1
+                        MDRectangleFlatButton:
+                            text: 'Back'
+                            text_color: 0, 0, 0, 1  # Black text color
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                            md_bg_color: 0.031, 0.463, 0.91, 1
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_spouse_form1'
+
+                        MDRectangleFlatButton:
+                            text: 'Next'
+                            text_color: 0, 0, 0, 1  # Black text color
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                            md_bg_color: 0.031, 0.463, 0.91, 1
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_bank_form1'
+                                                
+        Screen:
+            name: 'bor_reg_bank_form1'
             MDRectangleFlatButton:
                 text: 'HOME'
                 text_color: 0, 0, 0, 1  # Black text color
@@ -1742,17 +2017,17 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_individual_form3'
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_spouse_form1'
 
                         MDRectangleFlatButton:
                             text: 'Next'
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_individual_bank_form2'    
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_bank_form2'    
 
         Screen:
-            name: 'len_reg_individual_bank_form2'
+            name: 'bor_reg_bank_form2'
             MDRectangleFlatButton:
                 text: 'HOME'
                 text_color: 0, 0, 0, 1  # Black text color
@@ -1860,236 +2135,7 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_individual_bank_form1'
-
-                        MDRectangleFlatButton:
-                            text: 'Next'
-                            text_color: 0, 0, 0, 1  # Black text color
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                            md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_individual_bank_form2'   
-
-        Screen:
-            name: 'len_reg_institutional_bank_form1'
-            MDRectangleFlatButton:
-                text: 'HOME'
-                text_color: 0, 0, 0, 1  # Black text color
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                md_bg_color: 0.031, 0.463, 0.91, 1
-                pos_hint: {'right': 1, 'top': 1}
-                on_release: app.go_home()
-                size_hint: (0.1, 0.03)
-                font_size: "13sp"
-
-            MDBoxLayout:
-                orientation: 'vertical'
-                spacing: dp(10)
-                padding: dp(10)
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-                MDCard:
-                    orientation: "vertical"
-                    size_hint: None, None
-                    size: "280dp", "480dp"
-                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
-
-                    MDLabel:
-                        text: 'Applicant Bank Details'
-                        font_size: 25
-                        halign: 'center'
-                        bold: True
-
-                    MDTextField:
-                        id: account_holder_name
-                        hint_text: 'Enter account holder name '
-                        multiline: False
-                        helper_text: 'Enter valid account holder name'
-                        helper_text_mode: 'on_focus'
-                        size_hint_y: None
-                        height: self.minimum_height
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        size_hint_x: None
-                        width: 300
-
-                    MDTextField:
-                        id: account_type_field
-                        multiline: False
-                        hint_text: "Select one"
-                        on_focus: if self.focus: app.show_account_type_menu()
-                        height: self.minimum_height
-                        readonly: True
-                        width: 300
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        theme_text_color: "Custom"
-                        hint_text_color: (0, 0, 0, 1)  # Black hint text color
-                        text_color: (0, 0, 0, 1)  # Black text color
-                        size_hint_x: None
-                        size_hint_y: None
-                        helper_text_mode: "on_focus"
-                        font_name: "Roboto-Bold"
-
-
-
-                    MDTextField:
-                        id: account_number
-                        hint_text: 'Enter account number '
-                        multiline: False
-                        helper_text: 'Enter valid account number'
-                        helper_text_mode: 'on_focus'
-                        size_hint_y: None
-                        height: self.minimum_height
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        size_hint_x: None
-                        width: 300
-
-                    MDTextField:
-                        id: bank_name
-                        hint_text: 'Enter bank name '
-                        multiline: False
-
-                        helper_text_mode: 'on_focus'
-                        size_hint_y: None
-                        height: self.minimum_height
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        size_hint_x: None
-                        width: 300
-
-                    BoxLayout:
-                        spacing: dp(10)
-                        size_hint_x: None
-                        height: "60dp"
-                        width: "60dp"
-                        pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                        theme_text_color: "Custom"
-                        text_color: 1, 1, 1, 1
-                        md_bg_color: 0, 0, 0, 1
-                        MDRectangleFlatButton:
-                            text: 'Back'
-                            text_color: 0, 0, 0, 1  # Black text color
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                            md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_institutional_form5'
-
-                        MDRectangleFlatButton:
-                            text: 'Next'
-                            text_color: 0, 0, 0, 1  # Black text color
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                            md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_institutional_bank_form2'   
-
-        Screen:
-            name: 'len_reg_institutional_bank_form2'
-            MDRectangleFlatButton:
-                text: 'HOME'
-                text_color: 0, 0, 0, 1  # Black text color
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                md_bg_color: 0.031, 0.463, 0.91, 1
-                pos_hint: {'right': 1, 'top': 1}
-                on_release: app.go_home()
-                size_hint: (0.1, 0.03)
-                font_size: "13sp"
-
-            MDBoxLayout:
-                orientation: 'vertical'
-                spacing: dp(10)
-                padding: dp(10)
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-                MDCard:
-                    orientation: "vertical"
-                    size_hint: None, None
-                    size: "280dp", "480dp"
-                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
-
-                    MDLabel:
-                        text: 'Applicant Bank Details'
-                        font_size: 25
-                        halign: 'center'
-                        bold: True
-
-                    MDTextField:
-                        id: ifsc_code
-                        hint_text: 'Enter IFSC code '
-                        multiline: False
-                        helper_text: 'Enter valid ifsc code'
-                        helper_text_mode: 'on_focus'
-                        size_hint_y: None
-                        height: self.minimum_height
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        size_hint_x: None
-                        width: 300
-
-                    MDTextField:
-                        id: salary_paid_field
-                        multiline: False
-                        hint_text: "Select salary paid "
-                        on_focus: if self.focus: app.show_salary_paid_menu()
-                        height: self.minimum_height
-                        readonly: True
-                        width: 300
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        theme_text_color: "Custom"
-                        hint_text_color: (0, 0, 0, 1)  # Black hint text color
-                        text_color: (0, 0, 0, 1)  # Black text color
-                        size_hint_x: None
-                        size_hint_y: None
-                        helper_text_mode: "on_focus"
-                        font_name: "Roboto-Bold"
-
-
-
-                    MDTextField:
-                        id: branch_name
-                        hint_text: 'Enter branch name'
-                        multiline: False
-
-                        helper_text_mode: 'on_focus'
-                        size_hint_y: None
-                        height: self.minimum_height
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        size_hint_x: None
-                        width: 300
-
-                    MDTextField:
-                        id: net_banking
-                        multiline: False
-                        hint_text: "Select net banking "
-                        on_focus: if self.focus: app.show_net_banking_menu()
-                        height: self.minimum_height
-                        readonly: True
-                        width: 300
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        theme_text_color: "Custom"
-                        hint_text_color: (0, 0, 0, 1)  # Black hint text color
-                        text_color: (0, 0, 0, 1)  # Black text color
-                        size_hint_x: None
-                        size_hint_y: None
-                        helper_text_mode: "on_focus"
-                        font_name: "Roboto-Bold"
-
-
-
-                    BoxLayout:
-                        spacing: dp(10)
-                        size_hint_x: None
-                        height: "60dp"
-                        width: "60dp"
-                        pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                        theme_text_color: "Custom"
-                        text_color: 1, 1, 1, 1
-                        md_bg_color: 0, 0, 0, 1
-                        MDRectangleFlatButton:
-                            text: 'Back'
-                            text_color: 0, 0, 0, 1  # Black text color
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                            md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.root.ids.screen_manager.current = 'len_reg_institutional_bank_form1' 
+                            on_release: app.root.ids.screen_manager.current = 'bor_reg_bank_form1'
 
                         MDRectangleFlatButton:
                             text: 'Next'
@@ -2097,10 +2143,6 @@ BoxLayout:
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
                             on_release: app.on_next_button_click()     
-
-
-
-
 
              """
 
@@ -2383,6 +2425,37 @@ class DemoApp(MDApp):
         self.root.ids.net_banking.text = net_banking
         # Close the dropdown menu
         self.menu.dismiss()
+
+    def show_marrital_status_menu(self):
+        menu_items = [
+            {
+                "viewclass": "OneLineListItem",
+                "text": "Married",
+                "on_release": lambda x="Married": self.set_selected_marrital_status(x),
+            },
+            {
+                "viewclass": "OneLineListItem",
+                "text": "Un-Married",
+                "on_release": lambda x="Un-Married": self.set_selected_marrital_status(x),
+            },
+            {
+                "viewclass": "OneLineListItem",
+                "text": "Business",
+                "on_release": lambda x="Diversed": self.set_selected_marrital_status(x),
+            },
+            # Add more lending types as needed
+        ]
+        self.show_marrital_status_menu = MDDropdownMenu(
+            caller=self.root.ids.marrital_status_field,
+            items=menu_items,
+            width_mult=4,
+        )
+        self.marrital_status_menu.open()
+
+    def set_selected_marrital_status(self, marrital_status):
+        self.root.ids.marrital_status_field.text = marrital_status
+        # Close the dropdown menu
+        self.marrital_status_menu.dismiss()
 
     def bor_reg_form1_validation(self):
         # Validate the fields and navigate to the next screen
