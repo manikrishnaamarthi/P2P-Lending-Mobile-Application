@@ -10,3 +10,4 @@ CREATE TABLE IF NOT EXISTS users (
 """)
 connection.commit()
 connection.close()
+
