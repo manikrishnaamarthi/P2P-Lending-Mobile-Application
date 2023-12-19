@@ -2482,7 +2482,7 @@ class DemoApp(MDApp):
             today = datetime.now()
             age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
 
-            if age < 18:
+            if age > 18:
                 self.set_helper_text("date_textfield", "You must be 18 or older to register.")
             else:
                 # Reset error status for all fields
