@@ -1,5 +1,7 @@
+from typing import re
 from kivymd.app import MDApp
 from kivymd.uix.screen import Screen
+from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.button import MDRectangleFlatButton
 from kivymd.uix.filemanager import MDFileManager
@@ -14,6 +16,8 @@ from kivymd.uix.card import MDCard
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
 from datetime import datetime, timedelta
+import sqlite3
+
 
 KV = """
 BoxLayout:
@@ -146,8 +150,10 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.bor_reg_form1_validation()
+                            on_release: app.root.ids.screen_manager.current= 'borrower_reg_form2'
+                            #on_press
 
+#second screen 
         Screen:
             name: 'borrower_reg_form2'
             MDRectangleFlatButton:
@@ -238,7 +244,7 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.bor_reg_form2_validation()
+                            on_release: app.root.ids.screen_manager.current= 'borrower_reg_form3'
 
         Screen:
             name: 'borrower_reg_form3'
@@ -1676,7 +1682,7 @@ BoxLayout:
                         id: marrital_status_field
                         multiline: False
                         hint_text: "Select one"
-                        on_focus: if self.focus: app.show_profession_menu()
+                        on_focus: if self.focus: app.show_marrital_status_menu()
                         height: self.minimum_height
                         readonly: True
                         width: 300
@@ -1710,7 +1716,7 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.on_next_button_click() 
+                            on_release: app.on_next_button1_click() 
         
         Screen:
             name: 'bor_reg_spouse_form1'
@@ -2142,14 +2148,12 @@ BoxLayout:
                             text_color: 0, 0, 0, 1  # Black text color
                             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                             md_bg_color: 0.031, 0.463, 0.91, 1
-                            on_release: app.on_next_button_click()     
+                            on_release: app.on_next_button2_click()     
 
              """
 
 
-
-#Window.size = (300, 500)
-
+# Window.size = (300, 500)
 
 
 class DemoApp(MDApp):
@@ -2160,6 +2164,12 @@ class DemoApp(MDApp):
         )
         return Builder.load_string(KV)
 
+    def screen_manger_current(self, fullname: object, email: object, gender: object, dob: object, mobile: object) -> object:
+        conn = sqlite3.connect('kivymd.db')
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO userprofile (fullname, email, gender, dob, mobile) VALUES (?, ?, ?, ?, ?)', (fullname, email, gender, dob, mobile))
+        conn.commit()
+        conn.close()
     def show_gender_menu(self):
         menu_items = [
             {
@@ -2171,6 +2181,11 @@ class DemoApp(MDApp):
                 "viewclass": "OneLineListItem",
                 "text": "Female",
                 "on_release": lambda x="Female": self.set_selected_gender(x),
+            },
+            {
+                "viewclass": "OneLineListItem",
+                "text": "Others",
+                "on_release": lambda x="Others": self.set_selected_gender(x),
             },
         ]
         self.menu = MDDropdownMenu(
@@ -2204,17 +2219,17 @@ class DemoApp(MDApp):
             },
             # Add more lending types as needed
         ]
-        self.show_profession_menu = MDDropdownMenu(
+        self.menu = MDDropdownMenu(
             caller=self.root.ids.profession_field,
             items=menu_items,
             width_mult=4,
         )
-        self.profession_menu.open()
+        self.menu.open()
 
     def set_selected_profession(self, profession):
         self.root.ids.profession_field.text = profession
         # Close the dropdown menu
-        self.profession_menu.dismiss()
+        self.menu.dismiss()
 
     def on_save(self, instance, value, date_range):
         print(instance, value, date_range)
@@ -2232,7 +2247,6 @@ class DemoApp(MDApp):
 
         date_dialog.open()
 
-
     def go_home(self):
         pass
 
@@ -2249,6 +2263,14 @@ class DemoApp(MDApp):
         # You can use the selected image path here
         print("Selected Path:", path)
         self.exit_manager()
+    def on_next_button1_click(self):
+        selected_marrital_status = self.root.ids.marrital_status_field.text
+        if selected_marrital_status == "Married":
+            self.root.ids.screen_manager.current = 'bor_reg_spouse_form1'
+        elif selected_marrital_status == "Un-Married":
+            self.root.ids.screen_manager.current = 'bor_reg_bank_form1'
+        elif selected_marrital_status == "Diversed":
+            self.root.ids.screen_manager.current = 'bor_reg_bank_form1'
 
     def show_date_picker(self):
         date_dialog = MDDatePicker()
@@ -2260,7 +2282,7 @@ class DemoApp(MDApp):
         self.root.ids.date_textfield.text = selected_date
 
     def on_cancel(self, instance, value):
-     pass
+        pass
 
     def on_next_button_click(self):
         selected_profession = self.root.ids.profession_field.text
@@ -2297,10 +2319,9 @@ class DemoApp(MDApp):
         self.menu.open()
 
     def set_selected_employment_type(self, employment_type):
-        self.root.ids.employment_type_field.text =employment_type
+        self.root.ids.employment_type_field.text = employment_type
         # Close the dropdown menu
         self.menu.dismiss()
-
 
     def show_organization_type_menu(self):
         menu_items = [
@@ -2324,10 +2345,9 @@ class DemoApp(MDApp):
         self.menu.open()
 
     def set_selected_organization_type(self, organization_type):
-        self.root.ids.organization_type_field.text =organization_type
+        self.root.ids.organization_type_field.text = organization_type
         # Close the dropdown menu
         self.menu.dismiss()
-
 
     def show_account_type_menu(self):
         menu_items = [
@@ -2440,97 +2460,21 @@ class DemoApp(MDApp):
             },
             {
                 "viewclass": "OneLineListItem",
-                "text": "Business",
+                "text": "Diversed",
                 "on_release": lambda x="Diversed": self.set_selected_marrital_status(x),
             },
             # Add more lending types as needed
         ]
-        self.show_marrital_status_menu = MDDropdownMenu(
+        self.menu = MDDropdownMenu(
             caller=self.root.ids.marrital_status_field,
             items=menu_items,
             width_mult=4,
         )
-        self.marrital_status_menu.open()
+        self.menu.open()
 
     def set_selected_marrital_status(self, marrital_status):
         self.root.ids.marrital_status_field.text = marrital_status
         # Close the dropdown menu
-        self.marrital_status_menu.dismiss()
-
-    def bor_reg_form1_validation(self):
-        # Validate the fields and navigate to the next screen
-        username = self.root.ids.username.text.strip()
-        gender = self.root.ids.gender_field.text.strip()
-        dob = self.root.ids.date_textfield.text.strip()
-        email=self.root.ids.email.text.strip()
-        mobile=self.root.ids.mobile_no.text.strip()
-
-        if not username or len(username) < 3:
-            self.set_helper_text("username", "Please enter a username a valid username")
-        elif not email or not email.endswith('@gmail.com'):
-            self.set_helper_text("email", "Please enter a valid email'.")
-        elif not gender:
-            self.set_helper_text("gender_field", "Please select gender.")
-        elif not dob:
-            self.set_helper_text("date_textfield", "Please select date of birth.")
-        elif not mobile or len(mobile) != 10 or not mobile.isdigit() or mobile[
-            0] not in {'6', '7', '8', '9'}:
-            self.set_helper_text("mobile_no","Please enter a valid mobile number")
-        else:
-            # Check if the user is below 18 years old
-            birth_date = datetime.strptime(dob, "%Y-%m-%d")
-            today = datetime.now()
-            age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
-
-            if age > 18:
-                self.set_helper_text("date_textfield", "You must be 18 or older to register.")
-            else:
-                # Reset error status for all fields
-                self.reset_helper_text("username")
-                self.reset_helper_text("email")
-                self.reset_helper_text("gender_field")
-                self.reset_helper_text("date_textfield")
-                self.reset_helper_text("mobile_no")
-                # Move to the next screen
-                self.root.ids.screen_manager.current = 'borrower_reg_form2'
-
-    def set_helper_text(self, field_id, text):
-        # Set the error message in the helper text
-        self.root.ids[field_id].helper_text = text
-        self.root.ids[field_id].error = True
-
-    def reset_helper_text(self, field_id):
-        # Reset the helper text and error status
-        self.root.ids[field_id].helper_text = ""
-        self.root.ids[field_id].error = False
-
-    def bor_reg_form2_validation(self):
-        # Validate the fields and navigate to the next screen
-        mobile_number = self.root.ids.mobile_number.text.strip()
-        alternate_email = self.root.ids.alternate_email.text.strip()
-
-        if not mobile_number or len(mobile_number) != 10 or not mobile_number.isdigit() or mobile_number[
-            0] not in {'6', '7', '8', '9'}:
-            self.set_helper_text("mobile_number",
-                                 "Please enter a valid mobile number")
-        elif not alternate_email or not alternate_email.endswith('@gmail.com'):
-            self.set_helper_text("alternate_email", "Please enter a valid email'.")
-        else:
-            # Reset error status for all fields
-            self.reset_helper_text("mobile_number")
-            self.reset_helper_text("alternate_email")
-
-            # Move to the next screen
-            self.root.ids.screen_manager.current = 'lender_reg_edu_form'
-
-    def set_helper_text(self, field_id, text):
-        # Set the error message in the helper text
-        self.root.ids[field_id].helper_text = text
-        self.root.ids[field_id].error = True
-
-    def reset_helper_text(self, field_id):
-        # Reset the helper text and error status
-        self.root.ids[field_id].helper_text = ""
-        self.root.ids[field_id].error = False
+        self.menu.dismiss()
 
 DemoApp().run()
