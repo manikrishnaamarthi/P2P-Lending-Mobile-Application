@@ -9,7 +9,9 @@ from borrower_module.borrower_registration_forms import (
 )
 from lender_module.lender_registration_form import (
     LenderScreen, LenderScreen1, LenderScreen2, LenderScreen3,
-    LenderScreen_Edu_10th, KV
+    LenderScreen_Edu_10th, LenderScreen_Edu_Intermediate,LenderScreen_Edu_Bachelors,
+    LenderScreen_Edu_Masters, LenderScreen_Edu_PHD, LenderScreen4, LenderScreen5,
+    KV
 )
 from users_module.dashboard import DashScreen
 from kivymd.uix.menu import MDDropdownMenu
@@ -39,7 +41,12 @@ class MyApp(MDApp):
         sm.add_widget(LenderScreen2(name='LenderScreen2'))
         sm.add_widget(LenderScreen3(name='LenderScreen3'))
         sm.add_widget(LenderScreen_Edu_10th(name='LenderScreen_Edu_10th'))
-
+        sm.add_widget(LenderScreen_Edu_Intermediate(name='LenderScreen_Edu_Intermediate'))
+        sm.add_widget(LenderScreen_Edu_Bachelors(name='LenderScreen_Edu_Bachelors'))
+        sm.add_widget(LenderScreen_Edu_Masters(name='LenderScreen_Edu_Masters'))
+        sm.add_widget(LenderScreen_Edu_PHD(name='LenderScreen_Edu_PHD'))
+        sm.add_widget(LenderScreen4(name='LenderScreen4'))
+        sm.add_widget(LenderScreen5(name='LenderScreen5'))
         sm.add_widget(main_screen)
         sm.add_widget(login_screen)
         sm.add_widget(signup_screen)
@@ -51,8 +58,6 @@ class MyApp(MDApp):
         main_screen.app = self
 
         return sm
-
-
 
 
 
