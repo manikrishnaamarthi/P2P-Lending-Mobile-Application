@@ -28,7 +28,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -36,7 +36,7 @@ Borrower = '''
                 MDRaisedButton:
                     text: 'Home'
                     text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                    pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     on_release: app.root.current()
 
@@ -74,12 +74,14 @@ Borrower = '''
 
             Spinner:
                 id: gender_id
-                text: "select gender"
+                text: "Please select gender"
                 values: ["Male", "Female", "Others"]
                 multiline: False
                 size_hint: (None, None)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 height: 70
-                width: 330
+                bold: True
+                width: 300
                 background_color: (0, 0, 0, 0)
                 background_normal: ''
                 canvas.before:
@@ -152,7 +154,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -2146,7 +2148,7 @@ Borrower = '''
                     on_release: app.root.current = 'BorrowerScreen18'
 
                 MDRectangleFlatButton:
-                    text: 'Next'
+                    text: 'Submit'
                     text_color: 0, 0, 0, 1  # Black text color
                     pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                     md_bg_color: 0.031, 0.463, 0.91, 1
