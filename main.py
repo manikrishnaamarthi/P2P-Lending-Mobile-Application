@@ -9,7 +9,7 @@ from borrower_module.borrower_registration_forms import (
     BorrowerScreen12,BorrowerScreen13,BorrowerScreen14,BorrowerScreen15,BorrowerScreen16,BorrowerScreen17,
     BorrowerScreen18,BorrowerScreen19,Borrower
 )
-from borrower_module.borrower_dashboard import user_helpers
+from borrower_module.borrower_dashboard import (DashboardScreen,user_helpers)
 from lender_module.lender_registration_form import (
     LenderScreen, LenderScreen1, LenderScreen2, LenderScreen3,
     LenderScreen_Edu_10th, LenderScreen_Edu_Intermediate,LenderScreen_Edu_Bachelors,
@@ -28,6 +28,7 @@ class MyApp(MDApp):
     def build(self):
         Builder.load_string(Borrower)
         Builder.load_string(KV)
+        Builder.load_string(user_helpers)
         sm = ScreenManager(transition=SlideTransition())
         main_screen = MainScreen(name='MainScreen')
         login_screen = LoginScreen(name='LoginScreen')
@@ -67,7 +68,7 @@ class MyApp(MDApp):
         sm.add_widget(main_screen)
         sm.add_widget(login_screen)
         sm.add_widget(signup_screen)
-
+        sm.add_widget(DashboardScreen(name='borrower_dashboard'))
         # Set the initial screen to the login screen
         sm.current = 'MainScreen'
 
