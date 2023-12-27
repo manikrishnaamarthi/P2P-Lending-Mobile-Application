@@ -4,9 +4,12 @@ from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
 
 from borrower_module.borrower_registration_forms import (
-    BorrowerScreen, BorrowerScreen1, BorrowerScreen2, BorrowerScreen3, BorrowerScreen4, BorrowerScreen5,Borrower
-
+    BorrowerScreen, BorrowerScreen1, BorrowerScreen2, BorrowerScreen3, BorrowerScreen4, BorrowerScreen5,
+    BorrowerScreen6,BorrowerScreen7,BorrowerScreen8,BorrowerScreen9,BorrowerScreen10,BorrowerScreen11,
+    BorrowerScreen12,BorrowerScreen13,BorrowerScreen14,BorrowerScreen15,BorrowerScreen16,BorrowerScreen17,
+    BorrowerScreen18,BorrowerScreen19,Borrower
 )
+from borrower_module.borrower_dashboard import user_helpers
 from lender_module.lender_registration_form import (
     LenderScreen, LenderScreen1, LenderScreen2, LenderScreen3,
     LenderScreen_Edu_10th, LenderScreen_Edu_Intermediate,LenderScreen_Edu_Bachelors,
@@ -36,6 +39,20 @@ class MyApp(MDApp):
         sm.add_widget(BorrowerScreen3(name='BorrowerScreen3'))
         sm.add_widget(BorrowerScreen4(name='BorrowerScreen4'))
         sm.add_widget(BorrowerScreen5(name='BorrowerScreen5'))
+        sm.add_widget(BorrowerScreen6(name='BorrowerScreen6'))
+        sm.add_widget(BorrowerScreen7(name='BorrowerScreen7'))
+        sm.add_widget(BorrowerScreen8(name='BorrowerScreen8'))
+        sm.add_widget(BorrowerScreen9(name='BorrowerScreen9'))
+        sm.add_widget(BorrowerScreen10(name='BorrowerScreen10'))
+        sm.add_widget(BorrowerScreen11(name='BorrowerScreen11'))
+        sm.add_widget(BorrowerScreen12(name='BorrowerScreen12'))
+        sm.add_widget(BorrowerScreen13(name='BorrowerScreen13'))
+        sm.add_widget(BorrowerScreen14(name='BorrowerScreen14'))
+        sm.add_widget(BorrowerScreen15(name='BorrowerScreen15'))
+        sm.add_widget(BorrowerScreen16(name='BorrowerScreen16'))
+        sm.add_widget(BorrowerScreen17(name='BorrowerScreen17'))
+        sm.add_widget(BorrowerScreen18(name='BorrowerScreen18'))
+        sm.add_widget(BorrowerScreen19(name='BorrowerScreen19'))
         sm.add_widget(LenderScreen(name='lender_registration_form'))
         sm.add_widget(LenderScreen1(name='LenderScreen1'))
         sm.add_widget(LenderScreen2(name='LenderScreen2'))
