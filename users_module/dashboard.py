@@ -8,58 +8,56 @@ from kivymd.uix.button import MDRectangleFlatButton
 import lender_module.lender_registration_form
 
 KV = """
+
 <DashScreen>:
     name: 'login'
-    BoxLayout:
-        orientation: 'vertical'
-        padding: dp(20)
-        spacing: dp(10)
 
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: dp(50)
-            spacing: dp(10)
+    Image:
+        source: "C:\\P2P-Lending-Mobile-Application\\Images\\LOGO.png"
+        pos_hint: {'center_x': 0.2, 'center_y': 0.95}
+        size_hint: None, None
+        size: "1300dp", "300dp"  # Adjust the size as needed
 
-            MDLabel:
-                text: 'Kotak Bank'
-                theme_text_color: 'Primary'
-                font_size: '20sp'
-                bold: True
+    MDRaisedButton:
+        text: 'BORROWER'
+        on_release: root.switch_screen('borrower_registration_forms')
+        size_hint: (0.8, 0.1)
+        height: dp(350)  # Fixed height
+        pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+        theme_text_color: "Custom"
+        text_color: 0, 0, 0, 1
+        md_bg_color: 255/255, 255/255, 255/255, 1
+        elevation: 3
+        font_name: "Roboto-Bold"
 
         MDLabel:
-            text: 'CARE OF TRUST '
-            font_size: '26sp'
-            bold: True
-            theme_text_color: 'Primary'
+            text: 'Register as lender'
+            pos_hint: {'center_x': 0.1, 'center_y': 1}
+            font_size: 12.5
+            theme_text_color: "Custom"
+            text_color: 6/255, 143/255, 236/255, 1
 
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: dp(50)
-            spacing: dp(10)
-            pos_hint: {'center_x': 0.5}
 
-            MDRectangleFlatButton:
-                text: 'Borrower'
-                on_release: root.switch_screen('borrower_registration_forms')
-                size_hint: (0.5, 1)
-                width: dp(50)
-                pos_hint: {'center_x': 0.5, 'y': 0.7}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 193/255, 245/255, 1
+    MDRaisedButton:
+        text: 'LENDER'
+        on_release: root.switch_screen('lender_registration_form')
+        size_hint: (0.8, 0.1)
+        height: dp(350)  # Fixed height
+        pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+        theme_text_color: "Custom"
+        text_color: 0, 0, 0, 1
+        md_bg_color: 255/255, 255/255, 255/255, 1
+        elevation: 3
+        font_name: "Roboto-Bold"
+        MDLabel:
+            text: 'Register as lender'
+            pos_hint: {'center_x': 0.7, 'center_y': 1}
+            font_size: 13
+            theme_text_color: "Custom"
+            text_color: 6/255, 143/255, 236/255, 1
 
-            MDRectangleFlatButton:
-                text: 'Lender'
-                on_release: root.switch_screen('lender_registration_form')
-                size_hint: (0.5, 1)
-                width: dp(50)
-                pos_hint: {'center_x': 0.5, 'y': 0.7}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 193/255, 245/255, 1
 """
+
 
 class DashScreen(Screen):
     Builder.load_string(KV)
@@ -75,19 +73,4 @@ class DashScreen(Screen):
         sm.transition = SlideTransition(direction='left')
         sm.current = screen_name
 
-class MyApp(MDApp):
-    def build(self):
-        # Create the screen manager
-        sm = ScreenManager()
 
-        # Add the DashScreen to the screen manager
-        dash_screen = DashScreen()
-        sm.add_widget(dash_screen)
-        sm.add_widget(lender_module.lender_registration_form.LenderScreen)
-
-        # Add additional screens (Borrower and Lender) here if needed
-
-        return sm
-
-if __name__ == "__main__":
-    MyApp().run()
