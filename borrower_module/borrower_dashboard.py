@@ -116,6 +116,22 @@ user_helpers = """
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
                 on_release: app.open_balance()
+            
+            Button:
+                text: "View/Edit Profile"
+                size_hint_y: None
+                width: dp(150)
+                height: dp(135)
+                background_color: 1, 1 ,1, 0 
+                color: 0, 0, 0, 1
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, 1  # Border color (black in this example)
+                    Line:
+                        width: 0.4  # Border width
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+                on_release: app.open_balance()
 
         MDTopAppBar:
             title:"FAQ" 

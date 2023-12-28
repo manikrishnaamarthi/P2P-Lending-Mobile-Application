@@ -32,7 +32,7 @@ Borrower = '''
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
-
+            
                 MDRaisedButton:
                     text: 'Home'
                     text_color: 0, 0, 0, 1  # Black text color
@@ -50,7 +50,7 @@ Borrower = '''
                 id: username
                 hint_text: 'Enter full name'
                 multiline: False
-                helper_text: 'Enter valid name'
+                helper_text: "[b]Enter valid name[/b]"
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
                 height: self.minimum_height
@@ -58,7 +58,8 @@ Borrower = '''
                 size_hint_x: None
                 width: 300
                 font_name: "Roboto-Bold"
-
+                bold:True
+                markup:True
             MDTextField:
                 id: email
                 hint_text: 'Enter email'
@@ -250,7 +251,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -334,6 +335,7 @@ Borrower = '''
                     pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     on_release: app.root.current = 'BorrowerScreen3'
+                    
 <BorrowerScreen3>:
     MDBoxLayout:
         orientation: 'vertical'
@@ -354,7 +356,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -475,7 +477,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -585,7 +587,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -695,7 +697,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -715,12 +717,14 @@ Borrower = '''
 
             Spinner:
                 id: spinner_id
-                text: "select option"
+                text: "Please select profficient type"
                 values: ["Student", "Employee", "Business"]
                 multiline: False
                 size_hint: (None, None)
                 height: 70
-                width: 330
+                width: 300
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                bold:True
                 background_color: (0, 0, 0, 0)
                 background_normal: ''
                 canvas.before:
@@ -775,7 +779,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -880,7 +884,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -991,7 +995,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -1038,7 +1042,9 @@ Borrower = '''
                 multiline: False
                 size_hint: (None, None)
                 height: 70
-                width: 330
+                width: 300
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                bold:True
                 background_color: (0, 0, 0, 0)
                 background_normal: ''
                 canvas.before:
@@ -1104,7 +1110,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -1204,7 +1210,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -1309,7 +1315,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -1419,7 +1425,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -1533,7 +1539,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -1648,7 +1654,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -1668,12 +1674,14 @@ Borrower = '''
 
             Spinner:
                 id: marrital_status_id
-                text: "select option"
+                text: "Please select Marrital status"
                 values: ["Married", "Un-Married", "Diversed"]
                 multiline: False
                 size_hint: (None, None)
                 height: 70
-                width: 330
+                width: 300
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                bold:True
                 background_color: (0, 0, 0, 0)
                 background_normal: ''
                 canvas.before:
@@ -1728,7 +1736,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -1834,7 +1842,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -1940,7 +1948,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -1973,11 +1981,13 @@ Borrower = '''
             Spinner:
                 id: account_type_id
                 text: "select account type option"
-                values: ["Savings Account", "Salary Account", "Current Account", "NRI Account", "Fixed Account", "Re-Curing Account"]
+                values: ["Savings Account", "Salary Account", "Current Account", "NRI Account", "Re-Curing Account"]
                 multiline: False
                 size_hint: (None, None)
                 height: 70
-                width: 330
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                bold:True
+                width: 300
                 background_color: (0, 0, 0, 0)
                 background_normal: ''
                 canvas.before:
@@ -2053,7 +2063,7 @@ Borrower = '''
                 size_hint_x: None
                 height: "60dp"
                 width: "60dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 md_bg_color: 0, 0, 0, 1
@@ -2086,12 +2096,14 @@ Borrower = '''
             Spinner:
                 id: salary_id
                 text: "select salary paid option"
-                values: ["Cash", "Online", "Check"]
+                values: ["Cash", "Online"]
                 multiline: False
                 size_hint: (None, None)
                 height: 70
-                width: 330
+                width: 300
                 background_color: (0, 0, 0, 0)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                bold:True
                 background_normal: ''
                 canvas.before:
                     Color:
@@ -2111,24 +2123,6 @@ Borrower = '''
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 size_hint_x: None
                 width: 300
-
-            Spinner:
-                id: net_banking_id
-                text: "select net banking option"
-                values: ["Yes", "No"]
-                multiline: False
-                size_hint: (None, None)
-                height: 70
-                width: 330
-                background_color: (0, 0, 0, 0)
-                background_normal: ''
-                canvas.before:
-                    Color:
-                        rgba: 0.031, 0.463, 0.91, 1
-                    RoundedRectangle:
-                        size: self.size
-                        pos: self.pos
-                        radius: [15]
 
             BoxLayout:
                 spacing: dp(10)
@@ -2228,10 +2222,10 @@ class BorrowerScreen14(Screen):
 
 class BorrowerScreen15(Screen):
     def next_button(self, id):
-        if id == 'Married':
+        if id == 'Un-Married':
             self.manager.current = 'BorrowerScreen18'
 
-        elif id == 'Un-Married':
+        elif id == 'Married':
             self.manager.current = 'BorrowerScreen16'
 
         elif id == 'Diversed':
