@@ -14,8 +14,13 @@ from lender_module.lender_registration_form import (
     LenderScreen, LenderScreen1, LenderScreen2, LenderScreen3,
     LenderScreen_Edu_10th, LenderScreen_Edu_Intermediate,LenderScreen_Edu_Bachelors,
     LenderScreen_Edu_Masters, LenderScreen_Edu_PHD, LenderScreen4, LenderScreen5,
+    LenderScreenInstitutionalForm1,LenderScreenInstitutionalForm2,LenderScreenInstitutionalForm3,
+    LenderScreenInstitutionalForm4,LenderScreenInstitutionalForm5,LenderScreenIndividualForm1,
+    LenderScreenIndividualForm2,LenderScreenIndividualForm3,LenderScreenIndividualBankForm1,
+    LenderScreenIndividualBankForm2,LenderScreenInstitutionalBankForm1,LenderScreenInstitutionalBankForm2,
     KV
 )
+from lender_module.lender_dashboard import (LenderDashboard, user_helpers1)
 from users_module.dashboard import DashScreen
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.pickers import MDDatePicker
@@ -29,6 +34,7 @@ class MyApp(MDApp):
         Builder.load_string(Borrower)
         Builder.load_string(KV)
         Builder.load_string(user_helpers)
+        Builder.load_string(user_helpers1)
         sm = ScreenManager(transition=SlideTransition())
         main_screen = MainScreen(name='MainScreen')
         login_screen = LoginScreen(name='LoginScreen')
@@ -65,10 +71,23 @@ class MyApp(MDApp):
         sm.add_widget(LenderScreen_Edu_PHD(name='LenderScreen_Edu_PHD'))
         sm.add_widget(LenderScreen4(name='LenderScreen4'))
         sm.add_widget(LenderScreen5(name='LenderScreen5'))
+        sm.add_widget(LenderScreenInstitutionalForm1(name='LenderScreenInstitutionalForm1'))
+        sm.add_widget(LenderScreenInstitutionalForm2(name='LenderScreenInstitutionalForm2'))
+        sm.add_widget(LenderScreenInstitutionalForm3(name='LenderScreenInstitutionalForm3'))
+        sm.add_widget(LenderScreenInstitutionalForm4(name='LenderScreenInstitutionalForm4'))
+        sm.add_widget(LenderScreenInstitutionalForm5(name='LenderScreenInstitutionalForm5'))
+        sm.add_widget(LenderScreenIndividualForm1(name='LenderScreenIndividualForm1'))
+        sm.add_widget(LenderScreenIndividualForm2(name='LenderScreenIndividualForm2'))
+        sm.add_widget(LenderScreenIndividualForm3(name='LenderScreenIndividualForm3'))
+        sm.add_widget(LenderScreenIndividualBankForm1(name='LenderScreenIndividualBankForm1'))
+        sm.add_widget(LenderScreenIndividualBankForm2(name='LenderScreenIndividualBankForm2'))
+        sm.add_widget(LenderScreenInstitutionalBankForm1(name='LenderScreenInstitutionalBankForm1'))
+        sm.add_widget(LenderScreenInstitutionalBankForm2(name='LenderScreenInstitutionalBankForm2'))
         sm.add_widget(main_screen)
         sm.add_widget(login_screen)
         sm.add_widget(signup_screen)
         sm.add_widget(DashboardScreen(name='borrower_dashboard'))
+        sm.add_widget(LenderDashboard(name='lender_dashboard'))
         # Set the initial screen to the login screen
         sm.current = 'MainScreen'
 
