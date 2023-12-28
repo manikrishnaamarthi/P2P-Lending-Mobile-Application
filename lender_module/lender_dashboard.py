@@ -3,7 +3,7 @@ from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.screenmanager import Screen
 
-user_helpers = """
+user_helpers1 = """
 <LenderDashboard>
     BoxLayout:
         orientation: 'vertical'
