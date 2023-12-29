@@ -14,7 +14,7 @@ KV = """
     id: main
     canvas.before:
         Color:
-            rgba: 1, 1, 1, 1  # Background color
+            rgba: 174/255, 214/255, 241/255, 1
         Rectangle:
             size: self.size
             pos: self.pos
@@ -26,27 +26,25 @@ KV = """
 
 
         Image:
-            id: bg_image
-            source: "C:\P2P-Lending-Mobile-Application\Images\P2P-Lending.png"
+            source: "C:\\P2P-Lending-Mobile-Application\\Images\\LOGO.png"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+            size_hint: None, None
+            size: "80dp", "70dp"  # Adjust the size as needed
             allow_stretch: True
             keep_ratio: False
-            size_hint: None, None
-            size: self.parent.size if self.parent else (0, 0)
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-
-        Image:
-            source: "C:\\P2P-Lending-Mobile-Application\\Images\\LOGO.png"
-            pos_hint: {'center_x': 0.5, 'center_y': 0.9}
-            size_hint: None, None
-            size: "3000dp", "500dp"  # Adjust the size as needed
-            border_radius: [1, 1, 1, 1] 
+            canvas.before:
+                StencilPush
+                Ellipse:
+                    pos: self.pos
+                    size: self.size
+            canvas.after:
+                StencilPop
 
 
         MDCard:
             size_hint: None, None
             size: "300dp", "400dp"
-            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.25}
             md_bg_color: 1, 1, 1, 0  # Card background color
 
             BoxLayout:
@@ -61,7 +59,7 @@ KV = """
                     size: "190dp", "40dp"
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     md_bg_color: 255/255, 255/255, 2555/255, 1
-                    elevation: 3
+
                     on_release: root.sign_up_with_google()
 
                     BoxLayout:
@@ -85,8 +83,7 @@ KV = """
                 MDRaisedButton:
                     size_hint: None, None
                     size: "200dp", "40dp"
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    elevation: 3
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}                    
                     on_release: root.sign_up_with_google()
 
                     BoxLayout:
@@ -97,6 +94,8 @@ KV = """
                             source: "C:\P2P-Lending-Mobile-Application\Images\logo-facebookpng-32256.png"
                             size_hint: None, None
                             size: "20dp", "25dp"  # Adjust the size as needed
+                            allow_stretch: True
+                            keep_ratio: True
 
                         MDLabel:
                             text: "Sign In with Facebook"
@@ -142,15 +141,12 @@ class GoogleSignInButton(MDIconButton):
 class MainScreen(Screen):
     Builder.load_string(KV)
 
-    def on_pre_enter(self, *args):
-        # Adjust the visibility of the background image
-        self.ids.bg_image.opacity = 0.1
-
     def go_to_login(self):
-        # Access the app instance and change the current screen to 'LoginScreen'
         self.manager.current = 'LoginScreen'
 
     def go_to_signup(self):
-        # Access the app instance and change the current screen to 'SigninScreen'
         self.manager.current = 'SignupScreen'
+
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 

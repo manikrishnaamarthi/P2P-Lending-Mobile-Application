@@ -6,7 +6,7 @@ from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.pickers import MDDatePicker
 from kivy.core.window import Window
 
-Window.size = (350, 600)
+Window.size = (300, 550)
 
 KV = '''
 <LenderScreen>:# lender_module/lender_registration_form.py

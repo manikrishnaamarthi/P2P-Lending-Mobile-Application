@@ -10,51 +10,85 @@ import lender_module.lender_registration_form
 KV = """
 
 <DashScreen>:
-    name: 'login'
-
+    canvas.before:
+        Color:
+            rgba: 174/255, 214/255, 241/255, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
     Image:
         source: "C:\\P2P-Lending-Mobile-Application\\Images\\LOGO.png"
-        pos_hint: {'center_x': 0.2, 'center_y': 0.95}
+        pos_hint: {'center_x': 0.5, 'center_y': 0.8}
         size_hint: None, None
-        size: "1300dp", "300dp"  # Adjust the size as needed
+        size: "80dp", "70dp"  # Adjust the size as needed
+        allow_stretch: True
+        keep_ratio: False
+        canvas.before:
+            StencilPush
+            Ellipse:
+                pos: self.pos
+                size: self.size
+        canvas.after:
+            StencilPop
 
-    MDRaisedButton:
-        text: 'BORROWER'
-        on_release: root.switch_screen('borrower_registration_forms')
-        size_hint: (0.8, 0.1)
-        height: dp(350)  # Fixed height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.4}
-        theme_text_color: "Custom"
-        text_color: 0, 0, 0, 1
-        md_bg_color: 255/255, 255/255, 255/255, 1
-        elevation: 3
-        font_name: "Roboto-Bold"
+    Widget:
+        # Widget to draw a line below the image
+        size_hint_y: None
+        height: dp(1)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.72}
+        canvas.before:
+            Color:
+                rgba: 155/255, 160/255, 162/255, 1  # Change the color to blue (R, G, B, A)
+            Line:
+                points: [self.x + dp(8), self.y, self.x + self.width - dp(8), self.y]
+                width: dp(0.5)  # Decrease the width of the line
+    Label:
+        text: 'Start your journey with us'
+        font_size: 23
+        pos_hint: {'center_x': 0.5, 'center_y': 0.66}
+        color: 0, 0, 0, 1
 
-        MDLabel:
-            text: 'Register as lender'
-            pos_hint: {'center_x': 0.1, 'center_y': 1}
-            font_size: 12.5
-            theme_text_color: "Custom"
-            text_color: 6/255, 143/255, 236/255, 1
-
-
-    MDRaisedButton:
-        text: 'LENDER'
-        on_release: root.switch_screen('lender_registration_form')
-        size_hint: (0.8, 0.1)
-        height: dp(350)  # Fixed height
+    Label:
+        text: 'P2P - an RBI registered NBFC '
+        font_size: 25
         pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+        color: 4/255, 104/255, 153/255, 1
+    Label:
+        text: 'Platform powered by GTPL'
+        font_size: 23
+        pos_hint: {'center_x': 0.5, 'center_y': 0.57}
+        color: 4/255, 104/255, 153/255, 1
+
+
+
+
+    MDRaisedButton:
+        text: 'Continue as Borrower'
+        on_release: root.switch_screen('borrower_registration_forms')
+        size_hint: (0.8, 0.07)
+        height: dp(150)  # Fixed height
+        pos_hint: {'center_x': 0.5, 'center_y': 0.28}
         theme_text_color: "Custom"
         text_color: 0, 0, 0, 1
-        md_bg_color: 255/255, 255/255, 255/255, 1
-        elevation: 3
+        md_bg_color: 133/255, 193/255, 233/255, 1       
         font_name: "Roboto-Bold"
-        MDLabel:
-            text: 'Register as lender'
-            pos_hint: {'center_x': 0.7, 'center_y': 1}
-            font_size: 13
-            theme_text_color: "Custom"
-            text_color: 6/255, 143/255, 236/255, 1
+        font_size: 23
+
+
+
+
+    MDRaisedButton:
+        text: 'Continue as Lender'
+        on_release: root.switch_screen('lender_registration_form')
+        size_hint: (0.8, 0.07)
+        height: dp(100)  # Fixed height
+        pos_hint: {'center_x': 0.5, 'center_y': 0.15}
+        theme_text_color: "Custom"
+        text_color: 0, 0, 0, 1
+        md_bg_color: 52/255, 152/255, 219/255, 1     
+        font_name: "Roboto-Bold"
+        font_size: 23
+
 
 """
 
@@ -63,13 +97,11 @@ class DashScreen(Screen):
     Builder.load_string(KV)
 
     def switch_screen(self, screen_name):
-        # Logic for handling the submit button in DashScreen
         print(f"Switching to screen: {screen_name}")
 
         # Get the screen manager
         sm = self.manager
 
-        # Switch to the specified screen
         sm.transition = SlideTransition(direction='left')
         sm.current = screen_name
 
