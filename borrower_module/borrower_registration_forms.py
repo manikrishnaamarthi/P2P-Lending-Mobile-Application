@@ -9,2144 +9,1939 @@ from kivymd.app import MDApp
 
 Borrower = '''
 <BorrowerScreen>:
-    MDBoxLayout:
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1 
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
+    BoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-            
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+        padding: "40dp"
+        MDLabel:
+            text: 'Borrower Registration Form'
+            font_size: 25
+            halign: 'center'
+            bold: True
 
-            MDLabel:
-                text: 'Borrower Registration Form'
-                font_size: 25
-                halign: 'center'
-                bold: True
+        MDTextField:
+            id: username
+            hint_text: 'Enter Full Name'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter Valid Name"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
 
-            MDTextField:
-                id: username
-                hint_text: 'Enter full name'
-                multiline: False
-                helper_text: "[b]Enter valid name[/b]"
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-                font_name: "Roboto-Bold"
-                bold:True
-                markup:True
-            MDTextField:
-                id: email
-                hint_text: 'Enter email'
-                multiline: False
-                helper_text: 'Enter valid email'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-                font_name: "Roboto-Bold"
+        MDTextField:
+            id: email
+            hint_text: 'Enter Email ID'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter Valid Email ID"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
 
-            Spinner:
-                id: gender_id
-                text: "Please select gender"
-                values: ["Male", "Female", "Others"]
-                multiline: False
-                size_hint: (None, None)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                height: 70
-                bold: True
-                width: 300
-                background_color: (0, 0, 0, 0)
-                background_normal: ''
-                canvas.before:
-                    Color:
-                        rgba: 0.031, 0.463, 0.91, 1
-                    RoundedRectangle:
-                        size: self.size
-                        pos: self.pos
-                        radius: [15]
+        Spinner:
+            padding:  10
+            id: gender_id
+            text: "Select Gender"
+            values: ["Male", "Female", "Others"]
+            multiline: False
+            size_hint: 1 , None
+            height: 50
+            bold: True
+            background_color: 1, 1 ,1, 0 
+            color: 0, 0, 0, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  
+                Line:
+                    width: 0.7
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
-            MDTextField:
-                id: date_textfield
-                hint_text: "Select Date"
-                icon_right: "calendar"
-                readonly: True
-                width: 300
-                size_hint_x: None
-                size_hint_y: None
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                on_focus: if self.focus: app.show_date_picker()
-                font_name: "Roboto-Bold"
+        MDTextField:
+            id: date_textfield
+            hint_text: 'Select Date of Birth'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Select Valid Date of Birth"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
 
-            MDTextField:
-                id: mobile_no
-                hint_text: 'Enter mobile no'
-                multiline: False
-                helper_text: 'Enter valid mobile no'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-                font_name: "Roboto-Bold"
+        MDTextField:
+            id: mobile_no
+            hint_text: ' Enter Mobile No'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter Valid Mobile No"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
 
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+        BoxLayout:
+            orientation: 'vertical'
+            padding: "40dp"
 
-                MDRaisedButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.3, 'center_y': 0.5}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen1'
+            MDRaisedButton:
+                text: 'Next'
+                text_color: 0, 0, 0, 1  # Black text color
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                size_hint: 1, None
+                height: "50dp"
+                on_release: app.root.current = 'BorrowerScreen1'
+
 
 <BorrowerScreen1>:
-    MDBoxLayout:
+
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
+
+    BoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+        padding: "50dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+        MDLabel:
+            text: 'Borrower Registration Form'
+            font_size: 25
+            halign: 'center'
+            bold: True
 
-            MDLabel:
-                text: 'Borrower Registration Form'
-                font_size: 25
-                halign: 'center'
-                bold: True
+        MDTextField:
+            id: alternate_mobile_number
+            hint_text: ' Enter Alternate Mobile No'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter Valid Alternate Mobile No"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
 
-            MDTextField:
-                id: alternate_mobile_number
-                hint_text: "Enter alternate mobile number"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.6}
-                size_hint_x: None
-                width: 300
-                theme_text_color: "Custom"
-                hint_text_color: (0, 0, 0, 1)  # Black hint text color
-                text_color: (0, 0, 0, 1)  # Black text color
-                helper_text: "Enter valid number"
-                helper_text_mode: "on_focus"
-                font_name: "Roboto-Bold"
+        MDTextField:
+            id: alternate_email
+            hint_text: ' Enter Alternate Email ID'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter Valid Alternate Email ID"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
 
-            MDTextField:
-                id: alternate_email
-                hint_text: 'Enter alternate email'
-                multiline: False
-                helper_text: 'Enter valid email'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDRectangleFlatButton:
+            text: 'Upload Profile Image'
+            text_color: 0, 0, 0, 1 
+            icon: 'profile-image'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+            on_release: app.file_manager_open()
+            size_hint: 1, None
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0
+                Line:
+                    width: 0.7  
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
-            MDRectangleFlatButton:
-                text: 'Upload your Image'
-                text_color: 0, 0, 0, 1  # Black text color
-                pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'borrower_registration_forms'
                 md_bg_color: 0.031, 0.463, 0.91, 1
-                on_release: app.file_manager_open()
-                size_hint: (0.1, 0.01)
-                font_size: "12sp"
-                size_hint_y: None
-                size_hint_x: None
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'borrower_registration_forms'
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen2'
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen2'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ''
+
 <BorrowerScreen2>:
-    MDBoxLayout:
+
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
+
+    BoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+        padding: "40dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+        MDLabel:
+            text: 'Borrower Registration Form'
+            font_size: 25
+            halign: 'center'
+            bold: True
 
-            MDLabel:
-                text: 'Borrower Registration Form'
-                font_size: 25
-                halign: 'center'
-                bold: True
-            MDTextField:
-                id: aadhar_number
-                hint_text: 'Enter aadhar number '
-                multiline: False
-                helper_text: 'Enter valid number'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDTextField:
+            id: aadhar_number
+            hint_text: 'Enter Gov ID1 Number '
+            multiline: False
+            helper_text: "Enter Valid Gov ID1 No"
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
 
-            MDRectangleFlatButton:
-                text: 'Upload aadhar card '
-                text_color: 0, 0, 0, 1  # Black text color
-                pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+        MDRectangleFlatButton:
+            text: 'Upload Gov ID1'
+            text_color: 0, 0, 0, 1 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+            on_release: app.file_manager_open()
+            size_hint: 1, None
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+        MDTextField:
+            id: pan_number
+            hint_text: 'Enter Gov ID2 Number '
+            multiline: False
+            helper_text: "Enter Valid Gov ID2 No"
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDRectangleFlatButton:
+            text: 'Upload Gov ID2'
+            text_color: 0, 0, 0, 1 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+            on_release: app.file_manager_open()
+            size_hint: 1, None
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen1'
                 md_bg_color: 0.031, 0.463, 0.91, 1
-                on_release: app.file_manager_open()
-                size_hint: (0.1, 0.01)
-                font_size: "12sp"
-                size_hint_y: None
-                size_hint_x: None
-
-            MDTextField:
-                id: pan_number
-                hint_text: 'Enter pan number '
-                multiline: False
-                helper_text: 'Enter valid number'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDRectangleFlatButton:
-                text: 'Upload pancard '
-                text_color: 0, 0, 0, 1  # Black text color
-                pos_hint: {'center_x': 0.5, 'center_y': 0.37}
-                md_bg_color: 0.031, 0.463, 0.91, 1
-                on_release: app.file_manager_open()
-                size_hint: (0.1, 0.01)
-                font_size: "12sp"
-                size_hint_y: None
-                size_hint_x: None
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen1'
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen3'
-                    
+                size_hint: 1, None
+                height: "50dp"
+
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen3'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""  
+
+
 <BorrowerScreen3>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'Borrower Registration Form Address'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+
+        MDTextField:
+            id: street_address
+            hint_text: 'Enter Street Address '
+            multiline: False
+            helper_text: 'Enter Valid Address'
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: city
+            hint_text: 'Enter City'
+            multiline: False
+            helper_text: 'Enter valid City'
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: Zip_code
+            hint_text: 'Enter postal/zipcode'
+            multiline: False
+            helper_text: 'Enter valid postal/zipcode'
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: state
+            hint_text: 'Enter State'
+            multiline: False
+            helper_text: 'Enter State Name'
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: country
+            hint_text: 'Enter Country'
+            multiline: False
+            helper_text: 'Enter valid Country Name'
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen2'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen4'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-            MDLabel:
-                text: 'Borrower Registration Form'
-                font_size: 25
-                halign: 'center'
-                bold: True
-            MDLabel:
-                text: 'Address'
-                font_size: 25
-                halign: 'center'
-                bold: True
 
-            MDTextField:
-                id: street_address
-                hint_text: 'Enter street address '
-                multiline: False
-                helper_text: 'Enter valid address'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: city
-                hint_text: 'Enter city here'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: Zip_code
-                hint_text: 'Enter postal/zipcode '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: state
-                hint_text: 'Enter state here'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: country
-                hint_text: 'Enter country here'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen2'
-
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen4'
 <BorrowerScreen4>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  # Black text color
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'Borrower Registration Form Father Information'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+
+        MDTextField:
+            id: father_name
+            hint_text: 'Enter Father Name'
+            helper_text: 'Enter valid Father Name'
+            multiline: False
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: father_age
+            hint_text: 'Enter Father Age'
+            helper_text: 'Enter valid Father Age'
+            multiline: False
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: father_occupation
+            hint_text: 'Enter Father Occupation'
+            helper_text: 'Enter valid Father Occupation'
+            multiline: False
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: father_ph_no
+            hint_text: 'Enter Father Phone NO'
+            multiline: False
+            helper_text: 'Enter valid PH No'
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen3'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
-
-            MDLabel:
-                text: 'Borrower Registration Form'
-                font_size: 25
-                halign: 'center'
-                bold: True
-            MDLabel:
-                text: 'Father Information'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: father_name
-                hint_text: 'Enter father name'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: father_age
-                hint_text: 'Enter father age '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: father_occupation
-                hint_text: 'Enter father occupation'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: father_ph_no
-                hint_text: 'Enter father ph no'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen3'
-
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen5'
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen5'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
 <BorrowerScreen5>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  # Black text color
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
-
-            MDLabel:
-                text: 'Borrower Registration Form'
-                font_size: 25
-                halign: 'center'
-                bold: True
-            MDLabel:
-                text: 'Mother Information'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: mother_name
-                hint_text: 'Enter mother name'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: mother_age
-                hint_text: 'Enter mother age '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: mother_occupation
-                hint_text: 'Enter mother occupation'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: mother_ph_no
-                hint_text: 'Enter mother ph no'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen4'
-
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen6'
-<BorrowerScreen6>:
-    MDBoxLayout:
+    BoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
+        padding: "40dp"
 
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+        MDLabel:
+            text: 'Borrower Registration Form Mother Information'
+            font_size: 25
+            halign: 'center'
+            bold: True
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
 
-            MDLabel:
-                text: 'Borrower Registration Form'
-                font_size: 25
-                halign: 'center'
-                bold: True
+        MDTextField:
+            id: mother_name
+            hint_text: 'Enter Mother Name'
+            helper_text: 'Enter Valid Mother Name'
+            multiline: False
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
 
-            Spinner:
-                id: spinner_id
-                text: "Please select profficient type"
-                values: ["Student", "Employee", "Business"]
-                multiline: False
-                size_hint: (None, None)
-                height: 70
-                width: 300
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                bold:True
-                background_color: (0, 0, 0, 0)
-                background_normal: ''
-                canvas.before:
-                    Color:
-                        rgba: 0.031, 0.463, 0.91, 1
-                    RoundedRectangle:
-                        size: self.size
-                        pos: self.pos
-                        radius: [15]
+        MDTextField:
+            id: mother_age
+            hint_text: 'Enter Mother Age'
+            helper_text: 'Enter Valid Mother Age'
+            multiline: False
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
 
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+        MDTextField:
+            id: mother_occupation
+            hint_text: 'Enter Mother Occupation'
+            helper_text: 'Enter Valid Mother Occupation'
+            multiline: False
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
 
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen5'
+        MDTextField:
+            id: mother_ph_no
+            hint_text: 'Enter Mother Phone No'
+            helper_text: 'Enter Valid Mother Phone No'
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            font_name: "Roboto-Bold"
+            bold: True
 
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_press: root.next_pressed(spinner_id.text)
-<BorrowerScreen7>
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
 
-            MDLabel:
-                text: 'Student Type'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: collage_name
-                hint_text: 'Enter college name '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: collage_id
-                hint_text: 'Enter college id'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDRectangleFlatButton:
-                text: 'Upload college proof '
-                text_color: 0, 0, 0, 1  # Black text color
-                pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen4'
                 md_bg_color: 0.031, 0.463, 0.91, 1
-                on_release: app.file_manager_open()
-                size_hint: (0.1, 0.01)
-                font_size: "12sp"
-                size_hint_y: None
-                size_hint_x: None
-
-            MDTextField:
-                id:  college_address
-                hint_text: 'Enter college address'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current='BorrowerScreen6'
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen6'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current='BorrowerScreen15'
+
+<BorrowerScreen6>:
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  # Black text color
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
+        padding: dp(10)
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'Borrower Registration Form Mother Information'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+
+        Spinner:
+            id: spinner_id
+            text: "Select Proficient type"
+            values: ["Student", "Employee", "Business"]
+            multiline: False
+            size_hint: 1 , None
+            height: 50
+            bold: True
+            background_color: 1, 1 ,1, 0 
+            color: 0, 0, 0, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen5'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 1, 1, 1, 1
+                size_hint: 1, None
+                height: "50dp"
+
+            MDRaisedButton:
+                text: "Next"
+                on_press: root.next_pressed(spinner_id.text)
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
+
+<BorrowerScreen7>:
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  # Black text color
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
+        padding: dp(10)
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'Student Type'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+        MDTextField:
+            id: collage_name
+            hint_text: 'Enter Collage Name '
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: 'Enter Valid Collage Name'
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: collage_id
+            hint_text: 'Enter Collage ID'
+            halign: 'center'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: True
+            helper_text: "Enter valid Collage ID"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDRectangleFlatButton:
+            text: 'Upload Collage Proof '
+            text_color: 0, 0, 0, 1 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+            on_release: app.file_manager_open()
+            size_hint: 1, None
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0  
+                Line:
+                    width: 0.4  
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+        MDTextField:
+            id:  college_address
+            hint_text: 'Enter College Address'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: 'Enter valid College Address'
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen6'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 1, 1, 1, 1
+                size_hint: 1, None
+                height: "50dp"
+
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current='BorrowerScreen15'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
+
 <BorrowerScreen8>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1 
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'Business Type'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+        MDLabel:
+            text: 'STEP-1'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+        MDTextField:
+            id: business_name
+            hint_text: 'Enter Business Name '
+            halign: 'center'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Business Name"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+            markup: True
+
+        MDTextField:
+            id: business_location
+            hint_text: 'Enter Business Location'
+            halign: 'center'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Business Location"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+            markup: True
+
+        MDTextField:
+            id:  business_address
+            hint_text: 'Enter Business Address'
+            halign: 'center'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Business Address"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+            markup: True
+
+        MDTextField:
+            id: branch_name
+            hint_text: 'Enter Branch Name'
+            halign: 'center'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text:" Enter valid Branch Name"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+            markup: True
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen6'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen9'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-            MDLabel:
-                text: 'Business Type'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDLabel:
-                text: 'Step-1'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: business_name
-                hint_text: 'Enter business name '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: business_location
-                hint_text: 'Enter business_location'
-                multiline: False                   
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id:  business_address
-                hint_text: 'Enter business address'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: branch_name
-                hint_text: 'Enter branch_name'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen6'
-
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen9'
 <BorrowerScreen9>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'STEP-2'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+        MDTextField:
+            id: nearest_location
+            hint_text: 'Enter Nearest Location '
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter Valid Nearest location"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: business_type
+            hint_text: 'Enter Business Type'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Business Type"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        Spinner:
+            id: employee_id
+            text: "No of Employees Working"
+            values: ["<50", "50-100", "100-150", "150-200", ">200"]
+            multiline: False
+            size_hint: 1 , None
+            height: 50
+            background_color: 1, 1 ,1, 0 
+            color: 0, 0, 0, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  
+                Line:
+                    width: 0.7  
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+        MDTextField:
+            id: year_of_estd
+            hint_text: 'Enter Year of Estd'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Year of Estd"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen8'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen10'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-            MDLabel:
-                text: 'Step-2'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: nearest_location
-                hint_text: 'Enter nearest location '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: business_type
-                hint_text: 'Enter business type'
-                multiline: False                   
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            Spinner:
-                id: employee_id
-                text: "select no of employees working"
-                values: ["<50", "50-100", "100-150", "150-200", ">200"]
-                multiline: False
-                size_hint: (None, None)
-                height: 70
-                width: 300
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                bold:True
-                background_color: (0, 0, 0, 0)
-                background_normal: ''
-                canvas.before:
-                    Color:
-                        rgba: 0.031, 0.463, 0.91, 1
-                    RoundedRectangle:
-                        size: self.size
-                        pos: self.pos
-                        radius: [15]
-
-            MDTextField:
-                id: year_of_estd
-                hint_text: 'Enter year of estd'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen8'
-
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen10'
 
 <BorrowerScreen10>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
 
-            MDLabel:
-                text: 'Step-3'
-                font_size: 25
-                halign: 'center'
-                bold: True
+        MDLabel:
+            text: 'Step-3'
+            font_size: 25
+            halign: 'center'
+            bold: True
 
-            MDTextField:
-                id: industry_type
-                hint_text: 'Enter industry type '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDTextField:
+            id: industry_type
+            hint_text: 'Enter Industry Type '
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Industry Type"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
 
-            MDTextField:
-                id: last_six_months_turnover
-                hint_text: 'Enter last 6 months turnover'
-                multiline: False                   
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDTextField:
+            id: last_six_months_turnover
+            hint_text: 'Enter Last 6 Months Turnover'
+            halign: 'center'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid 6 months Turnover"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
 
-            MDLabel:
-                text: "Last 6 months bank statements"
-                font_size: 22
-                halign: 'center'
+        MDLabel:
+            text: "Last 6 months Bank Statements"
+            font_size: 22
+            halign: 'center'
 
-            MDRectangleFlatButton:
-                text: 'Upload here'
-                text_color: 0, 0, 0, 1  # Black text color
-                pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+        MDRectangleFlatButton:
+            text: 'Upload Statement Proof'
+            text_color: 0, 0, 0, 1 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+            on_release: app.file_manager_open()
+            size_hint: 1, None
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0 
+                Line:
+                    width: 0.7
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen9'
                 md_bg_color: 0.031, 0.463, 0.91, 1
-                on_release: app.file_manager_open()
-                size_hint: (0.1, 0.01)
-                font_size: "12sp"
-                size_hint_y: None
-                size_hint_x: None
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen9'
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen11'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen11'
 
 <BorrowerScreen11>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1 
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'Step-4'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+        MDTextField:
+            id: director_name
+            hint_text: 'Enter Director Name '
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Director Name"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: director_mobile_number
+            hint_text: 'Enter Director Mobile Number'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Director Mobile Number"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: din
+            hint_text: 'Enter DIN'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid DIN"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: cin
+            hint_text: 'Enter CIN'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid CIN"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen10'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen12'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-            MDLabel:
-                text: 'Step-4'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: director_name
-                hint_text: 'Enter director name '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: director_mobile_number
-                hint_text: 'Enter director mobile number'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: din
-                hint_text: 'Enter DIN here'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: cin
-                hint_text: 'Enter CIN here'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen10'
-
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen12'
 
 <BorrowerScreen12>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
 
-            MDLabel:
-                text: 'Step-5'
-                font_size: 25
-                halign: 'center'
-                bold: True
+        MDLabel:
+            text: 'Step-5'
+            font_size: 25
+            halign: 'center'
+            bold: True
 
-            MDTextField:
-                id: reg_office_address
-                hint_text: 'Enter registered office address '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDTextField:
+            id: reg_office_address
+            hint_text: 'Enter Registered Office Address '
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Registration Office Address"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+            markup: True
 
-            MDTextField:
-                id: office_address_proof
-                hint_text: 'Enter office address proof'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDTextField:
+            id: office_address_proof
+            hint_text: 'Enter Office Address Proof'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter Valid Office Address Proof"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
 
-            MDLabel:
-                text: "Proof of verification"
-                font_size: 22
-                halign: 'center'
+        MDLabel:
+            text: "Proof of verification"
+            font_size: 22
+            halign: 'center'
 
-            MDRectangleFlatButton:
-                text: 'Upload here'
-                text_color: 0, 0, 0, 1  # Black text color
-                pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+        MDRectangleFlatButton:
+            text: 'Upload Address Proof'
+            text_color: 0, 0, 0, 1 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+            on_release: app.file_manager_open()
+            size_hint: 1, None
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0
+                Line:
+                    width: 0.7  
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+        MDTextField:
+            id: branch_name
+            hint_text: 'Enter Branch Name'
+            halign: 'left'
+            helper_text: "Enter Branch Name"
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen11'
                 md_bg_color: 0.031, 0.463, 0.91, 1
-                on_release: app.file_manager_open()
-                size_hint: (0.1, 0.01)
-                font_size: "12sp"
-                size_hint_y: None
-                size_hint_x: None
-
-            MDTextField:
-                id: branch_name
-                hint_text: 'Enter branch_name'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen11'
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen15'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen15'
 <BorrowerScreen13>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'Employment Details'
+            font_size: 25
+            halign: 'center'
+            bold: True
+        MDTextField:
+            id: company_name
+            hint_text: 'Enter Company Name'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Company Name"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:              
+            id: pincode
+            hint_text: 'Enter Pincode'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Pincode"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:              
+            id: country
+            hint_text: 'Enter Country'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Country"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:              
+            id: landmark
+            hint_text: 'Enter Landmark'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Landmark"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:              
+            id: business_phone_number
+            hint_text: 'Enter Business Phone Number'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Business Phone Number"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen7'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen14'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-            MDLabel:
-                text: 'Employment Details'
-                font_size: 25
-                halign: 'center'
-                bold: True
-            MDTextField:
-                id: company_name
-                hint_text: 'Enter company_name'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:              
-                id: pincode
-                hint_text: 'Enter pincode'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-            MDTextField:              
-                id: country
-                hint_text: 'Enter country'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-            MDTextField:              
-                id: landmark
-                hint_text: 'Enter landmark'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:              
-                id: business_phone_number
-                hint_text: 'Enter business phone number'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen6'
-
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen14'
 
 <BorrowerScreen14>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
 
-            MDLabel:
-                text: 'Employment Details'
-                font_size: 25
-                halign: 'center'
-                bold: True   
+        MDLabel:
+            text: 'Employment Details'
+            font_size: 25
+            halign: 'center'
+            bold: True   
 
-            MDTextField:              
-                id: annual_salary
-                hint_text: 'Enter annual salary'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDTextField:              
+            id: annual_salary
+            hint_text: 'Enter Annual Salary'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text:  "Enter Valid Annual Salary"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
 
-            MDTextField:              
-                id: designation
-                hint_text: 'Enter designation'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDTextField:              
+            id: designation
+            hint_text: 'Enter Designation'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter Valid Designation"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
 
-            MDLabel:
-                text: "Upload Employee ID"
-                font_size: 18
-                halign: 'center'
+        MDLabel:
+            text: "Upload Employee ID"
+            font_size: 18
+            halign: 'center'
 
-            MDRectangleFlatButton:
-                text: 'Upload here'
-                text_color: 0, 0, 0, 1  # Black text color
-                pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+        MDRectangleFlatButton:
+            text: 'Upload ID'
+            text_color: 0, 0, 0, 1 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+            on_release: app.file_manager_open()
+            size_hint: 1, None
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0
+                Line:
+                    width: 0.7  
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+        MDLabel:
+            text: "Upload Last 6 months Bank Statements"
+            font_size: 18
+            halign: 'center'
+
+        MDRectangleFlatButton:
+            text: 'Upload Statement'
+            text_color: 0, 0, 0, 1 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.37}
+            on_release: app.file_manager_open()
+            size_hint: 1, None
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen13'
                 md_bg_color: 0.031, 0.463, 0.91, 1
-                on_release: app.file_manager_open()
-                size_hint: (0.1, 0.01)
-                font_size: "10sp"
-                size_hint_y: None
-                size_hint_x: None
-
-            MDLabel:
-                text: "Upload last 6 months bank statements"
-                font_size: 18
-                halign: 'center'
-
-            MDRectangleFlatButton:
-                text: 'Upload here'
-                text_color: 0, 0, 0, 1  # Black text color
-                pos_hint: {'center_x': 0.5, 'center_y': 0.37}
-                md_bg_color: 0.031, 0.463, 0.91, 1
-                on_release: app.file_manager_open()
-                size_hint: (0.1, 0.01)
-                font_size: "10sp"
-                size_hint_y: None
-                size_hint_x: None
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen13'
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen15'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen15'
 <BorrowerScreen15>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'Borrower Registration Form'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+        Spinner:
+            id: marital_status_id
+            text: "Please Select Marital Status"
+            values: ["Married", "Un-Married", "Divorced"]
+            size_hint: 1 , None
+            height: 50
+            background_color: 1, 1 ,1, 0 
+            color: 0, 0, 0, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  
+                Line:
+                    width: 0.7
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen14'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
-
-            MDLabel:
-                text: 'Borrower Registration Form'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            Spinner:
-                id: marrital_status_id
-                text: "Please select Marrital status"
-                values: ["Married", "Un-Married", "Diversed"]
-                multiline: False
-                size_hint: (None, None)
-                height: 70
-                width: 300
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                bold:True
-                background_color: (0, 0, 0, 0)
-                background_normal: ''
-                canvas.before:
-                    Color:
-                        rgba: 0.031, 0.463, 0.91, 1
-                    RoundedRectangle:
-                        size: self.size
-                        pos: self.pos
-                        radius: [15]
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen14'
-
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: root.next_button(marrital_status_id.text)
+            MDRaisedButton:
+                text: "Next"
+                on_release: root.next_button(marital_status_id.text)
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
 <BorrowerScreen16>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'Step-1'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+        MDTextField:
+            id: spouse_name
+            hint_text: 'Enter Spouse Name '
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter Valid Spouse Name"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: spouse_date_textfield
+            hint_text: " Enter Spouse Birth Date"
+            icon_right: "calendar"
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid date Of Birth"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: spouse_mobile
+            hint_text: 'Enter Spouse Mobile No'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Spouse Mobile No"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: spouse_profession
+            hint_text: 'Enter Spouse Profession '
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Spouse Profession"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen15'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen17'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-            MDLabel:
-                text: 'Step-1'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: spouse_name
-                hint_text: 'Enter spouse name '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: spouse_date_textfield
-                hint_text: "Select Date"
-                icon_right: "calendar"
-                readonly: True
-                width: 300
-                size_hint_x: None
-                size_hint_y: None
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                on_focus: if self.focus: app.show_date_picker()
-                font_name: "Roboto-Bold"
-
-            MDTextField:
-                id: spouse_mobile
-                hint_text: 'Enter spouse mobile no'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: spouse_profession
-                hint_text: 'Enter spouse profession '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen15'
-
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen17'
 <BorrowerScreen17>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'Step-2'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+        MDTextField:
+            id: spouse_company_name
+            hint_text: 'Enter Spouse Company Name '
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: 'Enter Valid Spouse Company Name '
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: spouse_company_address
+            hint_text: 'Enter Spouse Company Address'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Spouse Company Address"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id:  spouse_annual_salary
+            hint_text: 'Enter Annual Salary'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: 'Enter valid Annual Salary'
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+        MDTextField:
+            id:spouse_office_no
+            hint_text: 'Enter Spouse Office Number'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text: "Enter valid Spouse Office No"
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen16'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen18'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-            MDLabel:
-                text: 'Step-2'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: spouse_company_name
-                hint_text: 'Enter spouse company name '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: spouse_company_address
-                hint_text: 'Enter spouse company address'
-                multiline: False                   
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id:  spouse_annual_salary
-                hint_text: 'Enter annual salary'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id:spouse_office_no
-                hint_text: 'Enter spouse office no'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen16'
-
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen18'
 
 <BorrowerScreen18>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'Applicant Bank Details'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+        MDTextField:
+            id: account_holder_name
+            hint_text: 'Enter Account Holder Name '
+            helper_text: 'Enter valid account holder name'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        Spinner:
+            id: account_type_id
+            text: "Select Account Type Option"
+            values: ["Savings Account", "Salary Account", "Current Account", "NRI Account", "Re-Curing Account"]
+            size_hint: 1 , None
+            height: 50
+            background_color: 1, 1 ,1, 0 
+            color: 0, 0, 0, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  
+                Line:
+                    width: 0.7
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+        MDTextField:
+            id: account_number
+            hint_text: 'Enter Account number '
+            multiline: False
+            helper_text: 'Enter valid Account number'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            helper_text_mode: 'on_focus'
+            font_name: "Roboto-Bold"
+            bold: True
+
+        MDTextField:
+            id: bank_name
+            hint_text: 'Enter Bank Name '
+            helper_text: 'Enter valid Bank Name'
+            multiline: False
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            font_name: "Roboto-Bold"
+            bold: True
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen15'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'BorrowerScreen19'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-            MDLabel:
-                text: 'Applicant Bank Details'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: account_holder_name
-                hint_text: 'Enter account holder name '
-                multiline: False
-                helper_text: 'Enter valid account holder name'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            Spinner:
-                id: account_type_id
-                text: "select account type option"
-                values: ["Savings Account", "Salary Account", "Current Account", "NRI Account", "Re-Curing Account"]
-                multiline: False
-                size_hint: (None, None)
-                height: 70
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                bold:True
-                width: 300
-                background_color: (0, 0, 0, 0)
-                background_normal: ''
-                canvas.before:
-                    Color:
-                        rgba: 0.031, 0.463, 0.91, 1
-                    RoundedRectangle:
-                        size: self.size
-                        pos: self.pos
-                        radius: [15]
-            MDTextField:
-                id: account_number
-                hint_text: 'Enter account number '
-                multiline: False
-                helper_text: 'Enter valid account number'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:
-                id: bank_name
-                hint_text: 'Enter bank name '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen17'
-
-                MDRectangleFlatButton:
-                    text: 'Next'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen19'
 <BorrowerScreen19>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(10)
+    MDRectangleFlatButton:
+        text: 'HOME'
+        text_color: 0, 0, 0, 1  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        md_bg_color: 0.031, 0.463, 0.91, 1
+        pos_hint: {'right': 1, 'top': 1}
+        on_release: app.root.current()
+        size_hint: (0.1, 0.03)
+        font_size: "13sp"
         padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.8, 'center_y': 0.2}
-                theme_text_color: "Custom"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "40dp"
+
+        MDLabel:
+            text: 'Applicant Bank Details'
+            font_size: 25
+            halign: 'center'
+            bold: True
+
+        MDTextField:
+            id: bank_id
+            hint_text: 'Enter Bank ID '
+            multiline: False
+            helper_text: 'Enter valid Bank ID'
+            helper_text_mode: 'on_focus'
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            font_name: "Roboto-Bold"
+            bold: True
+
+        Spinner:
+            id: salary_id
+            text: "select Salary Paid Option"
+            values: ["Cash", "Online"]
+            multiline: False
+            size_hint: 1 , None
+            height: 50
+            background_color: (0, 0, 0, 0)
+            background_normal: ''
+            background_color: 1, 1 ,1, 0 
+            color: 0, 0, 0, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  
+                Line:
+                    width: 0.7
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+
+        MDTextField:
+            id: branch_name
+            hint_text: 'Enter Branch Name'
+            helper_text: 'Enter valid Branch Name'
+            hint_text_mode: 'on_focus'
+            multiline: False
+            halign: 'left'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+            multiline: False
+            font_name: "Roboto-Bold"
+
+
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'BorrowerScreen18'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                MDRaisedButton:
-                    text: 'Home'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current()
+            MDRaisedButton:
+                text: "Next"
+                on_release: root.go_to_borrower_dashboard()
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
 
-            MDLabel:
-                text: 'Applicant Bank Details'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: bank_id
-                hint_text: 'Enter Bank id '
-                multiline: False
-                helper_text: 'Enter valid bank id'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            Spinner:
-                id: salary_id
-                text: "select salary paid option"
-                values: ["Cash", "Online"]
-                multiline: False
-                size_hint: (None, None)
-                height: 70
-                width: 300
-                background_color: (0, 0, 0, 0)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                bold:True
-                background_normal: ''
-                canvas.before:
-                    Color:
-                        rgba: 0.031, 0.463, 0.91, 1
-                    RoundedRectangle:
-                        size: self.size
-                        pos: self.pos
-                        radius: [15]
-
-            MDTextField:
-                id: branch_name
-                hint_text: 'Enter branch name'
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            BoxLayout:
-                spacing: dp(10)
-                size_hint_x: None
-                height: "60dp"
-                width: "60dp"
-                pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0, 0, 0, 1
-
-                MDRectangleFlatButton:
-                    text: 'Back'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: app.root.current = 'BorrowerScreen18'
-
-                MDRectangleFlatButton:
-                    text: 'Submit'
-                    text_color: 0, 0, 0, 1  # Black text color
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    on_release: root.go_to_borrower_dashboard()
 
 '''
 
