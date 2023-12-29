@@ -1,6 +1,5 @@
 import re
 
-import self
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
