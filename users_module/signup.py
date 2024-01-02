@@ -286,10 +286,11 @@ class SignupScreen(Screen):
         snackbar = Snackbar(
             text="Signup Successful!",
             md_bg_color=[1, 1, 1, 1],
-            text_color=[0, 0, 0, 1],
             pos_hint={'top': 1},
             duration=2
         )
+
+
         snackbar.open()
 
         self.manager.current = 'LoginScreen'
