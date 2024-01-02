@@ -22,24 +22,33 @@ from lender_module.lender_registration_form import (
 )
 from lender_module.lender_dashboard import (LenderDashboard, user_helpers1)
 from users_module.dashboard import DashScreen
+#from users_module.test1 import LenderHomeScreen,KV
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.pickers import MDDatePicker
 from kivy.metrics import dp
 from users_module.login import LoginScreen
 from users_module.homepage import MainScreen
 from users_module.signup import SignupScreen
-
+#from  users_module.lender_home import LenderHome,lender_home
 class MyApp(MDApp):
     def build(self):
         Builder.load_string(Borrower)
         Builder.load_string(KV)
         Builder.load_string(user_helpers)
         Builder.load_string(user_helpers1)
+
+
+
         sm = ScreenManager(transition=SlideTransition())
         main_screen = MainScreen(name='MainScreen')
         login_screen = LoginScreen(name='LoginScreen')
         signup_screen = SignupScreen(name='SignupScreen')
+        sm.add_widget(main_screen)
+        sm.add_widget(login_screen)
+        sm.add_widget(signup_screen)
         sm.add_widget(DashScreen(name='dashboard'))
+        #sm.add_widget(LenderHome(name='LenderHome'))
+
         sm.add_widget(BorrowerScreen(name='borrower_registration_forms'))
         sm.add_widget(BorrowerScreen1(name='BorrowerScreen1'))
         sm.add_widget(BorrowerScreen2(name='BorrowerScreen2'))
@@ -83,9 +92,7 @@ class MyApp(MDApp):
         sm.add_widget(LenderScreenIndividualBankForm2(name='LenderScreenIndividualBankForm2'))
         sm.add_widget(LenderScreenInstitutionalBankForm1(name='LenderScreenInstitutionalBankForm1'))
         sm.add_widget(LenderScreenInstitutionalBankForm2(name='LenderScreenInstitutionalBankForm2'))
-        sm.add_widget(main_screen)
-        sm.add_widget(login_screen)
-        sm.add_widget(signup_screen)
+
         sm.add_widget(DashboardScreen(name='borrower_dashboard'))
         sm.add_widget(LenderDashboard(name='lender_dashboard'))
         # Set the initial screen to the login screen
