@@ -136,6 +136,7 @@ KV = """
 
 class LoginScreen(Screen):
     Builder.load_string(KV)
+
     def on_checkbox_active(self, checkbox, value):
         # Handle checkbox state change
         # Update password visibility based on the checkbox state
@@ -143,8 +144,8 @@ class LoginScreen(Screen):
             self.login_screen.ids.password.password = not value
             print(value)
 
+
     def go_to_dashboard(self):
-        # Get the entered email and password
         entered_email = self.ids.email.text
         entered_password = self.ids.password.text
 
@@ -156,29 +157,9 @@ class LoginScreen(Screen):
             self.show_error_dialog("Please enter password")
             return
 
-        conn = sqlite3.connect("user_profile.db")
-        cursor = conn.cursor()
+        self.manager.current = 'dashboard'
 
-        cursor.execute('''
-            SELECT * FROM users
-            WHERE email = ?
-        ''', (entered_email,))
 
-        user_data = cursor.fetchone()
-
-        conn.close()
-
-        if user_data:
-
-            if user_data[4] == entered_password:  # Fix index to 4 for the password field
-
-                self.manager.current = 'dashboard'
-            else:
-
-                self.show_error_dialog("Incorrect password")
-        else:
-
-            self.show_error_dialog("Invalid credentials")
 
     def show_error_dialog(self, message):
 
@@ -195,7 +176,5 @@ class LoginScreen(Screen):
         dialog.open()
 
 
-
-
-    def go_to_signup(self):
+def go_to_signup(self):
         self.manager.current = 'SignupScreen'

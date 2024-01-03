@@ -5,7 +5,7 @@ from kivy.metrics import dp
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
 
-import lender_module.lender_registration_form
+import lender_registration_form
 
 KV = """
 

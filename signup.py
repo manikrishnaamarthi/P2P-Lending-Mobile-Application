@@ -138,69 +138,16 @@ KV = """
 
 """
 
-# Connect to the SQLite database
-conn = sqlite3.connect("user_profile.db")
-cursor = conn.cursor()
 
-# Create a table named 'users'
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS users (
-        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        fullname TEXT,
-        email TEXT,
-        mobile_number TEXT,
-        password TEXT,
-        confirm_password TEXT,
-        accept_terms TEXT,  -- Column for the "Terms and Conditions" checkbox
-        authorize_kyc TEXT   -- Column for the "Authorize KYC" checkbox
-    )
-''')
 
-# Commit the changes and close the connection
-conn.commit()
-conn.close()
+
 
 
 class SignupScreen(Screen):
     Builder.load_string(KV)
 
-    def save_to_database(self):
-        try:
-            # Connect to the SQLite database
-            conn = sqlite3.connect("user_profile.db")
-            cursor = conn.cursor()
 
-            cursor.execute('SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1')
-            latest_user_id = cursor.fetchone()
 
-            if latest_user_id is not None:
-                next_user_id = latest_user_id[0] + 1
-            else:
-
-                next_user_id = 1000
-
-            cursor.execute('''
-                INSERT INTO users (
-                    user_id, fullname, email, mobile_number, password, confirm_password,
-                    accept_terms, authorize_kyc
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (
-                next_user_id,
-                self.ids.name.text, self.ids.email.text, self.ids.mobile.text,
-                self.ids.password.text, self.ids.password2.text,
-                "Accepted" if self.ids.terms_checkbox.active else "Rejected",
-                "Accepted" if self.ids.kyc_checkbox.active else "Rejected"
-            ))
-
-            conn.commit()
-        except sqlite3.Error as e:
-
-            print(f"SQLite error: {e}")
-        finally:
-
-            if conn:
-                conn.close()
 
     def go_to_login(self):
         name = self.ids.name.text
@@ -242,7 +189,7 @@ class SignupScreen(Screen):
         if validation_errors:
             return
 
-        self.save_to_database()
+
 
         snackbar = Snackbar(
             text="Signup Successful!",
@@ -250,7 +197,6 @@ class SignupScreen(Screen):
             pos_hint={'top': 1},
             duration=2
         )
-
 
         snackbar.open()
 
@@ -285,3 +231,5 @@ class SignupScreen(Screen):
 
         return bool(
             re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=])[A-Za-z\d!@#$%^&*()-_+=]+$', password))
+
+
