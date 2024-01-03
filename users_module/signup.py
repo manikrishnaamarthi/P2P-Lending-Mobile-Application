@@ -12,168 +12,129 @@ from kivymd.uix.button import MDRectangleFlatButton, MDFlatButton
 
 KV = """
 <SignupScreen>:
-    ScrollView:
-        do_scroll_x: False
+    canvas.before:
+        Color:
+            rgba: 174/255, 214/255, 241/255, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
 
-        canvas.before:
-            Color:
-                rgba: 174/255, 214/255, 241/255, 1
-            Rectangle:
-                size: self.size
-                pos: self.pos
+    BoxLayout:
+        orientation: "vertical"
+        padding: 45
+        spacing: 5
+
+        MDLabel:
+            id: label1
+            text: 'SIGN UP'
+            font_size: 28
+            halign: 'center'
+            font_name: "Roboto-Bold"
+            
+        MDTextField:
+            id: name
+            hint_text: 'Enter full name'
+            multiline: False
+            helper_text: 'Enter a valid name'
+            helper_text_mode: 'on_focus'
+            icon_left: 'account'
+            font_name: "Roboto-Bold"
+            pos_hint: {'center_y': 0.1}
+
+        MDTextField:
+            id: mobile
+            hint_text: 'Enter mobile number'
+            multiline: False
+            helper_text: 'Enter a valid number'
+            helper_text_mode: 'on_focus'
+            icon_left: 'cellphone'
+            font_name: "Roboto-Bold"
+
+        MDTextField:
+            id: email
+            hint_text: 'Enter your email'
+            multiline: False
+            helper_text: 'Enter a valid email'
+            helper_text_mode: 'on_focus'
+            icon_left: 'email'
+            font_name: "Roboto-Bold"
+
+        MDTextField:
+            id: password
+            hint_text: "Enter Your Password"
+            icon_left: 'lock-outline'
+            helper_text_mode: 'on_focus'
+            multiline: False
+            helper_text: "Password must be greater than 8 characters"
+            password: True
+            font_name: "Roboto-Bold"
+
+        MDTextField:
+            id: password2
+            hint_text: "Re-Enter Your Password"
+            helper_text: "Password does not match"
+            helper_text_mode: 'on_focus'
+            icon_left: 'lock-outline'
+            password: True
+            font_name: "Roboto-Bold"
+
+        BoxLayout:
+            orientation: 'horizontal'
+            width: "260dp"
+            height: "35dp"
+            MDCheckbox:
+                id: terms_checkbox
+                size_hint_x: None
+                width: "20dp"
+            MDLabel:
+                text: "Terms and Conditions"
+                theme_text_color: 'Custom'
+                text_color: 6/255, 143/255, 236/255, 1
+                halign: 'left'
+                font_size: 15
+                valign: 'center'
+                on_touch_down: app.root.get_screen("SignupScreen").show_terms_dialog() if self.collide_point(*args[1].pos) else None
+
+        BoxLayout:
+            orientation: 'horizontal'
+            width: "260dp"
+            height: "25dp"
+            MDCheckbox:
+                id: kyc_checkbox
+                size_hint_x: None
+                width: "20dp"
+            MDLabel:
+                text: "I authorize the company to fetch my KYC details via the Central KYC(CKYC) Registry"
+                theme_text_color: 'Primary'
+                font_size: 15
+                halign: 'left'
+                valign: 'center'
 
 
         GridLayout:
-            cols: 1
-            height: self.minimum_height
-            spacing: 1
-            padding:40
-            pos_hint: {'center_x': 0.1,'center_y': 0.5}
+            cols: 2
+            spacing: 20
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
 
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.get_screen("MainScreen").manager.current = 'MainScreen'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 1, 1, 1, 1
+                size_hint: 1, None
+                height: "50dp"
 
-            MDLabel:
-                id: label1
-                text: 'Sign Up         '
-                font_size: 30
-                halign: 'center'
-                font_name: "Roboto-Bold"
-                pos_hint: {'top': 1, 'left': 1}  
-                height: self.texture_size[1]
-                padding: 15
-
-
-
-            MDTextField:
-                id: name
-                hint_text: 'Enter full name'
-                multiline: False
-                helper_text: 'Enter a valid name'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                size_hint_x: None
-                height: self.minimum_height
-                icon_left: 'account'
-                width: 370
-                spacing: 15
-                font_name: "Roboto-Bold"
-                hint_text_color: 0, 0, 0, 1  
-                helper_text_color: 0, 0, 0, 1  
-                pos_hint: {'center_y': 0.1}  
-            MDTextField:
-                id: mobile
-                hint_text: 'Enter mobile number'
-                multiline: False
-                helper_text: 'Enter a valid number'
-                helper_text_mode: 'on_focus'
-                size_hint_x: None
-                height: self.minimum_height
-                icon_left: 'cellphone'
-                width: 370
-                font_name: "Roboto-Bold"
-
-            MDTextField:
-                id: email
-                hint_text: 'Enter your email'
-                multiline: False
-                helper_text: 'Enter a valid email'
-                helper_text_mode: 'on_focus'
-                size_hint_x: None
-                height: self.minimum_height
-                icon_left: 'email'
-                width: 370
-                font_name: "Roboto-Bold"
-
-            MDTextField:
-                id: password
-                hint_text: "Enter Your Password"
-                icon_left: 'lock-outline'
-                helper_text_mode: 'on_focus'
-                height: self.minimum_height
-                size_hint_x: None
-                multiline: False
-                width: 370
-                helper_text: "Password must be greater than 8 characters"
-                font_size: 23
-                password: True
-                font_name: "Roboto-Bold"
-
-            MDTextField:
-                id: password2
-                hint_text: "Re-Enter Your Password"
-                helper_text: "Password does not match"
-                helper_text_mode: 'on_focus'
-                icon_left: 'lock-outline'
-                size_hint_x: None
-                width: 370
-                font_size: 22
-                password: True
-                font_name: "Roboto-Bold"
-
-            BoxLayout:
-                orientation: 'horizontal'
-                size_hint: None, None
-                width: "260dp"
-                height: "35dp"
-                MDCheckbox:
-                    id: terms_checkbox
-                    size_hint_x: None
-                    width: "20dp"
-                MDLabel:
-                    text: "Terms and Conditions"
-                    font_size: 16
-                    theme_text_color: 'Custom'
-                    text_color: 6/255, 143/255, 236/255, 1
-                    halign: 'left'
-                    valign: 'center'
-                    on_touch_down: app.root.get_screen("SignupScreen").show_terms_dialog() if self.collide_point(*args[1].pos) else None
-
-            BoxLayout:
-                orientation: 'horizontal'
-                size_hint: None, None
-                width: "260dp"
-                height: "25dp"
-                MDCheckbox:
-                    id: kyc_checkbox
-                    size_hint_x: None
-                    width: "20dp"
-                MDLabel:
-                    text: "I authorize the company to fetch my KYC details via the Central KYC(CKYC) Registry"
-                    font_size: 16
-                    theme_text_color: 'Primary'
-                    halign: 'left'
-                    valign: 'center'
-
-            MDCard:
-                size_hint: None, None
-                size: "300dp", "86dp"
-                pos_hint: {'center_x': 0.1, 'center_y': 0.5}
-                md_bg_color: 1, 1, 1, 0  # Card background color
-
-                BoxLayout:
-                    orientation: 'horizontal'
-                    spacing: 20
-                    padding:50
-                    MDRectangleFlatButton:
-                        text: "Back"
-                        text_color: 1, 1, 1, 1
-                        md_bg_color: 6/255, 143/255, 236/255, 1
-                        on_release: app.root.get_screen("MainScreen").manager.current = 'MainScreen'
-                        font_name: "Roboto-Bold"
-                        size_hint_y: None
-                        size: "150dp", "50dp"
-                        pos_hint: {'center_x': 0.5}
-                    MDRectangleFlatButton:
-                        text: "Signup"
-                        text_color: 1, 1, 1, 1
-                        md_bg_color: 6/255, 143/255, 236/255, 1
-                        on_release: root.go_to_login()
-                        size_hint_y: None
-                        size: "150dp", "50dp"
-                        font_name: "Roboto-Bold"
-                        pos_hint: {'center_x': 0.5}
-
-
-
+            MDRaisedButton:
+                text: "Signup"
+                on_release: root.go_to_login()
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
 
 """
 

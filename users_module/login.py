@@ -15,39 +15,30 @@ KV = """
         Rectangle:
             size: self.size
             pos: self.pos
-    Image:
-        source: "C:\\P2P-Lending-Mobile-Application\\Images\\LOGO.png"
-        pos_hint: {'center_x': 0.5, 'center_y': 0.85}
-        size_hint: None, None
-        size: "60dp", "60dp"  # Adjust the size as needed
-        allow_stretch: True
-        keep_ratio: False
-        canvas.before:
-            StencilPush
-            Ellipse:
-                pos: self.pos
-                size: self.size
-        canvas.after:
-            StencilPop
-
-    MDCard:
-        size_hint: (None, None)
-        size: 340, 500
-        pos_hint: {'center_x':0.5, 'center_y':0.47}
-
-        padding:25
+    
+    BoxLayout:
+        orientation: "vertical"
+        padding: 45
         spacing: 20
-        radius: [15,]
-        orientation: 'vertical'
+        
+        Image:
+            source: "C:\\P2P-Lending-Mobile-Application\\Images\\LOGO.png"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+            size_hint: None, None
+            allow_stretch: True
+            keep_ratio: False
+            canvas.before:
+                StencilPush
+                Ellipse:
+                    pos: self.pos
+                    size: self.size
+            canvas.after:
+                StencilPop
 
         MDLabel:
             id: label1
-            text: 'Login Form'
-            font_size: 30
+            text: 'LOGIN'
             halign: 'center'
-            size_hint_y: None
-            height: self.texture_size[1]
-            padding:15
             bold: True
 
         MDTextField:
@@ -62,33 +53,59 @@ KV = """
             hint_text: "Password"
             helper_text: "Forgot your password?"
             helper_text_mode: "on_focus"
-            icon_right: "key"
+            icon_right: "eye"
             password: True
-            spacing: 20
             font_name: "Roboto-Bold"
-
-        MDBoxLayout:
+            
+        BoxLayout:
             orientation: 'horizontal'
-            spacing: 20
-            size_hint: None, None
-            pos_hint: {'center_x': 0.3, 'center_y': 0.5}
+            size_hint_y: None
+            height: "29dp"
+            spacing: 5
+        
+            MDCheckbox:
+                id: password_visibility
+                size_hint: None, None
+                size: "30dp", "30dp"
+                active: False
+                on_active: root.on_checkbox_active(self, self.active)
+        
+            MDLabel:
+                text: "Show Password"
+                font_size: 20
+                size: "30dp", "30"
+                theme_text_color: "Secondary"
+                halign: "left"
+                valign: "center"
 
+        GridLayout:
+            cols: 2
+            spacing: 20
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
 
             MDRaisedButton:
                 text: "Back"
-                size_hint_x: None
-                font_name: "Roboto-Bold"
-                on_release: app.root.current = "MainScreen"
-
+                on_release: app.root.current ='MainScreen'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 1, 1, 1, 1
+                size_hint: 1, None
+                height: "50dp"
 
             MDRaisedButton:
                 text: "Login"
-                size_hint_x: None
                 on_release: root.go_to_dashboard()
-                font_name: "Roboto-Bold"
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
 
+            
         MDLabel:
-            id: error_label
+            id: error_text
             text: ""
 
     BoxLayout:
@@ -97,7 +114,7 @@ KV = """
         size_hint: None, None
         width: "190dp"
         height: "35dp"
-        pos_hint: {'center_x': 0.5, 'center_y': 0.12}
+        pos_hint: {'center_x': 0.46, 'center_y': 0.12}
 
         MDLabel:
             text: "Don't have an account?"
@@ -112,12 +129,19 @@ KV = """
             theme_text_color: 'Custom'
             text_color: 6/255, 143/255, 236/255, 1
             on_release: root.go_to_signup()
+            
 
 """
 
 
 class LoginScreen(Screen):
     Builder.load_string(KV)
+    def on_checkbox_active(self, checkbox, value):
+        # Handle checkbox state change
+        # Update password visibility based on the checkbox state
+        if hasattr(self, 'login_screen'):
+            self.login_screen.ids.password.password = not value
+            print(value)
 
     def go_to_dashboard(self):
         # Get the entered email and password
@@ -169,6 +193,8 @@ class LoginScreen(Screen):
             ]
         )
         dialog.open()
+
+
 
 
     def go_to_signup(self):

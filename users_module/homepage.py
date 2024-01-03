@@ -19,17 +19,16 @@ KV = """
             size: self.size
             pos: self.pos
 
-    FloatLayout:
-        size_hint: None, None
-        size: "300dp", "500dp"
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+    BoxLayout:
+        orientation: "vertical"
+        padding: 35
+        spacing: 35
 
         Image:
             source: "C:\\P2P-Lending-Mobile-Application\\Images\\LOGO.png"
-            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.9}  # Adjusted y-value
             size_hint: None, None
-            size: "80dp", "70dp"  # Adjust the size as needed
+            size: "80dp", "70dp"  
             allow_stretch: True
             keep_ratio: False
             canvas.before:
@@ -40,96 +39,104 @@ KV = """
             canvas.after:
                 StencilPop
 
+        GridLayout:
+            cols: 2
+            spacing: 20
+            padding: 20
+            pos_hint: {'center_x': 0.52, 'center_y': 0.8} 
+            size_hint: 1, None
 
-        MDCard:
-            size_hint: None, None
-            size: "300dp", "400dp"
-            pos_hint: {'center_x': 0.5, 'center_y': 0.25}
-            md_bg_color: 1, 1, 1, 0  # Card background color
+            MDRaisedButton:
+                md_bg_color: 1,1,1,1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
 
-            BoxLayout:
-                orientation: 'vertical'
-                spacing: 20
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing: 10
 
+                    Image:
+                        source: "C:\\P2P-Lending-Mobile-Application\\Images\\google-logo-9808.png"
+                        size_hint: None, None
+                        size: "20dp", "25dp"  
 
+                    MDLabel:
+                        text: "  Sign In with Google"
+                        font_size: 20
+                        theme_text_color: 'Custom'
+                        text_color: 0, 0, 0, 1
+                        pos_hint: {'center_x': 0.8, 'center_y': 0.5}
+                        bold: True
 
+        GridLayout:
+            cols: 2
+            spacing: 20
+            padding: 20
+            pos_hint: {'center_x': 0.52, 'center_y': 0.7} 
+            size_hint: 1, None
 
-                MDRaisedButton:
-                    size_hint: None, None
-                    size: "190dp", "40dp"
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    md_bg_color: 255/255, 255/255, 2555/255, 1
+            MDRaisedButton:
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 1, 1, 1, 1
+                size_hint: 1, None
+                height: "50dp"
 
-                    on_release: root.sign_up_with_google()
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing: 10  # Adjust the spacing as needed
 
-                    BoxLayout:
-                        orientation: 'horizontal'
-                        spacing: 10
+                    Image:
+                        source: "C:\P2P-Lending-Mobile-Application\Images\logo-facebookpng-32256.png"
+                        size_hint: None, None
+                        size: "20dp", "25dp"
+                        allow_stretch: True
+                        keep_ratio: True
 
-                        Image:
-                            source: "C:\\P2P-Lending-Mobile-Application\\Images\\google-logo-9808.png"
-                            size_hint: None, None
-                            size: "20dp", "25dp"  # Adjust the size as needed
-
-                        MDLabel:
-                            text: "Sign In with Google"
-                            font_size: 22
-                            theme_text_color: 'Custom'
-                            text_color: 0, 0, 0, 1
-                            pos_hint: {'center_x': 0.8, 'center_y': 0.5}
-                            bold: True
-
-
-                MDRaisedButton:
-                    size_hint: None, None
-                    size: "200dp", "40dp"
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}                    
-                    on_release: root.sign_up_with_google()
-
-                    BoxLayout:
-                        orientation: 'horizontal'
-                        spacing: 10  # Adjust the spacing as needed
-
-                        Image:
-                            source: "C:\P2P-Lending-Mobile-Application\Images\logo-facebookpng-32256.png"
-                            size_hint: None, None
-                            size: "20dp", "25dp"  # Adjust the size as needed
-                            allow_stretch: True
-                            keep_ratio: True
-
-                        MDLabel:
-                            text: "Sign In with Facebook"
-                            font_size: 20
-                            theme_text_color: 'Custom'
-                            text_color: 1, 1, 1, 1
-                            pos_hint: {'center_x': 0.8, 'center_y': 0.5}
-                            bold: True
-
-
-                MDGridLayout:
-                    cols: 2
-                    spacing: 50
-                    pos_hint: {'center_x': 0.70, 'center_y': 0.3}
-                    padding: "0dp", "40dp", "0dp", "0dp"
-
-                    MDRaisedButton:
-                        id: logout
-                        text: "Login"
-                        on_release: root.go_to_login()
+                    MDLabel:
+                        text: "  Sign In with Facebook"
                         theme_text_color: 'Custom'
                         text_color: 1, 1, 1, 1
-                        md_bg_color: 6/255, 143/255, 236/255, 1
-                        font_size: 20  # Adjust the initial font size as needed
-                        font_name: "Roboto-Bold"
+                        pos_hint: {'center_x': 0.8, 'center_y': 0.5}
+                        bold: True
+                        
+        Label:
+            text: ""
 
-                    MDRaisedButton:
-                        id: signout
-                        text: "Signup"
-                        on_release: root.go_to_signup()
-                        pos_hint: {'right': 1, 'y': 0.5}
-                        md_bg_color: 6/255, 143/255, 236/255, 1
-                        font_size: 20  # Adjust the font size as needed
-                        font_name: "Roboto-Bold"
+        GridLayout:
+            cols: 2
+            spacing: 20
+            padding: 20
+            pos_hint: {'center_x': 0.50, 'center_y': 0.6}  # Adjusted y-value
+            size_hint: 1, None
+            height: "50dp"
+
+            MDRaisedButton:
+                text: "Login"
+                on_release: root.go_to_login()
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 1, 1, 1, 1
+                size_hint: 1, None
+                height: "50dp"
+
+            MDRaisedButton:
+                text: "Sign Up"
+                on_release: root.go_to_signup()
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                size_hint: 1, None
+                height: "50dp"
+        Label:
+            text: ""
+            
+        Label:
+            text: ""
+        Label:
+            text: ""
+
 
 """
 
