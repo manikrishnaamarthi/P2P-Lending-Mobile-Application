@@ -58,7 +58,6 @@ Borrower = '''
             values: ["Male", "Female", "Others"]
             multiline: False
             size_hint: 1 , None
-            height: 50
             bold: True
             background_color: 1, 1 ,1, 0 
             color: 0, 0, 0, 1
@@ -632,7 +631,6 @@ Borrower = '''
             values: ["Student", "Employee", "Business"]
             multiline: False
             size_hint: 1 , None
-            height: 50
             bold: True
             background_color: 1, 1 ,1, 0 
             color: 0, 0, 0, 1
@@ -1515,7 +1513,6 @@ Borrower = '''
             text: "Please Select Marital Status"
             values: ["Married", "Un-Married", "Divorced"]
             size_hint: 1 , None
-            height: 50
             background_color: 1, 1 ,1, 0 
             color: 0, 0, 0, 1
             canvas.before:
@@ -2023,7 +2020,7 @@ class BorrowerScreen15(Screen):
         elif id == 'Married':
             self.manager.current = 'BorrowerScreen16'
 
-        elif id == 'Diversed':
+        elif id == 'Divorced':
             self.manager.current = 'BorrowerScreen18'
 
 

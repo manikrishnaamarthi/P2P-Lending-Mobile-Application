@@ -4,9 +4,7 @@ from kivymd.uix.button import MDRectangleFlatButton
 from kivy.metrics import dp
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.pickers import MDDatePicker
-from kivy.core.window import Window
 
-Window.size = (300, 600)
 
 KV = '''
 <LenderScreen>:# lender_module/lender_registration_form.py
@@ -33,7 +31,6 @@ KV = '''
 
         MDLabel:
             text: 'Lender Registration Form'
-            font_size: 25
             halign: 'center'
             bold: True
             size_hint_y: None
@@ -56,7 +53,6 @@ KV = '''
             values: ["Select Gender", "Male", "Female", "Other"]
             multiline:False
             size_hint_y: (None)
-            height: 50
             background_color: (0,0,0,0)
             background_normal: ''
             color: 0,0,0,1
@@ -109,11 +105,10 @@ KV = '''
         MDLabel:
             text: ""
             size_hint_y: None
-            height: 50
+            height: 100
 
         MDLabel:
             text: 'Lender Registration Form'
-            font_size: 25
             halign: 'center'
             bold: True
             size_hint_y: None
@@ -183,7 +178,6 @@ KV = '''
 
         MDLabel:
             text: 'Lender Registration Form'
-            font_size: 25
             halign: 'center'
             bold: True                
 
@@ -229,7 +223,7 @@ KV = '''
                 height: dp(36)
                 valign: 'middle'  # Align the label text vertically in the center
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+ 
 
         MDTextField:
             id: pan_number
@@ -317,11 +311,10 @@ KV = '''
         MDLabel:
             text: ""
             size_hint_y: None
-            height: 50
+            height: 100
 
         MDLabel:
             text: 'Lender Registration Form'
-            font_size: 25
             halign: 'center'
             bold: True
             size_hint_y: None
@@ -329,7 +322,6 @@ KV = '''
 
         MDLabel:
             text: 'Education Details'
-            font_size: 25
             halign: 'center'
             bold: True
 
@@ -339,7 +331,6 @@ KV = '''
             values: ["Select Education Details", "10th class", "Intermediate", "Bachelors", "Masters", "PHD"]
             multiline:False
             size_hint_y: (None)
-            height: 50
             background_color: (0,0,0,0)
             background_normal: ''
             color: 0,0,0,1
@@ -399,7 +390,7 @@ KV = '''
 
         MDLabel:
             text: 'Education Details'
-            font_size: 25
+
             halign: 'center'
             bold: True
             size_hint_y: None
@@ -407,7 +398,7 @@ KV = '''
 
         MDLabel:
             text: "Upload 10th class certificate"
-            font_size: 18
+
             halign: 'center'
             bold:True
             size_hint_y: None
@@ -501,12 +492,10 @@ KV = '''
 
             MDLabel:
                 text: 'Education Details'
-                font_size: 25
                 halign: 'center'
                 bold: True
             MDLabel:
                 text: "Upload 10th class"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -546,7 +535,6 @@ KV = '''
 
             MDLabel:
                 text: "Upload Intermediate/PUC"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -636,7 +624,6 @@ KV = '''
 
             MDLabel:
                 text: "Upload 10th class Certificate"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -675,7 +662,6 @@ KV = '''
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload Intermediate/PUC Certificate"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -714,7 +700,6 @@ KV = '''
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload B.tech/B.E certificate"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -806,12 +791,10 @@ KV = '''
 
             MDLabel:
                 text: 'Education Details'
-                font_size: 25
                 halign: 'center'
                 bold: True
             MDLabel:
                 text: "Upload 10th class Certificate"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -850,7 +833,6 @@ KV = '''
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload Intermediate/PUC Certificate"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -889,7 +871,6 @@ KV = '''
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload B.tech/B.E Certificate"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -929,7 +910,6 @@ KV = '''
 
             MDLabel:
                 text: "Upload Masters Certificate"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -1020,12 +1000,10 @@ KV = '''
 
             MDLabel:
                 text: 'Education Details'
-                font_size: 25
                 halign: 'center'
                 bold: True
             MDLabel:
                 text: "Upload 10th Class Certificate"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -1063,7 +1041,6 @@ KV = '''
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload Intermediate/PUC Certificate"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -1101,7 +1078,6 @@ KV = '''
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload Btech/B.E Certificate"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -1139,7 +1115,6 @@ KV = '''
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload Masters Certificate"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -1179,7 +1154,6 @@ KV = '''
 
             MDLabel:
                 text: "Upload PHD Certificate"
-                font_size: 18
                 halign: 'center'
                 bold: True
 
@@ -1252,113 +1226,81 @@ KV = '''
 
     MDBoxLayout:
         orientation: 'vertical'
-        spacing: dp(30)
+        spacing: dp(10)
         padding: dp(50)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        
 
-            MDLabel:
-                text: 'Lender Registration Form'
-                font_size: 25
-                halign: 'center'
-                bold: True
-            MDLabel:
-                text: 'Address'
-                font_size: 25
-                halign: 'center'
-                bold: True
+        MDLabel:
+            text: 'Lender Registration Form'
+            halign: 'center'
+            bold: True
+        MDLabel:
+            text: 'Address'
+            halign: 'center'
+            bold: True
 
-            MDTextField:
-                id: street_address
-                hint_text: 'Enter Street Name'
-                multiline: False
-                helper_text: 'Enter valid address'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDTextField:
+            id: street_address
+            hint_text: 'Enter Street Name'
+            multiline: False
+            helper_text: 'Enter valid address'
+            helper_text_mode: 'on_focus'
+            
 
 
-            MDTextField:
-                id: city
-                hint_text: 'Enter City Name'
-                multiline: False
+        MDTextField:
+            id: city
+            hint_text: 'Enter City Name'
+            multiline: False
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:
+            id: Zip_code
+            hint_text: 'Enter postal/zipcode '
+            multiline: False
 
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-            MDTextField:
-                id: Zip_code
-                hint_text: 'Enter postal/zipcode '
-                multiline: False
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:
+            id: state
+            hint_text: 'Enter State Name'
+            multiline: False
 
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-            MDTextField:
-                id: state
-                hint_text: 'Enter State Name'
-                multiline: False
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:
+            id: country
+            hint_text: 'Enter Country Name'
+            multiline: False
+            helper_text_mode: 'on_focus'
 
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-            MDTextField:
-                id: country
-                hint_text: 'Enter Country Name'
-                multiline: False
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreen3'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
-
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
-
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreen3'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
-
-                MDRaisedButton:
-                    text: "Next"
-                    on_release: app.root.current = 'LenderScreen5'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'LenderScreen5'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
 <LenderScreen5>:
     MDRectangleFlatButton:
@@ -1378,7 +1320,6 @@ KV = '''
 
         MDLabel:
             text: 'Lender Registration Form'
-            font_size: 25
             halign: 'center'
             bold: True
 
@@ -1388,7 +1329,6 @@ KV = '''
             values: ["Select Loan Type", "Individual", "Institutional"]
             multiline:False
             size_hint_y: (None)
-            height: 50
             background_color: (0,0,0,0)
             background_normal: ''
             color: 0,0,0,1
@@ -1412,7 +1352,6 @@ KV = '''
             values: ["Select Lending Period","1year", "1-2years", "2-3years", "3-4years", "above 5years"]
             multiline:False
             size_hint_y: (None)
-            height: 50
             background_color: (0,0,0,0)
             background_normal: ''
             color: 0,0,0,1
@@ -1462,98 +1401,81 @@ KV = '''
     MDBoxLayout:
         orientation: 'vertical'
         spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        padding: dp(50)
 
-            MDLabel:
-                text: 'Institutional Type'
-                font_size: 25
-                halign: 'center'
-                bold: True
+        MDLabel:
+            text: ""
+            size_hint_y: None
+            height: 50
 
-            MDLabel:
-                text: 'Step-1'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: business_name
-                hint_text: 'Enter business name '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDLabel:
+            text: 'Institutional Type'
+            halign: 'center'
+            bold: True
+            size_hint_y: None
+            height: 50
 
 
-            MDTextField:
-                id: business_location
-                hint_text: 'Enter business location'
-                multiline: False                   
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-            MDTextField:
-                id:  business_address
-                hint_text: 'Enter business full address'
-                multiline: False
+        MDLabel:
+            text: 'Step-1'
+            halign: 'center'
+            bold: True
+            
+        MDTextField:
+            id: business_name
+            hint_text: 'Enter business name '
+            multiline: False
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
 
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-            MDTextField:
-                id:branch_name
-                hint_text: 'Enter branch name'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
 
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
+        MDTextField:
+            id: business_location
+            hint_text: 'Enter business location'
+            multiline: False                   
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:
+            id:  business_address
+            hint_text: 'Enter business full address'
+            multiline: False
 
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreen5'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:
+            id:branch_name
+            hint_text: 'Enter branch name'
+            multiline: False                        
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
-                MDRaisedButton:
-                    text: "Next"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm2'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreen5'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
+
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'LenderScreenInstitutionalForm2'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
 <LenderScreenInstitutionalForm2>:
 
@@ -1570,103 +1492,82 @@ KV = '''
     MDBoxLayout:
         orientation: 'vertical'
         spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        padding: dp(50)
+        
+        
+        MDLabel:
+            text: 'Step-2'
+            halign: 'center'
+            bold: True
 
+        Spinner:
+            id: spin
+            text: "Select Business Type"
+            values: ["Select Business Type","Partnership", "Cooperation", "Cooperative", "Solo Proprietorship", "Cash", "Cheque", "Online Transaction", "Limited Liability Company"]
+            multiline:False
+            background_color: (0,0,0,0)
+            size_hint_y: None
+            background_normal: ''
+            color: 0,0,0,1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  # Border color (black in this example)
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+        MDTextField:
+            id: nearest_location
+            hint_text: 'Enter nearest location '
+            multiline: False
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
 
-            MDLabel:
-                text: 'Step-2'
-                font_size: 25
-                halign: 'center'
-                bold: True
+        Spinner:
+            id: spinner_id
+            text: "Select No.Of Employees Working"
+            values: ["Select No.Of Employees Working", "1-10", "10-50", "50-100", "100-200", "200-500", "500-100", "1000+"]
+            multiline:False
+            size_hint_y: (None)
+            background_color: (0,0,0,0)
+            background_normal: ''
+            color: 0,0,0,1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  # Border color (black in this example)
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+        MDTextField:
+            id:year_of_estd
+            hint_text: 'Enter year of estd'
+            multiline: False                        
+            helper_text_mode: 'on_focus'
+            
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
-            Spinner:
-                id: spin
-                text: "Select Business Type"
-                values: ["Select Business Type","Partnership", "Cooperation", "Cooperative", "Solo Proprietorship", "Cash", "Cheque", "Online Transaction", "Limited Liability Company"]
-                multiline:False
-                size_hint_y: (None)
-                height: 50
-                background_color: (0,0,0,0)
-                background_normal: ''
-                color: 0,0,0,1
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.7  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-            MDTextField:
-                id: nearest_location
-                hint_text: 'Enter nearest location '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreenInstitutionalForm1'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
-            Spinner:
-                id: spinner_id
-                text: "Select No.Of Employees Working"
-                values: ["Select No.Of Employees Working", "1-10", "10-50", "50-100", "100-200", "200-500", "500-100", "1000+"]
-                multiline:False
-                size_hint_y: (None)
-                height: 50
-                background_color: (0,0,0,0)
-                background_normal: ''
-                color: 0,0,0,1
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.7  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-            MDTextField:
-                id:year_of_estd
-                hint_text: 'Enter year of estd'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
-
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm1'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
-
-                MDRaisedButton:
-                    text: "Next"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm3'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'LenderScreenInstitutionalForm3'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
 
 <LenderScreenInstitutionalForm3>:
@@ -1683,116 +1584,100 @@ KV = '''
     MDBoxLayout:
         orientation: 'vertical'
         spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
+        padding: dp(50)
+        
+        MDLabel:
+            text: 'Step-3'
+            halign: 'center'
+            bold: True
+
+        Spinner:
+            id: spinner_id
+            text: "Select Industry Type"
+            values: ["Select Industry Type","Public", "Government"]
+            multiline:False
+            size_hint_y: (None)
+            background_color: (0,0,0,0)
+            background_normal: ''
+            color: 0,0,0,1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  # Border color (black in this example)
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+
+        MDTextField:
+            id: last_six_months_turnover
+            hint_text: 'Enter last 6 months turnover'
+            multiline: False                   
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDLabel:
+            text: "Last 6 months bank statements"
+            halign: 'center'
+            bold: True
+
+
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: "10dp"
+            spacing: "10dp"
             size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            size: dp(200), dp(50)  # Adjust size as needed
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, 1  # Border color (black in this example)
+                Line:
+                    width: 0.4  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-            MDLabel:
-                text: 'Step-3'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            Spinner:
-                id: spinner_id
-                text: "Select Industry Type"
-                values: ["Select Industry Type","Public", "Government"]
-                multiline:False
-                size_hint_y: (None)
-                height: 50
-                background_color: (0,0,0,0)
-                background_normal: ''
-                color: 0,0,0,1
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.7  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-
-            MDTextField:
-                id: last_six_months_turnover
-                hint_text: 'Enter last 6 months turnover'
-                multiline: False                   
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDIcon:
+                icon: 'upload'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
                 size_hint_x: None
-                width: 300
-            MDLabel:
-                text: "Last 6 months bank statements"
-                font_size: 22
-                halign: 'center'
-
-
-            BoxLayout:
-                orientation: 'horizontal'
-                padding: "10dp"
-                spacing: "10dp"
-                size_hint: None, None
-                size: dp(200), dp(50)  # Adjust size as needed
+                width: dp(24)
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                canvas:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
+            MDLabel:
+                text: 'Upload Document'
+                halign: 'left'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                size_hint_y: None
+                height: dp(36)
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
-                MDIcon:
-                    icon: 'upload'
-                    theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1  # Black text color
-                    size_hint_x: None
-                    width: dp(24)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
-                MDLabel:
-                    text: 'Upload Document'
-                    halign: 'left'
-                    theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1  # Black text color
-                    size_hint_y: None
-                    height: dp(36)
-                    valign: 'middle'  # Align the label text vertically in the center
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreenInstitutionalForm2'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
-
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm2'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
-
-                MDRaisedButton:
-                    text: "Next"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm4'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'LenderScreenInstitutionalForm4'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
 <LenderScreenInstitutionalForm4>:
     MDRectangleFlatButton:
@@ -1808,93 +1693,65 @@ KV = '''
     MDBoxLayout:
         orientation: 'vertical'
         spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        padding: dp(50)
+        
+        MDLabel:
+            text: 'Step-4'
+            halign: 'center'
+            bold: True
 
+        MDTextField:
+            id: director_name
+            hint_text: 'Enter director name '
+            multiline: False
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
 
-            MDLabel:
-                text: 'Step-4'
-                font_size: 25
-                halign: 'center'
-                bold: True
+        MDTextField:
+            id: director_mobile_number
+            hint_text: 'Enter director mobile number'
+            multiline: False                   
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:
+            id:  din
+            hint_text: 'Enter DIN'
+            multiline: False
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
 
-            MDTextField:
-                id: director_name
-                hint_text: 'Enter director name '
-                multiline: False
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDTextField:
+            id:cin
+            hint_text: 'Enter CIN'
+            multiline: False                        
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
 
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
-            MDTextField:
-                id: director_mobile_number
-                hint_text: 'Enter director mobile number'
-                multiline: False                   
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-            MDTextField:
-                id:  din
-                hint_text: 'Enter DIN'
-                multiline: False
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreenInstitutionalForm3'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-            MDTextField:
-                id:cin
-                hint_text: 'Enter CIN'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
-
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm3'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
-
-                MDRaisedButton:
-                    text: "Next"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm5'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'LenderScreenInstitutionalForm5'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
 <LenderScreenInstitutionalForm5>:
     MDRectangleFlatButton:
@@ -1910,110 +1767,89 @@ KV = '''
     MDBoxLayout:
         orientation: 'vertical'
         spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
+        padding: dp(50)
+
+        MDLabel:
+            text: 'Step-5'
+            halign: 'center'
+            bold: True
+
+        MDTextField:
+            id: reg_office_address
+            hint_text: 'Enter registered office address '
+            multiline: False
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDLabel:
+            text: "Proof of verification"
+            halign: 'center'
+            bold: True
+
+
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: "10dp"
+            spacing: "10dp"
             size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            size: dp(200), dp(50)  # Adjust size as needed
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, 1  # Border color (black in this example)
+                Line:
+                    width: 0.4  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
+
+            MDIcon:
+                icon: 'upload'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                size_hint_x: None
+                width: dp(24)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
             MDLabel:
-                text: 'Step-5'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: reg_office_address
-                hint_text: 'Enter registered office address '
-                multiline: False
-                helper_text_mode: 'on_focus'
+                text: 'Upload Document'
+                halign: 'left'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
                 size_hint_y: None
-                height: self.minimum_height
+                height: dp(36)
+                valign: 'middle'  # Align the label text vertically in the center
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDTextField:
+            id:branch_name
+            hint_text: 'Enter branch name'
+            multiline: False                        
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreenInstitutionalForm4'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
-            MDLabel:
-                text: "Proof of verification"
-                font_size: 22
-                halign: 'center'
-
-
-            BoxLayout:
-                orientation: 'horizontal'
-                padding: "10dp"
-                spacing: "10dp"
-                size_hint: None, None
-                size: dp(200), dp(50)  # Adjust size as needed
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                canvas:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-
-                MDIcon:
-                    icon: 'upload'
-                    theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1  # Black text color
-                    size_hint_x: None
-                    width: dp(24)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-                MDLabel:
-                    text: 'Upload Document'
-                    halign: 'left'
-                    theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1  # Black text color
-                    size_hint_y: None
-                    height: dp(36)
-                    valign: 'middle'  # Align the label text vertically in the center
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            MDTextField:
-                id:branch_name
-                hint_text: 'Enter branch name'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
-
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm4'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
-
-                MDRaisedButton:
-                    text: "Next"
-                    on_release: app.root.current = 'LenderScreenInstitutionalBankForm1'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'LenderScreenInstitutionalBankForm1'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
 
 <LenderScreenIndividualForm1>:
@@ -2030,103 +1866,88 @@ KV = '''
 
     MDBoxLayout:
         orientation: 'vertical'
-        spacing: dp(30)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            spacing: dp(30)
+        spacing: dp(15)
+        padding: dp(50)
+        MDLabel:
+            text: ""
+            size_hint_y: None
+            height: 50
+                    
+        MDLabel:
+            text: 'Individual Type'
+            halign: 'center'
+            bold: True
 
-            MDLabel:
-                text: 'Individual Type'
-                font_size: 25
-                halign: 'center'
-                bold: True
-                size_hint_y: None
-                height: 50
-            MDLabel:
-                text: 'Employment Details'
-                font_size: 25
-                halign: 'center'
-                bold: True   
-                size_hint_y: None
-                height: 50
-            Spinner:
-                id: spinner1
-                text: "Employment Type"
-                values: ["Employment Type","Intern", "Full Time", "Contract"]
-                multiline:False
-                size_hint_y: (None)
-                height: 50
-                background_color: (0,0,0,0)
-                background_normal: ''
-                color: 0,0,0,1
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.7  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+        MDLabel:
+            text: 'Employment Details'
+            halign: 'center'
+            bold: True   
+            size_hint_y: None
+
+        Spinner:
+            id: spinner1
+            text: "Employment Type"
+            values: ["Employment Type","Intern", "Full Time", "Contract"]
+            multiline:False
+            size_hint_y: (None)
+            background_color: (0,0,0,0)
+            background_normal: ''
+            color: 0,0,0,1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  # Border color (black in this example)
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-            MDTextField:              
-                id:company_name
-                hint_text: 'Enter company_name'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-            Spinner:
-                id: spinner2
-                text: "Select Organisation Type"
-                values: ["Select Organisation Type","Public", "Private", "Cooperation", "Partnership"]
-                multiline:False
-                size_hint_y: (None)
-                height: 50
-                background_color: (0,0,0,0)
-                background_normal: ''
-                color: 0,0,0,1
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.7  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+        MDTextField:              
+            id:company_name
+            hint_text: 'Enter company_name'
+            multiline: False                        
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        Spinner:
+            id: spinner2
+            text: "Select Organisation Type"
+            values: ["Select Organisation Type","Public", "Private", "Cooperation", "Partnership"]
+            multiline:False
+            size_hint_y: (None)
+            background_color: (0,0,0,0)
+            background_normal: ''
+            color: 0,0,0,1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  # Border color (black in this example)
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreen5'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreen5'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
-                MDRaisedButton:
-                    text: "Next"
-                    on_release: app.root.current = 'LenderScreenIndividualForm2'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"     
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'LenderScreenIndividualForm2'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"     
 
 <LenderScreenIndividualForm2>:
     name: 'len_reg_individual_form2'
@@ -2143,102 +1964,75 @@ KV = '''
     MDBoxLayout:
         orientation: 'vertical'
         spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        padding: dp(50)
+        MDLabel:
+            text: ""
+            size_hint_y: None
+            height: 50
+        
+        MDLabel:
+            text: 'Employment Details'
+            halign: 'center'
+            bold: True   
+        MDTextField:              
+            id:company_address
+            hint_text: 'Enter company address'
+            multiline: False                        
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:              
+            id:company_pin_code
+            hint_text: 'Enter Company Pincode'
+            multiline: False                        
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:              
+            id:company_country
+            hint_text: 'Enter Company Country'
+            multiline: False                        
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:              
+            id:landmark
+            hint_text: 'Enter landmark'
+            multiline: False                        
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:              
+            id:business_phone_number
+            hint_text: 'Enter business phone number'
+            multiline: False                        
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreenIndividualForm1'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
-            MDLabel:
-                text: 'Employment Details'
-                font_size: 25
-                halign: 'center'
-                bold: True   
-            MDTextField:              
-                id:company_address
-                hint_text: 'Enter company address'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-            MDTextField:              
-                id:company_pin_code
-                hint_text: 'Enter Company Pincode'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-            MDTextField:              
-                id:company_country
-                hint_text: 'Enter Company Country'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:              
-                id:landmark
-                hint_text: 'Enter landmark'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            MDTextField:              
-                id:business_phone_number
-                hint_text: 'Enter business phone number'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
-
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreenIndividualForm1'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
-
-                MDRaisedButton:
-                    text: "Next"
-                    on_release: app.root.current = 'LenderScreenIndividualForm3'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'LenderScreenIndividualForm3'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
 <LenderScreenIndividualForm3>:
     MDRectangleFlatButton:
@@ -2254,148 +2048,128 @@ KV = '''
     MDBoxLayout:
         orientation: 'vertical'
         spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
+        padding: dp(50)
+        
+        MDLabel:
+            text: 'Employment Details'
+            halign: 'center'
+            bold: True   
+        MDTextField:              
+            id:annual_salary
+            hint_text: 'Enter annual salary'
+            multiline: False                        
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:              
+            id:designation
+            hint_text: 'Enter designation'
+            multiline: False                        
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDLabel:
+            text: "Upload Employee ID"
+            halign: 'center'
+            bold: True
+
+
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: "10dp"
+            spacing: "10dp"
             size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            size: dp(200), dp(50)  # Adjust size as needed
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, 1  # Border color (black in this example)
+                Line:
+                    width: 0.4  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-            MDLabel:
-                text: 'Employment Details'
-                font_size: 25
-                halign: 'center'
-                bold: True   
-            MDTextField:              
-                id:annual_salary
-                hint_text: 'Enter annual salary'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDIcon:
+                icon: 'upload'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
                 size_hint_x: None
-                width: 300
-            MDTextField:              
-                id:designation
-                hint_text: 'Enter designation'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
+                width: dp(24)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDLabel:
+                text: 'Upload Document'
+                halign: 'left'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
                 size_hint_y: None
-                height: self.minimum_height
+                height: dp(36)
+                valign: 'middle'  # Align the label text vertically in the center
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+        MDLabel:
+            text: "Upload last 6 months bank statements"
+            halign: 'center'
+            bold: True
+
+
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: "10dp"
+            spacing: "10dp"
+            size_hint: None, None
+            size: dp(200), dp(50)  # Adjust size as needed
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, 1  # Border color (black in this example)
+                Line:
+                    width: 0.4  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+
+            MDIcon:
+                icon: 'upload'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
                 size_hint_x: None
-                width: 300
-            MDLabel:
-                text: "Upload Employee ID"
-                font_size: 18
-                halign: 'center'
-                bold: True
-
-
-            BoxLayout:
-                orientation: 'horizontal'
-                padding: "10dp"
-                spacing: "10dp"
-                size_hint: None, None
-                size: dp(200), dp(50)  # Adjust size as needed
+                width: dp(24)
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                canvas:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-
-                MDIcon:
-                    icon: 'upload'
-                    theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1  # Black text color
-                    size_hint_x: None
-                    width: dp(24)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-                MDLabel:
-                    text: 'Upload Document'
-                    halign: 'left'
-                    theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1  # Black text color
-                    size_hint_y: None
-                    height: dp(36)
-                    valign: 'middle'  # Align the label text vertically in the center
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
             MDLabel:
-                text: "Upload last 6 months bank statements"
-                font_size: 18
-                halign: 'center'
-                bold: True
-
-
-            BoxLayout:
-                orientation: 'horizontal'
-                padding: "10dp"
-                spacing: "10dp"
-                size_hint: None, None
-                size: dp(200), dp(50)  # Adjust size as needed
+                text: 'Upload Document'
+                halign: 'left'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                size_hint_y: None
+                height: dp(36)
+                valign: 'middle'  # Align the label text vertically in the center
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                canvas:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
-                MDIcon:
-                    icon: 'upload'
-                    theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1  # Black text color
-                    size_hint_x: None
-                    width: dp(24)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreenIndividualForm2'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
-                MDLabel:
-                    text: 'Upload Document'
-                    halign: 'left'
-                    theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1  # Black text color
-                    size_hint_y: None
-                    height: dp(36)
-                    valign: 'middle'  # Align the label text vertically in the center
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
-
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreenIndividualForm2'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
-
-                MDRaisedButton:
-                    text: "Next"
-                    on_release: app.root.current = 'LenderScreenIndividualBankForm1'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"        
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'LenderScreenIndividualBankForm1'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"        
 
 
 <LenderScreenIndividualBankForm1>:
@@ -2412,103 +2186,78 @@ KV = '''
 
     MDBoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        spacing: dp(15)
+        padding: dp(50)
+        
+        MDLabel:
+            text: 'Applicant Bank Details'
+            halign: 'center'
+            bold: True
 
-            MDLabel:
-                text: 'Applicant Bank Details'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: account_holder_name
-                hint_text: 'Enter account holder name '
-                multiline: False
-                helper_text: 'Enter valid account holder name'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            Spinner:
-                id: spinner_id
-                text: "Select Account Type"
-                values: ["Select Account Type","Savings", "Current", "NRI"]
-                multiline:False
-                size_hint_y: (None)
-                height: 50
-                background_color: (0,0,0,0)
-                background_normal: ''
-                color: 0,0,0,1
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.7  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+        MDTextField:
+            id: account_holder_name
+            hint_text: 'Enter account holder name '
+            multiline: False
+            helper_text: 'Enter valid account holder name'
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        Spinner:
+            id: spinner_id
+            text: "Select Account Type"
+            values: ["Select Account Type","Savings", "Current", "NRI"]
+            multiline:False
+            size_hint_y: (None)
+            background_color: (0,0,0,0)
+            background_normal: ''
+            color: 0,0,0,1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  # Border color (black in this example)
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-            MDTextField:
-                id: account_number
-                hint_text: 'Enter account number '
-                multiline: False
-                helper_text: 'Enter valid account number'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDTextField:
+            id: account_number
+            hint_text: 'Enter account number '
+            multiline: False
+            helper_text: 'Enter valid account number'
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:
+            id: bank_name
+            hint_text: 'Enter bank name '
+            multiline: False
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
-            MDTextField:
-                id: bank_name
-                hint_text: 'Enter bank name '
-                multiline: False
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreenIndividualForm3'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
-
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreenIndividualForm3'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
-
-                MDRaisedButton:
-                    text: "Next"
-                    on_release: app.root.current = 'LenderScreenIndividualBankForm2'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold" 
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'LenderScreenIndividualBankForm2'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold" 
 
 <LenderScreenIndividualBankForm2>:
     MDRectangleFlatButton:
@@ -2523,74 +2272,53 @@ KV = '''
 
     MDBoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        spacing: dp(15)
+        padding: dp(50)
+        
+        MDLabel:
+            text: 'Applicant Bank Details'
+            halign: 'center'
+            bold: True
 
-            MDLabel:
-                text: 'Applicant Bank Details'
-                font_size: 25
-                halign: 'center'
-                bold: True
+        MDTextField:
+            id: ifsc_code
+            hint_text: 'Enter Bank ID '
+            multiline: False
+            helper_text: 'Enter valid ifsc code'
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+           
+        MDTextField:
+            id: branch_name
+            hint_text: 'Enter branch name'
+            multiline: False
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
-            MDTextField:
-                id: ifsc_code
-                hint_text: 'Enter Bank ID '
-                multiline: False
-                helper_text: 'Enter valid ifsc code'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreenIndividualBankForm1'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
-
-            MDTextField:
-                id: branch_name
-                hint_text: 'Enter branch name'
-                multiline: False
-
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
-
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreenIndividualBankForm1'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
-
-                MDRaisedButton:
-                    text: "Submit"
-                    on_release: root.go_to_lender_dashboard()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold" 
+            MDRaisedButton:
+                text: "Submit"
+                on_release: root.go_to_lender_dashboard()
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold" 
 
 
 
@@ -2608,104 +2336,79 @@ KV = '''
 
     MDBoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        spacing: dp(15)
+        padding: dp(50)
+ 
+        MDLabel:
+            text: 'Applicant Bank Details'
+            halign: 'center'
+            bold: True
 
-            MDLabel:
-                text: 'Applicant Bank Details'
-                font_size: 25
-                halign: 'center'
-                bold: True
-
-            MDTextField:
-                id: account_holder_name
-                hint_text: 'Enter account holder name '
-                multiline: False
-                helper_text: 'Enter valid account holder name'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            Spinner:
-                id: spinner_id
-                text: "Select Account Type"
-                values: ["Select Account Type","Savings", "Current", "NRI"]
-                multiline:False
-                size_hint_y: (None)
-                height: 50
-                background_color: (0,0,0,0)
-                background_normal: ''
-                color: 0,0,0,1
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.7  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+        MDTextField:
+            id: account_holder_name
+            hint_text: 'Enter account holder name '
+            multiline: False
+            helper_text: 'Enter valid account holder name'
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        Spinner:
+            id: spinner_id
+            text: "Select Account Type"
+            values: ["Select Account Type","Savings", "Current", "NRI"]
+            multiline:False
+            size_hint_y: (None)
+            background_color: (0,0,0,0)
+            background_normal: ''
+            color: 0,0,0,1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  # Border color (black in this example)
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
 
-            MDTextField:
-                id: account_number
-                hint_text: 'Enter account number '
-                multiline: False
-                helper_text: 'Enter valid account number'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+        MDTextField:
+            id: account_number
+            hint_text: 'Enter account number '
+            multiline: False
+            helper_text: 'Enter valid account number'
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:
+            id: bank_name
+            hint_text: 'Enter bank name '
+            multiline: False
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
-            MDTextField:
-                id: bank_name
-                hint_text: 'Enter bank name '
-                multiline: False
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreenInstitutionalForm5'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
-
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm5'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
-
-                MDRaisedButton:
-                    text: "Next"
-                    on_release: app.root.current = 'LenderScreenInstitutionalBankForm2'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"   
+            MDRaisedButton:
+                text: "Next"
+                on_release: app.root.current = 'LenderScreenInstitutionalBankForm2'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"   
 
 <LenderScreenInstitutionalBankForm2>:
     MDRectangleFlatButton:
@@ -2720,74 +2423,53 @@ KV = '''
 
     MDBoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(10)
-        size_hint_y: None
-        height: self.minimum_height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        size_hint_x: None
-        width: 300
-        MDCard:
-            orientation: "vertical"
-            size_hint: None, None
-            size: "280dp", "480dp"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        spacing: dp(15)
+        padding: dp(50)
+        
+        MDLabel:
+            text: 'Applicant Bank Details'
+            halign: 'center'
+            bold: True
 
-            MDLabel:
-                text: 'Applicant Bank Details'
-                font_size: 25
-                halign: 'center'
-                bold: True
+        MDTextField:
+            id: ifsc_code
+            hint_text: 'Enter Bank ID '
+            multiline: False
+            helper_text: 'Enter valid ifsc code'
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        MDTextField:
+            id: branch_name
+            hint_text: 'Enter branch name'
+            multiline: False
+            helper_text_mode: 'on_focus'
+            size_hint_y: None
+            
+        GridLayout:
+            cols: 2
+            spacing: 30
+            padding: [0, "30dp", 0, 0]
 
-            MDTextField:
-                id: ifsc_code
-                hint_text: 'Enter Bank ID '
-                multiline: False
-                helper_text: 'Enter valid ifsc code'
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
+            MDRaisedButton:
+                text: "Back"
+                on_release: app.root.current = 'LenderScreenInstitutionalBankForm1'
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
-
-            MDTextField:
-                id: branch_name
-                hint_text: 'Enter branch name'
-                multiline: False
-
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: None
-                width: 300
-
-            GridLayout:
-                cols: 2
-                spacing: 30
-                padding: [0, "30dp", 0, 0]
-
-                MDRaisedButton:
-                    text: "Back"
-                    on_release: app.root.current = 'LenderScreenInstitutionalBankForm1'
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
-
-                MDRaisedButton:
-                    text: "Submit"
-                    on_release: root.go_to_lender_dashboard()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
+            MDRaisedButton:
+                text: "Submit"
+                on_release: root.go_to_lender_dashboard()
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 0, 0, 0, 1
+                size_hint: 1, None
+                height: "50dp"
+                font_name: "Roboto-Bold"
 
 
 '''
