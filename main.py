@@ -3,14 +3,14 @@ from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
 
-from borrower_module.borrower_registration_forms import (
+from borrower_registration_forms import (
     BorrowerScreen, BorrowerScreen1, BorrowerScreen2, BorrowerScreen3, BorrowerScreen4, BorrowerScreen5,
     BorrowerScreen6,BorrowerScreen7,BorrowerScreen8,BorrowerScreen9,BorrowerScreen10,BorrowerScreen11,
     BorrowerScreen12,BorrowerScreen13,BorrowerScreen14,BorrowerScreen15,BorrowerScreen16,BorrowerScreen17,
     BorrowerScreen18,BorrowerScreen19,Borrower
 )
-from borrower_module.borrower_dashboard import (DashboardScreen,user_helpers)
-from lender_module.lender_registration_form import (
+from borrower_dashboard import (DashboardScreen,user_helpers)
+from lender_registration_form import (
     LenderScreen, LenderScreen1, LenderScreen2, LenderScreen3,
     LenderScreen_Edu_10th, LenderScreen_Edu_Intermediate,LenderScreen_Edu_Bachelors,
     LenderScreen_Edu_Masters, LenderScreen_Edu_PHD, LenderScreen4, LenderScreen5,
@@ -20,15 +20,15 @@ from lender_module.lender_registration_form import (
     LenderScreenIndividualBankForm2,LenderScreenInstitutionalBankForm1,LenderScreenInstitutionalBankForm2,
     KV
 )
-from lender_module.lender_dashboard import (LenderDashboard, user_helpers1)
-from users_module.dashboard import DashScreen
+from lender_dashboard import (LenderDashboard, user_helpers1)
+from dashboard import DashScreen
 #from users_module.test1 import LenderHomeScreen,KV
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.pickers import MDDatePicker
 from kivy.metrics import dp
-from users_module.login import LoginScreen
-from users_module.homepage import MainScreen
-from users_module.signup import SignupScreen
+from login import LoginScreen
+from homepage import MainScreen
+from signup import SignupScreen
 #from  users_module.lender_home import LenderHome,lender_home
 class MyApp(MDApp):
     def build(self):
