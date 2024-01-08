@@ -35,7 +35,7 @@ user_helpers = """
                     Line:
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-                on_release: app.open_balance()
+                on_release: root.open_balance()
 
 
             Button:
@@ -141,6 +141,7 @@ user_helpers = """
 
 
 class DashboardScreen(Screen):
-    pass
+    def open_balance(self):
+        self.manager.current='new_loan_request'
 
 

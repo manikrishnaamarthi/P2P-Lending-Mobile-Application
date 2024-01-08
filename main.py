@@ -22,6 +22,7 @@ from lender_registration_form import (
 )
 from lender_dashboard import (LenderDashboard, user_helpers1)
 from dashboard import DashScreen
+from new_loan_request import (NewloanScreen,NewScreen,user_helpers2)
 #from users_module.test1 import LenderHomeScreen,KV
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.pickers import MDDatePicker
@@ -36,7 +37,7 @@ class MyApp(MDApp):
         Builder.load_string(KV)
         Builder.load_string(user_helpers)
         Builder.load_string(user_helpers1)
-
+        Builder.load_string(user_helpers2)
 
 
         sm = ScreenManager(transition=SlideTransition())
@@ -95,6 +96,8 @@ class MyApp(MDApp):
 
         sm.add_widget(DashboardScreen(name='borrower_dashboard'))
         sm.add_widget(LenderDashboard(name='lender_dashboard'))
+        sm.add_widget(NewloanScreen(name='new_loan_request'))
+        sm.add_widget(NewScreen(name='new'))
         # Set the initial screen to the login screen
         sm.current = 'MainScreen'
 
