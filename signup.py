@@ -3,7 +3,7 @@ import re
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
-import sqlite3
+
 
 from kivymd.uix.selectioncontrol import MDCheckbox
 from kivymd.uix.snackbar import Snackbar
@@ -27,7 +27,6 @@ KV = """
         MDLabel:
             id: label1
             text: 'SIGN UP'
-            font_size: 28
             halign: 'center'
             font_name: "Roboto-Bold"
             

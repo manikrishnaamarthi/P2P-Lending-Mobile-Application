@@ -25,7 +25,7 @@ KV = """
         spacing: 35
 
         Image:
-            source: "C:\\P2P-Lending-Mobile-Application\\Images\\LOGO.png"
+            source: "Images/LOGO.png"
             pos_hint: {'center_x': 0.5, 'center_y': 0.9}  # Adjusted y-value
             size_hint: None, None
             size: "80dp", "70dp"  
@@ -64,7 +64,6 @@ KV = """
 
                     MDLabel:
                         text: "  Sign In with Google"
-                        font_size: 20
                         theme_text_color: 'Custom'
                         text_color: 0, 0, 0, 1
                         pos_hint: {'center_x': 0.8, 'center_y': 0.5}
@@ -89,7 +88,7 @@ KV = """
                     spacing: 10  # Adjust the spacing as needed
 
                     Image:
-                        source: "C:\P2P-Lending-Mobile-Application\Images\logo-facebookpng-32256.png"
+                        source: "Images/logo-facebookpng-32256.png"
                         size_hint: None, None
                         size: "20dp", "25dp"
                         allow_stretch: True
