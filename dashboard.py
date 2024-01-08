@@ -17,7 +17,7 @@ KV = """
             pos: self.pos
             size: self.size
     Image:
-        source: "C:\\P2P-Lending-Mobile-Application\\Images\\LOGO.png"
+        source: "Images/LOGO.png"
         pos_hint: {'center_x': 0.5, 'center_y': 0.8}
         size_hint: None, None
         size: "80dp", "70dp"  # Adjust the size as needed

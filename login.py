@@ -1,4 +1,3 @@
-import sqlite3
 
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
@@ -22,7 +21,7 @@ KV = """
         spacing: 20
         
         Image:
-            source: "C:\\P2P-Lending-Mobile-Application\\Images\\LOGO.png"
+            source: "Images/LOGO.png"
             pos_hint: {'center_x': 0.5, 'center_y': 0.85}
             size_hint: None, None
             allow_stretch: True
