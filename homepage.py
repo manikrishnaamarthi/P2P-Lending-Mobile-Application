@@ -14,35 +14,38 @@ KV = """
     id: main
     canvas.before:
         Color:
-            rgba: 174/255, 214/255, 241/255, 1
+            rgba: 1, 1, 1, 1
         Rectangle:
             size: self.size
             pos: self.pos
 
+
     BoxLayout:
         orientation: "vertical"
-        padding: 35
-        spacing: 35
+        padding: dp(35)
+        spacing: dp(35)  # Adjusted spacing between labels and image
+
+        MDLabel:
+            text: ""
+
+            theme_text_color: 'Custom'
+            text_color: 0, 0, 0, 1
+            bold: True
+
 
         Image:
-            source: "Images/LOGO.png"
-            pos_hint: {'center_x': 0.5, 'center_y': 0.9}  # Adjusted y-value
+            source: "LOGO.png"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
             size_hint: None, None
-            size: "80dp", "70dp"  
-            allow_stretch: True
-            keep_ratio: False
-            canvas.before:
-                StencilPush
-                Ellipse:
-                    pos: self.pos
-                    size: self.size
-            canvas.after:
-                StencilPop
+            size: "150dp", "150dp"
+
+
+
 
         GridLayout:
             cols: 2
-            spacing: 20
-            padding: 20
+            spacing: dp(20)
+            padding: dp(20)
             pos_hint: {'center_x': 0.52, 'center_y': 0.8} 
             size_hint: 1, None
 
@@ -52,18 +55,21 @@ KV = """
                 text_color: 0, 0, 0, 1
                 size_hint: 1, None
                 height: "50dp"
+                line_color: 0, 0, 0, 1  
+                line_width: 1
 
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing: dp(10)
 
                     Image:
-                        source: "C:\\P2P-Lending-Mobile-Application\\Images\\google-logo-9808.png"
+                        source: "google-logo-9808.png"
                         size_hint: None, None
                         size: "20dp", "25dp"  
 
                     MDLabel:
                         text: "  Sign In with Google"
+
                         theme_text_color: 'Custom'
                         text_color: 0, 0, 0, 1
                         pos_hint: {'center_x': 0.8, 'center_y': 0.5}
@@ -71,8 +77,8 @@ KV = """
 
         GridLayout:
             cols: 2
-            spacing: 20
-            padding: 20
+            spacing: dp(20)
+            padding: dp(20)
             pos_hint: {'center_x': 0.52, 'center_y': 0.7} 
             size_hint: 1, None
 
@@ -88,7 +94,7 @@ KV = """
                     spacing: 10  # Adjust the spacing as needed
 
                     Image:
-                        source: "Images/logo-facebookpng-32256.png"
+                        source: "logo-facebookpng-32256.png"
                         size_hint: None, None
                         size: "20dp", "25dp"
                         allow_stretch: True
@@ -100,14 +106,14 @@ KV = """
                         text_color: 1, 1, 1, 1
                         pos_hint: {'center_x': 0.8, 'center_y': 0.5}
                         bold: True
-                        
+
         Label:
             text: ""
 
         GridLayout:
             cols: 2
-            spacing: 20
-            padding: 20
+            spacing: dp(20)
+            padding: dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.6}  # Adjusted y-value
             size_hint: 1, None
             height: "50dp"
@@ -120,6 +126,7 @@ KV = """
                 text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
+                font_name: "Roboto-Bold"
 
             MDRaisedButton:
                 text: "Sign Up"
@@ -128,9 +135,10 @@ KV = """
                 pos_hint: {'right': 1, 'y': 0.5}
                 size_hint: 1, None
                 height: "50dp"
+                font_name: "Roboto-Bold"
         Label:
             text: ""
-            
+
         Label:
             text: ""
         Label:

@@ -1,3 +1,4 @@
+import sqlite3
 
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
@@ -10,33 +11,26 @@ KV = """
 <LoginScreen>:
     canvas.before:
         Color:
-            rgba: 174/255, 214/255, 241/255, 1
+            rgba: 1, 1, 1, 1
         Rectangle:
             size: self.size
             pos: self.pos
-    
+
     BoxLayout:
         orientation: "vertical"
-        padding: 45
-        spacing: 20
-        
+        padding:dp(40)
+
+
         Image:
-            source: "Images/LOGO.png"
+            source: "LOGO.png"
             pos_hint: {'center_x': 0.5, 'center_y': 0.85}
             size_hint: None, None
-            allow_stretch: True
-            keep_ratio: False
-            canvas.before:
-                StencilPush
-                Ellipse:
-                    pos: self.pos
-                    size: self.size
-            canvas.after:
-                StencilPop
+            size: "170dp", "170dp"
 
         MDLabel:
             id: label1
             text: 'LOGIN'
+            font_size:dp(30)
             halign: 'center'
             bold: True
 
@@ -50,37 +44,42 @@ KV = """
         MDTextField:
             id: password
             hint_text: "Password"
-            helper_text: "Forgot your password?"
+            helper_text: "Enter your password"
             helper_text_mode: "on_focus"
-            icon_right: "eye"
-            password: True
-            font_name: "Roboto-Bold"
-            
+            icon_right: "lock"
+            password: not password_visibility.active
+            size_hint_y: None
+            height: "30dp"
+            width: dp(200)
+            pos_hint: {"center_y": 0.5}
+            on_text_validate: app.validate_password()
+
+
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
             height: "29dp"
-            spacing: 5
-        
+            spacing:dp(5)
+
             MDCheckbox:
                 id: password_visibility
                 size_hint: None, None
                 size: "30dp", "30dp"
                 active: False
                 on_active: root.on_checkbox_active(self, self.active)
-        
+
             MDLabel:
                 text: "Show Password"
-                font_size: 20
-                size: "30dp", "30"
+                font_size:dp(14)
+                size: "30dp", "30dp"
                 theme_text_color: "Secondary"
                 halign: "left"
                 valign: "center"
 
         GridLayout:
             cols: 2
-            spacing: 20
-            padding: 20
+            spacing:dp(20)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -93,6 +92,7 @@ KV = """
                 text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
+                font_name: "Roboto-Bold"
 
             MDRaisedButton:
                 text: "Login"
@@ -101,15 +101,16 @@ KV = """
                 pos_hint: {'right': 1, 'y': 0.5}
                 size_hint: 1, None
                 height: "50dp"
+                font_name: "Roboto-Bold"
 
-            
+
         MDLabel:
             id: error_text
             text: ""
 
     BoxLayout:
         orientation: 'horizontal'
-        spacing: 0
+
         size_hint: None, None
         width: "190dp"
         height: "35dp"
@@ -117,7 +118,7 @@ KV = """
 
         MDLabel:
             text: "Don't have an account?"
-            font_size: 16
+            font_size:dp(14)
 
             theme_text_color: 'Secondary'
             halign: 'center'
@@ -125,10 +126,11 @@ KV = """
 
         MDFlatButton:
             text: "Sign Up"
+            font_size:dp(18)
             theme_text_color: 'Custom'
             text_color: 6/255, 143/255, 236/255, 1
             on_release: root.go_to_signup()
-            
+
 
 """
 
@@ -143,8 +145,8 @@ class LoginScreen(Screen):
             self.login_screen.ids.password.password = not value
             print(value)
 
-
     def go_to_dashboard(self):
+        # Get the entered email and password
         entered_email = self.ids.email.text
         entered_password = self.ids.password.text
 
@@ -156,9 +158,29 @@ class LoginScreen(Screen):
             self.show_error_dialog("Please enter password")
             return
 
-        self.manager.current = 'dashboard'
+        conn = sqlite3.connect("user_profile.db")
+        cursor = conn.cursor()
 
+        cursor.execute('''
+            SELECT * FROM users
+            WHERE email = ?
+        ''', (entered_email,))
 
+        user_data = cursor.fetchone()
+
+        conn.close()
+
+        if user_data:
+
+            if user_data[4] == entered_password:  # Fix index to 4 for the password field
+
+                self.manager.current = 'dashboard'
+            else:
+
+                self.show_error_dialog("Incorrect password")
+        else:
+
+            self.show_error_dialog("Invalid credentials")
 
     def show_error_dialog(self, message):
 
@@ -174,6 +196,5 @@ class LoginScreen(Screen):
         )
         dialog.open()
 
-
-def go_to_signup(self):
+    def go_to_signup(self):
         self.manager.current = 'SignupScreen'
