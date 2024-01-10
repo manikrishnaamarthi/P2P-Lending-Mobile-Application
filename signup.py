@@ -3,7 +3,7 @@ import re
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
-
+import sqlite3
 
 from kivymd.uix.selectioncontrol import MDCheckbox
 from kivymd.uix.snackbar import Snackbar
@@ -14,22 +14,23 @@ KV = """
 <SignupScreen>:
     canvas.before:
         Color:
-            rgba: 174/255, 214/255, 241/255, 1
+            rgba:  1, 1, 1, 1
         Rectangle:
             size: self.size
             pos: self.pos
 
     BoxLayout:
         orientation: "vertical"
-        padding: 45
-        spacing: 5
+        padding: dp(45)
+        spacing: dp(5)
 
         MDLabel:
             id: label1
             text: 'SIGN UP'
+            font_size:dp(30)
             halign: 'center'
-            font_name: "Roboto-Bold"
-            
+            bold: True
+
         MDTextField:
             id: name
             hint_text: 'Enter full name'
@@ -80,7 +81,7 @@ KV = """
         BoxLayout:
             orientation: 'horizontal'
             width: "260dp"
-            height: "35dp"
+            height: "10dp"
             MDCheckbox:
                 id: terms_checkbox
                 size_hint_x: None
@@ -90,14 +91,14 @@ KV = """
                 theme_text_color: 'Custom'
                 text_color: 6/255, 143/255, 236/255, 1
                 halign: 'left'
-                font_size: 15
+                font_size: dp(10)
                 valign: 'center'
                 on_touch_down: app.root.get_screen("SignupScreen").show_terms_dialog() if self.collide_point(*args[1].pos) else None
 
         BoxLayout:
             orientation: 'horizontal'
             width: "260dp"
-            height: "25dp"
+            height: "10dp"
             MDCheckbox:
                 id: kyc_checkbox
                 size_hint_x: None
@@ -105,15 +106,15 @@ KV = """
             MDLabel:
                 text: "I authorize the company to fetch my KYC details via the Central KYC(CKYC) Registry"
                 theme_text_color: 'Primary'
-                font_size: 15
+                font_size: dp(10)
                 halign: 'left'
                 valign: 'center'
 
 
         GridLayout:
             cols: 2
-            spacing: 20
-            padding: 20
+            spacing: dp(20)
+            padding: dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -126,6 +127,7 @@ KV = """
                 text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
+                font_name: "Roboto-Bold"
 
             MDRaisedButton:
                 text: "Signup"
@@ -134,19 +136,73 @@ KV = """
                 pos_hint: {'right': 1, 'y': 0.5}
                 size_hint: 1, None
                 height: "50dp"
+                font_name: "Roboto-Bold"
 
 """
 
+# Connect to the SQLite database
+conn = sqlite3.connect("user_profile.db")
+cursor = conn.cursor()
 
+# Create a table named 'users'
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        fullname TEXT,
+        email TEXT,
+        mobile_number TEXT,
+        password TEXT,
+        confirm_password TEXT,
+        accept_terms TEXT,  -- Column for the "Terms and Conditions" checkbox
+        authorize_kyc TEXT   -- Column for the "Authorize KYC" checkbox
+    )
+''')
 
-
+# Commit the changes and close the connection
+conn.commit()
+conn.close()
 
 
 class SignupScreen(Screen):
     Builder.load_string(KV)
 
+    def save_to_database(self):
+        try:
+            # Connect to the SQLite database
+            conn = sqlite3.connect("user_profile.db")
+            cursor = conn.cursor()
 
+            cursor.execute('SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1')
+            latest_user_id = cursor.fetchone()
 
+            if latest_user_id is not None:
+                next_user_id = latest_user_id[0] + 1
+            else:
+
+                next_user_id = 1000
+
+            cursor.execute('''
+                INSERT INTO users (
+                    user_id, fullname, email, mobile_number, password, confirm_password,
+                    accept_terms, authorize_kyc
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                next_user_id,
+                self.ids.name.text, self.ids.email.text, self.ids.mobile.text,
+                self.ids.password.text, self.ids.password2.text,
+                "Accepted" if self.ids.terms_checkbox.active else "Rejected",
+                "Accepted" if self.ids.kyc_checkbox.active else "Rejected"
+            ))
+
+            conn.commit()
+        except sqlite3.Error as e:
+
+            print(f"SQLite error: {e}")
+        finally:
+
+            if conn:
+                conn.close()
 
     def go_to_login(self):
         name = self.ids.name.text
@@ -188,7 +244,7 @@ class SignupScreen(Screen):
         if validation_errors:
             return
 
-
+        self.save_to_database()
 
         snackbar = Snackbar(
             text="Signup Successful!",
@@ -230,5 +286,3 @@ class SignupScreen(Screen):
 
         return bool(
             re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=])[A-Za-z\d!@#$%^&*()-_+=]+$', password))
-
-

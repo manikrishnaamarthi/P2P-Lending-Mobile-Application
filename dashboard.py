@@ -12,24 +12,15 @@ KV = """
 <DashScreen>:
     canvas.before:
         Color:
-            rgba: 174/255, 214/255, 241/255, 1
+            rgba:  1, 1, 1, 1
         Rectangle:
             pos: self.pos
             size: self.size
     Image:
-        source: "Images/LOGO.png"
+        source: "LOGO.png"
         pos_hint: {'center_x': 0.5, 'center_y': 0.8}
         size_hint: None, None
-        size: "80dp", "70dp"  # Adjust the size as needed
-        allow_stretch: True
-        keep_ratio: False
-        canvas.before:
-            StencilPush
-            Ellipse:
-                pos: self.pos
-                size: self.size
-        canvas.after:
-            StencilPop
+        size: "170dp", "170dp"
 
     Widget:
         # Widget to draw a line below the image

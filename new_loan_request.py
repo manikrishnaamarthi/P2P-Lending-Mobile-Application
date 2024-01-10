@@ -13,7 +13,7 @@ user_helpers2 = """
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
         pos_hint: {'right': 1, 'top': 1}
-        on_release: root.current()
+        on_release: app.root.current ='borrower_dashboard'
         size_hint: (0.1, 0.03)
         font_size: "13sp"
 
@@ -34,7 +34,7 @@ user_helpers2 = """
             font_name: "Roboto-Bold"
 
         Spinner:
-            padding:  10
+            padding: [10,10]
             id: tenure
             text: "Select Tenure"
             values: ["3", "6", "9", "12", "16", "24"]
