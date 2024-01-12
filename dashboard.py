@@ -55,7 +55,7 @@ KV = """
 
     MDRaisedButton:
         text: 'Continue as Borrower'
-        on_release: root.switch_screen('borrower_registration_forms')
+        on_release: root.go_to_borrower_landing()
         size_hint: (0.8, 0.07)
         height: dp(150)  # Fixed height
         pos_hint: {'center_x': 0.5, 'center_y': 0.28}
@@ -70,7 +70,7 @@ KV = """
 
     MDRaisedButton:
         text: 'Continue as Lender'
-        on_release: root.switch_screen('lender_registration_form')
+        on_release: root.go_to_lender_landing()
         size_hint: (0.8, 0.07)
         height: dp(100)  # Fixed height
         pos_hint: {'center_x': 0.5, 'center_y': 0.15}
@@ -97,3 +97,16 @@ class DashScreen(Screen):
         sm.current = screen_name
 
 
+    def go_to_lender_landing(self):
+        # Get the screen manager
+        sm = self.manager
+
+        # Access the desired screen by name and change the current screen
+        sm.current = 'LenderLanding'
+
+    def go_to_borrower_landing(self):
+        # Get the screen manager
+        sm = self.manager
+
+        # Access the desired screen by name and change the current screen
+        sm.current = 'BorrowerLanding'

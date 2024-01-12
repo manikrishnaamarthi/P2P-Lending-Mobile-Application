@@ -120,7 +120,7 @@ KV = """
 
             MDRaisedButton:
                 text: "Login"
-                on_release: root.go_to_login()
+                on_release: root.go_to_dashboard()
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1

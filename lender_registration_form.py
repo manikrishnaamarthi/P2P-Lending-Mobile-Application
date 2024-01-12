@@ -2584,5 +2584,7 @@ class LenderScreenInstitutionalBankForm1(Screen):
 
 
 class LenderScreenInstitutionalBankForm2(Screen):
+
+
     def go_to_lender_dashboard(self):
         self.manager.current = 'lender_dashboard'
