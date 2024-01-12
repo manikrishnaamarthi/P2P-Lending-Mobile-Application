@@ -20,6 +20,8 @@ from lender_registration_form import (
     LenderScreenIndividualBankForm2,LenderScreenInstitutionalBankForm1,LenderScreenInstitutionalBankForm2,
     KV
 )
+from LenderLanding import LenderLanding,LenderHowScreen,Landing
+from borrowerlanding import BorrowerLanding,BorrowerHowScreen,BorrLanding
 from lender_dashboard import (LenderDashboard, user_helpers1)
 from dashboard import DashScreen
 from new_loan_request import (NewloanScreen,NewScreen,user_helpers2)
@@ -35,6 +37,8 @@ class MyApp(MDApp):
     def build(self):
         Builder.load_string(Borrower)
         Builder.load_string(KV)
+        Builder.load_string(Landing)
+        Builder.load_string(BorrLanding)
         Builder.load_string(user_helpers)
         Builder.load_string(user_helpers1)
         Builder.load_string(user_helpers2)
@@ -48,8 +52,10 @@ class MyApp(MDApp):
         sm.add_widget(login_screen)
         sm.add_widget(signup_screen)
         sm.add_widget(DashScreen(name='dashboard'))
-        #sm.add_widget(LenderHome(name='LenderHome'))
-
+        sm.add_widget(LenderLanding(name='LenderLanding'))
+        sm.add_widget(LenderHowScreen(name='LenderHowScreen'))
+        sm.add_widget(BorrowerLanding(name='BorrowerLanding'))
+        sm.add_widget(BorrowerHowScreen(name='BorrowerHowScreen'))
         sm.add_widget(BorrowerScreen(name='borrower_registration_forms'))
         sm.add_widget(BorrowerScreen1(name='BorrowerScreen1'))
         sm.add_widget(BorrowerScreen2(name='BorrowerScreen2'))
@@ -70,6 +76,7 @@ class MyApp(MDApp):
         sm.add_widget(BorrowerScreen17(name='BorrowerScreen17'))
         sm.add_widget(BorrowerScreen18(name='BorrowerScreen18'))
         sm.add_widget(BorrowerScreen19(name='BorrowerScreen19'))
+        sm.add_widget(DashboardScreen(name='borrower_dashboard'))
         sm.add_widget(LenderScreen(name='lender_registration_form'))
         sm.add_widget(LenderScreen1(name='LenderScreen1'))
         sm.add_widget(LenderScreen2(name='LenderScreen2'))
@@ -93,8 +100,6 @@ class MyApp(MDApp):
         sm.add_widget(LenderScreenIndividualBankForm2(name='LenderScreenIndividualBankForm2'))
         sm.add_widget(LenderScreenInstitutionalBankForm1(name='LenderScreenInstitutionalBankForm1'))
         sm.add_widget(LenderScreenInstitutionalBankForm2(name='LenderScreenInstitutionalBankForm2'))
-
-        sm.add_widget(DashboardScreen(name='borrower_dashboard'))
         sm.add_widget(LenderDashboard(name='lender_dashboard'))
         sm.add_widget(NewloanScreen(name='new_loan_request'))
         sm.add_widget(NewScreen(name='new'))
