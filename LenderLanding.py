@@ -36,16 +36,16 @@ Landing = '''
 
             Label:
                 text: 'Use the power of P2P lending'
-                font_size: 18
-                font_name: r"C:\\P2P-Lending-Mobile-Application\\fonts\\static\\PlayfairDisplay-Medium.ttf"
+                font_size:dp(18)
+                font_name: "Roboto-Bold"
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.77}
                 color: 0, 0, 0, 1
 
             Label:
                 text: 'to get high returns'
-                font_size: 18
-                font_name: r"C:\\P2P-Lending-Mobile-Application\\fonts\\static\\PlayfairDisplay-Medium.ttf"
+                font_size:dp(18)
+                font_name: "Roboto-Bold"
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.74}
                 color: 0, 0, 0, 1
@@ -53,7 +53,7 @@ Landing = '''
 
             MDGridLayout:
                 cols: 2
-                spacing: 10
+                spacing:dp(10)
 
                 size_hint_y: None
                 pos_hint: {'center_x': 0.5, 'center_y': 0.53}
@@ -71,7 +71,7 @@ Landing = '''
                     width: dp(130)
                     BoxLayout:
                         orientation: 'horizontal'
-                        spacing: 10
+                        spacing:dp(10)
                         MDLabel:
                             text: "Diversification of Funds as low as $1   "
                             font_size: "14sp"
@@ -91,7 +91,7 @@ Landing = '''
                     width: dp(130)
                     BoxLayout:
                         orientation: 'horizontal'
-                        spacing: 10
+                        spacing:dp(10)
                         MDLabel:
                             text: "Investment starting $10,000 onwards"
                             font_size: "14sp"
@@ -111,7 +111,7 @@ Landing = '''
                     width: dp(130)
                     BoxLayout:
                         orientation: 'horizontal'
-                        spacing: 10
+                        spacing:dp(10)
                         MDLabel:
                             text: "Returns up to 15%"
                             font_size: "14sp"
@@ -131,7 +131,7 @@ Landing = '''
                     width: dp(130)
                     BoxLayout:
                         orientation: 'horizontal'
-                        spacing: 10
+                        spacing:dp(10)
                         MDLabel:
                             text: "Invest for 1,2,3,4,5 or 6 years"
                             font_size: "14sp"
@@ -142,7 +142,7 @@ Landing = '''
                             pos_hint: {'center_x': 0.8, 'center_y': 0.5}
             MDTextButton:
                 text: 'How do I get started?'
-                font_size: 16
+                font_size:dp(16)
                 underline: "True"
                 font_name: "Roboto"
                 bold:"True"
@@ -161,8 +161,8 @@ Landing = '''
             MDRaisedButton:
                 text: "Continue as Lender"
                 font_name: "Roboto-Bold"
-                font_size:17
-                padding: 15
+                font_size:dp(17)
+                padding:dp(15)
                 md_bg_color: 6/255, 143/255, 236/255, 1
                 pos_hint: {'center_x': 0.5, 'center_y': 0.2}
                 border_radius: [1, 1, 1, 1]
@@ -189,7 +189,7 @@ Landing = '''
             text: "Here's how it works"
 
             underline: "True"
-            font_name: r"C:\\P2P-Lending-Mobile-Application\\fonts\\static\\PlayfairDisplay-Medium.ttf"
+            font_name: "Roboto-Bold"
             font_size:"16sp"
             theme_text_color: 'Custom'
             text_color:0,0,0,1
@@ -199,7 +199,7 @@ Landing = '''
 
         MDGridLayout:
             cols: 2
-            spacing: 10
+            spacing:dp(10)
 
             size_hint_y: None
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
@@ -218,10 +218,10 @@ Landing = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "1.Registration "
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -239,10 +239,10 @@ Landing = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "2. Profile Evaluation"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -260,7 +260,7 @@ Landing = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "3. Listing On Platform"
                         font_size: 15
@@ -281,7 +281,7 @@ Landing = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "4.Funding"
                         font_size: 15
@@ -302,7 +302,7 @@ Landing = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "5.Sign Agreement With Lender"
                         font_size: 15
@@ -323,7 +323,7 @@ Landing = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "6.Disbursement"
                         font_size: 15
@@ -344,10 +344,10 @@ Landing = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "7.EMI Repayment"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -365,10 +365,10 @@ Landing = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "8.Loan Closure"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"

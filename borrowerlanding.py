@@ -36,16 +36,16 @@ BorrLanding = '''
 
             Label:
                 text: 'Get any type of loan for'
-                font_size: 18
-                font_name: r"C:\\P2P-Lending-Mobile-Application\\fonts\\static\\PlayfairDisplay-Medium.ttf"
+                font_size:dp(18)
+                font_name: "Roboto-Bold"
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.77}
                 color: 0, 0, 0, 1
 
             Label:
                 text: 'whatever you need'
-                font_size: 18
-                font_name: r"C:\\P2P-Lending-Mobile-Application\\fonts\\static\\PlayfairDisplay-Medium.ttf"
+                font_size:dp(18)
+                font_name: "Roboto-Bold"
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.74}
                 color: 0, 0, 0, 1
@@ -53,7 +53,7 @@ BorrLanding = '''
 
             MDGridLayout:
                 cols: 2
-                spacing: 10
+                spacing:dp(10)
 
                 size_hint_y: None
                 pos_hint: {'center_x': 0.5, 'center_y': 0.53}
@@ -71,7 +71,7 @@ BorrLanding = '''
                     width: dp(130)
                     BoxLayout:
                         orientation: 'horizontal'
-                        spacing: 10
+                        spacing:dp(10)
                         MDLabel:
                             text: "Disbursal in 2 Hours   "
                             font_size: "14sp"
@@ -91,7 +91,7 @@ BorrLanding = '''
                     width: dp(130)
                     BoxLayout:
                         orientation: 'horizontal'
-                        spacing: 10
+                        spacing:dp(10)
                         MDLabel:
                             text: "Flexible Loan Tenure"
                             font_size: "14sp"
@@ -111,7 +111,7 @@ BorrLanding = '''
                     width: dp(130)
                     BoxLayout:
                         orientation: 'horizontal'
-                        spacing: 10
+                        spacing:dp(10)
                         MDLabel:
                             text: "100% Digital Process"
                             font_size: "14sp"
@@ -131,7 +131,7 @@ BorrLanding = '''
                     width: dp(130)
                     BoxLayout:
                         orientation: 'horizontal'
-                        spacing: 10
+                        spacing:dp(10)
                         MDLabel:
                             text: "Direct Transfer to Bank Account"
                             font_size: "14sp"
@@ -142,7 +142,7 @@ BorrLanding = '''
                             pos_hint: {'center_x': 0.8, 'center_y': 0.5}
             MDTextButton:
                 text: 'How do I get started?'
-                font_size: 16
+                font_size:dp(16)
                 underline: "True"
                 font_name: "Roboto"
                 bold:"True"
@@ -161,8 +161,8 @@ BorrLanding = '''
             MDRaisedButton:
                 text: "Continue as Borrower"
                 font_name: "Roboto-Bold"
-                font_size:17
-                padding: 15
+                font_size:dp(17)
+                padding:dp(15)
                 md_bg_color: 6/255, 143/255, 236/255, 1
                 pos_hint: {'center_x': 0.5, 'center_y': 0.2}
                 border_radius: [1, 1, 1, 1]
@@ -189,7 +189,7 @@ BorrLanding = '''
             text: "Here's how it works"
 
             underline: "True"
-            font_name: r"C:\\P2P-Lending-Mobile-Application\\fonts\\static\\PlayfairDisplay-Medium.ttf"
+            font_name: "Roboto-Bold"
             font_size:"16sp"
             theme_text_color: 'Custom'
             text_color:0,0,0,1
@@ -199,7 +199,7 @@ BorrLanding = '''
 
         MDGridLayout:
             cols: 2
-            spacing: 10
+            spacing:dp(10)
 
             size_hint_y: None
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
@@ -218,10 +218,10 @@ BorrLanding = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "1.Registration "
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -239,10 +239,10 @@ BorrLanding = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "2. Invest Profile Approval"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -260,10 +260,10 @@ BorrLanding = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "3. View Loan Listing"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -281,10 +281,10 @@ BorrLanding = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "4.Fund Loans"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -302,7 +302,7 @@ BorrLanding = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "5.Sign Agreement With Borrower"
                         font_size: 15
@@ -323,7 +323,7 @@ BorrLanding = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "6.Disbursement"
                         font_size: 15
@@ -344,10 +344,10 @@ BorrLanding = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "7.EMI Profit Realization"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -365,10 +365,10 @@ BorrLanding = '''
                 width: dp(120)
                 BoxLayout:
                     orientation: 'horizontal'
-                    spacing: 10
+                    spacing:dp(10)
                     MDLabel:
                         text: "8.Further Reinvestment"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"

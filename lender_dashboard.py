@@ -13,7 +13,7 @@ user_helpers1 = """
             title: "Lender DashBoard"
             elevation: 4
             left_action_items: [['menu', lambda x: app.navigation_draw()]]
-            right_action_items: [['clock', lambda x: app.navigation_draw()]]
+            right_action_items: [['logout', lambda x: app.homepage()]]
 
         MDGridLayout:
             cols: 2
@@ -169,4 +169,6 @@ user_helpers1 = """
 """
 
 class LenderDashboard(Screen):
-    pass
+
+    def homepage(self):
+        self.manager.current = 'MainScreen'

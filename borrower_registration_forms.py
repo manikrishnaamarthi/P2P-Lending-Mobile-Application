@@ -11,21 +11,22 @@ Borrower = '''
 <BorrowerScreen>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1 
+        text_color: 1, 1, 1, 1 
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
     BoxLayout:
         orientation: 'vertical'
         padding: "40dp"
         MDLabel:
             text: 'Borrower Registration Form'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
-            bold: True
+            font_name: "Roboto-Bold"
 
         MDTextField:
             id: username
@@ -52,13 +53,13 @@ Borrower = '''
             bold: True
 
         Spinner:
-            padding:  10
+            padding:dp(10)
             id: gender_id
             text: "Select Gender"
             values: ["Male", "Female", "Others"]
             multiline: False
             size_hint: 1 , None
-            bold: True
+            
             background_color: 1, 1 ,1, 0 
             color: 0, 0, 0, 1
             canvas.before:
@@ -98,7 +99,7 @@ Borrower = '''
 
             MDRaisedButton:
                 text: 'Next'
-                text_color: 0, 0, 0, 1  # Black text color
+                text_color: 1, 1, 1, 1  # Black text color
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 size_hint: 1, None
                 height: "50dp"
@@ -109,13 +110,14 @@ Borrower = '''
 
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1
+        text_color: 1, 1, 1, 1
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     BoxLayout:
         orientation: 'vertical'
@@ -123,9 +125,9 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
-            bold: True
+            font_name: "Roboto-Bold"
 
         MDTextField:
             id: alternate_mobile_number
@@ -168,8 +170,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -197,13 +199,14 @@ Borrower = '''
 
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1
+        text_color: 1, 1, 1, 1
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     BoxLayout:
         orientation: 'vertical'
@@ -211,10 +214,9 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
-            bold: True
-
+            font_name: "Roboto-Bold"
         MDTextField:
             id: aadhar_number
             hint_text: 'Enter Gov ID1 Number '
@@ -268,8 +270,7 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -287,6 +288,7 @@ Borrower = '''
                 text: "Next"
                 on_release: app.root.current = 'BorrowerScreen3'
                 md_bg_color: 0.031, 0.463, 0.91, 1
+                text_color: 1, 1, 1, 1
                 pos_hint: {'right': 1, 'y': 0.5}
                 size_hint: 1, None
                 height: "50dp"
@@ -297,13 +299,14 @@ Borrower = '''
 <BorrowerScreen3>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
         padding: dp(10)
 
     BoxLayout:
@@ -312,7 +315,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form Address'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -379,8 +382,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -398,6 +401,7 @@ Borrower = '''
                 text: "Next"
                 on_release: app.root.current = 'BorrowerScreen4'
                 md_bg_color: 0.031, 0.463, 0.91, 1
+                text_color: 1, 1, 1, 1
                 pos_hint: {'right': 1, 'y': 0.5}
                 size_hint: 1, None
                 height: "50dp"
@@ -408,13 +412,14 @@ Borrower = '''
 <BorrowerScreen4>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
         padding: dp(10)
 
     BoxLayout:
@@ -423,7 +428,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form Father Information'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -478,8 +483,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -497,7 +502,7 @@ Borrower = '''
                 text: "Next"
                 on_release: app.root.current = 'BorrowerScreen5'
                 md_bg_color: 0.031, 0.463, 0.91, 1
-                pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
         Label:
@@ -506,13 +511,14 @@ Borrower = '''
 <BorrowerScreen5>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
         padding: dp(10)
 
     BoxLayout:
@@ -521,7 +527,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form Mother Information'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -576,8 +582,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -595,6 +601,7 @@ Borrower = '''
                 text: "Next"
                 on_release: app.root.current = 'BorrowerScreen6'
                 md_bg_color: 0.031, 0.463, 0.91, 1
+                text_color: 1, 1, 1, 1
                 pos_hint: {'right': 1, 'y': 0.5}
                 size_hint: 1, None
                 height: "50dp"
@@ -605,13 +612,14 @@ Borrower = '''
 <BorrowerScreen6>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
         padding: dp(10)
 
     BoxLayout:
@@ -620,7 +628,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form Mother Information'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -642,8 +650,8 @@ Borrower = '''
                     rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -661,6 +669,7 @@ Borrower = '''
                 text: "Next"
                 on_press: root.next_pressed(spinner_id.text)
                 md_bg_color: 0.031, 0.463, 0.91, 1
+                text_color: 1, 1, 1, 1
                 pos_hint: {'right': 1, 'y': 0.5}
                 size_hint: 1, None
                 height: "50dp"
@@ -670,13 +679,14 @@ Borrower = '''
 <BorrowerScreen7>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
         padding: dp(10)
 
     BoxLayout:
@@ -740,8 +750,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -760,6 +770,7 @@ Borrower = '''
                 on_release: app.root.current='BorrowerScreen15'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
         Label:
@@ -768,13 +779,14 @@ Borrower = '''
 <BorrowerScreen8>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1 
+        text_color: 1, 1, 1, 1 
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
         padding: dp(10)
 
     BoxLayout:
@@ -783,13 +795,13 @@ Borrower = '''
 
         MDLabel:
             text: 'Business Type'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
         MDLabel:
             text: 'STEP-1'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -846,8 +858,8 @@ Borrower = '''
             markup: True
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -865,6 +877,7 @@ Borrower = '''
                 text: "Next"
                 on_release: app.root.current = 'BorrowerScreen9'
                 md_bg_color: 0.031, 0.463, 0.91, 1
+                text_color: 1, 1, 1, 1
                 pos_hint: {'right': 1, 'y': 0.5}
                 size_hint: 1, None
                 height: "50dp"
@@ -874,13 +887,14 @@ Borrower = '''
 <BorrowerScreen9>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
         padding: dp(10)
 
     BoxLayout:
@@ -889,7 +903,7 @@ Borrower = '''
 
         MDLabel:
             text: 'STEP-2'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -947,8 +961,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -967,6 +981,7 @@ Borrower = '''
                 on_release: app.root.current = 'BorrowerScreen10'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
         Label:
@@ -976,13 +991,14 @@ Borrower = '''
 <BorrowerScreen10>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
         padding: dp(10)
 
     BoxLayout:
@@ -991,7 +1007,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Step-3'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -1021,7 +1037,7 @@ Borrower = '''
 
         MDLabel:
             text: "Last 6 months Bank Statements"
-            font_size: 22
+            font_size:dp(22)
             halign: 'center'
 
         MDRectangleFlatButton:
@@ -1040,8 +1056,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -1072,7 +1088,8 @@ Borrower = '''
         text_color: 0, 0, 0, 1 
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
@@ -1170,7 +1187,8 @@ Borrower = '''
         text_color: 0, 0, 0, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
@@ -1274,7 +1292,8 @@ Borrower = '''
         text_color: 0, 0, 0, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
@@ -1383,7 +1402,8 @@ Borrower = '''
         text_color: 0, 0, 0, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
@@ -1492,7 +1512,8 @@ Borrower = '''
         text_color: 0, 0, 0, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
@@ -1555,7 +1576,8 @@ Borrower = '''
         text_color: 0, 0, 0, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
@@ -1653,7 +1675,8 @@ Borrower = '''
         text_color: 0, 0, 0, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
@@ -1750,7 +1773,8 @@ Borrower = '''
         text_color: 0, 0, 0, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
@@ -1851,7 +1875,8 @@ Borrower = '''
         text_color: 0, 0, 0, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
         on_release: app.root.current()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
