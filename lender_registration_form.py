@@ -10,13 +10,14 @@ KV = '''
 <LenderScreen>:# lender_module/lender_registration_form.py
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
 
     MDBoxLayout:
@@ -26,15 +27,19 @@ KV = '''
         MDLabel:
             text:""
             size_hint_y: None
-            height: 50
-
+            height:dp(50)
+        MDLabel:
+            text:""
+            size_hint_y: None
+            height:dp(50)
 
         MDLabel:
             text: 'Lender Registration Form'
             halign: 'center'
-            bold: True
+            font_size: "20dp"
+            font_name: "Roboto-Bold"
             size_hint_y: None
-            height: 50
+            height:dp(50)
 
         MDTextField:
             id: username
@@ -80,7 +85,7 @@ KV = '''
                 text: 'Next'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -90,13 +95,14 @@ KV = '''
 <LenderScreen1>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top':0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -105,14 +111,19 @@ KV = '''
         MDLabel:
             text: ""
             size_hint_y: None
-            height: 100
+            height:dp(50)
+        MDLabel:
+            text: ""
+            size_hint_y: None
+            height:dp(50)
 
         MDLabel:
             text: 'Lender Registration Form'
             halign: 'center'
-            bold: True
+            font_size: "20sp"
+            font_name: "Roboto-Bold"
             size_hint_y: None
-            height: 50
+            height:dp(50)
 
         MDTextField:
             id: username
@@ -121,27 +132,44 @@ KV = '''
             helper_text: 'Enter valid number'
             helper_text_mode: 'on_focus'
             font_name: "Roboto-Bold"
-            hint_text_color: 0, 0, 0, 1
+            hint_text_color: 0,0,0, 1
 
         MDTextField:
             id: username
-            hint_text: 'Enter alternate email'
+            hint_text: 'Enter your alternate email'
             multiline: False
-            helper_text: 'Enter valid email'
+            helper_text: 'Enter your valid email_id'
             helper_text_mode: 'on_focus'
             hint_text_color: 0, 0, 0, 1
             font_name: "Roboto-Bold"
+        
+        Spinner:
+            id: spinner_id
+            text: "Please Select your References"
+            values: ["Select your References" ,"Google", "Facebook", "Ads","Electronic media","Others"]
+            multiline:False
+            size_hint_y: (None)
+            background_color: (0,0,0,0)
+            background_normal: ''
+            color: 0,0,0,1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  # Border color (black in this example)
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
+        
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
 
             MDRaisedButton:
                 text: "Back"
                 on_release: app.root.current = 'lender_registration_form'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -151,7 +179,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreen2'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -159,11 +187,12 @@ KV = '''
 <LenderScreen2>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
 
@@ -174,12 +203,13 @@ KV = '''
         MDLabel:
             text:""
             size_hint_y: None
-            height: 50
+            height:dp(50)
 
         MDLabel:
             text: 'Lender Registration Form'
             halign: 'center'
-            bold: True                
+            font_size: "20sp"
+            font_name: "Roboto-Bold"               
 
         MDTextField:
             id: aadhar_number
@@ -271,14 +301,14 @@ KV = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
 
             MDRaisedButton:
                 text: "Back"
                 on_release: app.root.current = 'LenderScreen1'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -288,7 +318,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreen3'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -296,29 +326,30 @@ KV = '''
 <LenderScreen3>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
 
-    BoxLayout:
+    MDBoxLayout:
         orientation: 'vertical'
         spacing: dp(30)
         padding: dp(50)
         MDLabel:
-            text: ""
+            text:""
             size_hint_y: None
-            height: 100
-
+            height:dp(50)
+        
+        
         MDLabel:
             text: 'Lender Registration Form'
             halign: 'center'
-            bold: True
-            size_hint_y: None
-            height: 50 
+            font_size: "20dp"
+            font_name: "Roboto-Bold"               
 
         MDLabel:
             text: 'Education Details'
@@ -327,7 +358,7 @@ KV = '''
 
         Spinner:
             id: spinner_id
-            text: "select education details"
+            text: "Please Select Education Details"
             values: ["Select Education Details", "10th class", "Intermediate", "Bachelors", "Masters", "PHD"]
             multiline:False
             size_hint_y: (None)
@@ -343,14 +374,14 @@ KV = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
 
             MDRaisedButton:
                 text: "Back"
                 on_release: app.root.current = 'LenderScreen2'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -360,7 +391,7 @@ KV = '''
                 on_press: root.next_pressed(spinner_id.text)
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -371,13 +402,13 @@ KV = '''
 <LenderScreen_Edu_10th>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
 
     BoxLayout:
@@ -394,7 +425,7 @@ KV = '''
             halign: 'center'
             bold: True
             size_hint_y: None
-            height: 50
+            height:dp(50)
 
         MDLabel:
             text: "Upload 10th class certificate"
@@ -402,7 +433,7 @@ KV = '''
             halign: 'center'
             bold:True
             size_hint_y: None
-            height: 50
+            height:dp(50)
 
 
         BoxLayout:
@@ -441,14 +472,14 @@ KV = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
 
             MDRaisedButton:
                 text: "Back"
                 on_release: app.root.current = 'LenderScreen3'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -458,7 +489,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreen4'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -466,13 +497,14 @@ KV = '''
 <LenderScreen_Edu_Intermediate>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -573,7 +605,7 @@ KV = '''
 
             GridLayout:
                 cols: 2
-                spacing: 30
+                spacing:dp(30)
                 padding: [0, "30dp", 0, 0]
 
                 MDRaisedButton:
@@ -581,7 +613,7 @@ KV = '''
                     on_release: app.root.current = 'LenderScreen3'
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
+                    text_color: 1, 1, 1, 1
                     size_hint: 1, None
                     height: "50dp"
                     font_name: "Roboto-Bold"
@@ -591,7 +623,7 @@ KV = '''
                     on_release: app.root.current = 'LenderScreen4'
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
+                    text_color: 1, 1, 1, 1
                     size_hint: 1, None
                     height: "50dp"
                     font_name: "Roboto-Bold"
@@ -599,13 +631,14 @@ KV = '''
 <LenderScreen_Edu_Bachelors>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -739,7 +772,7 @@ KV = '''
 
             GridLayout:
                 cols: 2
-                spacing: 30
+                spacing:dp(30)
                 padding: [0, "30dp", 0, 0]
 
                 MDRaisedButton:
@@ -747,7 +780,7 @@ KV = '''
                     on_release: app.root.current = 'LenderScreen3'
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
+                    text_color: 1, 1, 1, 1
                     size_hint: 1, None
                     height: "50dp"
                     font_name: "Roboto-Bold"
@@ -757,7 +790,7 @@ KV = '''
                     on_release: app.root.current = 'LenderScreen4'
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
+                    text_color: 1, 1, 1, 1
                     size_hint: 1, None
                     height: "50dp"
                     font_name: "Roboto-Bold"
@@ -765,13 +798,14 @@ KV = '''
 <LenderScreen_Edu_Masters>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -948,7 +982,7 @@ KV = '''
 
             GridLayout:
                 cols: 2
-                spacing: 30
+                spacing:dp(30)
                 padding: [0, "30dp", 0, 0]
 
                 MDRaisedButton:
@@ -956,7 +990,7 @@ KV = '''
                     on_release: app.root.current = 'LenderScreen3'
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
+                    text_color: 1, 1, 1, 1
                     size_hint: 1, None
                     height: "50dp"
                     font_name: "Roboto-Bold"
@@ -966,7 +1000,7 @@ KV = '''
                     on_release: app.root.current = 'LenderScreen4'
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
+                    text_color: 1, 1, 1, 1
                     size_hint: 1, None
                     height: "50dp"
                     font_name: "Roboto-Bold"
@@ -974,13 +1008,14 @@ KV = '''
 <LenderScreen_Edu_PHD>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1191,7 +1226,7 @@ KV = '''
 
             GridLayout:
                 cols: 2
-                spacing: 30
+                spacing:dp(30)
                 padding: [0, "30dp", 0, 0]
 
                 MDRaisedButton:
@@ -1199,7 +1234,7 @@ KV = '''
                     on_release: app.root.current = 'LenderScreen3'
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
+                    text_color: 1, 1, 1, 1
                     size_hint: 1, None
                     height: "50dp"
                     font_name: "Roboto-Bold"
@@ -1209,31 +1244,31 @@ KV = '''
                     on_release: app.root.current = 'LenderScreen4'
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 0, 0, 0, 1
+                    text_color: 1, 1, 1, 1
                     size_hint: 1, None
                     height: "50dp"
                     font_name: "Roboto-Bold"
 <LenderScreen4>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
-        spacing: dp(10)
-        padding: dp(50)
-        
+        padding: dp(30)  # Reduce the top padding
 
         MDLabel:
             text: 'Lender Registration Form'
             halign: 'center'
-            bold: True
+            font_name: "Roboto-Bold"
+            font_size: "20dp"
         MDLabel:
             text: 'Address'
             halign: 'center'
@@ -1245,8 +1280,6 @@ KV = '''
             multiline: False
             helper_text: 'Enter valid address'
             helper_text_mode: 'on_focus'
-            
-
 
         MDTextField:
             id: city
@@ -1254,23 +1287,21 @@ KV = '''
             multiline: False
             helper_text_mode: 'on_focus'
             size_hint_y: None
-            
+
         MDTextField:
             id: Zip_code
             hint_text: 'Enter postal/zipcode '
             multiline: False
-
             helper_text_mode: 'on_focus'
             size_hint_y: None
-            
+
         MDTextField:
             id: state
             hint_text: 'Enter State Name'
             multiline: False
-
             helper_text_mode: 'on_focus'
             size_hint_y: None
-            
+
         MDTextField:
             id: country
             hint_text: 'Enter Country Name'
@@ -1279,7 +1310,7 @@ KV = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing: dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -1287,7 +1318,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreen3'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1297,7 +1328,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreen5'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1305,23 +1336,25 @@ KV = '''
 <LenderScreen5>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
-        spacing: dp(30)
+        spacing: dp(20)
         padding: dp(50)
 
         MDLabel:
             text: 'Lender Registration Form'
+            font_size: "20dp"
             halign: 'center'
-            bold: True
+            font_name: "Roboto-Bold"
 
         Spinner:
             id: spinner_id
@@ -1341,15 +1374,15 @@ KV = '''
 
         MDTextField:
             id: investment
-            hint_text: 'Enter investment '
+            hint_text: 'Enter investment Amount '
             multiline: False
-            helper_text: 'Enter above 10000'
+            helper_text: 'Enter above 100000'
             helper_text_mode: 'on_focus'
 
         Spinner:
             id: spinner2
             text: "Select Lending Period"
-            values: ["Select Lending Period","1year", "1-2years", "2-3years", "3-4years", "above 5years"]
+            values: ["Select Lending Period","1-year", "1-2 years", "2-3 years", "3-4 years", "5-years Above"]
             multiline:False
             size_hint_y: (None)
             background_color: (0,0,0,0)
@@ -1364,7 +1397,7 @@ KV = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -1372,7 +1405,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreen4'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1382,7 +1415,7 @@ KV = '''
                 on_press: root.next_pressed(spinner_id.text)
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1390,13 +1423,14 @@ KV = '''
 <LenderScreenInstitutionalForm1>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        font_name: "Roboto-Bold"
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1413,7 +1447,7 @@ KV = '''
             halign: 'center'
             bold: True
             size_hint_y: None
-            height: 50
+            height:dp(50)
 
 
         MDLabel:
@@ -1428,8 +1462,6 @@ KV = '''
             helper_text_mode: 'on_focus'
             size_hint_y: None
             
-
-
         MDTextField:
             id: business_location
             hint_text: 'Enter business location'
@@ -1454,7 +1486,7 @@ KV = '''
             
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -1462,7 +1494,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreen5'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1472,7 +1504,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenInstitutionalForm2'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1481,13 +1513,14 @@ KV = '''
 
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        font_name: "Roboto-Bold"
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1502,7 +1535,7 @@ KV = '''
 
         Spinner:
             id: spin
-            text: "Select Business Type"
+            text: "Please Select Business Type"
             values: ["Select Business Type","Partnership", "Cooperation", "Cooperative", "Solo Proprietorship", "Cash", "Cheque", "Online Transaction", "Limited Liability Company"]
             multiline:False
             background_color: (0,0,0,0)
@@ -1546,7 +1579,7 @@ KV = '''
             
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -1554,7 +1587,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenInstitutionalForm1'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1564,7 +1597,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenInstitutionalForm3'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1573,13 +1606,14 @@ KV = '''
 <LenderScreenInstitutionalForm3>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        font_name: "Roboto-Bold"
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1656,7 +1690,7 @@ KV = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -1664,7 +1698,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenInstitutionalForm2'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1674,7 +1708,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenInstitutionalForm4'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1682,13 +1716,14 @@ KV = '''
 <LenderScreenInstitutionalForm4>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        font_name: "Roboto-Bold"
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1730,7 +1765,7 @@ KV = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -1738,7 +1773,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenInstitutionalForm3'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1748,7 +1783,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenInstitutionalForm5'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1756,13 +1791,14 @@ KV = '''
 <LenderScreenInstitutionalForm5>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        font_name: "Roboto-Bold"
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1828,7 +1864,7 @@ KV = '''
             
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -1836,7 +1872,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenInstitutionalForm4'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1846,7 +1882,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenInstitutionalBankForm1'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1856,13 +1892,14 @@ KV = '''
 
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1871,12 +1908,13 @@ KV = '''
         MDLabel:
             text: ""
             size_hint_y: None
-            height: 50
+            height:dp(50)
                     
         MDLabel:
             text: 'Individual Type'
             halign: 'center'
-            bold: True
+            font_size: "20dp"
+            font_name: "Roboto-Bold"
 
         MDLabel:
             text: 'Employment Details'
@@ -1886,8 +1924,8 @@ KV = '''
 
         Spinner:
             id: spinner1
-            text: "Employment Type"
-            values: ["Employment Type","Intern", "Full Time", "Contract"]
+            text: "Please Select Employment Type"
+            values: ["Employment Type","Full-Time", "Part-Time","Contract","Freelance","Intern"]
             multiline:False
             size_hint_y: (None)
             background_color: (0,0,0,0)
@@ -1903,15 +1941,15 @@ KV = '''
 
         MDTextField:              
             id:company_name
-            hint_text: 'Enter company_name'
+            hint_text: 'Enter company name'
             multiline: False                        
             helper_text_mode: 'on_focus'
             size_hint_y: None
             
         Spinner:
             id: spinner2
-            text: "Select Organisation Type"
-            values: ["Select Organisation Type","Public", "Private", "Cooperation", "Partnership"]
+            text: "Please Select Organisation Type"
+            values: ["Select Organisation Type","Cooperation","Partnership","Sole proprietorship","Hierarchical Organization"]
             multiline:False
             size_hint_y: (None)
             background_color: (0,0,0,0)
@@ -1926,7 +1964,7 @@ KV = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -1934,7 +1972,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreen5'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -1944,22 +1982,22 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenIndividualForm2'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
-                font_name: "Roboto-Bold"     
-
+                font_name: "Roboto-Bold"
 <LenderScreenIndividualForm2>:
     name: 'len_reg_individual_form2'
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1968,12 +2006,13 @@ KV = '''
         MDLabel:
             text: ""
             size_hint_y: None
-            height: 50
+            height:dp(50)
         
         MDLabel:
             text: 'Employment Details'
             halign: 'center'
-            bold: True   
+            font_size: "20dp"
+            font_name: "Roboto-Bold"
         MDTextField:              
             id:company_address
             hint_text: 'Enter company address'
@@ -2011,7 +2050,7 @@ KV = '''
             
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -2019,7 +2058,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenIndividualForm1'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -2029,7 +2068,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenIndividualForm3'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -2037,13 +2076,14 @@ KV = '''
 <LenderScreenIndividualForm3>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2053,7 +2093,8 @@ KV = '''
         MDLabel:
             text: 'Employment Details'
             halign: 'center'
-            bold: True   
+            font_name: "Roboto-Bold"
+            font_size: "20dp"   
         MDTextField:              
             id:annual_salary
             hint_text: 'Enter annual salary'
@@ -2148,7 +2189,7 @@ KV = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -2156,7 +2197,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenIndividualForm2'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -2166,7 +2207,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenIndividualBankForm1'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"        
@@ -2176,13 +2217,14 @@ KV = '''
 
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2192,7 +2234,8 @@ KV = '''
         MDLabel:
             text: 'Applicant Bank Details'
             halign: 'center'
-            bold: True
+            font_size: "20dp"
+            font_name: "Roboto-Bold"
 
         MDTextField:
             id: account_holder_name
@@ -2204,8 +2247,8 @@ KV = '''
             
         Spinner:
             id: spinner_id
-            text: "Select Account Type"
-            values: ["Select Account Type","Savings", "Current", "NRI"]
+            text: "Please Select Account Type"
+            values: ["Select Account Type","Savings", "Current", "NRI","Joint Account","Salary"]
             multiline:False
             size_hint_y: (None)
             background_color: (0,0,0,0)
@@ -2236,7 +2279,7 @@ KV = '''
             
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -2244,7 +2287,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenIndividualForm3'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -2254,7 +2297,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenIndividualBankForm2'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold" 
@@ -2262,13 +2305,14 @@ KV = '''
 <LenderScreenIndividualBankForm2>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2278,7 +2322,8 @@ KV = '''
         MDLabel:
             text: 'Applicant Bank Details'
             halign: 'center'
-            bold: True
+            font_size: "20dp"
+            font_name: "Roboto-Bold"
 
         MDTextField:
             id: ifsc_code
@@ -2297,7 +2342,7 @@ KV = '''
             
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -2305,7 +2350,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenIndividualBankForm1'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -2315,7 +2360,7 @@ KV = '''
                 on_release: root.go_to_lender_dashboard()
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold" 
@@ -2326,13 +2371,14 @@ KV = '''
     name: 'len_reg_institutional_bank_form1'
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2342,8 +2388,8 @@ KV = '''
         MDLabel:
             text: 'Applicant Bank Details'
             halign: 'center'
-            bold: True
-
+            font_size: "20dp"
+            font_name: "Roboto-Bold"
         MDTextField:
             id: account_holder_name
             hint_text: 'Enter account holder name '
@@ -2354,8 +2400,8 @@ KV = '''
             
         Spinner:
             id: spinner_id
-            text: "Select Account Type"
-            values: ["Select Account Type","Savings", "Current", "NRI"]
+            text: "Please Select Account Type"
+            values: ["Select Account Type", "Current","Escrow Account","Payroll Account"]
             multiline:False
             size_hint_y: (None)
             background_color: (0,0,0,0)
@@ -2387,7 +2433,7 @@ KV = '''
             
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -2395,7 +2441,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenInstitutionalForm5'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -2405,7 +2451,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenInstitutionalBankForm2'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"   
@@ -2413,13 +2459,14 @@ KV = '''
 <LenderScreenInstitutionalBankForm2>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.go_home()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
-        font_size: "13sp"
+        font_size: "13dp"
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2429,7 +2476,8 @@ KV = '''
         MDLabel:
             text: 'Applicant Bank Details'
             halign: 'center'
-            bold: True
+            font_size: "20dp"
+            font_name: "Roboto-Bold"
 
         MDTextField:
             id: ifsc_code
@@ -2448,7 +2496,7 @@ KV = '''
             
         GridLayout:
             cols: 2
-            spacing: 30
+            spacing:dp(30)
             padding: [0, "30dp", 0, 0]
 
             MDRaisedButton:
@@ -2456,7 +2504,7 @@ KV = '''
                 on_release: app.root.current = 'LenderScreenInstitutionalBankForm1'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -2466,7 +2514,7 @@ KV = '''
                 on_release: root.go_to_lender_dashboard()
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
-                text_color: 0, 0, 0, 1
+                text_color: 1, 1, 1, 1
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
@@ -2476,15 +2524,18 @@ KV = '''
 
 
 class LenderScreen(Screen):
-    pass
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 
 class LenderScreen1(Screen):
-    pass
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 
 class LenderScreen2(Screen):
-    pass
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 
 class LenderScreen3(Screen):
@@ -2503,30 +2554,37 @@ class LenderScreen3(Screen):
         elif id == 'PHD':
             self.manager.current = 'LenderScreen_Edu_PHD'
         print(id)
-
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 class LenderScreen_Edu_10th(Screen):
-    pass
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 
 class LenderScreen_Edu_Intermediate(Screen):
-    pass
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 
 class LenderScreen_Edu_Bachelors(Screen):
-    pass
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 
 class LenderScreen_Edu_Masters(Screen):
-    pass
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 
 class LenderScreen_Edu_PHD(Screen):
-    pass
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 
 class LenderScreen4(Screen):
-    pass
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 
 class LenderScreen5(Screen):
@@ -2537,54 +2595,63 @@ class LenderScreen5(Screen):
         elif id == 'Institutional':
             self.manager.current = 'LenderScreenInstitutionalForm1'
 
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 class LenderScreenInstitutionalForm1(Screen):
-    pass
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 
 class LenderScreenInstitutionalForm2(Screen):
-    pass
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 
 class LenderScreenInstitutionalForm3(Screen):
-    pass
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 
 class LenderScreenInstitutionalForm4(Screen):
-    pass
-
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 class LenderScreenInstitutionalForm5(Screen):
-    pass
-
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 class LenderScreenIndividualForm1(Screen):
-    pass
-
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 class LenderScreenIndividualForm2(Screen):
-    pass
-
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 class LenderScreenIndividualForm3(Screen):
-    pass
-
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 class LenderScreenIndividualBankForm1(Screen):
-    pass
-
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 class LenderScreenIndividualBankForm2(Screen):
     def go_to_lender_dashboard(self):
         self.manager.current = 'lender_dashboard'
-
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 class LenderScreenInstitutionalBankForm1(Screen):
-    pass
-
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
 
 class LenderScreenInstitutionalBankForm2(Screen):
 
 
     def go_to_lender_dashboard(self):
         self.manager.current = 'lender_dashboard'
+
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'

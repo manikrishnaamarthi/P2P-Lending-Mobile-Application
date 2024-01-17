@@ -162,5 +162,5 @@ class MainScreen(Screen):
         self.manager.current = 'SignupScreen'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'LoginScreen'
 
