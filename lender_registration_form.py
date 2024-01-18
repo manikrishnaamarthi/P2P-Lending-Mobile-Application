@@ -2559,7 +2559,7 @@ KV = '''
 '''
 
 
-conn = sqlite3.connect("user_profile.db")
+conn = sqlite3.connect("fin_user_profile.db")
 cursor = conn.cursor()
 
 
@@ -2578,7 +2578,7 @@ class LenderScreen(Screen):
         self.ids.date_textfield.text = f'{the_date.year}-{the_date.month}-{the_date.day}'
 
     def add_data(self, name, gender, date):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -2589,7 +2589,7 @@ class LenderScreen(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET name = ?, gender = ?, date_of_birth = ?, user_type = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET name = ?, gender = ?, date_of_birth = ?, user_type = ? WHERE customer_id = ?",
             (name, gender, date, b, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreen1'
@@ -2597,7 +2597,7 @@ class LenderScreen(Screen):
 
 class LenderScreen1(Screen):
     def add_data(self, mobile_number, alternate_email):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -2606,7 +2606,7 @@ class LenderScreen1(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET mobile_number = ?, alternate_email = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET mobile_number = ?, alternate_email = ? WHERE customer_id = ?",
                        (mobile_number, alternate_email, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreen2'
@@ -2638,7 +2638,7 @@ class LenderScreen2(Screen):
         self.exit_manager_1()
 
     def update_data_with_file_1(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -2647,7 +2647,7 @@ class LenderScreen2(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET aadhar_file = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET aadhar_file = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
 
@@ -2673,7 +2673,7 @@ class LenderScreen2(Screen):
         self.exit_manager_2()
 
     def update_data_with_file_2(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -2682,7 +2682,7 @@ class LenderScreen2(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET pan_file = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET pan_file = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label2.text = 'Upload Successfully'
@@ -2696,7 +2696,7 @@ class LenderScreen2(Screen):
             self.file_manager_open_2()
 
     def add_data(self, aadhar_number, pan_number):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -2705,7 +2705,7 @@ class LenderScreen2(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET aadhar_number = ?, pan_number = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET aadhar_number = ?, pan_number = ? WHERE customer_id = ?",
                        (aadhar_number, pan_number, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreen3'
@@ -2729,7 +2729,7 @@ class LenderScreen3(Screen):
         elif id == 'PHD':
             self.manager.current = 'LenderScreen_Edu_PHD'
         print(id)
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -2737,7 +2737,7 @@ class LenderScreen3(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE registration_table SET highest_qualification = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET highest_qualification = ? WHERE customer_id = ?",
                        (id, row_id_list[log_index]))
         conn.commit()
 
@@ -2763,7 +2763,7 @@ class LenderScreen_Edu_10th(Screen):
         self.exit_manager_1()
 
     def update_data_with_file_1(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -2772,7 +2772,7 @@ class LenderScreen_Edu_10th(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
@@ -2812,7 +2812,7 @@ class LenderScreen_Edu_Intermediate(Screen):
         self.exit_manager_1()
 
     def update_data_with_file_1(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -2820,7 +2820,7 @@ class LenderScreen_Edu_Intermediate(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
@@ -2845,7 +2845,7 @@ class LenderScreen_Edu_Intermediate(Screen):
         self.exit_manager_2()
 
     def update_data_with_file_2(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -2854,7 +2854,7 @@ class LenderScreen_Edu_Intermediate(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET inter_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label2.text = 'Upload Successfully'
@@ -2899,7 +2899,7 @@ class LenderScreen_Edu_Bachelors(Screen):
         self.exit_manager_1()
 
     def update_data_with_file_1(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -2907,7 +2907,7 @@ class LenderScreen_Edu_Bachelors(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
@@ -2932,7 +2932,7 @@ class LenderScreen_Edu_Bachelors(Screen):
         self.exit_manager_2()
 
     def update_data_with_file_2(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -2941,7 +2941,7 @@ class LenderScreen_Edu_Bachelors(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET inter_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label2.text = 'Upload Successfully'
@@ -2964,7 +2964,7 @@ class LenderScreen_Edu_Bachelors(Screen):
         self.exit_manager_3()
 
     def update_data_with_file_3(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -2973,7 +2973,7 @@ class LenderScreen_Edu_Bachelors(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label3.text = 'Upload Successfully'
@@ -3023,7 +3023,7 @@ class LenderScreen_Edu_Masters(Screen):
         self.exit_manager_1()
 
     def update_data_with_file_1(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3031,7 +3031,7 @@ class LenderScreen_Edu_Masters(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
@@ -3056,7 +3056,7 @@ class LenderScreen_Edu_Masters(Screen):
         self.exit_manager_2()
 
     def update_data_with_file_2(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3065,7 +3065,7 @@ class LenderScreen_Edu_Masters(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET inter_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label2.text = 'Upload Successfully'
@@ -3088,7 +3088,7 @@ class LenderScreen_Edu_Masters(Screen):
         self.exit_manager_3()
 
     def update_data_with_file_3(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3097,7 +3097,7 @@ class LenderScreen_Edu_Masters(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label3.text = 'Upload Successfully'
@@ -3120,7 +3120,7 @@ class LenderScreen_Edu_Masters(Screen):
         self.exit_manager_4()
 
     def update_data_with_file_4(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3128,7 +3128,7 @@ class LenderScreen_Edu_Masters(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE registration_table SET masters_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET masters_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label4.text = 'Upload Successfully'
@@ -3183,7 +3183,7 @@ class LenderScreen_Edu_PHD(Screen):
         self.exit_manager_1()
 
     def update_data_with_file_1(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3191,7 +3191,7 @@ class LenderScreen_Edu_PHD(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
@@ -3216,7 +3216,7 @@ class LenderScreen_Edu_PHD(Screen):
         self.exit_manager_2()
 
     def update_data_with_file_2(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3225,7 +3225,7 @@ class LenderScreen_Edu_PHD(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET inter_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label2.text = 'Upload Successfully'
@@ -3248,7 +3248,7 @@ class LenderScreen_Edu_PHD(Screen):
         self.exit_manager_3()
 
     def update_data_with_file_3(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3257,7 +3257,7 @@ class LenderScreen_Edu_PHD(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label3.text = 'Upload Successfully'
@@ -3280,7 +3280,7 @@ class LenderScreen_Edu_PHD(Screen):
         self.exit_manager_4()
 
     def update_data_with_file_4(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3289,7 +3289,7 @@ class LenderScreen_Edu_PHD(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET masters_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET masters_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label4.text = 'Upload Successfully'
@@ -3312,7 +3312,7 @@ class LenderScreen_Edu_PHD(Screen):
         self.exit_manager_5()
 
     def update_data_with_file_5(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3321,7 +3321,7 @@ class LenderScreen_Edu_PHD(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET phd_certificate = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET phd_certificate = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label5.text = 'Upload Successfully'
@@ -3337,7 +3337,7 @@ class LenderScreen_Edu_PHD(Screen):
 
 class LenderScreen4(Screen):
     def add_data(self, street, city, zip_code, state, country):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3347,7 +3347,7 @@ class LenderScreen4(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET street_name = ?, city_name = ?, zip_code = ?, state_name = ?, country_name = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET street_name = ?, city_name = ?, zip_code = ?, state_name = ?, country_name = ? WHERE customer_id = ?",
             (street, city, zip_code, state, country, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreen5'
@@ -3360,7 +3360,7 @@ class LenderScreen5(Screen):
 
         elif id == 'Institutional':
             self.manager.current = 'LenderScreenInstitutionalForm1'
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3370,14 +3370,14 @@ class LenderScreen5(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET loan_type = ?, investment = ?, lending_period = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET loan_type = ?, investment = ?, lending_period = ? WHERE customer_id = ?",
             (id, investment, period, row_id_list[log_index]))
         conn.commit()
 
 
 class LenderScreenInstitutionalForm1(Screen):
     def add_data(self, business_name, business_location, business_address, business_branch_name):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3387,7 +3387,7 @@ class LenderScreenInstitutionalForm1(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET business_name = ?, business_location = ?, business_address = ?, business_branch_name = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET business_name = ?, business_location = ?, business_address = ?, business_branch_name = ? WHERE customer_id = ?",
             (business_name, business_location, business_address, business_branch_name, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenInstitutionalForm2'
@@ -3395,7 +3395,7 @@ class LenderScreenInstitutionalForm1(Screen):
 
 class LenderScreenInstitutionalForm2(Screen):
     def add_data(self, business_type, nearest_location, no_of_employees_working, year_of_estd):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3405,7 +3405,7 @@ class LenderScreenInstitutionalForm2(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET business_type = ?, nearest_location = ?, no_of_employees_working = ?, year_of_estd = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET business_type = ?, nearest_location = ?, no_of_employees_working = ?, year_of_estd = ? WHERE customer_id = ?",
             (business_type, nearest_location, no_of_employees_working, year_of_estd, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenInstitutionalForm3'
@@ -3432,7 +3432,7 @@ class LenderScreenInstitutionalForm3(Screen):
         self.exit_manager_1()
 
     def update_data_with_file_1(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3440,7 +3440,7 @@ class LenderScreenInstitutionalForm3(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE registration_table SET last_six_months_turnover_file = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET last_six_months_turnover_file = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
@@ -3454,7 +3454,7 @@ class LenderScreenInstitutionalForm3(Screen):
             self.file_manager_open_1()
 
     def add_data(self, industry_type, last_six_months_turnover):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3464,7 +3464,7 @@ class LenderScreenInstitutionalForm3(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET industry_type = ?, last_six_months_turnover = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET industry_type = ?, last_six_months_turnover = ? WHERE customer_id = ?",
             (industry_type, last_six_months_turnover, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenInstitutionalForm4'
@@ -3472,7 +3472,7 @@ class LenderScreenInstitutionalForm3(Screen):
 
 class LenderScreenInstitutionalForm4(Screen):
     def add_data(self, director_name, director_mobile_number, DIN, CIN):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3482,7 +3482,7 @@ class LenderScreenInstitutionalForm4(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET director_name = ?, director_mobile_number = ?, DIN = ?, CIN = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET director_name = ?, director_mobile_number = ?, DIN = ?, CIN = ? WHERE customer_id = ?",
             (director_name, director_mobile_number, DIN, CIN, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenInstitutionalForm5'
@@ -3509,7 +3509,7 @@ class LenderScreenInstitutionalForm5(Screen):
         self.exit_manager_1()
 
     def update_data_with_file_1(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3518,7 +3518,7 @@ class LenderScreenInstitutionalForm5(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET proof_of_verification_file = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET proof_of_verification_file = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
@@ -3532,7 +3532,7 @@ class LenderScreenInstitutionalForm5(Screen):
             self.file_manager_open_1()
 
     def add_data(self, registered_office_address):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3542,7 +3542,7 @@ class LenderScreenInstitutionalForm5(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET registered_office_address = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET registered_office_address = ? WHERE customer_id = ?",
             (registered_office_address, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenInstitutionalBankForm1'
@@ -3550,7 +3550,7 @@ class LenderScreenInstitutionalForm5(Screen):
 
 class LenderScreenIndividualForm1(Screen):
     def add_data(self, employeent_type, company_name, organization):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3560,7 +3560,7 @@ class LenderScreenIndividualForm1(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET employment_type = ?, company_name = ?, organization_type = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET employment_type = ?, company_name = ?, organization_type = ? WHERE customer_id = ?",
             (employeent_type, company_name, organization, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenIndividualForm2'
@@ -3568,7 +3568,7 @@ class LenderScreenIndividualForm1(Screen):
 
 class LenderScreenIndividualForm2(Screen):
     def add_data(self, company_address, company_pincode, company_country, landmark, business_number):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3578,7 +3578,7 @@ class LenderScreenIndividualForm2(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET company_address = ?, company_pincode = ?, company_country = ?, landmark = ?, business_number = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET company_address = ?, company_pincode = ?, company_country = ?, landmark = ?, business_number = ? WHERE customer_id = ?",
             (company_address, company_pincode, company_country, landmark, business_number, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenIndividualForm3'
@@ -3610,7 +3610,7 @@ class LenderScreenIndividualForm3(Screen):
         self.exit_manager_1()
 
     def update_data_with_file_1(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3619,7 +3619,7 @@ class LenderScreenIndividualForm3(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET employee_id_file = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET employee_id_file = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
@@ -3644,7 +3644,7 @@ class LenderScreenIndividualForm3(Screen):
         self.exit_manager_2()
 
     def update_data_with_file_2(self, file_path):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3653,7 +3653,7 @@ class LenderScreenIndividualForm3(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET six_months_bank_statement_file = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET six_months_bank_statement_file = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label2.text = 'Upload Successfully'
@@ -3667,7 +3667,7 @@ class LenderScreenIndividualForm3(Screen):
             self.file_manager_open_2()
 
     def add_data(self, annual_salary, designation):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3677,7 +3677,7 @@ class LenderScreenIndividualForm3(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET annual_salary = ?, designation = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET annual_salary = ?, designation = ? WHERE customer_id = ?",
             (annual_salary, designation, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenIndividualBankForm1'
@@ -3685,7 +3685,7 @@ class LenderScreenIndividualForm3(Screen):
 
 class LenderScreenIndividualBankForm1(Screen):
     def add_data(self, account_holder_name, account_type, account_number, bank_name):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3695,7 +3695,7 @@ class LenderScreenIndividualBankForm1(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
             (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenIndividualBankForm2'
@@ -3703,7 +3703,7 @@ class LenderScreenIndividualBankForm1(Screen):
 
 class LenderScreenIndividualBankForm2(Screen):
     def go_to_lender_dashboard(self, bank_id, branch_name):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3712,14 +3712,15 @@ class LenderScreenIndividualBankForm2(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
                        (bank_id, branch_name, row_id_list[log_index]))
         conn.commit()
+        self.manager.current = 'lender_dashboard'
 
 
 class LenderScreenInstitutionalBankForm1(Screen):
     def add_data(self, account_holder_name, account_type, account_number, bank_name):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3729,7 +3730,7 @@ class LenderScreenInstitutionalBankForm1(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
+            "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
             (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenInstitutionalBankForm2'
@@ -3737,7 +3738,7 @@ class LenderScreenInstitutionalBankForm1(Screen):
 
 class LenderScreenInstitutionalBankForm2(Screen):
     def go_to_lender_dashboard(self, bank_id, branch_name):
-        cursor.execute('select * from users')
+        cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
@@ -3746,7 +3747,7 @@ class LenderScreenInstitutionalBankForm2(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
+        cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
                        (bank_id, branch_name, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'lender_dashboard'

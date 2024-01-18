@@ -158,11 +158,11 @@ class LoginScreen(Screen):
             self.show_error_dialog("Please enter password")
             return
 
-        conn = sqlite3.connect("user_profile.db")
+        conn = sqlite3.connect("fin_user_profile.db")
         cursor = conn.cursor()
 
         cursor.execute('''
-            SELECT * FROM users
+            SELECT * FROM fin_users
             WHERE email = ?
         ''', (entered_email,))
 
@@ -173,7 +173,7 @@ class LoginScreen(Screen):
 
             if user_data[4] == entered_password:  # Fix index to 4 for the password field
 
-                users = cursor.execute('''SELECT * FROM users''')
+                users = cursor.execute('''SELECT * FROM fin_users''')
                 id_list = []
                 for i in users:
                     id_list.append(i[0])
@@ -182,13 +182,13 @@ class LoginScreen(Screen):
                     if i == user_data[0]:
 
                         cursor.execute('''
-                                        UPDATE users SET customer_status = 'logged'
+                                        UPDATE fin_users SET customer_status = 'logged'
                                         WHERE user_id = ?
                                     ''', (user_data[0],))
                         conn.commit()
                     else:
                         cursor.execute('''
-                                        UPDATE users SET customer_status = ''
+                                        UPDATE fin_users SET customer_status = ''
                                         WHERE user_id = ?
                                     ''', (i,))
                         conn.commit()

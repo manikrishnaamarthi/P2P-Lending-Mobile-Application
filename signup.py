@@ -141,12 +141,12 @@ KV = """
 """
 
 # Connect to the SQLite database
-conn = sqlite3.connect("user_profile.db")
+conn = sqlite3.connect("fin_user_profile.db")
 cursor = conn.cursor()
 
-# Create a table named 'users'
+# Create a table named 'fin_users'
 cursor.execute('''
-    CREATE TABLE IF NOT EXISTS users (
+    CREATE TABLE IF NOT EXISTS fin_users (
         user_id INTEGER PRIMARY KEY AUTOINCREMENT,
         fullname TEXT,
         email TEXT,
@@ -160,7 +160,7 @@ cursor.execute('''
 ''')
 
 # Commit the changes and close the connection
-cursor.execute(''' CREATE TABLE IF NOT EXISTS registration_table (
+cursor.execute(''' CREATE TABLE IF NOT EXISTS fin_registration_table (
                                     customer_id INT PRIME NUMBER NOT NULL,
                                     name TEXT,
                                     gender TEXT ,
@@ -262,10 +262,10 @@ class SignupScreen(Screen):
     def save_to_database(self):
         try:
             # Connect to the SQLite database
-            conn = sqlite3.connect("user_profile.db")
+            conn = sqlite3.connect("fin_user_profile.db")
             cursor = conn.cursor()
 
-            cursor.execute('SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1')
+            cursor.execute('SELECT user_id FROM fin_users ORDER BY user_id DESC LIMIT 1')
             latest_user_id = cursor.fetchone()
 
             if latest_user_id is not None:
@@ -275,7 +275,7 @@ class SignupScreen(Screen):
                 next_user_id = 1000
 
             cursor.execute('''
-                INSERT INTO users (
+                INSERT INTO fin_users (
                     user_id, fullname, email, mobile_number, password, confirm_password,
                     accept_terms, authorize_kyc
                 )
@@ -289,7 +289,7 @@ class SignupScreen(Screen):
             ))
 
             conn.commit()
-            cursor.execute('''INSERT INTO registration_table (customer_id) VALUES (?)''', (next_user_id,))
+            cursor.execute('''INSERT INTO fin_registration_table (customer_id) VALUES (?)''', (next_user_id,))
             conn.commit()
         except sqlite3.Error as e:
 
