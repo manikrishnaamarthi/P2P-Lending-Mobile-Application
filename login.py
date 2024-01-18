@@ -168,13 +168,32 @@ class LoginScreen(Screen):
 
         user_data = cursor.fetchone()
 
-        conn.close()
 
         if user_data:
 
             if user_data[4] == entered_password:  # Fix index to 4 for the password field
 
+                users = cursor.execute('''SELECT * FROM users''')
+                id_list = []
+                for i in users:
+                    id_list.append(i[0])
+
+                for i in id_list:
+                    if i == user_data[0]:
+
+                        cursor.execute('''
+                                        UPDATE users SET customer_status = 'logged'
+                                        WHERE user_id = ?
+                                    ''', (user_data[0],))
+                        conn.commit()
+                    else:
+                        cursor.execute('''
+                                        UPDATE users SET customer_status = ''
+                                        WHERE user_id = ?
+                                    ''', (i,))
+                        conn.commit()
                 self.manager.current = 'dashboard'
+                conn.close()
             else:
 
                 self.show_error_dialog("Incorrect password")
