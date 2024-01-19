@@ -1,9 +1,12 @@
+from kivy.core.window import Window
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivymd.uix.button import MDIconButton
 
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivy.uix.modalview import ModalView
+
+from dashboard import DashScreen
 
 BorrLanding = '''
 <BorrowerLanding>:
@@ -26,7 +29,7 @@ BorrLanding = '''
 
             Label:
                 text: 'Welcome to P2P '
-                font_size: 23
+                font_size:dp(23)
                 pos_hint: {'center_x': 0.5, 'center_y': 0.81}
                 color: 4/255, 104/255, 153/255, 1
                 height: dp(10)
@@ -74,7 +77,7 @@ BorrLanding = '''
                         spacing:dp(10)
                         MDLabel:
                             text: "Disbursal in 2 Hours   "
-                            font_size: "14sp"
+                            font_size:dp(14)
 
                             theme_text_color: 'Custom'
                             halign: "center"
@@ -94,7 +97,7 @@ BorrLanding = '''
                         spacing:dp(10)
                         MDLabel:
                             text: "Flexible Loan Tenure"
-                            font_size: "14sp"
+                            font_size:dp(14)
 
                             theme_text_color: 'Custom'
                             halign: "center"
@@ -114,7 +117,7 @@ BorrLanding = '''
                         spacing:dp(10)
                         MDLabel:
                             text: "100% Digital Process"
-                            font_size: "14sp"
+                            font_size:dp(14)
 
                             theme_text_color: 'Custom'
                             halign: "center"
@@ -134,7 +137,7 @@ BorrLanding = '''
                         spacing:dp(10)
                         MDLabel:
                             text: "Direct Transfer to Bank Account"
-                            font_size: "14sp"
+                            font_size:dp(14)
 
                             theme_text_color: 'Custom'
                             halign: "center"
@@ -166,10 +169,10 @@ BorrLanding = '''
                 md_bg_color: 6/255, 143/255, 236/255, 1
                 pos_hint: {'center_x': 0.5, 'center_y': 0.2}
                 border_radius: [1, 1, 1, 1]
-                on_release: root.switch_screen('borrower_registration_forms')
+                on_release: root.switch_screen('BorrowerScreen')
 
 <BorrowerHowScreen>:
-   
+
 
 
     MDFloatLayout:
@@ -190,7 +193,7 @@ BorrLanding = '''
 
             underline: "True"
             font_name: "Roboto-Bold"
-            font_size:"16sp"
+            font_size:dp(16)
             theme_text_color: 'Custom'
             text_color:0,0,0,1
             halign:"center"
@@ -305,7 +308,7 @@ BorrLanding = '''
                     spacing:dp(10)
                     MDLabel:
                         text: "5.Sign Agreement With Borrower"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -326,7 +329,7 @@ BorrLanding = '''
                     spacing:dp(10)
                     MDLabel:
                         text: "6.Disbursement"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -386,14 +389,34 @@ class BorrowerLanding(Screen):
     def build(self):
         sm = MyScreenManager()
         sm.add_widget(BorrowerLanding(name="BorrowerLanding"))
-
+        sm.add_widget(DashScreen(name='dashboard'))
         return sm
+
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'dashboard'  # Replace with the actual name of your previous screen
 
     def BorrowerHowScreen(self):
         self.root.current = "BorrowerHowScreen"
 
-    def borrower_registration_form(self):
-        self.root.current = "borrower_registration_forms"
+    def BorrowerScreen(self):
+        self.root.current = "BorrowerScreen"
 
     def switch_screen(self, screen_name):
         print(f"Switching to screen: {screen_name}")
@@ -406,7 +429,25 @@ class BorrowerLanding(Screen):
 
 
 class BorrowerHowScreen(Screen):
-    pass
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerLanding'  # Replace with the actual name of your previous screen
 
 
 class MyScreenManager(ScreenManager):

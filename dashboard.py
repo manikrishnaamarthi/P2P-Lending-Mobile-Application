@@ -1,3 +1,4 @@
+from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.screenmanager import SlideTransition
@@ -86,6 +87,19 @@ KV = """
 
 class DashScreen(Screen):
     Builder.load_string(KV)
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'MainScreen'
 
     def switch_screen(self, screen_name):
         print(f"Switching to screen: {screen_name}")

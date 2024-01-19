@@ -12,8 +12,8 @@ user_helpers1 = """
         MDTopAppBar:
             title: "Lender DashBoard"
             elevation: 4
-            left_action_items: [['menu', lambda x: app.navigation_draw()]]
-            right_action_items: [['logout', lambda x: app.homepage()]]
+            left_action_items: [['menu']]
+            right_action_items: [['logout', lambda x: root.logout()]]
 
         MDGridLayout:
             cols: 2
@@ -171,4 +171,7 @@ user_helpers1 = """
 class LenderDashboard(Screen):
 
     def homepage(self):
+        self.manager.current = 'MainScreen'
+
+    def logout(self):
         self.manager.current = 'MainScreen'

@@ -5,17 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6cf0679d-622c-4cdd-bf68-04ce800fdca3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/borrower_application_tracker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LenderLanding.py" beforeDir="false" afterPath="$PROJECT_DIR$/LenderLanding.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/borrower_dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/borrower_dashboard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/borrower_registration_forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/borrower_registration_forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/borrowerlanding.py" beforeDir="false" afterPath="$PROJECT_DIR$/borrowerlanding.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fin_user_profile.db" beforeDir="false" afterPath="$PROJECT_DIR$/fin_user_profile.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lender_dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/lender_dashboard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lender_registration_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/lender_registration_form.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/login.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_loan_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/new_loan_request.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/signup.py" beforeDir="false" afterPath="$PROJECT_DIR$/signup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_profile.db" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -30,12 +46,22 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.login.executor": "Run",
+    "Python.main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true"
+    "ignore.virus.scanning.warn.message": "true",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-7a29c1521ef0-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.11799.298" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

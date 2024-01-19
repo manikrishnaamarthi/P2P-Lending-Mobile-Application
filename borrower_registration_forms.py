@@ -1,6 +1,7 @@
+from kivy.core.window import Window
 from kivymd.uix.dialog import MDDialog
 from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivymd.app import MDApp
 import sqlite3
 from datetime import date
@@ -17,11 +18,12 @@ Borrower = '''
 <BorrowerScreen>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1 
+        text_color: 1, 1, 1, 1 
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
     BoxLayout:
@@ -29,7 +31,7 @@ Borrower = '''
         padding: "40dp"
         MDLabel:
             text: 'Borrower Registration Form'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -47,13 +49,13 @@ Borrower = '''
 
 
         Spinner:
-            padding:  10
+            padding: [dp(10), dp(10)]
             id: gender_id
             text: "Select Gender"
             values: ["Select Gender","Male", "Female", "Others"]
             multiline: False
             size_hint: 1 , None
-            bold: True
+
             background_color: 1, 1 ,1, 0 
             color: 0, 0, 0, 1
             canvas.before:
@@ -105,11 +107,12 @@ Borrower = '''
 
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1
+        text_color: 1, 1, 1, 1
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
 
@@ -119,7 +122,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -186,8 +189,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -215,11 +218,12 @@ Borrower = '''
 
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1
+        text_color: 1, 1, 1, 1
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
 
@@ -229,7 +233,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -334,8 +338,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -363,11 +367,12 @@ Borrower = '''
 <BorrowerScreen3>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -378,7 +383,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form Address'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -445,8 +450,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -474,11 +479,12 @@ Borrower = '''
 <BorrowerScreen4>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -489,7 +495,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form Father Information'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -544,8 +550,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -572,11 +578,12 @@ Borrower = '''
 <BorrowerScreen5>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -587,7 +594,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form Mother Information'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -642,8 +649,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -671,11 +678,12 @@ Borrower = '''
 <BorrowerScreen6>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -686,7 +694,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form Mother Information'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -708,8 +716,8 @@ Borrower = '''
                     rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -736,11 +744,12 @@ Borrower = '''
 <BorrowerScreen7>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  # Black text color
+        text_color: 1, 1, 1, 1  # Black text color
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -751,7 +760,7 @@ Borrower = '''
 
         MDLabel:
             text: 'STUDENT TYPE'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -829,8 +838,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -857,11 +866,12 @@ Borrower = '''
 <BorrowerScreen8>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1 
+        text_color: 1, 1, 1, 1 
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -872,13 +882,13 @@ Borrower = '''
 
         MDLabel:
             text: 'Business Type'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
         MDLabel:
             text: 'STEP-1'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -935,8 +945,8 @@ Borrower = '''
             markup: True
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -963,11 +973,12 @@ Borrower = '''
 <BorrowerScreen9>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -978,7 +989,7 @@ Borrower = '''
 
         MDLabel:
             text: 'STEP-2'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -1035,8 +1046,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -1064,11 +1075,12 @@ Borrower = '''
 <BorrowerScreen10>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -1079,7 +1091,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Step-3'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -1109,7 +1121,7 @@ Borrower = '''
 
         MDLabel:
             text: "Last 6 months Bank Statements"
-            font_size: 22
+            font_size:dp(22)
             halign: 'center'
 
         BoxLayout:
@@ -1151,8 +1163,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -1180,11 +1192,12 @@ Borrower = '''
 <BorrowerScreen11>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1 
+        text_color: 1, 1, 1, 1 
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -1195,7 +1208,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Step-4'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -1249,8 +1262,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -1278,11 +1291,12 @@ Borrower = '''
 <BorrowerScreen12>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -1293,7 +1307,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Step-5'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -1313,7 +1327,7 @@ Borrower = '''
 
         MDLabel:
             text: "Proof of verification"
-            font_size: 22
+            font_size:dp(22)
             halign: 'center'
 
         BoxLayout:
@@ -1355,8 +1369,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -1383,11 +1397,12 @@ Borrower = '''
 <BorrowerScreen13>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -1398,7 +1413,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Employment Details'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
         MDTextField:
@@ -1463,8 +1478,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -1492,11 +1507,12 @@ Borrower = '''
 <BorrowerScreen14>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -1507,7 +1523,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Employment Details'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True   
 
@@ -1537,7 +1553,7 @@ Borrower = '''
 
         MDLabel:
             text: "Upload Employee ID"
-            font_size: 18
+            font_size:dp(18)
             halign: 'center'
 
         BoxLayout:
@@ -1579,7 +1595,7 @@ Borrower = '''
 
         MDLabel:
             text: "Upload Last 6 months Bank Statements"
-            font_size: 18
+            font_size:dp(18)
             halign: 'center'
 
         BoxLayout:
@@ -1620,8 +1636,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -1648,11 +1664,12 @@ Borrower = '''
 <BorrowerScreen15>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -1663,7 +1680,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Borrower Registration Form'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -1683,15 +1700,15 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
 
             MDRaisedButton:
                 text: "Back"
-                on_release: app.root.current = 'BorrowerScreen7'
+                on_release: app.root.current = 'BorrowerScreen6'
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
@@ -1711,11 +1728,12 @@ Borrower = '''
 <BorrowerScreen16>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -1726,7 +1744,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Step-1'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -1782,8 +1800,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -1810,11 +1828,12 @@ Borrower = '''
 <BorrowerScreen17>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -1825,7 +1844,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Step-2'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -1878,8 +1897,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -1907,11 +1926,12 @@ Borrower = '''
 <BorrowerScreen18>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -1922,7 +1942,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Applicant Bank Details'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -1979,8 +1999,8 @@ Borrower = '''
             bold: True
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -2007,11 +2027,12 @@ Borrower = '''
 <BorrowerScreen19>:
     MDRectangleFlatButton:
         text: 'HOME'
-        text_color: 0, 0, 0, 1  
+        text_color: 1, 1, 1, 1  
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current()
+        font_name: "Roboto-Bold"
+        pos_hint: {'right': 0.99, 'top': 0.98}
+        on_release: root.go_to_dashboard()
         size_hint: (0.1, 0.03)
         font_size: "13sp"
         padding: dp(10)
@@ -2022,7 +2043,7 @@ Borrower = '''
 
         MDLabel:
             text: 'Applicant Bank Details'
-            font_size: 25
+            font_size:dp(25)
             halign: 'center'
             bold: True
 
@@ -2072,8 +2093,8 @@ Borrower = '''
 
         GridLayout:
             cols: 2
-            spacing: 30
-            padding: 20
+            spacing:dp(30)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -2117,7 +2138,7 @@ class BorrowerScreen(Screen):
         print(f"Selected date: {the_date, the_date.year}")
         self.ids.date_textfield.text = f'{the_date.year}-{the_date.month}-{the_date.day}'
 
-    def add_data(self, name, gender,  date_of_birth, mobile_number):
+    def add_data(self, name, gender, date_of_birth, mobile_number):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -2128,11 +2149,29 @@ class BorrowerScreen(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET name = ?, gender = ?,  date_of_birth = ?,mobile_number = ?,  user_type = ? WHERE customer_id = ?",
-                       (name, gender, date_of_birth, mobile_number, b, row_id_list[log_index]))
+        cursor.execute(
+            "UPDATE fin_registration_table SET name = ?, gender = ?,  date_of_birth = ?,mobile_number = ?,  user_type = ? WHERE customer_id = ?",
+            (name, gender, date_of_birth, mobile_number, b, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'BorrowerScreen1'
 
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerLanding'
 
 class BorrowerScreen1(Screen):
     def __init__(self, **kwargs):
@@ -2164,7 +2203,8 @@ class BorrowerScreen1(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET profile_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET profile_file = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
 
         self.ids.upload_label1.text = 'Upload Successfully'
@@ -2187,11 +2227,30 @@ class BorrowerScreen1(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET alternate_mobile_number = ?, alternate_email = ? WHERE customer_id = ?",
-                       (alternate_mobile_number, alternate_email, row_id_list[log_index]))
+        cursor.execute(
+            "UPDATE fin_registration_table SET alternate_mobile_number = ?, alternate_email = ? WHERE customer_id = ?",
+            (alternate_mobile_number, alternate_email, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'BorrowerScreen2'
 
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen'
 
 class BorrowerScreen2(Screen):
 
@@ -2229,7 +2288,8 @@ class BorrowerScreen2(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET aadhar_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET aadhar_file = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
 
         self.ids.upload_label1.text = 'Upload Successfully'
@@ -2263,7 +2323,8 @@ class BorrowerScreen2(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET pan_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET pan_file = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label2.text = 'Upload Successfully'
 
@@ -2290,6 +2351,24 @@ class BorrowerScreen2(Screen):
         conn.commit()
         self.manager.current = 'BorrowerScreen3'
 
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen1'
 
 class BorrowerScreen3(Screen):
     def add_data(self, street, city, zip_code, state, country):
@@ -2306,6 +2385,25 @@ class BorrowerScreen3(Screen):
             (street, city, zip_code, state, country, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'BorrowerScreen4'
+
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen2'
 
 
 class BorrowerScreen4(Screen):
@@ -2325,6 +2423,25 @@ class BorrowerScreen4(Screen):
         conn.commit()
         self.manager.current = 'BorrowerScreen5'
 
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen3'
+
 
 class BorrowerScreen5(Screen):
 
@@ -2343,6 +2460,25 @@ class BorrowerScreen5(Screen):
             (mother_name, mother_age, mother_occupation, mother_ph_no, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'BorrowerScreen6'
+
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen4'
 
 
 class BorrowerScreen6(Screen):
@@ -2370,6 +2506,25 @@ class BorrowerScreen6(Screen):
         elif spinner_id == 'Employee':
             self.manager.current = 'BorrowerScreen13'
         print(id)
+
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen5'
 
 
 class BorrowerScreen7(Screen):
@@ -2402,7 +2557,8 @@ class BorrowerScreen7(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET collage_id_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET collage_id_file = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
 
         self.ids.upload_label2.text = 'Upload Successfully'
@@ -2415,7 +2571,7 @@ class BorrowerScreen7(Screen):
         if not self.manager_open_1:
             self.file_manager_open_1()
 
-    def add_data(self, collage_name, college_address,collage_id):
+    def add_data(self, collage_name, college_address, collage_id):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -2430,6 +2586,25 @@ class BorrowerScreen7(Screen):
             (collage_name, college_address, collage_id, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'BorrowerScreen15'
+
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen6'
 
 
 class BorrowerScreen8(Screen):
@@ -2449,6 +2624,25 @@ class BorrowerScreen8(Screen):
         conn.commit()
         self.manager.current = 'BorrowerScreen9'
 
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen6'
+
 
 class BorrowerScreen9(Screen):
     def add_data(self, nearest_location, business_type, no_of_employees_working, year_of_estd):
@@ -2466,6 +2660,25 @@ class BorrowerScreen9(Screen):
             (nearest_location, business_type, no_of_employees_working, year_of_estd, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'BorrowerScreen10'
+
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen8'
 
 
 class BorrowerScreen10(Screen):
@@ -2527,6 +2740,25 @@ class BorrowerScreen10(Screen):
         conn.commit()
         self.manager.current = 'BorrowerScreen11'
 
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen9'
+
 
 class BorrowerScreen11(Screen):
     def add_data(self, director_name, director_mobile_number, DIN, CIN):
@@ -2544,6 +2776,25 @@ class BorrowerScreen11(Screen):
             (director_name, director_mobile_number, DIN, CIN, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'BorrowerScreen12'
+
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen10'
 
 
 class BorrowerScreen12(Screen):
@@ -2605,6 +2856,25 @@ class BorrowerScreen12(Screen):
         conn.commit()
         self.manager.current = 'BorrowerScreen15'
 
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen11'
+
 
 class BorrowerScreen13(Screen):
     def add_data(self, company_name, company_pincode, company_country, landmark, business_number):
@@ -2622,6 +2892,25 @@ class BorrowerScreen13(Screen):
             (company_name, company_pincode, company_country, landmark, business_number, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'BorrowerScreen14'
+
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen6'
 
 
 class BorrowerScreen14(Screen):
@@ -2659,7 +2948,8 @@ class BorrowerScreen14(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET employee_id_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET employee_id_file = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
 
@@ -2721,6 +3011,25 @@ class BorrowerScreen14(Screen):
         conn.commit()
         self.manager.current = 'BorrowerScreen15'
 
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen13'
+
 
 class BorrowerScreen15(Screen):
     def add_data(self, marital_status_id):
@@ -2746,6 +3055,25 @@ class BorrowerScreen15(Screen):
 
         elif marital_status_id == 'Divorced':
             self.manager.current = 'BorrowerScreen18'
+
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen6'
 
 
 class BorrowerScreen16(Screen):
@@ -2777,6 +3105,25 @@ class BorrowerScreen16(Screen):
         conn.commit()
         self.manager.current = 'BorrowerScreen17'
 
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen15'
+
 
 class BorrowerScreen17(Screen):
     def add_data(self, spouse_company_name, spouse_company_address, spouse_annual_salary, spouse_office_no):
@@ -2791,9 +3138,29 @@ class BorrowerScreen17(Screen):
 
         cursor.execute(
             "UPDATE fin_registration_table SET spouse_company_name = ?,spouse_company_address = ?, spouse_annual_salary = ?, spouse_office_no = ? WHERE customer_id = ?",
-            (spouse_company_name, spouse_company_address, spouse_annual_salary, spouse_office_no, row_id_list[log_index]))
+            (spouse_company_name, spouse_company_address, spouse_annual_salary, spouse_office_no,
+             row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'BorrowerScreen18'
+
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen16'
 
 
 class BorrowerScreen18(Screen):
@@ -2813,6 +3180,25 @@ class BorrowerScreen18(Screen):
         conn.commit()
         self.manager.current = 'BorrowerScreen19'
 
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen15'
+
 
 class BorrowerScreen19(Screen):
     def go_to_borrower_dashboard(self, bank_id, branch_name, salary_id):
@@ -2825,9 +3211,28 @@ class BorrowerScreen19(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET bank_id = ?,salary_id = ?, branch_name = ? WHERE customer_id = ?",
-                       (bank_id, branch_name, salary_id, row_id_list[log_index]))
+        cursor.execute(
+            "UPDATE fin_registration_table SET bank_id = ?,salary_id = ?, branch_name = ? WHERE customer_id = ?",
+            (bank_id, branch_name, salary_id, row_id_list[log_index]))
         conn.commit()
 
         self.manager.current = 'borrower_dashboard'
 
+    def go_to_dashboard(self):
+        self.manager.current = 'dashboard'
+
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerScreen18'
