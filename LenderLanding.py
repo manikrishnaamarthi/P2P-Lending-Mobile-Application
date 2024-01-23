@@ -177,13 +177,13 @@ Landing = '''
 
 
     MDFloatLayout:
-        md_bg_color:174/255, 214/255, 241/255, 1
+        md_bg_color:0.9, 0.9, 0.9, 1
 
         MDIconButton:
 
-            icon: 'chevron-left'
+            icon: 'arrow-left'
             on_release: app.root.current = 'LenderLanding'
-            pos_hint: {'center_x': 0.03, 'center_y': 0.95}
+            pos_hint: {'center_x': 0.045, 'center_y': 0.95}
             theme_text_color: 'Custom'
             text_color: 0,0,0,1  # Set color to white
 
@@ -194,7 +194,7 @@ Landing = '''
 
             underline: "True"
             font_name: "Roboto-Bold"
-            font_size:"16sp"
+            font_size:dp(18)
             theme_text_color: 'Custom'
             text_color:0,0,0,1
             halign:"center"
@@ -214,8 +214,7 @@ Landing = '''
                 size_hint: None, None
                 size: "150dp", "40dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.55}
-                md_bg_color:1,1,1,1
-                line_color: 0, 0, 0, 1 
+                md_bg_color:4/255, 94/255, 154/255, 1
                 size_hint_y: None
                 height: dp(70)
                 size_hint_x: None
@@ -226,17 +225,16 @@ Landing = '''
                     MDLabel:
                         text: "1.Registration "
                         font_size:dp(15)
-                        bold: "True"
+
                         theme_text_color: 'Custom'
                         halign: "center"
-                        text_color:  1/255, 26/255, 51/255, 1
+                        text_color: 1,1,1,1
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDFlatButton
                 size_hint: None, None
                 size: "150dp", "40dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 1,1,1,1
-                line_color: 0, 0, 0, 1 
+                md_bg_color: 0.090, 0.157, 0.208, 1
                 size_hint_y: None
                 height: dp(70)
                 size_hint_x: None
@@ -247,17 +245,16 @@ Landing = '''
                     MDLabel:
                         text: "2. Profile Evaluation"
                         font_size:dp(15)
-                        bold: "True"
+
                         theme_text_color: 'Custom'
                         halign: "center"
-                        text_color: 1/255, 26/255, 51/255, 1
+                        text_color:1,1,1,1
                         pos_hint: {'center_x': 0.8, 'center_y': 0.5}
             MDFlatButton
                 size_hint: None, None
                 size: "150dp", "40dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color:1,1,1,1
-                line_color: 0, 0, 0, 1 
+                md_bg_color:0.090, 0.157, 0.208, 1
                 size_hint_y: None
                 height: dp(70)
                 size_hint_x: None
@@ -268,17 +265,16 @@ Landing = '''
                     MDLabel:
                         text: "3. Listing On Platform"
                         font_size:dp(15)
-                        bold: "True"
+
                         theme_text_color: 'Custom'
                         halign: "center"
-                        text_color: 1/255, 26/255, 51/255, 1
+                        text_color: 1,1,1,1
                         pos_hint: {'center_x': 0.8, 'center_y': 0.5}
             MDFlatButton
                 size_hint: None, None
                 size: "150dp", "40dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 1,1,1,1
-                line_color: 0, 0, 0, 1 
+                md_bg_color:  4/255, 94/255, 154/255, 1
                 size_hint_y: None
                 height: dp(70)
                 size_hint_x: None
@@ -289,17 +285,16 @@ Landing = '''
                     MDLabel:
                         text: "4.Funding"
                         font_size:dp(15)
-                        bold: "True"
+
                         theme_text_color: 'Custom'
                         halign: "center"
-                        text_color: 1/255, 26/255, 51/255, 1
+                        text_color: 1,1,1,1
                         pos_hint: {'center_x': 0.8, 'center_y': 0.5}
             MDFlatButton
                 size_hint: None, None
                 size: "150dp", "40dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 1,1,1,1
-                line_color: 0, 0, 0, 1 
+                md_bg_color:  4/255, 94/255, 154/255, 1
                 size_hint_y: None
                 height: dp(70)
                 size_hint_x: None
@@ -310,17 +305,16 @@ Landing = '''
                     MDLabel:
                         text: "5.Sign Agreement With Lender"
                         font_size:dp(15)
-                        bold: "True"
+
                         theme_text_color: 'Custom'
                         halign: "center"
-                        text_color: 1/255, 26/255, 51/255, 1
+                        text_color:1,1,1,1
                         pos_hint: {'center_x': 0.8, 'center_y': 0.5}
             MDFlatButton
                 size_hint: None, None
                 size: "150dp", "40dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color:1,1,1,1
-                line_color: 0, 0, 0, 1 
+                md_bg_color: 0.090, 0.157, 0.208, 1
                 size_hint_y: None
                 height: dp(70)
                 size_hint_x: None
@@ -331,17 +325,17 @@ Landing = '''
                     MDLabel:
                         text: "6.Disbursement"
                         font_size:dp(15)
-                        bold: "True"
+
                         theme_text_color: 'Custom'
                         halign: "center"
-                        text_color:  1/255, 26/255, 51/255, 1
+                        text_color: 1,1,1,1
                         pos_hint: {'center_x': 0.8, 'center_y': 0.5}
             MDFlatButton
                 size_hint: None, None
                 size: "150dp", "40dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 1,1,1,1
-                line_color: 0, 0, 0, 1 
+                md_bg_color:  0.090, 0.157, 0.208, 1
+
                 size_hint_y: None
                 height: dp(70)
                 size_hint_x: None
@@ -352,17 +346,17 @@ Landing = '''
                     MDLabel:
                         text: "7.EMI Repayment"
                         font_size:dp(15)
-                        bold: "True"
+
                         theme_text_color: 'Custom'
                         halign: "center"
-                        text_color: 1/255, 26/255, 51/255, 1
+                        text_color: 1,1,1,1
                         pos_hint: {'center_x': 0.8, 'center_y': 0.5}
             MDFlatButton
                 size_hint: None, None
                 size: "150dp", "40dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 1,1,1,1
-                line_color: 0, 0, 0, 1 
+                md_bg_color:  4/255, 94/255, 154/255, 1
+
                 size_hint_y: None
                 height: dp(70)
                 size_hint_x: None
@@ -373,10 +367,10 @@ Landing = '''
                     MDLabel:
                         text: "8.Loan Closure"
                         font_size:dp(15)
-                        bold: "True"
+
                         theme_text_color: 'Custom'
                         halign: "center"
-                        text_color:  1/255, 26/255, 51/255, 1
+                        text_color:  1,1,1,1
                         pos_hint: {'center_x': 0.8, 'center_y': 0.5}
 
 
