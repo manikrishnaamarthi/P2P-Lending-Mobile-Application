@@ -4,6 +4,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivymd.uix.button import MDRectangleFlatButton
 from kivymd.uix.slider import MDSlider
 from kivymd.uix.label import MDLabel
+import sqlite3
 
 user_helpers2 = """
 <NewloanScreen>:
@@ -20,6 +21,7 @@ user_helpers2 = """
     BoxLayout:
         orientation: 'vertical'
         padding: "40dp"
+        spacing:dp(20)
 
         MDLabel:
             text: 'New Loan Request'
@@ -27,20 +29,20 @@ user_helpers2 = """
             bold: True
 
         MDTextField:
-            id: amount_value
-            hint_text: "Amount"
-            readonly: True
+            id: loan_amount
+            hint_text: "Enter the Required Loan Amount"
+            helper_text:"Minimum Loan Amount will be 100000"
             helper_text_mode: "on_focus"
             font_name: "Roboto-Bold"
 
         Spinner:
             padding: [10,10]
-            id: tenure
-            text: "Select Tenure"
-            values: ["3", "6", "9", "12", "16", "24"]
+            id: loan_type
+            text: "Please Select the Loan Type "
+            values: ["Personal Loan", "Education  Loan", "Home Loan", "Vehicle Loan"]
             multiline: False
             size_hint: 1 , None
-            bold: True
+
             background_color: 1, 1 ,1, 0 
             color: 0, 0, 0, 1
             canvas.before:
@@ -51,29 +53,40 @@ user_helpers2 = """
                     rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
         MDTextField:
-            id:interest
-            hint_text: 'Interest + Other Fees'
+            id: interest
+            hint_text: 'Interest rate'
             helper_text_mode: "on_focus"
+            helper_text:"interest rate starts at 5%"
             font_name: "Roboto-Bold"
-            readonly: True
 
-        MDTextField:
-            id:processing_fee
-            hint_text: 'Processing Fee'
-            helper_text_mode: "on_focus"
-            font_name: "Roboto-Bold"
-            readonly: True
+
+        Spinner:
+            padding: [10,10]
+            id: tenure
+            text: "Tenure"
+            values: ["1 - year", "2 - year", "3 - year", "4 - year", "5 - year"]
+            multiline: False
+            size_hint: 1 , None
+
+            background_color: 1, 1 ,1, 0 
+            color: 0, 0, 0, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1  
+                Line:
+                    width: 0.7
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
             height: "29dp"
-            spacing: 5
+            spacing:dp(5)
 
         GridLayout:
             cols: 1
-            spacing: 20
-            padding: 20
+            spacing:dp(20)
+            padding:dp(20)
             pos_hint: {'center_x': 0.50, 'center_y': 0.5}
             size_hint: 1, None
             height: "50dp"
@@ -121,7 +134,7 @@ user_helpers2 = """
             readonly: True
 
         MDTextField:
-            id: purpose of loan
+            id: purpose_of_loan
             hint_text: "Purpose of loan"
             helper_text_mode: "on_focus"
             font_name: "Roboto-Bold"
@@ -169,10 +182,33 @@ user_helpers2 = """
             text: ""
 """
 
+conn = sqlite3.connect("fin_user_profile.db")
+cursor = conn.cursor()
+
+# Create a table named 'fin_users'
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS fin_loan_details (
+        customer_id INT,
+        loan_id TEXT,
+        loan_amount INT,
+        loan_type TEXT,
+        tenure TEXT,
+        interest INT,
+        processing_fee INT,
+        loan_status TEXT
+
+    )
+''')
+
+conn.commit()
+conn.close()
+
+
 class NewloanScreen(Screen):
     def current(self):
         self.manager.current = 'borrower_dashboard'
 
 
 class NewScreen(Screen):
-    pass
+    def current(self):
+        self.manager.current = 'new_loan_request'

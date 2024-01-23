@@ -1,9 +1,13 @@
+from kivy.base import EventLoop
+from kivy.core.window import Window
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivymd.uix.button import MDIconButton
 
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivy.uix.modalview import ModalView
+
+from dashboard import DashScreen
 
 Landing = '''
 <LenderLanding>:
@@ -26,7 +30,7 @@ Landing = '''
 
             Label:
                 text: 'Welcome to P2P '
-                font_size: 23
+                font_size:dp(23)
                 pos_hint: {'center_x': 0.5, 'center_y': 0.81}
                 color: 4/255, 104/255, 153/255, 1
                 height: dp(10)
@@ -74,7 +78,7 @@ Landing = '''
                         spacing:dp(10)
                         MDLabel:
                             text: "Diversification of Funds as low as $1   "
-                            font_size: "14sp"
+                            font_size:dp(14)
 
                             theme_text_color: 'Custom'
                             halign: "center"
@@ -114,7 +118,7 @@ Landing = '''
                         spacing:dp(10)
                         MDLabel:
                             text: "Returns up to 15%"
-                            font_size: "14sp"
+                            font_size:dp(14)
 
                             theme_text_color: 'Custom'
                             halign: "center"
@@ -134,7 +138,7 @@ Landing = '''
                         spacing:dp(10)
                         MDLabel:
                             text: "Invest for 1,2,3,4,5 or 6 years"
-                            font_size: "14sp"
+                            font_size:dp(14)
 
                             theme_text_color: 'Custom'
                             halign: "center"
@@ -166,24 +170,24 @@ Landing = '''
                 md_bg_color: 6/255, 143/255, 236/255, 1
                 pos_hint: {'center_x': 0.5, 'center_y': 0.2}
                 border_radius: [1, 1, 1, 1]
-                on_release: root.switch_screen('lender_registration_form')
+                on_release: root.switch_screen('LenderScreen')
 
 <LenderHowScreen>:
-   
+
 
 
     MDFloatLayout:
         md_bg_color:174/255, 214/255, 241/255, 1
 
         MDIconButton:
-            
+
             icon: 'chevron-left'
             on_release: app.root.current = 'LenderLanding'
             pos_hint: {'center_x': 0.03, 'center_y': 0.95}
             theme_text_color: 'Custom'
             text_color: 0,0,0,1  # Set color to white
-       
-            
+
+
 
         MDLabel:
             text: "Here's how it works"
@@ -263,7 +267,7 @@ Landing = '''
                     spacing:dp(10)
                     MDLabel:
                         text: "3. Listing On Platform"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -284,7 +288,7 @@ Landing = '''
                     spacing:dp(10)
                     MDLabel:
                         text: "4.Funding"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -305,7 +309,7 @@ Landing = '''
                     spacing:dp(10)
                     MDLabel:
                         text: "5.Sign Agreement With Lender"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -326,7 +330,7 @@ Landing = '''
                     spacing:dp(10)
                     MDLabel:
                         text: "6.Disbursement"
-                        font_size: 15
+                        font_size:dp(15)
                         bold: "True"
                         theme_text_color: 'Custom'
                         halign: "center"
@@ -381,20 +385,38 @@ Landing = '''
 '''
 
 
-
-
 class LenderLanding(Screen):
     def build(self):
         sm = MyScreenManager()
         sm.add_widget(LenderLanding(name="LenderLanding"))
-
+        sm.add_widget(DashScreen(name='dashboard'))
         return sm
+
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'dashboard'  # Replace with the actual name of your previous screen
 
     def LenderHowScreen(self):
         self.root.current = "LenderHowScreen"
 
-    def lender_registration_form(self):
-        self.root.current = "lender_registration_form"
+    def LenderScreen(self):
+        self.root.current = "LenderScreen"
 
     def switch_screen(self, screen_name):
         print(f"Switching to screen: {screen_name}")
@@ -405,8 +427,25 @@ class LenderLanding(Screen):
         sm.transition = SlideTransition(direction='left')
         sm.current = screen_name
 
+
 class LenderHowScreen(Screen):
-    pass
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'LenderLanding'
+
+
 class MyScreenManager(ScreenManager):
     pass
 

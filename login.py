@@ -1,8 +1,9 @@
 import sqlite3
 
+from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import Screen
+from kivy.uix.screenmanager import Screen, SlideTransition
 from kivymd.uix.label import MDLabel
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRaisedButton, MDFlatButton
@@ -217,3 +218,26 @@ class LoginScreen(Screen):
 
     def go_to_signup(self):
         self.manager.current = 'SignupScreen'
+
+
+
+
+    def on_pre_enter(self):
+
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'MainScreen'

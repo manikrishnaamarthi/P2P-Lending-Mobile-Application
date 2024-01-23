@@ -1,15 +1,23 @@
-
+from kivy.app import App
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
 
+from homepage import MainScreen
+from login import LoginScreen
+from signup import SignupScreen
+from dashboard import DashScreen
+from borrowerlanding import BorrowerLanding,BorrowerHowScreen,BorrLanding
 from borrower_registration_forms import (
     BorrowerScreen, BorrowerScreen1, BorrowerScreen2, BorrowerScreen3, BorrowerScreen4, BorrowerScreen5,
     BorrowerScreen6,BorrowerScreen7,BorrowerScreen8,BorrowerScreen9,BorrowerScreen10,BorrowerScreen11,
     BorrowerScreen12,BorrowerScreen13,BorrowerScreen14,BorrowerScreen15,BorrowerScreen16,BorrowerScreen17,
     BorrowerScreen18,BorrowerScreen19,Borrower
 )
-from borrower_dashboard import (DashboardScreen,user_helpers)
+from borrower_dashboard import (DashboardScreen,ProfileScreen,user_helpers)
+
+from new_loan_request import (NewloanScreen,NewScreen,user_helpers2)
+from LenderLanding import LenderLanding,LenderHowScreen,Landing
 from lender_registration_form import (
     LenderScreen, LenderScreen1, LenderScreen2, LenderScreen3,
     LenderScreen_Edu_10th, LenderScreen_Edu_Intermediate,LenderScreen_Edu_Bachelors,
@@ -20,19 +28,15 @@ from lender_registration_form import (
     LenderScreenIndividualBankForm2,LenderScreenInstitutionalBankForm1,LenderScreenInstitutionalBankForm2,
     KV
 )
-from LenderLanding import LenderLanding,LenderHowScreen,Landing
-from borrowerlanding import BorrowerLanding,BorrowerHowScreen,BorrLanding
 from lender_dashboard import (LenderDashboard, user_helpers1)
-from dashboard import DashScreen
-from new_loan_request import (NewloanScreen,NewScreen,user_helpers2)
-#from users_module.test1 import LenderHomeScreen,KV
-from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.pickers import MDDatePicker
-from kivy.metrics import dp
-from login import LoginScreen
-from homepage import MainScreen
-from signup import SignupScreen
-#from  users_module.lender_home import LenderHome,lender_home
+from borrower_application_tracker import (ApplicationTrackerScreen,application_tracker)
+
+
+
+class MyScreenManager(ScreenManager):
+    pass
+
+
 class MyApp(MDApp):
     def build(self):
         Builder.load_string(Borrower)
@@ -42,6 +46,7 @@ class MyApp(MDApp):
         Builder.load_string(user_helpers)
         Builder.load_string(user_helpers1)
         Builder.load_string(user_helpers2)
+        Builder.load_string(application_tracker)
 
 
         sm = ScreenManager(transition=SlideTransition())
@@ -56,7 +61,7 @@ class MyApp(MDApp):
         sm.add_widget(LenderHowScreen(name='LenderHowScreen'))
         sm.add_widget(BorrowerLanding(name='BorrowerLanding'))
         sm.add_widget(BorrowerHowScreen(name='BorrowerHowScreen'))
-        sm.add_widget(BorrowerScreen(name='borrower_registration_forms'))
+        sm.add_widget(BorrowerScreen(name='BorrowerScreen'))
         sm.add_widget(BorrowerScreen1(name='BorrowerScreen1'))
         sm.add_widget(BorrowerScreen2(name='BorrowerScreen2'))
         sm.add_widget(BorrowerScreen3(name='BorrowerScreen3'))
@@ -77,7 +82,9 @@ class MyApp(MDApp):
         sm.add_widget(BorrowerScreen18(name='BorrowerScreen18'))
         sm.add_widget(BorrowerScreen19(name='BorrowerScreen19'))
         sm.add_widget(DashboardScreen(name='borrower_dashboard'))
-        sm.add_widget(LenderScreen(name='lender_registration_form'))
+        sm.add_widget(ProfileScreen(name='ProfileScreen'))
+        sm.add_widget(ApplicationTrackerScreen(name='borrower_application_tracker'))
+        sm.add_widget(LenderScreen(name='LenderScreen'))
         sm.add_widget(LenderScreen1(name='LenderScreen1'))
         sm.add_widget(LenderScreen2(name='LenderScreen2'))
         sm.add_widget(LenderScreen3(name='LenderScreen3'))
