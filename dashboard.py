@@ -1,10 +1,12 @@
 from kivy.core.window import Window
 from kivy.lang import Builder
+from kivy.modules import cursor
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.screenmanager import SlideTransition
 from kivy.metrics import dp
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
+import sqlite3
 
 import lender_registration_form
 
@@ -17,78 +19,106 @@ KV = """
         Rectangle:
             pos: self.pos
             size: self.size
+            
     Image:
         source: "LOGO.png"
-        pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+        pos_hint: {'center_x': 0.5, 'center_y': 0.97}
         size_hint: None, None
-        size: "170dp", "170dp"
-
-    Widget:
-        # Widget to draw a line below the image
-        size_hint_y: None
-        height: dp(1)
-        pos_hint: {'center_x': 0.5, 'center_y': 0.72}
-        canvas.before:
-            Color:
-                rgba: 155/255, 160/255, 162/255, 1  # Change the color to blue (R, G, B, A)
-            Line:
-                points: [self.x + dp(8), self.y, self.x + self.width - dp(8), self.y]
-                width: dp(0.5)  # Decrease the width of the line
+        size: "100dp", "100dp"
+        
     Label:
-        text: 'Start your journey with us'
-        font_size: 23
-        pos_hint: {'center_x': 0.5, 'center_y': 0.66}
+        text: 'An RBI registered NBFC '
+        font_size:dp(13)
+      
+        pos_hint: {'center_x': 0.5, 'center_y': 0.92}
+        color:1/255, 26/255, 51/255, 1
+        underline:"True"
+        
+    Image:
+        source: "dashboardlogo.jpg"
+        pos_hint: {'center_x': 0.5, 'center_y': 0.69}
+        size_hint: None, None
+        size: "200dp", "250dp"
+        
+    Label:
+        id:username
+        pos_hint: {'center_x': 0.5, 'center_y': 0.41}
+        color: 1/255, 26/255, 51/255, 1
+        bold:"True"
+        font_size:dp(23)
+        
+    Label:
+        text: 'Start your journey with us,'
+        font_size:dp(20)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.45}
         color: 0, 0, 0, 1
 
-    Label:
-        text: 'P2P - an RBI registered NBFC '
-        font_size: 25
-        pos_hint: {'center_x': 0.5, 'center_y': 0.6}
-        color: 4/255, 104/255, 153/255, 1
-    Label:
-        text: 'Platform powered by GTPL'
-        font_size: 23
-        pos_hint: {'center_x': 0.5, 'center_y': 0.57}
-        color: 4/255, 104/255, 153/255, 1
-
-
-
-
+        
     MDRaisedButton:
         text: 'Continue as Borrower'
         on_release: root.go_to_borrower_landing()
-        size_hint: (0.8, 0.07)
-        height: dp(150)  # Fixed height
-        pos_hint: {'center_x': 0.5, 'center_y': 0.28}
+        
+        size_hint: (None, None)
+        padding:dp(10)
+        height: dp(100)  # Fixed height
+        pos_hint: {'center_x': 0.5, 'center_y': 0.25}
         theme_text_color: "Custom"
-        text_color: 0, 0, 0, 1
-        md_bg_color: 133/255, 193/255, 233/255, 1       
+        text_color:1,1,1,1
+        md_bg_color:0.302, 0.604, 0.929 ,1   
         font_name: "Roboto-Bold"
-        font_size: 23
-
-
-
-
+        font_size:dp(15)
+        
     MDRaisedButton:
         text: 'Continue as Lender'
         on_release: root.go_to_lender_landing()
-        size_hint: (0.8, 0.07)
-        height: dp(100)  # Fixed height
+        size_hint: (None,None)
+        font_name: "Roboto-Bold"
+        border_radius: [1, 1, 1, 1]
+        height: dp(120)  # Fixed height
         pos_hint: {'center_x': 0.5, 'center_y': 0.15}
         theme_text_color: "Custom"
-        text_color: 0, 0, 0, 1
-        md_bg_color: 52/255, 152/255, 219/255, 1     
-        font_name: "Roboto-Bold"
-        font_size: 23
-
-
+        text_color: 1,1,1,1
+        md_bg_color:0.031, 0.463, 0.91, 1       
+            
+        font_size:dp(15)
 """
 
 
 class DashScreen(Screen):
     Builder.load_string(KV)
 
+
+
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.on_pre_enter()
+
+    def load_user_data(self):
+        pass
+
+
     def on_pre_enter(self):
+        # Connect to the SQLite database
+        connection = sqlite3.connect("fin_user_profile.db")
+        cursor = connection.cursor()
+
+
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        name_list = []
+
+
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+            name_list.append(row[1])
+            connection.close()
+
+        log_index = status.index('logged')
+        self.ids.username.text = name_list[log_index]
         Window.bind(on_keyboard=self.on_back_button)
     def on_pre_leave(self):
         Window.unbind(on_keyboard=self.on_back_button)
