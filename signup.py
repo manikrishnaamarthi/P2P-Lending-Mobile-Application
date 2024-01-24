@@ -50,6 +50,8 @@ KV = """
             helper_text_mode: 'on_focus'
             icon_left: 'cellphone'
             font_name: "Roboto-Bold"
+            input_type: 'number'  
+            on_touch_down: root.on_mobile_number_touch_down()
 
         MDTextField:
             id: email
@@ -260,6 +262,10 @@ conn.close()
 class SignupScreen(Screen):
     Builder.load_string(KV)
 
+    def on_mobile_number_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.mobile.input_type = 'number'
+
     def save_to_database(self):
         try:
             # Connect to the SQLite database
@@ -384,21 +390,22 @@ class SignupScreen(Screen):
             re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=])[A-Za-z\d!@#$%^&*()-_+=]+$', password))
 
     def on_pre_enter(self):
-        # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_back_button)
 
     def on_pre_leave(self):
-        # Unbind the back button event when leaving the screen
         Window.unbind(on_keyboard=self.on_back_button)
 
     def on_back_button(self, instance, key, scancode, codepoint, modifier):
-        # Handle the back button event
-        if key == 27:  # 27 is the keycode for the hardware back button on Android
+
+        if key == 27:
             self.go_back()
-            return True  # Consume the event, preventing further handling
-        return False  # Continue handling the event
+            return True
+        return False
+
+    def on_start(self):
+        Window.softinput_mode = "below_target"
 
     def go_back(self):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'MainScreen'  # Replace with the actual name of your previous screen
+        self.manager.current = 'MainScreen'
