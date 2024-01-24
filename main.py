@@ -28,7 +28,7 @@ from lender_registration_form import (
     LenderScreenIndividualBankForm2,LenderScreenInstitutionalBankForm1,LenderScreenInstitutionalBankForm2,
     KV
 )
-from lender_dashboard import (LenderDashboard, user_helpers1)
+from lender_dashboard import (LenderDashboard,ViewProfileScreen ,user_helpers1)
 from borrower_application_tracker import (ApplicationTrackerScreen,application_tracker)
 
 
@@ -108,6 +108,7 @@ class MyApp(MDApp):
         sm.add_widget(LenderScreenInstitutionalBankForm1(name='LenderScreenInstitutionalBankForm1'))
         sm.add_widget(LenderScreenInstitutionalBankForm2(name='LenderScreenInstitutionalBankForm2'))
         sm.add_widget(LenderDashboard(name='lender_dashboard'))
+        sm.add_widget(ViewProfileScreen(name='ViewProfileScreen'))
         sm.add_widget(NewloanScreen(name='new_loan_request'))
         sm.add_widget(NewScreen(name='new'))
         # Set the initial screen to the login screen
