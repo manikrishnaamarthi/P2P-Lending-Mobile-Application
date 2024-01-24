@@ -1,7 +1,7 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
-from kivy.uix.screenmanager import Screen
+from kivy.uix.screenmanager import Screen, SlideTransition
 
 user_helpers1 = """
 <LenderDashboard>
@@ -17,7 +17,7 @@ user_helpers1 = """
             right_action_items: [['logout', lambda x: root.logout()]]
             pos_hint: {'center_x': 0.5, 'center_y': 0.96}
         Image:
-            source:"C:\\P2P-Lending-Mobile-Application\\LOGO.png"
+            source:"LOGO.png"
             pos_hint: {'center_x': 0.5, 'center_y': 0.956}
             size_hint: None,None
             md_bg_color:0,0,0,1
@@ -1383,6 +1383,26 @@ user_helpers1 = """
 
 
 class LenderDashboard(Screen):
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'LenderLanding'  # Replace with the actual name of your previous screen
+
 
     def homepage(self):
         self.manager.current = 'MainScreen'
@@ -1395,6 +1415,25 @@ class LenderDashboard(Screen):
 
 
 class ViewProfileScreen(Screen):
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'lender_dashboard'  # Replace with the actual name of your previous screen
 
     def on_back_button_press(self):
         self.manager.current = 'lender_dashboard'
