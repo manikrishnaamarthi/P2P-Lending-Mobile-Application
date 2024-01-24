@@ -5,166 +5,271 @@ from kivy.uix.screenmanager import Screen
 
 user_helpers1 = """
 <LenderDashboard>
-    BoxLayout:
-        orientation: 'vertical'
-        size_hint: 1, 1  # Make the size stretchable
+    MDFloatLayout:
+        md_bg_color:1,1,1,1
+        size_hint:(1,1)# Make the size stretchable
 
         MDTopAppBar:
-            title: "Lender DashBoard"
-            elevation: 4
-            left_action_items: [['account', lambda x: root.profile()]]
+            md_bg_color:1,1,1,1
+            specific_text_color:1/255, 26/255, 51/255, 1
+            elevation: 2
+            left_action_items: [['menu', lambda x: root.profile()]]
             right_action_items: [['logout', lambda x: root.logout()]]
-
-        MDGridLayout:
-            cols: 2
-            padding: dp(15)
-            spacing: dp(5)
-            size_hint: 1, 1  # Make the size stretchable
-
-            Button:
-                text: "View Profile"
-                size_hint_y: None
-                background_color: 1, 1 ,1, 0 
-                color: 0, 0, 0, 1
-                bold: True
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-                
-
-
-            Button:
-                text: "View Opening Balance"
-                size_hint_y: None
-                background_color: 1, 1 ,1, 0 
-                color: 0, 0, 0, 1
-                bold: True
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-                
-            Button:
-                text: "View Available Balance"
-                size_hint_y: None
-                background_color: 1, 1 ,1, 0 
-                color: 0, 0, 0, 1
-                bold: True
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.96}
+        Image:
+            source:"C:\\P2P-Lending-Mobile-Application\\LOGO.png"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.956}
+            size_hint: None,None
+            md_bg_color:0,0,0,1
               
+            height: dp(50)
+            width: dp(60)
 
-            Button:
-                text: "Request Top-up Amount"
-                size_hint_y: None
-                background_color: 1, 1 ,1, 0 
-                color: 0, 0, 0, 1
-                bold: True
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+            
+       
+     
+
+ 
+             
+           
+          
+        MDGridLayout:
+            cols: 3
+            spacing:dp(15)
+
+            size_hint_y: None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            height: self.minimum_height
+            width: self.minimum_width
+            size_hint_x: None
+            MDFlatButton:
+                size_hint: None, None
                 
-
-            Button:
-                text: "View Loan Request"
-                size_hint_y: None
-                background_color: 1, 1 ,1, 0 
-                color: 0, 0, 0, 1
-                bold: True
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-                on_release: app.open_balance()
-
-            Button:
-                text: "View Closed Loans"
-                size_hint_y: None
-                background_color: 1, 1 ,1, 0 
-                color: 0, 0, 0, 1
-                bold: True
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-                on_release: app.open_balance()
-
-            Button:
-                text: "View Loan Extension"
-                size_hint_y: None
-                background_color: 1, 1 ,1, 0 
-                color: 0, 0, 0, 1
-                bold: True
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color: 0.031, 0.463, 0.91, 1 
                
-
-            Button:
-                text: "View Loan Foreclosure"
                 size_hint_y: None
-                background_color: 1, 1 ,1, 0 
-                color: 0, 0, 0, 1
-                bold: True
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
                 
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "View Profile "
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
-            Button:
-                text: "Loan Disbursement"
+
+            MDFlatButton:
+                size_hint: None, None
+              
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color:0.031, 0.463, 0.91, 1 
                 size_hint_y: None
-                background_color: 1, 1 ,1, 0 
-                color: 0, 0, 0, 1
-                bold: True
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
                 
-
-            Button:
-                text: "View Lost Opportunities"
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "View Opening Balance"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDFlatButton:
+                size_hint: None, None
+               
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color:0.031, 0.463, 0.91, 1 
                 size_hint_y: None
-                background_color: 1, 1 ,1, 0 
-                color: 0, 0, 0, 1
-                bold: True
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+               
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "View Available Balance"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDFlatButton:
+                size_hint: None, None
+            
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color:0.031, 0.463, 0.91, 1 
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
                 
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "Request Top-up Amount"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDFlatButton:
+                size_hint: None, None
+               
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color:0.031, 0.463, 0.91, 1  
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+                
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "View Loan Request"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDFlatButton:
+                size_hint: None, None
+              
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color:0.031, 0.463, 0.91, 1 
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+                
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "View Closed Loans"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDFlatButton:
+                size_hint: None, None
+                
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color: 0.031, 0.463, 0.91, 1 
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+                
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "View Loan Extensions"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDFlatButton:
+                size_hint: None, None
+               
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color: 0.031, 0.463, 0.91, 1 
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+               
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "View Loan Foreclosure"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDFlatButton:
+                size_hint: None, None
+             
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color:0.031, 0.463, 0.91, 1 
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+                
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "Loan Disbursement"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDLabel:
+                text:""
+
+            MDFlatButton:
+                size_hint: None, None
+                pos_hint: {'center_x': 0.5, 'center_y': 0.25}
+                md_bg_color: 0.031, 0.463, 0.91, 1 
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+                
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(10)
+                    MDLabel:
+                        text: "View Lost Opportunities"
+                        font_size: dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color: 1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
 
-        MDTopAppBar:
-            title:"FAQ" 
-            custom_action_items:[['help']] 
+        MDIconButton:
+            icon:'help-circle'
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos_hint: {'center_x': 0.92, 'center_y': 0.1}
+            md_bg_color: 0.031, 0.463, 0.91, 1              
 
 <ViewProfileScreen>
     canvas.before:
