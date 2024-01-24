@@ -109,10 +109,17 @@ class DashScreen(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             name_list.append(row[1])
-            connection.close()
 
-        log_index = status.index('logged')
-        self.ids.username.text = name_list[log_index]
+        connection.close()
+
+        # Check if 'logged' is in the status list
+        if 'logged' in status:
+            log_index = status.index('logged')
+            self.ids.username.text = name_list[log_index]
+        else:
+            # Handle the case when 'logged' is not in the status list
+            self.ids.username.text = "User Not Logged In"
+
         Window.bind(on_keyboard=self.on_back_button)
 
     def on_pre_leave(self):

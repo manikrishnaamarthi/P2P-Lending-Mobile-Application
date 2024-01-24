@@ -159,7 +159,7 @@ WindowManager:
                     theme_text_color: "Custom"
                     text_color: 86/255, 94/255, 97/255, 1
                     size_hint_y: None
-                    height: 50
+                    height:dp(50)
 
 
 """

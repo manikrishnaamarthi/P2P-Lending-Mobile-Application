@@ -12,7 +12,7 @@ user_helpers1 = """
         MDTopAppBar:
             md_bg_color:1,1,1,1
             specific_text_color:1/255, 26/255, 51/255, 1
-            elevation: 2
+            elevation:2
             left_action_items: [['menu', lambda x: root.profile()]]
             right_action_items: [['logout', lambda x: root.logout()]]
             pos_hint: {'center_x': 0.5, 'center_y': 0.96}
@@ -24,15 +24,6 @@ user_helpers1 = """
               
             height: dp(50)
             width: dp(60)
-
-            
-       
-     
-
- 
-             
-           
-          
         MDGridLayout:
             cols: 3
             spacing:dp(15)

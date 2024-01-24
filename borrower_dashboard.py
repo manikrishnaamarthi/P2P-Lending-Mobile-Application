@@ -39,7 +39,7 @@ user_helpers = """
                 md_bg_color: 0.031, 0.463, 0.91, 1 
                
                 size_hint_y: None
-                height: dp(60)
+                height: dp(59)
                 size_hint_x: None
                 width: dp(110)
                 
@@ -83,8 +83,7 @@ user_helpers = """
                 size_hint: None, None
                 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
-               
+                md_bg_color: 0.031, 0.463, 0.91, 1       
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
