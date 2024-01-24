@@ -1,7 +1,7 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
-from kivy.uix.screenmanager import Screen
+from kivy.uix.screenmanager import Screen, SlideTransition
 
 user_helpers = """
 <DashboardScreen>:
@@ -17,7 +17,7 @@ user_helpers = """
             right_action_items: [['logout', lambda x: root.logout()]]
             pos_hint: {'center_x': 0.5, 'center_y': 0.96}
         Image:
-            source:"C:\\P2P-Lending-Mobile-Application\\LOGO.png"
+            source:"LOGO.png"
             pos_hint: {'center_x': 0.5, 'center_y': 0.96555}        
             md_bg_color:0,0,0,1
             size_hint: None,None 
@@ -112,19 +112,19 @@ user_helpers = """
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-                
+                on_release: root.open_balance()
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
                     MDLabel:
-                        text: "View Loan Requests"
+                        text: "New Loan Requests"
                         font_size:dp(14)
                         bold:True
                         theme_text_color: 'Custom'
                         halign: "center"
                         text_color:1,1,1,1
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+                    
             MDFlatButton:
                 size_hint: None, None
                 
@@ -181,7 +181,7 @@ user_helpers = """
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-                
+                on_release: root.app_tracker()
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -2411,6 +2411,22 @@ user_helpers = """
 
 
 class DashboardScreen(Screen):
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'BorrowerLanding'
+
     def open_balance(self):
         self.manager.current = 'new_loan_request'
 
@@ -2425,6 +2441,22 @@ class DashboardScreen(Screen):
 
 
 class ProfileScreen(Screen):
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'borrower_dashboard'
+
 
     def on_back_button_press(self):
         self.manager.current = 'borrower_dashboard'

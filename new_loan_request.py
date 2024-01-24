@@ -1,6 +1,7 @@
+from kivy.core.window import Window
 from kivymd.app import MDApp
 from kivy.lang import Builder
-from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.screenmanager import Screen, ScreenManager, SlideTransition
 from kivymd.uix.button import MDRectangleFlatButton
 from kivymd.uix.slider import MDSlider
 from kivymd.uix.label import MDLabel
@@ -205,10 +206,42 @@ conn.close()
 
 
 class NewloanScreen(Screen):
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'borrower_dashboard'
+
     def current(self):
         self.manager.current = 'borrower_dashboard'
 
 
 class NewScreen(Screen):
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'new_loan_request'
+
     def current(self):
         self.manager.current = 'new_loan_request'
