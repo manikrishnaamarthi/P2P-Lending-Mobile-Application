@@ -219,15 +219,10 @@ class LoginScreen(Screen):
     def go_to_signup(self):
         self.manager.current = 'SignupScreen'
 
-
-
-
     def on_pre_enter(self):
-
         Window.bind(on_keyboard=self.on_back_button)
 
     def on_pre_leave(self):
-
         Window.unbind(on_keyboard=self.on_back_button)
 
     def on_back_button(self, instance, key, scancode, codepoint, modifier):
@@ -237,6 +232,8 @@ class LoginScreen(Screen):
             return True
         return False
 
+    def on_start(self):
+        Window.softinput_mode = "below_target"
     def go_back(self):
 
         self.manager.transition = SlideTransition(direction='right')

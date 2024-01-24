@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.core.window import Window
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
@@ -28,7 +29,7 @@ from lender_registration_form import (
     LenderScreenIndividualBankForm2,LenderScreenInstitutionalBankForm1,LenderScreenInstitutionalBankForm2,
     KV
 )
-from lender_dashboard import (LenderDashboard,ViewProfileScreen ,user_helpers1)
+from lender_dashboard import (LenderDashboard, user_helpers1)
 from borrower_application_tracker import (ApplicationTrackerScreen,application_tracker)
 
 
@@ -108,7 +109,6 @@ class MyApp(MDApp):
         sm.add_widget(LenderScreenInstitutionalBankForm1(name='LenderScreenInstitutionalBankForm1'))
         sm.add_widget(LenderScreenInstitutionalBankForm2(name='LenderScreenInstitutionalBankForm2'))
         sm.add_widget(LenderDashboard(name='lender_dashboard'))
-        sm.add_widget(ViewProfileScreen(name='ViewProfileScreen'))
         sm.add_widget(NewloanScreen(name='new_loan_request'))
         sm.add_widget(NewScreen(name='new'))
         # Set the initial screen to the login screen
@@ -120,7 +120,30 @@ class MyApp(MDApp):
         return sm
 
 
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_keyboard)
+        Window.bind(on_keyboard=self.on_back_button)
 
+    def on_pre_leave(self):
+       Window.unbind(on_keyboard=self.on_keyboard)
+       Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def on_keyboard(self, window, key, *args):
+        if key == 27:  # Key code for the 'Escape' key
+            # Keyboard is closed, move the screen down
+            self.screen_manager.y = 0
+        return True
+
+
+    def on_start(self):
+        Window.softinput_mode = "below_target"
 
 
 if __name__ == '__main__':

@@ -148,22 +148,26 @@ KV = '''
                 height:dp(50)
 
             MDTextField:
-                id: username
+                id: mobile
                 hint_text: 'Enter mobile number'
                 multiline: False
                 helper_text: 'Enter valid number'
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
                 hint_text_color: 0,0,0, 1
+                input_type: 'number'  
+                on_touch_down: root.on_mobile_number_touch_down()
 
             MDTextField:
-                id: username
+                id: alternate_mobile
                 hint_text: 'Enter your alternate email'
                 multiline: False
                 helper_text: 'Enter your valid email_id'
                 helper_text_mode: 'on_focus'
                 hint_text_color: 0, 0, 0, 1
                 font_name: "Roboto-Bold"
+                input_type: 'number'  
+                on_touch_down: root.on_mobile_number_touch_down()
 
             Spinner:
                 id: spinner_id
@@ -1268,11 +1272,13 @@ KV = '''
                 size_hint_y: None  
 
             MDTextField:
-                id: Zip_code
+                id: zip_code
                 hint_text: 'Enter postal/zipcode '
                 multiline: False
                 helper_text_mode: 'on_focus'
                 size_hint_y: None  
+                input_type: 'number'  
+                on_touch_down: root.on_mobile_number_touch_down()
             MDTextField:
                 id: street_address
                 hint_text: 'Enter Street Name'
@@ -1352,6 +1358,9 @@ KV = '''
                 multiline: False
                 helper_text: 'Enter above 100000'
                 helper_text_mode: 'on_focus'
+                input_type: 'number'  
+                on_touch_down: root.on_investment_touch_down()
+
 
             Spinner:
                 id: spinner2
@@ -1628,6 +1637,8 @@ KV = '''
                 multiline: False                   
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
+                input_type: 'number'  
+                on_touch_down: root.on_last_six_months_turnover_touch_down()
 
             MDLabel:
                 text: "Last 6 months bank statements"
@@ -1733,6 +1744,8 @@ KV = '''
                 multiline: False                   
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
+                input_type: 'number'  
+                on_touch_down: root.on_director_mobile_number_touch_down()
 
             MDTextField:
                 id:  din
@@ -2019,6 +2032,8 @@ KV = '''
                 multiline: False                        
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
+                input_type: 'number'  
+                on_touch_down: root.on_company_pin_code_touch_down()
 
             MDTextField:              
                 id:company_country
@@ -2040,6 +2055,8 @@ KV = '''
                 multiline: False                        
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
+                input_type: 'number'  
+                on_touch_down: root.on_business_phone_number_touch_down()
 
             GridLayout:
                 cols: 1
@@ -2097,6 +2114,8 @@ KV = '''
                 multiline: False                        
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
+                input_type: 'number'  
+                on_touch_down: root.on_annual_salary_touch_down()
 
             MDTextField:              
                 id:designation
@@ -2525,6 +2544,7 @@ KV = '''
 
 
 class LenderScreen(Screen):
+
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_back_button)
@@ -2550,6 +2570,12 @@ class LenderScreen(Screen):
 
 
 class LenderScreen1(Screen):
+    def on_mobile_number_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.mobile.input_type = 'number'
+    def on_mobile_number_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.alternate_mobile.input_type = 'number'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2734,6 +2760,9 @@ class LenderScreen_Edu_PHD(Screen):
 
 
 class LenderScreen4(Screen):
+    def on_mobile_number_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.zip_code.input_type = 'number'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2755,6 +2784,9 @@ class LenderScreen4(Screen):
 
 
 class LenderScreen5(Screen):
+    def on_investment_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.investment.input_type = 'number'
     def next_pressed(self, id):
         if id == 'Individual':
             self.manager.current = 'LenderScreenIndividualForm1'
@@ -2825,6 +2857,9 @@ class LenderScreenInstitutionalForm2(Screen):
 
 
 class LenderScreenInstitutionalForm3(Screen):
+    def on_last_six_months_turnover_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.last_six_months_turnover.input_type = 'number'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2846,6 +2881,9 @@ class LenderScreenInstitutionalForm3(Screen):
 
 
 class LenderScreenInstitutionalForm4(Screen):
+    def on_director_mobile_number_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.director_mobile_number.input_type = 'number'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2909,6 +2947,12 @@ class LenderScreenIndividualForm1(Screen):
 
 
 class LenderScreenIndividualForm2(Screen):
+    def on_company_pin_code_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.company_pin_code.input_type = 'number'
+    def on_business_phone_number_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.business_phone_number.input_type = 'number'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2930,6 +2974,10 @@ class LenderScreenIndividualForm2(Screen):
 
 
 class LenderScreenIndividualForm3(Screen):
+
+    def on_annual_salary_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.annual_salary.input_type = 'number'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
