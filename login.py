@@ -10,58 +10,66 @@ from kivymd.uix.button import MDRaisedButton, MDFlatButton
 
 KV = """
 <LoginScreen>:
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1
-        Rectangle:
-            size: self.size
-            pos: self.pos
-
-    BoxLayout:
-        orientation: "vertical"
-        padding:dp(40)
-
-
+    MDFloatLayout:
+        md_bg_color:1,1,1,1
         Image:
             source: "LOGO.png"
-            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.93}
             size_hint: None, None
-            size: "170dp", "170dp"
-
+            size: "100dp", "100dp"
+    
         MDLabel:
             id: label1
-            text: 'LOGIN'
-            font_size:dp(30)
+            text: 'Welcome Back!'
+            font_size:dp(23)
+            
             halign: 'center'
-            bold: True
-
-        MDTextField:
-            id: email
-            hint_text: "Email/Mobile Number"
-            helper_text_mode: "on_focus"
-            icon_right: "account"
-            font_name: "Roboto-Bold"
-
-        MDTextField:
-            id: password
-            hint_text: "Password"
-            helper_text: "Enter your password"
-            helper_text_mode: "on_focus"
-            icon_right: "lock"
-            password: not password_visibility.active
-            size_hint_y: None
-            height: "30dp"
-            width: dp(200)
-            pos_hint: {"center_y": 0.5}
-            on_text_validate: app.validate_password()
-
-
+            font_name:"Roboto-Bold"
+            underline:"True"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.81}
+        MDLabel:
+         
+            text: 'Login to continue'
+            color:6/255, 143/255, 236/255, 1
+            font_size:dp(16)
+            halign: 'center'
+          
+            pos_hint: {'center_x': 0.5, 'center_y': 0.77}
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.8, None
+            height: "80dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,1
+                Line:
+                    rectangle: self.x, self.y, self.width, self.height
+            MDTextField:
+                id: email      
+                hint_text: "Email/Mobile Number"
+                helper_text_mode: "on_focus"
+                icon_right: "account"
+                font_name: "Roboto-Bold"
+                pos_hint: {'center_x': 0.5, 'center_y': 0.57}
+            MDTextField:
+                id: password
+                hint_text: "Password"
+                helper_text: "Enter your password"
+                helper_text_mode: "on_focus"
+                icon_right: "lock"
+                password: not password_visibility.active
+                size_hint_y: None
+                height: "30dp"
+                width: dp(200)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.46}
+                on_text_validate: app.validate_password()
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
             height: "29dp"
             spacing:dp(5)
-
+            pos_hint: {'center_x': 0.6, 'center_y': 0.4}
             MDCheckbox:
                 id: password_visibility
                 size_hint: None, None
@@ -75,16 +83,14 @@ KV = """
                 size: "30dp", "30dp"
                 theme_text_color: "Secondary"
                 halign: "left"
-                valign: "center"
-
+                valign: "center"      
         GridLayout:
             cols: 2
             spacing:dp(20)
             padding:dp(20)
-            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.32}
             size_hint: 1, None
             height: "50dp"
-
             MDRaisedButton:
                 text: "Back"
                 on_release: app.root.current ='MainScreen'
@@ -94,7 +100,6 @@ KV = """
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
-
             MDRaisedButton:
                 text: "Login"
                 on_release: root.go_to_dashboard()
@@ -103,24 +108,20 @@ KV = """
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
-
-
         MDLabel:
             id: error_text
             text: ""
 
     BoxLayout:
         orientation: 'horizontal'
-
         size_hint: None, None
         width: "190dp"
         height: "35dp"
-        pos_hint: {'center_x': 0.46, 'center_y': 0.12}
+        pos_hint: {'center_x': 0.5, 'center_y': 0.2}
 
         MDLabel:
             text: "Don't have an account?"
             font_size:dp(14)
-
             theme_text_color: 'Secondary'
             halign: 'center'
             valign: 'center'
@@ -128,6 +129,7 @@ KV = """
         MDFlatButton:
             text: "Sign Up"
             font_size:dp(18)
+        
             theme_text_color: 'Custom'
             text_color: 6/255, 143/255, 236/255, 1
             on_release: root.go_to_signup()
