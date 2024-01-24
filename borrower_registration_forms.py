@@ -89,6 +89,8 @@ Borrower = '''
             helper_text_mode: 'on_focus'
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_mobile_number_touch_down()
 
         BoxLayout:
             orientation: 'vertical'
@@ -137,6 +139,8 @@ Borrower = '''
             helper_text_mode: 'on_focus'
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_mobile_number_touch_down()
 
         MDTextField:
             id: alternate_email
@@ -149,6 +153,8 @@ Borrower = '''
             helper_text_mode: 'on_focus'
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_mobile_number_touch_down()
 
         BoxLayout:
             orientation: 'horizontal'
@@ -423,6 +429,8 @@ Borrower = '''
             text_color: 1, 1, 1, 1
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_Zip_code_touch_down()
 
         MDTextField:
             id: state
@@ -523,6 +531,8 @@ Borrower = '''
             text_color: 1, 1, 1, 1
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_father_age_touch_down()
 
         MDTextField:
             id: father_occupation
@@ -547,6 +557,8 @@ Borrower = '''
             text_color: 1, 1, 1, 1
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_father_ph_no_touch_down()
 
         GridLayout:
             cols: 2
@@ -622,6 +634,8 @@ Borrower = '''
             text_color: 1, 1, 1, 1
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_mother_age_touch_down()
 
         MDTextField:
             id: mother_occupation
@@ -645,6 +659,8 @@ Borrower = '''
             text_color: 1, 1, 1, 1
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_mother_ph_no_touch_down()
 
 
         GridLayout:
@@ -1118,6 +1134,8 @@ Borrower = '''
             helper_text_mode: 'on_focus'
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_last_six_months_turnover_touch_down()
 
         MDLabel:
             text: "Last 6 months Bank Statements"
@@ -1235,6 +1253,8 @@ Borrower = '''
             helper_text_mode: 'on_focus'
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_director_mobile_number_touch_down()
 
         MDTextField:
             id: din
@@ -1439,6 +1459,8 @@ Borrower = '''
             helper_text_mode: 'on_focus'
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_company_pincode_touch_down()
 
         MDTextField:              
             id: company_country
@@ -1475,6 +1497,8 @@ Borrower = '''
             helper_text_mode: 'on_focus'
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_business_number_touch_down()
 
         GridLayout:
             cols: 2
@@ -1538,6 +1562,8 @@ Borrower = '''
             helper_text_mode: 'on_focus'
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_annual_salary_touch_down()
 
         MDTextField:              
             id: designation
@@ -1785,6 +1811,8 @@ Borrower = '''
             helper_text_mode: 'on_focus'
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_spouse_mobile_touch_down()
 
         MDTextField:
             id: spouse_profession
@@ -1883,6 +1911,8 @@ Borrower = '''
             helper_text_mode: 'on_focus'
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_spouse_annual_salary_touch_down()
         MDTextField:
             id:spouse_office_no
             hint_text: 'Enter Spouse Office Number'
@@ -1894,6 +1924,8 @@ Borrower = '''
             helper_text_mode: 'on_focus'
             font_name: "Roboto-Bold"
             bold: True
+            input_type: 'number'  
+            on_touch_down: root.on_spouse_office_no_touch_down()
 
         GridLayout:
             cols: 2
@@ -2173,7 +2205,14 @@ class BorrowerScreen(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'BorrowerLanding'
 
+    def on_mobile_number_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.mobile_number.input_type = 'number'
+
 class BorrowerScreen1(Screen):
+    def on_mobile_number_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.alternate_mobile_number.input_type = 'number'
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.manager_open_1 = False
@@ -2371,6 +2410,9 @@ class BorrowerScreen2(Screen):
         self.manager.current = 'BorrowerScreen1'
 
 class BorrowerScreen3(Screen):
+    def on_Zip_code_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.Zip_code.input_type = 'number'
     def add_data(self, street, city, zip_code, state, country):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -2407,6 +2449,13 @@ class BorrowerScreen3(Screen):
 
 
 class BorrowerScreen4(Screen):
+    def on_father_age_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.father_age.input_type = 'number'
+
+    def on_father_ph_no_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.father_ph_no.input_type = 'number'
     def add_data(self, father_name, father_age, father_occupation, father_ph_no):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -2444,6 +2493,13 @@ class BorrowerScreen4(Screen):
 
 
 class BorrowerScreen5(Screen):
+    def on_mother_age_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.mother_age.input_type = 'number'
+
+    def on_mother_ph_no_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.mother_ph_no.input_type = 'number'
 
     def add_data(self, mother_name, mother_age, mother_occupation, mother_ph_no):
         cursor.execute('select * from fin_users')
@@ -2682,6 +2738,9 @@ class BorrowerScreen9(Screen):
 
 
 class BorrowerScreen10(Screen):
+    def on_last_six_months_turnover_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.last_six_months_turnover.input_type = 'number'
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.manager_open_1 = False
@@ -2761,6 +2820,9 @@ class BorrowerScreen10(Screen):
 
 
 class BorrowerScreen11(Screen):
+    def on_director_mobile_number_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.director_mobile_number.input_type = 'number'
     def add_data(self, director_name, director_mobile_number, DIN, CIN):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -2877,6 +2939,13 @@ class BorrowerScreen12(Screen):
 
 
 class BorrowerScreen13(Screen):
+    def on_company_pincode_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.company_pincode.input_type = 'number'
+
+    def on_business_number_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.business_number.input_type = 'number'
     def add_data(self, company_name, company_pincode, company_country, landmark, business_number):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -2914,6 +2983,9 @@ class BorrowerScreen13(Screen):
 
 
 class BorrowerScreen14(Screen):
+    def on_annual_salary_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.annual_salary.input_type = 'number'
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.manager_open_1 = False
@@ -3077,6 +3149,9 @@ class BorrowerScreen15(Screen):
 
 
 class BorrowerScreen16(Screen):
+    def on_spouse_mobile_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.spouse_mobile.input_type = 'number'
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.date_picker = MDDatePicker()
@@ -3126,6 +3201,13 @@ class BorrowerScreen16(Screen):
 
 
 class BorrowerScreen17(Screen):
+    def on_spouse_annual_salary_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.spouse_annual_salary.input_type = 'number'
+
+    def on_spouse_office_no_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.spouse_office_no.input_type = 'number'
     def add_data(self, spouse_company_name, spouse_company_address, spouse_annual_salary, spouse_office_no):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
