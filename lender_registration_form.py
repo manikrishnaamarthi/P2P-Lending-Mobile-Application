@@ -5,6 +5,19 @@ from kivymd.uix.button import MDRectangleFlatButton
 from kivy.metrics import dp
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.pickers import MDDatePicker
+import sqlite3
+from kivy import platform
+from kivy.lang import Builder
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.image import Image
+from kivy.uix.screenmanager import Screen, ScreenManager
+from kivymd.app import MDApp
+from kivymd.uix.button import MDRaisedButton, MDIconButton, MDRectangleFlatButton
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.filemanager import MDFileManager
+import sqlite3
+from kivymd.uix.pickers import MDDatePicker
+
 
 KV = '''
 <LenderScreen>:
@@ -89,7 +102,7 @@ KV = '''
                 hint_text: "Select Date Of Birth"
                 icon_right: "calendar"
                 readonly: True
-                on_focus: if self.focus: app.show_date_picker()
+                on_focus: root.show_date_picker()
                 font_name: "Roboto-Bold"
                 hint_text_color: 0, 0, 0, 1
 
@@ -103,7 +116,7 @@ KV = '''
                 size_hint: 1, None
                 height: "50dp"
                 font_name: "Roboto-Bold"
-                on_release: app.root.current = 'LenderScreen1'
+                on_release: root.add_data(username.text, spinner_id.text, date_textfield.text)
 
 
 <LenderScreen1>:
@@ -148,7 +161,7 @@ KV = '''
                 height:dp(50)
 
             MDTextField:
-                id: mobile
+                id: mobile_number
                 hint_text: 'Enter mobile number'
                 multiline: False
                 helper_text: 'Enter valid number'
@@ -159,7 +172,7 @@ KV = '''
                 on_touch_down: root.on_mobile_number_touch_down()
 
             MDTextField:
-                id: alternate_mobile
+                id: altername_email
                 hint_text: 'Enter your alternate email'
                 multiline: False
                 helper_text: 'Enter your valid email_id'
@@ -194,7 +207,7 @@ KV = '''
 
                 MDRectangleFlatButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreen2'
+                    on_release: root.add_data(mobile_number.text, altername_email.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -262,15 +275,18 @@ KV = '''
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
+                    id: upload_icon1
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+                    on_release: root.file_manager_open_1()
+                
                 MDLabel:
+                    id: upload_label1
                     text: 'Upload Govt ID1'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -306,15 +322,18 @@ KV = '''
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-                MDIcon:
+                MDIconButton:
+                    id: upload_icon2
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+                    on_release: root.file_manager_open_2()
+    
                 MDLabel:
+                    id: upload_label2
                     text: 'Upload Govt ID2'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -327,7 +346,7 @@ KV = '''
 
             MDRectangleFlatButton:
                 text: "Next"
-                on_release: app.root.current = 'LenderScreen3'
+                on_release: root.add_data(aadhar_number.text, pan_number.text)
                 md_bg_color: 0.031, 0.463, 0.91, 1
                 pos_hint: {'right': 1, 'y': 0.5}
                 text_color: 1, 1, 1, 1
@@ -473,17 +492,19 @@ KV = '''
                     Line:
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-
-                MDIcon:
+    
+    
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+                    on_release: root.upload_1()
+    
                 MDLabel:
+                    id: upload_label1
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -492,8 +513,7 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-
+    
             GridLayout:
                 cols: 1
                 spacing:dp(30)
@@ -558,15 +578,17 @@ KV = '''
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_1()
 
                 MDLabel:
+                    id: upload_label1
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -596,15 +618,17 @@ KV = '''
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_2()
 
                 MDLabel:
+                    id: upload_label2
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -675,15 +699,17 @@ KV = '''
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_1()
 
                 MDLabel:
+                    id: upload_label1
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -713,15 +739,17 @@ KV = '''
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_2()
 
                 MDLabel:
+                    id: upload_label2
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -751,15 +779,17 @@ KV = '''
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_3()
 
                 MDLabel:
+                    id: upload_label3
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -835,15 +865,17 @@ KV = '''
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_1()
 
                 MDLabel:
+                    id: upload_label1
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -873,15 +905,17 @@ KV = '''
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_2()
 
                 MDLabel:
+                    id: upload_label2
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -911,15 +945,17 @@ KV = '''
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_3()
 
                 MDLabel:
+                    id: upload_label3
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -949,15 +985,17 @@ KV = '''
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_4()
 
                 MDLabel:
+                    id: upload_label4
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -966,6 +1004,7 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
 
             GridLayout:
                 cols: 1
@@ -1031,15 +1070,17 @@ KV = '''
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_1()
 
                 MDLabel:
+                    id: upload_label1
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -1068,15 +1109,17 @@ KV = '''
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_2()
 
                 MDLabel:
+                    id: upload_label2
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -1105,15 +1148,17 @@ KV = '''
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_3()
 
                 MDLabel:
+                    id: upload_label3
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -1143,15 +1188,17 @@ KV = '''
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_4()
 
                 MDLabel:
+                    id: upload_label4
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -1180,15 +1227,17 @@ KV = '''
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
-                MDIcon:
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: root.upload_5()
 
                 MDLabel:
+                    id: upload_label5
                     text: 'Upload Certificate'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -1197,7 +1246,7 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+                    
             GridLayout:
                 cols: 1
                 spacing:dp(30)
@@ -1294,7 +1343,7 @@ KV = '''
 
                 MDRectangleFlatButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreen5'
+                    on_release: root.add_data(street_address.text, city.text, zip_code.text, state.text, country.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -1387,7 +1436,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_press: root.next_pressed(spinner_id.text)
+                    on_press: root.next_pressed(spinner_id.text, investment.text, spinner2.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -1475,7 +1524,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm2'
+                    on_release: root.add_data(business_name.text,business_location.text,business_address.text,branch_name.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -1570,7 +1619,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm3'
+                    on_release: root.add_data(spin.text,nearest_location.text,spinner_id.text,year_of_estd.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -1659,17 +1708,19 @@ KV = '''
                     Line:
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-
-                MDIcon:
+    
+    
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+                    on_release: root.upload1()
+    
                 MDLabel:
+                    id: upload_label1
                     text: 'Upload Document'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -1688,7 +1739,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm4'
+                    on_release: root.add_data(spinner_id.text,last_six_months_turnover.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -1770,7 +1821,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreenInstitutionalForm5'
+                    on_release: root.add_data(director_name.text,director_mobile_number.text,din.text,cin.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -1839,17 +1890,19 @@ KV = '''
                     Line:
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-
-                MDIcon:
+    
+    
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+                    on_release: root.upload1()
+    
                 MDLabel:
+                    id: upload_label1
                     text: 'Upload Document'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -1872,7 +1925,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreenInstitutionalBankForm1'
+                    on_release: root.add_data(reg_office_address.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -1976,7 +2029,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreenIndividualForm2'
+                    on_release: root.add_data(spinner1.text, company_name.text, spinner2.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -2066,7 +2119,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreenIndividualForm3'
+                    on_release: root.add_data(company_address.text, company_pin_code.text, company_country.text, landmark.text, business_phone_number.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -2143,17 +2196,19 @@ KV = '''
                     Line:
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-
-                MDIcon:
+        
+        
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+                    on_release: root.upload1()
+        
                 MDLabel:
+                    id: upload_label1
                     text: 'Upload Document'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -2162,13 +2217,13 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+        
             MDLabel:
                 text: "Upload last 6 months bank statements"
                 halign: 'center'
                 bold: True
-
-
+        
+        
             BoxLayout:
                 orientation: 'horizontal'
                 padding: "10dp"
@@ -2182,17 +2237,19 @@ KV = '''
                     Line:
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-
-                MDIcon:
+        
+        
+                MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1  # Black text color
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+                    on_release: root.upload2()
+        
                 MDLabel:
+                    id: upload_label2
                     text: 'Upload Document'
                     halign: 'left'
                     theme_text_color: "Custom"
@@ -2202,6 +2259,7 @@ KV = '''
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
+
             GridLayout:
                 cols: 1
                 spacing:dp(30)
@@ -2209,7 +2267,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreenIndividualBankForm1'
+                    on_release: root.add_data(annual_salary.text, designation.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -2303,7 +2361,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreenIndividualBankForm2'
+                    on_release: root.add_data(account_holder_name.text, spinner_id.text, account_number.text, bank_name.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -2369,7 +2427,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Submit"
-                    on_release: root.go_to_lender_dashboard()
+                    on_release: root.go_to_lender_dashboard(ifsc_code.text, branch_name.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -2463,7 +2521,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreenInstitutionalBankForm2'
+                    on_release: root.add_data(account_holder_name.text, spinner_id.text, account_number.text, bank_name.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -2531,7 +2589,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Submit"
-                    on_release: root.go_to_lender_dashboard()
+                    on_release: root.go_to_lender_dashboard(ifsc_code.text, branch_name.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -2542,9 +2600,50 @@ KV = '''
 
 '''
 
+conn = sqlite3.connect("fin_user_profile.db")
+cursor = conn.cursor()
 
 class LenderScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.date_picker = MDDatePicker()
+        self.date_picker.bind(on_save=self.on_date_selected)
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        a = 0
+        row_id_list = []
+        status = []
+        name_list = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+            name_list.append(row[1])
+        log_index = status.index('logged')
+        self.ids.username.text = name_list[log_index]
 
+    def show_date_picker(self):
+        self.date_picker.open()
+    def on_date_selected(self, instance, the_date,a):
+        print(f"Selected date: {the_date, the_date.year}")
+        self.ids.date_textfield.text = f'{the_date.year}-{the_date.month}-{the_date.day}'
+
+    def add_data(self, name, gender,date):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        b = 'lender'
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+
+
+        cursor.execute("UPDATE fin_registration_table SET name = ?, gender = ?, date_of_birth = ?, user_type = ? WHERE customer_id = ?",
+                       (name, gender, date,b, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreen1'
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_back_button)
@@ -2570,12 +2669,26 @@ class LenderScreen(Screen):
 
 
 class LenderScreen1(Screen):
+    def add_data(self, mobile_number, alternate_email):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET mobile_number = ?, alternate_email = ? WHERE customer_id = ?",
+                       (mobile_number, alternate_email, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreen2'
     def on_mobile_number_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
-        self.ids.mobile.input_type = 'number'
+        self.ids.mobile_number.input_type = 'number'
     def on_mobile_number_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
-        self.ids.alternate_mobile.input_type = 'number'
+        self.ids.mobile_number.input_type = 'number'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2597,6 +2710,100 @@ class LenderScreen1(Screen):
 
 
 class LenderScreen2(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.manager_open_1 = False
+        self.manager_open_2 = False
+        self.file_manager_1 = MDFileManager(
+            exit_manager=self.exit_manager_1,
+            select_path=self.select_path_1
+        )
+        self.file_manager_2 = MDFileManager(
+            exit_manager=self.exit_manager_2,
+            select_path=self.select_path_2
+        )
+
+    # Other existing methods here...
+
+    def file_manager_open_1(self):
+        self.file_manager_1.show('/')
+        self.manager_open_1 = True
+
+    def select_path_1(self, path):
+        print(f"Selected path 1: {path}")
+        self.update_data_with_file_1(path)
+        self.exit_manager_1()
+    def update_data_with_file_1(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET aadhar_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+
+        self.ids.upload_label1.text = 'Upload Successfully'
+
+    def exit_manager_1(self, *args):
+        self.manager_open_1 = False
+        self.file_manager_1.close()
+
+    def upload_1(self):
+        if not self.manager_open_1:
+            self.file_manager_open_1()
+
+
+    # Repeat similar methods for file manager 2...
+
+    def file_manager_open_2(self):
+        self.file_manager_2.show('/')
+        self.manager_open_2 = True
+
+    def select_path_2(self, path):
+        print(f"Selected path 2: {path}")
+        self.update_data_with_file_2(path)
+        self.exit_manager_2()
+
+    def update_data_with_file_2(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET pan_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label2.text = 'Upload Successfully'
+
+    def exit_manager_2(self, *args):
+        self.manager_open_2 = False
+        self.file_manager_2.close()
+
+    def upload_2(self):
+        if not self.manager_open_2:
+            self.file_manager_open_2()
+
+
+    def add_data(self, aadhar_number, pan_number):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET aadhar_number = ?, pan_number = ? WHERE customer_id = ?", (aadhar_number, pan_number, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreen3'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2621,9 +2828,11 @@ class LenderScreen3(Screen):
 
     def next_pressed(self, id):
         if id == '10th class':
+            LenderScreen_Edu_10th()
             self.manager.current = 'LenderScreen_Edu_10th'
 
         elif id == 'Intermediate':
+            LenderScreen_Edu_Intermediate()
             self.manager.current = 'LenderScreen_Edu_Intermediate'
 
         elif id == 'Bachelors':
@@ -2633,6 +2842,17 @@ class LenderScreen3(Screen):
         elif id == 'PHD':
             self.manager.current = 'LenderScreen_Edu_PHD'
         print(id)
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+        cursor.execute("UPDATE fin_registration_table SET highest_qualification = ? WHERE customer_id = ?",
+                       (id, row_id_list[log_index]))
+        conn.commit()
 
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
@@ -2655,6 +2875,46 @@ class LenderScreen3(Screen):
 
 
 class LenderScreen_Edu_10th(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.manager_open_1 = False
+        self.file_manager_1 = MDFileManager(
+            exit_manager=self.exit_manager_1,
+            select_path=self.select_path_1
+        )
+
+    # Other existing methods here...
+
+    def file_manager_open_1(self):
+        self.file_manager_1.show('/')
+        self.manager_open_1 = True
+
+    def select_path_1(self, path):
+        print(f"Selected path 1: {path}")
+        self.update_data_with_file_1(path)
+        self.exit_manager_1()
+
+    def update_data_with_file_1(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label1.text = 'Upload Successfully'
+
+    def exit_manager_1(self, *args):
+        self.manager_open_1 = False
+        self.file_manager_1.close()
+
+    def upload_1(self):
+        if not self.manager_open_1:
+            self.file_manager_open_1()
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2676,6 +2936,83 @@ class LenderScreen_Edu_10th(Screen):
 
 
 class LenderScreen_Edu_Intermediate(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.manager_open_1 = False
+        self.manager_open_2 = False
+        self.file_manager_1 = MDFileManager(
+            exit_manager=self.exit_manager_1,
+            select_path=self.select_path_1
+        )
+        self.file_manager_2 = MDFileManager(
+            exit_manager=self.exit_manager_2,
+            select_path=self.select_path_2
+        )
+
+    # Other existing methods here...
+
+    def file_manager_open_1(self):
+        self.file_manager_1.show('/')
+        self.manager_open_1 = True
+
+    def select_path_1(self, path):
+        print(f"Selected path 1: {path}")
+        self.update_data_with_file_1(path)
+        self.exit_manager_1()
+
+    def update_data_with_file_1(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label1.text = 'Upload Successfully'
+
+    def exit_manager_1(self, *args):
+        self.manager_open_1 = False
+        self.file_manager_1.close()
+
+    def upload_1(self):
+        if not self.manager_open_1:
+            self.file_manager_open_1()
+
+    # Repeat similar methods for file manager 2...
+
+    def file_manager_open_2(self):
+        self.file_manager_2.show('/')
+        self.manager_open_2 = True
+
+    def select_path_2(self, path):
+        print(f"Selected path 2: {path}")
+        self.update_data_with_file_2(path)
+        self.exit_manager_2()
+
+    def update_data_with_file_2(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label2.text = 'Upload Successfully'
+
+    def exit_manager_2(self, *args):
+        self.manager_open_2 = False
+        self.file_manager_2.close()
+
+    def upload_2(self):
+        if not self.manager_open_2:
+            self.file_manager_open_2()
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2697,6 +3034,121 @@ class LenderScreen_Edu_Intermediate(Screen):
 
 
 class LenderScreen_Edu_Bachelors(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.manager_open_1 = False
+        self.manager_open_2 = False
+        self.manager_open_3 = False
+        self.file_manager_1 = MDFileManager(
+            exit_manager=self.exit_manager_1,
+            select_path=self.select_path_1
+        )
+        self.file_manager_2 = MDFileManager(
+            exit_manager=self.exit_manager_2,
+            select_path=self.select_path_2
+        )
+        self.file_manager_3 = MDFileManager(
+            exit_manager=self.exit_manager_3,
+            select_path=self.select_path_3
+        )
+
+    # Other existing methods here...
+
+    def file_manager_open_1(self):
+        self.file_manager_1.show('/')
+        self.manager_open_1 = True
+
+    def select_path_1(self, path):
+        print(f"Selected path 1: {path}")
+        self.update_data_with_file_1(path)
+        self.exit_manager_1()
+
+    def update_data_with_file_1(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label1.text = 'Upload Successfully'
+
+    def exit_manager_1(self, *args):
+        self.manager_open_1 = False
+        self.file_manager_1.close()
+
+    def upload_1(self):
+        if not self.manager_open_1:
+            self.file_manager_open_1()
+
+    # Repeat similar methods for file manager 2...
+
+    def file_manager_open_2(self):
+        self.file_manager_2.show('/')
+        self.manager_open_2 = True
+
+    def select_path_2(self, path):
+        print(f"Selected path 2: {path}")
+        self.update_data_with_file_2(path)
+        self.exit_manager_2()
+
+    def update_data_with_file_2(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label2.text = 'Upload Successfully'
+
+    def exit_manager_2(self, *args):
+        self.manager_open_2 = False
+        self.file_manager_2.close()
+
+    def upload_2(self):
+        if not self.manager_open_2:
+            self.file_manager_open_2()
+
+
+    def file_manager_open_3(self):
+        self.file_manager_3.show('/')
+        self.manager_open_3 = True
+
+    def select_path_3(self, path):
+        print(f"Selected path 3: {path}")
+        self.update_data_with_file_3(path)
+        self.exit_manager_3()
+
+    def update_data_with_file_3(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label3.text = 'Upload Successfully'
+
+    def exit_manager_3(self, *args):
+        self.manager_open_3 = False
+        self.file_manager_3.close()
+
+    def upload_3(self):
+        if not self.manager_open_3:
+            self.file_manager_open_3()
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2718,6 +3170,153 @@ class LenderScreen_Edu_Bachelors(Screen):
 
 
 class LenderScreen_Edu_Masters(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.manager_open_1 = False
+        self.manager_open_2 = False
+        self.manager_open_3 = False
+        self.manager_open_4 = False
+        self.file_manager_1 = MDFileManager(
+            exit_manager=self.exit_manager_1,
+            select_path=self.select_path_1
+        )
+        self.file_manager_2 = MDFileManager(
+            exit_manager=self.exit_manager_2,
+            select_path=self.select_path_2
+        )
+        self.file_manager_3 = MDFileManager(
+            exit_manager=self.exit_manager_3,
+            select_path=self.select_path_3
+        )
+        self.file_manager_4 = MDFileManager(
+            exit_manager=self.exit_manager_4,
+            select_path=self.select_path_4
+        )
+    # Other existing methods here...
+
+    def file_manager_open_1(self):
+        self.file_manager_1.show('/')
+        self.manager_open_1 = True
+
+    def select_path_1(self, path):
+        print(f"Selected path 1: {path}")
+        self.update_data_with_file_1(path)
+        self.exit_manager_1()
+
+    def update_data_with_file_1(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label1.text = 'Upload Successfully'
+
+    def exit_manager_1(self, *args):
+        self.manager_open_1 = False
+        self.file_manager_1.close()
+
+    def upload_1(self):
+        if not self.manager_open_1:
+            self.file_manager_open_1()
+
+    # Repeat similar methods for file manager 2...
+
+    def file_manager_open_2(self):
+        self.file_manager_2.show('/')
+        self.manager_open_2 = True
+
+    def select_path_2(self, path):
+        print(f"Selected path 2: {path}")
+        self.update_data_with_file_2(path)
+        self.exit_manager_2()
+
+    def update_data_with_file_2(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label2.text = 'Upload Successfully'
+
+    def exit_manager_2(self, *args):
+        self.manager_open_2 = False
+        self.file_manager_2.close()
+
+    def upload_2(self):
+        if not self.manager_open_2:
+            self.file_manager_open_2()
+
+    def file_manager_open_3(self):
+        self.file_manager_3.show('/')
+        self.manager_open_3 = True
+
+    def select_path_3(self, path):
+        print(f"Selected path 3: {path}")
+        self.update_data_with_file_3(path)
+        self.exit_manager_3()
+
+    def update_data_with_file_3(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label3.text = 'Upload Successfully'
+
+    def exit_manager_3(self, *args):
+        self.manager_open_3 = False
+        self.file_manager_3.close()
+
+    def upload_3(self):
+        if not self.manager_open_3:
+            self.file_manager_open_3()
+
+    def file_manager_open_4(self):
+        self.file_manager_4.show('/')
+        self.manager_open_4 = True
+
+    def select_path_4(self, path):
+        print(f"Selected path 4: {path}")
+        self.update_data_with_file_4(path)
+        self.exit_manager_4()
+
+    def update_data_with_file_4(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+        cursor.execute("UPDATE fin_registration_table SET masters_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label4.text = 'Upload Successfully'
+    def exit_manager_4(self, *args):
+        self.manager_open_4 = False
+        self.file_manager_4.close()
+
+    def upload_4(self):
+        if not self.manager_open_4:
+            self.file_manager_open_4()
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2739,6 +3338,189 @@ class LenderScreen_Edu_Masters(Screen):
 
 
 class LenderScreen_Edu_PHD(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.manager_open_1 = False
+        self.manager_open_2 = False
+        self.manager_open_3 = False
+        self.manager_open_4 = False
+        self.manager_open_5 = False
+        self.file_manager_1 = MDFileManager(
+            exit_manager=self.exit_manager_1,
+            select_path=self.select_path_1
+        )
+        self.file_manager_2 = MDFileManager(
+            exit_manager=self.exit_manager_2,
+            select_path=self.select_path_2
+        )
+        self.file_manager_3 = MDFileManager(
+            exit_manager=self.exit_manager_3,
+            select_path=self.select_path_3
+        )
+        self.file_manager_4 = MDFileManager(
+            exit_manager=self.exit_manager_4,
+            select_path=self.select_path_4
+        )
+        self.file_manager_5 = MDFileManager(
+            exit_manager=self.exit_manager_5,
+            select_path=self.select_path_5
+        )
+
+    # Other existing methods here...
+
+    def file_manager_open_1(self):
+        self.file_manager_1.show('/')
+        self.manager_open_1 = True
+
+    def select_path_1(self, path):
+        print(f"Selected path 1: {path}")
+        self.update_data_with_file_1(path)
+        self.exit_manager_1()
+
+    def update_data_with_file_1(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label1.text = 'Upload Successfully'
+
+    def exit_manager_1(self, *args):
+        self.manager_open_1 = False
+        self.file_manager_1.close()
+
+    def upload_1(self):
+        if not self.manager_open_1:
+            self.file_manager_open_1()
+
+    # Repeat similar methods for file manager 2...
+
+    def file_manager_open_2(self):
+        self.file_manager_2.show('/')
+        self.manager_open_2 = True
+
+    def select_path_2(self, path):
+        print(f"Selected path 2: {path}")
+        self.update_data_with_file_2(path)
+        self.exit_manager_2()
+
+    def update_data_with_file_2(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label2.text = 'Upload Successfully'
+
+    def exit_manager_2(self, *args):
+        self.manager_open_2 = False
+        self.file_manager_2.close()
+
+    def upload_2(self):
+        if not self.manager_open_2:
+            self.file_manager_open_2()
+
+    def file_manager_open_3(self):
+        self.file_manager_3.show('/')
+        self.manager_open_3 = True
+
+    def select_path_3(self, path):
+        print(f"Selected path 3: {path}")
+        self.update_data_with_file_3(path)
+        self.exit_manager_3()
+
+    def update_data_with_file_3(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label3.text = 'Upload Successfully'
+
+    def exit_manager_3(self, *args):
+        self.manager_open_3 = False
+        self.file_manager_3.close()
+
+    def upload_3(self):
+        if not self.manager_open_3:
+            self.file_manager_open_3()
+
+    def file_manager_open_4(self):
+        self.file_manager_4.show('/')
+        self.manager_open_4 = True
+
+    def select_path_4(self, path):
+        print(f"Selected path 4: {path}")
+        self.update_data_with_file_4(path)
+        self.exit_manager_4()
+
+    def update_data_with_file_4(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET masters_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label4.text = 'Upload Successfully'
+
+    def exit_manager_4(self, *args):
+        self.manager_open_4 = False
+        self.file_manager_4.close()
+
+    def upload_4(self):
+        if not self.manager_open_4:
+            self.file_manager_open_4()
+    def file_manager_open_5(self):
+        self.file_manager_5.show('/')
+        self.manager_open_5 = True
+
+    def select_path_5(self, path):
+        print(f"Selected path 5: {path}")
+        self.update_data_with_file_5(path)
+        self.exit_manager_5()
+
+    def update_data_with_file_5(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET phd_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label5.text = 'Upload Successfully'
+    def exit_manager_5(self, *args):
+        self.manager_open_5 = False
+        self.file_manager_5.close()
+
+    def upload_5(self):
+        if not self.manager_open_5:
+            self.file_manager_open_5()
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2760,6 +3542,20 @@ class LenderScreen_Edu_PHD(Screen):
 
 
 class LenderScreen4(Screen):
+    def add_data(self, street, city, zip_code, state, country):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET street_name = ?, city_name = ?, zip_code = ?, state_name = ?, country_name = ? WHERE customer_id = ?",
+                       (street, city, zip_code,state, country, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreen5'
     def on_mobile_number_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.zip_code.input_type = 'number'
@@ -2784,15 +3580,28 @@ class LenderScreen4(Screen):
 
 
 class LenderScreen5(Screen):
-    def on_investment_touch_down(self):
-        # Change keyboard mode to numeric when the mobile number text input is touched
-        self.ids.investment.input_type = 'number'
-    def next_pressed(self, id):
+    def next_pressed(self, id, investment, period):
         if id == 'Individual':
             self.manager.current = 'LenderScreenIndividualForm1'
 
         elif id == 'Institutional':
             self.manager.current = 'LenderScreenInstitutionalForm1'
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute(
+            "UPDATE fin_registration_table SET loan_type = ?, investment = ?, lending_period = ? WHERE customer_id = ?",
+            (id, investment, period, row_id_list[log_index]))
+        conn.commit()
+    def on_investment_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.investment.input_type = 'number'
 
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
@@ -2815,6 +3624,22 @@ class LenderScreen5(Screen):
 
 
 class LenderScreenInstitutionalForm1(Screen):
+    def add_data(self, business_name, business_location, business_address, business_branch_name):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute(
+            "UPDATE fin_registration_table SET business_name = ?, business_location = ?, business_address = ?, business_branch_name = ? WHERE customer_id = ?",
+            (business_name, business_location, business_address,business_branch_name, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreenInstitutionalForm2'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2836,6 +3661,21 @@ class LenderScreenInstitutionalForm1(Screen):
 
 
 class LenderScreenInstitutionalForm2(Screen):
+    def add_data(self, business_type, nearest_location, no_of_employees_working, year_of_estd):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute(
+            "UPDATE fin_registration_table SET business_type = ?, nearest_location = ?, no_of_employees_working = ?, year_of_estd = ? WHERE customer_id = ?",
+            (business_type, nearest_location, no_of_employees_working, year_of_estd, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreenInstitutionalForm3'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2857,6 +3697,61 @@ class LenderScreenInstitutionalForm2(Screen):
 
 
 class LenderScreenInstitutionalForm3(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.manager_open_1 = False
+        self.file_manager_1 = MDFileManager(
+            exit_manager=self.exit_manager_1,
+            select_path=self.select_path_1
+        )
+
+    # Other existing methods here...
+
+    def file_manager_open_1(self):
+        self.file_manager_1.show('/')
+        self.manager_open_1 = True
+
+    def select_path_1(self, path):
+        print(f"Selected path 1: {path}")
+        self.update_data_with_file_1(path)
+        self.exit_manager_1()
+
+    def update_data_with_file_1(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+        cursor.execute("UPDATE fin_registration_table SET last_six_months_turnover_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label1.text = 'Upload Successfully'
+
+    def exit_manager_1(self, *args):
+        self.manager_open_1 = False
+        self.file_manager_1.close()
+
+    def upload1(self):
+        if not self.manager_open_1:
+            self.file_manager_open_1()
+
+    def add_data(self, industry_type, last_six_months_turnover):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute(
+            "UPDATE fin_registration_table SET industry_type = ?, last_six_months_turnover = ? WHERE customer_id = ?",
+            (industry_type, last_six_months_turnover, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreenInstitutionalForm4'
     def on_last_six_months_turnover_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.last_six_months_turnover.input_type = 'number'
@@ -2881,6 +3776,22 @@ class LenderScreenInstitutionalForm3(Screen):
 
 
 class LenderScreenInstitutionalForm4(Screen):
+    def add_data(self, director_name, director_mobile_number, DIN, CIN):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute(
+            "UPDATE fin_registration_table SET director_name = ?, director_mobile_number = ?, DIN = ?, CIN = ? WHERE customer_id = ?",
+            (director_name, director_mobile_number, DIN, CIN, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreenInstitutionalForm5'
+
     def on_director_mobile_number_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.director_mobile_number.input_type = 'number'
@@ -2905,6 +3816,63 @@ class LenderScreenInstitutionalForm4(Screen):
 
 
 class LenderScreenInstitutionalForm5(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.manager_open_1 = False
+        self.file_manager_1 = MDFileManager(
+            exit_manager=self.exit_manager_1,
+            select_path=self.select_path_1
+        )
+
+    # Other existing methods here...
+
+    def file_manager_open_1(self):
+        self.file_manager_1.show('/')
+        self.manager_open_1 = True
+
+    def select_path_1(self, path):
+        print(f"Selected path 1: {path}")
+        self.update_data_with_file_1(path)
+        self.exit_manager_1()
+
+    def update_data_with_file_1(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET proof_of_verification_file = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label1.text = 'Upload Successfully'
+
+    def exit_manager_1(self, *args):
+        self.manager_open_1 = False
+        self.file_manager_1.close()
+
+    def upload1(self):
+        if not self.manager_open_1:
+            self.file_manager_open_1()
+
+    def add_data(self, registered_office_address):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute(
+            "UPDATE fin_registration_table SET registered_office_address = ? WHERE customer_id = ?",
+            (registered_office_address, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreenInstitutionalBankForm1'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2926,6 +3894,21 @@ class LenderScreenInstitutionalForm5(Screen):
 
 
 class LenderScreenIndividualForm1(Screen):
+    def add_data(self, employeent_type, company_name, organization):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute(
+            "UPDATE fin_registration_table SET employment_type = ?, company_name = ?, organization_type = ? WHERE customer_id = ?",
+            (employeent_type, company_name, organization, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreenIndividualForm2'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2947,6 +3930,21 @@ class LenderScreenIndividualForm1(Screen):
 
 
 class LenderScreenIndividualForm2(Screen):
+    def add_data(self, company_address, company_pincode, company_country, landmark, business_number):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute(
+            "UPDATE fin_registration_table SET company_address = ?, company_pincode = ?, company_country = ?, landmark = ?, business_number = ? WHERE customer_id = ?",
+            (company_address, company_pincode, company_country, landmark, business_number, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreenIndividualForm3'
     def on_company_pin_code_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.company_pin_code.input_type = 'number'
@@ -2974,7 +3972,101 @@ class LenderScreenIndividualForm2(Screen):
 
 
 class LenderScreenIndividualForm3(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.manager_open_1 = False
+        self.manager_open_2 = False
+        self.file_manager_1 = MDFileManager(
+            exit_manager=self.exit_manager_1,
+            select_path=self.select_path_1
+        )
+        self.file_manager_2 = MDFileManager(
+            exit_manager=self.exit_manager_2,
+            select_path=self.select_path_2
+        )
 
+    # Other existing methods here...
+
+    def file_manager_open_1(self):
+        self.file_manager_1.show('/')
+        self.manager_open_1 = True
+
+    def select_path_1(self, path):
+        print(f"Selected path 1: {path}")
+        self.update_data_with_file_1(path)
+        self.exit_manager_1()
+
+    def update_data_with_file_1(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET employee_id_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label1.text = 'Upload Successfully'
+
+    def exit_manager_1(self, *args):
+        self.manager_open_1 = False
+        self.file_manager_1.close()
+
+    def upload1(self):
+        if not self.manager_open_1:
+            self.file_manager_open_1()
+
+    # Repeat similar methods for file manager 2...
+
+    def file_manager_open_2(self):
+        self.file_manager_2.show('/')
+        self.manager_open_2 = True
+
+    def select_path_2(self, path):
+        print(f"Selected path 2: {path}")
+        self.update_data_with_file_2(path)
+        self.exit_manager_2()
+
+    def update_data_with_file_2(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET six_months_bank_statement_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label2.text = 'Upload Successfully'
+
+    def exit_manager_2(self, *args):
+        self.manager_open_2 = False
+        self.file_manager_2.close()
+
+    def upload2(self):
+        if not self.manager_open_2:
+            self.file_manager_open_2()
+
+
+    def add_data(self, annual_salary, designation):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute(
+            "UPDATE fin_registration_table SET annual_salary = ?, designation = ? WHERE customer_id = ?",
+            (annual_salary, designation, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreenIndividualBankForm1'
     def on_annual_salary_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.annual_salary.input_type = 'number'
@@ -2999,6 +4091,21 @@ class LenderScreenIndividualForm3(Screen):
 
 
 class LenderScreenIndividualBankForm1(Screen):
+    def add_data(self, account_holder_name, account_type, account_number, bank_name):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute(
+            "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
+            (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreenIndividualBankForm2'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -3020,7 +4127,19 @@ class LenderScreenIndividualBankForm1(Screen):
 
 
 class LenderScreenIndividualBankForm2(Screen):
-    def go_to_lender_dashboard(self):
+    def go_to_lender_dashboard(self, bank_id, branch_name):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
+            (bank_id, branch_name, row_id_list[log_index]))
+        conn.commit()
         self.manager.current = 'lender_dashboard'
 
     def go_to_dashboard(self):
@@ -3044,6 +4163,21 @@ class LenderScreenIndividualBankForm2(Screen):
 
 
 class LenderScreenInstitutionalBankForm1(Screen):
+    def add_data(self, account_holder_name, account_type, account_number, bank_name):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute(
+            "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
+            (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'LenderScreenInstitutionalBankForm2'
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -3065,6 +4199,20 @@ class LenderScreenInstitutionalBankForm1(Screen):
 
 
 class LenderScreenInstitutionalBankForm2(Screen):
+    def go_to_lender_dashboard(self, bank_id, branch_name):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
+                       (bank_id, branch_name, row_id_list[log_index]))
+        conn.commit()
+        self.manager.current = 'lender_dashboard'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -3081,9 +4229,6 @@ class LenderScreenInstitutionalBankForm2(Screen):
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LenderScreenInstitutionalBankForm1'
-
-    def go_to_lender_dashboard(self):
-        self.manager.current = 'lender_dashboard'
 
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
