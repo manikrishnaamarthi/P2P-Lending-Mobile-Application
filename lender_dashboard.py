@@ -153,12 +153,13 @@ user_helpers1 = """
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
+                on_release: app.root.current = 'ViewLoansScreen'
                 
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
                     MDLabel:
-                        text: "View Closed Loans"
+                        text: "View Loans"
                         font_size:dp(14)
                         bold:True
                         theme_text_color: 'Custom'
@@ -1368,8 +1369,204 @@ user_helpers1 = """
     MDIconButton:
         icon: 'camera-plus'
         on_release: app.root.file_manager_open()
+        
+
+<ViewLoansScreen>
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint: 1, 1  # Make the size stretchable
+
+        MDTopAppBar:
+            title: "View Loans"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+
+        MDGridLayout:
+            cols: 2
+            padding: dp(15)
+            spacing: dp(5)
+            size_hint: 1, 1  # Make the size stretchable
+
+            Button:
+                text: "Open Loans"
+                size_hint_y: None
+                background_color: 1, 1 ,1, 0 
+                color: 0, 0, 0, 1
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, 1  # Border color (black in this example)
+                    Line:
+                        width: 0.4  # Border width
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+                on_release: app.root.current = 'ViewProfileScreen'
+
+
+            Button:
+                text: "Closed Loans"
+                size_hint_y: None
+                background_color: 1, 1 ,1, 0 
+                color: 0, 0, 0, 1
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, 1  # Border color (black in this example)
+                    Line:
+                        width: 0.4  # Border width
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+                on_release: app.open_balance()
+            Button:
+                text: "Approved Loans"
+                size_hint_y: None
+                background_color: 1, 1 ,1, 0 
+                color: 0, 0, 0, 1
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, 1  # Border color (black in this example)
+                    Line:
+                        width: 0.4  # Border width
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+                on_release: app.root.current = 'ApprovedLoansScreen'
+
+            Button:
+                text: "Rejected Loans"
+                size_hint_y: None
+                background_color: 1, 1 ,1, 0 
+                color: 0, 0, 0, 1
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, 1  # Border color (black in this example)
+                    Line:
+                        width: 0.4  # Border width
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+                on_release: app.open_balance()
+
+            Button:
+                text: "All Loans"
+                size_hint_y: None
+                background_color: 1, 1 ,1, 0 
+                color: 0, 0, 0, 1
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, 1  # Border color (black in this example)
+                    Line:
+                        width: 0.4  # Border width
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+                on_release: app.root.current = 'ALlLoansScreen'
+
+<ALlLoansScreen> 
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "All Loans"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+
+        ScrollView:
+            
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                
+                
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(20)
+
+                    BoxLayout:
+                        id: box1
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: 0
+                        
+                        padding: [10, 0,0,0]
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 1, 1  # Blue color for the box
+                            Line:
+                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
+
+
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                text: 'Loan ID'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+                                
+                                
+                            MDLabel:
+                                text: 'Loan Amount'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+                            MDLabel:
+                                text: 'Loan Status'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+                            MDLabel:
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                size_hint_x: None
+                                width: dp(20)
+                                bold: True
+                        Widget:
+                            size_hint_y: None
+                            height: dp(2) 
+                            canvas:
+                                Color:
+                                    rgba: 0, 0, 1, 1
+                                Line:
+                                    width: dp(0.6)  # Set the width of the line to make it bold
+                                    points: self.x, self.y, self.x + self.width, self.y
+
+        
 """
 
+a = 100
+for i in range(a):
+    user_helpers1 += '''
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                id: label1
+                                text: 'LA1001'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+                            MDLabel:
+                                id: label2
+                                text: '2000000'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDLabel:
+                                id: label3
+                                text: 'Under Process'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDIconButton:
+                                id: icon1
+                                icon: 'arrow-right-thick'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+    '''
 
 
 
@@ -1426,5 +1623,23 @@ class ViewProfileScreen(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'lender_dashboard'  # Replace with the actual name of your previous screen
 
+    def on_back_button_press(self):
+        self.manager.current = 'lender_dashboard'
+
+
+class ALlLoansScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        h = self.ids.box1.height
+        for i in range(a+1):
+            h += 150
+        self.ids.box1.height = h
+        print(h)
+    def on_back_button_press(self):
+        self.manager.current = 'ViewLoansScreen'
+
+
+class ViewLoansScreen(Screen):
     def on_back_button_press(self):
         self.manager.current = 'lender_dashboard'
