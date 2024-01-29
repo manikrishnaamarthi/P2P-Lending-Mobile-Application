@@ -10,7 +10,8 @@ from signup import SignupScreen
 from dashboard import DashScreen
 from borrowerlanding import BorrowerLanding,BorrowerHowScreen,BorrLanding
 from borrower_registration_forms import (
-    BorrowerScreen, BorrowerScreen1, BorrowerScreen2, BorrowerScreen3, BorrowerScreen4, BorrowerScreen5,
+    BorrowerScreen, BorrowerScreen1, BorrowerScreen2, BorrowerScreen3,BorrowerScreen_Edu_10th,BorrowerScreen_Edu_Intermediate,
+    BorrowerScreen_Edu_Bachelors,BorrowerScreen_Edu_Masters,BorrowerScreen_Edu_PHD, BorrowerScreen4, BorrowerScreen5,
     BorrowerScreen6,BorrowerScreen7,BorrowerScreen8,BorrowerScreen9,BorrowerScreen10,BorrowerScreen11,
     BorrowerScreen12,BorrowerScreen13,BorrowerScreen14,BorrowerScreen15,BorrowerScreen16,BorrowerScreen17,
     BorrowerScreen18,BorrowerScreen19,Borrower
@@ -66,6 +67,11 @@ class MyApp(MDApp):
         sm.add_widget(BorrowerScreen1(name='BorrowerScreen1'))
         sm.add_widget(BorrowerScreen2(name='BorrowerScreen2'))
         sm.add_widget(BorrowerScreen3(name='BorrowerScreen3'))
+        sm.add_widget(BorrowerScreen_Edu_10th(name='BorrowerScreen_Edu_10th'))
+        sm.add_widget(BorrowerScreen_Edu_Intermediate(name='BorrowerScreen_Edu_Intermediate'))
+        sm.add_widget(BorrowerScreen_Edu_Bachelors(name='BorrowerScreen_Edu_Bachelors'))
+        sm.add_widget(BorrowerScreen_Edu_Masters(name='BorrowerScreen_Edu_Masters'))
+        sm.add_widget(BorrowerScreen_Edu_PHD(name='BorrowerScreen_Edu_PHD'))
         sm.add_widget(BorrowerScreen4(name='BorrowerScreen4'))
         sm.add_widget(BorrowerScreen5(name='BorrowerScreen5'))
         sm.add_widget(BorrowerScreen6(name='BorrowerScreen6'))
