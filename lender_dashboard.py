@@ -2,6 +2,12 @@ from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.screenmanager import Screen, SlideTransition
+import sqlite3
+import anvil.server
+
+# Assuming 'LiveObject' has been replaced with something else, replace it accordingly
+# For example, if it's now 'NewLiveObject', use that instead
+anvil.server.connect('server_PJQNVPKGLIYAS7Y3VPIBT5AK-MB3OQK2FHNF2U2U3')
 
 user_helpers1 = """
 <LenderDashboard>
@@ -21,7 +27,7 @@ user_helpers1 = """
             pos_hint: {'center_x': 0.5, 'center_y': 0.956}
             size_hint: None,None
             md_bg_color:0,0,0,1
-              
+
             height: dp(50)
             width: dp(60)
         MDGridLayout:
@@ -35,15 +41,15 @@ user_helpers1 = """
             size_hint_x: None
             MDFlatButton:
                 size_hint: None, None
-                
+
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color: 0.031, 0.463, 0.91, 1 
-               
+
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-                
+
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -59,14 +65,14 @@ user_helpers1 = """
 
             MDFlatButton:
                 size_hint: None, None
-              
+
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color:0.031, 0.463, 0.91, 1 
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-                
+
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -80,14 +86,14 @@ user_helpers1 = """
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDFlatButton:
                 size_hint: None, None
-               
+
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color:0.031, 0.463, 0.91, 1 
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-               
+
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -102,14 +108,14 @@ user_helpers1 = """
 
             MDFlatButton:
                 size_hint: None, None
-            
+
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color:0.031, 0.463, 0.91, 1 
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-                
+
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -124,14 +130,14 @@ user_helpers1 = """
 
             MDFlatButton:
                 size_hint: None, None
-               
+
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color:0.031, 0.463, 0.91, 1  
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-                
+
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -146,7 +152,7 @@ user_helpers1 = """
 
             MDFlatButton:
                 size_hint: None, None
-              
+
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color:0.031, 0.463, 0.91, 1 
                 size_hint_y: None
@@ -154,7 +160,7 @@ user_helpers1 = """
                 size_hint_x: None
                 width: dp(110)
                 on_release: app.root.current = 'ViewLoansScreen'
-                
+
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -169,14 +175,14 @@ user_helpers1 = """
 
             MDFlatButton:
                 size_hint: None, None
-                
+
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color: 0.031, 0.463, 0.91, 1 
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-                
+
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -191,14 +197,14 @@ user_helpers1 = """
 
             MDFlatButton:
                 size_hint: None, None
-               
+
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color: 0.031, 0.463, 0.91, 1 
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-               
+
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -212,14 +218,14 @@ user_helpers1 = """
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDFlatButton:
                 size_hint: None, None
-             
+
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color:0.031, 0.463, 0.91, 1 
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-                
+
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -242,7 +248,7 @@ user_helpers1 = """
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-                
+
                 BoxLayout:
                     orientation: 'vertical'
                     spacing: dp(10)
@@ -296,7 +302,7 @@ user_helpers1 = """
                     on_release: app.file_manager_open()
                     selected_image_source: "path/to/your/default/image.jpg"
                     size_hint: None, None
-                 
+
                 MDLabel:
                     text: ' Customer ID '
                     color: 0, 0, 0, 1
@@ -334,7 +340,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         readonly: True
-               
+
                 MDLabel:
                     text: ' Full Name '
                     color: 0, 0, 0, 1
@@ -381,7 +387,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
-                 
+
                 MDLabel:
                     text: ' Mobile Number '
                     color: 0, 0, 0, 1
@@ -424,9 +430,9 @@ user_helpers1 = """
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
-                    
-                    
-                 
+
+
+
                 MDLabel:
                     text: ' Date Of Birth '
                     color: 0, 0, 0, 1
@@ -469,7 +475,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
-                
+
                 MDLabel:
                     text: ' Gender '
                     color: 0, 0, 0, 1
@@ -512,7 +518,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
-  
+
                 MDLabel:
                     text: ' Alternate email '
                     color: 0, 0, 0, 1
@@ -557,7 +563,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
- 
+
                 MDLabel:
                     text: ' Government ID1 '
                     color: 0, 0, 0, 1
@@ -637,7 +643,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
                         readonly: True
-  
+
                 MDLabel:
                     text: ' Highest Qualification'
                     color: 0, 0, 0, 1
@@ -682,8 +688,8 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold" 
-      
-                  
+
+
                 MDLabel:
                     text: ' Street Name '
                     color: 0, 0, 0, 1
@@ -729,7 +735,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-                 
+
                 MDLabel:
                     text: ' City Name '
                     color: 0, 0, 0, 1
@@ -775,7 +781,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-                
+
                 MDLabel:
                     text: ' Zipcode '
                     color: 0, 0, 0, 1
@@ -821,7 +827,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-                  
+
                 MDLabel:
                     text: ' State Name '
                     color: 0, 0, 0, 1
@@ -1353,7 +1359,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-                
+
 
 <CustomIconButton@MDRectangleFlatButton>:
     selected_image_source: ""
@@ -1369,7 +1375,7 @@ user_helpers1 = """
     MDIconButton:
         icon: 'camera-plus'
         on_release: app.root.file_manager_open()
-        
+
 
 <ViewLoansScreen>
     BoxLayout:
@@ -1466,13 +1472,13 @@ user_helpers1 = """
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
 
         ScrollView:
-            
+
             MDBoxLayout:
                 orientation: 'vertical'
                 size_hint_y: None
                 height: self.minimum_height
-                
-                
+
+
                 MDBoxLayout:
                     orientation: 'vertical'
                     size_hint_y: None
@@ -1484,7 +1490,7 @@ user_helpers1 = """
                         orientation: 'vertical'
                         size_hint_y: None
                         height: 0
-                        
+
                         padding: [10, 0,0,0]
                         canvas.before:
                             Color:
@@ -1501,8 +1507,8 @@ user_helpers1 = """
                                 size_hint_y: None
                                 height: dp(50)  # Adjust the height as needed
                                 bold: True
-                                
-                                
+
+
                             MDLabel:
                                 text: 'Loan Amount'
                                 size_hint_y: None
@@ -1531,43 +1537,50 @@ user_helpers1 = """
                                     width: dp(0.6)  # Set the width of the line to make it bold
                                     points: self.x, self.y, self.x + self.width, self.y
 
-        
 """
 
-a = 100
+a = 50
+
 for i in range(a):
-    user_helpers1 += '''
+    id_label = f"label_{i}"
+    amount = f"amount_{i}"
+    status = f"status_{i}"
+    icon = f"icon{i}"
+    user_helpers1 += f'''
                         GridLayout:
                             cols: 4
                             spacing: dp(20)
                             MDLabel:
-                                id: label1
-                                text: 'LA1001'
+                                id: {id_label}
+                                text: ''
                                 size_hint_y: None
                                 height: dp(50)  # Adjust the height as needed
 
                             MDLabel:
-                                id: label2
-                                text: '2000000'
+                                id: {amount}
+                                text: ''
                                 size_hint_y: None
                                 height: dp(50)  # Adjust the height as needed
 
 
                             MDLabel:
-                                id: label3
-                                text: 'Under Process'
+                                id: {status}
+                                text: ''
                                 size_hint_y: None
                                 height: dp(50)  # Adjust the height as needed
 
 
                             MDIconButton:
-                                id: icon1
+                                id: {icon}
                                 icon: 'arrow-right-thick'
+                                opacity: 0
                                 size_hint_y: None
                                 height: dp(50)  # Adjust the height as needed
 
     '''
 
+conn = sqlite3.connect('fin_user_profile.db')
+cursor = conn.cursor()
 
 
 class LenderDashboard(Screen):
@@ -1590,7 +1603,6 @@ class LenderDashboard(Screen):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LenderLanding'  # Replace with the actual name of your previous screen
-
 
     def homepage(self):
         self.manager.current = 'MainScreen'
@@ -1631,13 +1643,67 @@ class ALlLoansScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        data = self.get_table_data()
+
+        customer_id = []
+        loan_id = []
+        loan_amount = []
+        loan_status = []
+
+        for i in data:
+            customer_id.append(i['borrower_customer_id'])
+            loan_id.append(i['loan_id'])
+            loan_amount.append(i['loan_amount'])
+            loan_status.append(i['loan_updated_status'])
+
+        c = -1
+        index_list = []
+        for id in customer_id:
+            c += 1
+            if id == row_id_list[log_index]:
+                index_list.append(c)
+
+        b = 1
+        k = -1
+        for i in index_list:
+            b += 1
+            k += 1
+            id_label = f"label_{k}"
+            amount = f"amount_{k}"
+            status = f"status_{k}"
+            icon = f"icon{k}"
+
+            label_1 = self.ids[id_label]
+            label_1.text = loan_id[i]
+            label_2 = self.ids[amount]
+            label_2.text = loan_amount[i]
+            label_3 = self.ids[status]
+            label_3.text = loan_status[i]
+            icon = self.ids[icon]
+            icon.opacity = 1
+
         h = self.ids.box1.height
-        for i in range(a+1):
+
+        for i in range(a + 1):
             h += 150
         self.ids.box1.height = h
-        print(h)
+
     def on_back_button_press(self):
         self.manager.current = 'ViewLoansScreen'
+
+    def get_table_data(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('get_table_data')
 
 
 class ViewLoansScreen(Screen):
