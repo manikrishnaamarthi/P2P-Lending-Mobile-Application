@@ -7,6 +7,7 @@
     <list default="true" id="6cf0679d-622c-4cdd-bf68-04ce800fdca3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/borrower_registration_forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/borrower_registration_forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fin_user_profile.db" beforeDir="false" afterPath="$PROJECT_DIR$/fin_user_profile.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
