@@ -2639,11 +2639,12 @@ class LenderScreen(Screen):
         log_index = status.index('logged')
 
 
-
         cursor.execute("UPDATE fin_registration_table SET name = ?, gender = ?, date_of_birth = ?, user_type = ? WHERE customer_id = ?",
                        (name, gender, date,b, row_id_list[log_index]))
         conn.commit()
+
         self.manager.current = 'LenderScreen1'
+
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_back_button)

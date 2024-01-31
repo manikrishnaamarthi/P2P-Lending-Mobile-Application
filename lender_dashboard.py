@@ -7,7 +7,7 @@ import anvil.server
 
 # Assuming 'LiveObject' has been replaced with something else, replace it accordingly
 # For example, if it's now 'NewLiveObject', use that instead
-anvil.server.connect('server_PJQNVPKGLIYAS7Y3VPIBT5AK-MB3OQK2FHNF2U2U3')
+anvil.server.connect('server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT')
 
 user_helpers1 = """
 <LenderDashboard>
