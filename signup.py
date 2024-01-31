@@ -11,6 +11,10 @@ from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRectangleFlatButton, MDFlatButton
 
+import anvil.server
+
+anvil.server.connect("server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT")
+
 KV = """
 <SignupScreen>:
     canvas.before:
@@ -256,7 +260,7 @@ cursor.execute(''' CREATE TABLE IF NOT EXISTS fin_registration_table (
 
 # Commit the changes and close the connection
 conn.commit()
-conn.close()
+
 
 
 class SignupScreen(Screen):
@@ -267,6 +271,7 @@ class SignupScreen(Screen):
         self.ids.mobile.input_type = 'number'
 
     def save_to_database(self):
+
         try:
             # Connect to the SQLite database
             conn = sqlite3.connect("fin_user_profile.db")
@@ -278,7 +283,6 @@ class SignupScreen(Screen):
             if latest_user_id is not None:
                 next_user_id = latest_user_id[0] + 1
             else:
-
                 next_user_id = 1000
 
             cursor.execute('''
@@ -297,14 +301,16 @@ class SignupScreen(Screen):
 
             conn.commit()
             cursor.execute('''INSERT INTO fin_registration_table (customer_id) VALUES (?)''', (next_user_id,))
+            self.add_data(user_id=next_user_id, email=self.ids.email.text, password=self.ids.password.text, name=self.ids.name.text,number=self.ids.mobile.text)
             conn.commit()
         except sqlite3.Error as e:
 
             print(f"SQLite error: {e}")
-        finally:
 
-            if conn:
-                conn.close()
+    def add_data(self, user_id, email, password, name, number):
+        # Ensure 'YOUR_ANVIL_UPLINK_KEY' is replaced with your actual Anvil Uplink key
+        anvil.server.call('add_data', user_id, email, password, name, number)
+
 
     def go_to_login(self):
         name = self.ids.name.text
@@ -357,7 +363,10 @@ class SignupScreen(Screen):
 
         snackbar.open()
 
+
         self.manager.current = 'LoginScreen'
+
+
 
     def show_validation_error(self, widget, error_text):
         widget.error = True

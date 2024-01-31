@@ -8,6 +8,10 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRaisedButton, MDFlatButton
 
+import anvil.server
+
+anvil.server.connect("server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT")
+
 KV = """
 <LoginScreen>:
     MDFloatLayout:
@@ -170,7 +174,14 @@ class LoginScreen(Screen):
         ''', (entered_email,))
 
         user_data = cursor.fetchone()
-
+        data = self.login_data()
+        email_list = []
+        password_list = []
+        a = 0
+        for i in data:
+            a+=1
+            email_list.append(i['email'])
+            password_list.append(i['password_hash'])
 
         if user_data:
 
@@ -200,6 +211,12 @@ class LoginScreen(Screen):
             else:
 
                 self.show_error_dialog("Incorrect password")
+        elif entered_email in email_list:
+            for i in range(a):
+                print(i, email_list[i], password_list[i])
+                if email_list[i] == entered_email and password_list[i] == entered_password:
+                    self.manager.current = 'dashboard'
+            print(email_list, password_list, a)
         else:
 
             self.show_error_dialog("Invalid credentials")
@@ -240,3 +257,6 @@ class LoginScreen(Screen):
 
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'MainScreen'
+
+    def login_data(self):
+        return anvil.server.call('login_data')
