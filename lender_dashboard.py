@@ -137,7 +137,7 @@ user_helpers1 = """
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-
+                on_release: app.root.current = 'ViewLoansRequest'
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -149,6 +149,7 @@ user_helpers1 = """
                         halign: "center"
                         text_color:1,1,1,1
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        
 
             MDFlatButton:
                 size_hint: None, None
@@ -1578,7 +1579,264 @@ for i in range(a):
                                 height: dp(50)  # Adjust the height as needed
 
     '''
+user_helpers1 += """
 
+<ViewLoansRequest> 
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "View Loans Request"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+
+        ScrollView:
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(20)
+
+                    BoxLayout:
+                        id: box1
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: 0
+
+                        padding: [10, 0,0,0]
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 1, 1  # Blue color for the box
+                            Line:
+                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
+
+
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                text: 'Loan ID'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+
+                            MDLabel:
+                                text: 'Loan Amount'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+                            MDLabel:
+                                text: 'Loan Status'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+                            MDLabel:
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                size_hint_x: None
+                                width: dp(20)
+                                bold: True
+                        Widget:
+                            size_hint_y: None
+                            height: dp(2) 
+                            canvas:
+                                Color:
+                                    rgba: 0, 0, 1, 1
+                                Line:
+                                    width: dp(0.6)  # Set the width of the line to make it bold
+                                    points: self.x, self.y, self.x + self.width, self.y
+
+"""
+
+a = 8
+
+for i in range(a):
+    id_label = f"label_{i}"
+    amount = f"amount_{i}"
+    status = f"status_{i}"
+    icon = f"icon_{i}"
+    user_helpers1 += f'''
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                id: {id_label}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+                            MDLabel:
+                                id: {amount}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDLabel:
+                                id: {status}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDIconButton:
+                                id: {icon}
+                                icon: 'arrow-right-thick'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                on_release: app.root.current = 'ViewLoansProfileScreen'
+                                opacity: 0
+
+    '''
+user_helpers1 += '''
+<ViewLoansProfileScreen>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "All Loans"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                BoxLayout:
+                    id: box1
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    MDLabel:
+                        text: " Borrower Loan details"
+                        halign: "center"
+                        bold: True
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(20)
+
+                    BoxLayout:
+                        id: box1
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: dp(950)
+
+                        padding: [10, 0,0,0]
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 0, 1  # Blue color for the box
+                            Line:
+                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
+
+                        GridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "User ID" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: user1
+                                text: "" 
+                            MDLabel:
+                                text: "Name" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: name
+                                text: "" 
+                            MDLabel:
+                                text: "Beseem Score" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: beseem
+                                text: "" 
+                            MDLabel:
+                                text: "Loan Tenure" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: tenure
+                                text: "" 
+                            MDLabel:
+                                text: "Member Rome" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: rome
+                                text: "" 
+                            MDLabel:
+                                text: "Member since" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: since
+                                text: "" 
+                            MDLabel:
+                                text: "Credit Limit" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: limit
+                                text: "" 
+                            MDLabel:
+                                text: "Interest Rate" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: interest
+                                text: "" 
+                            MDLabel:
+                                text: "Loan Amount Applied" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: amount_applied
+                                text: "" 
+                            MDLabel:
+                                text: "Loan ID" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: loan_id
+                                text: "" 
+                            MDLabel:
+                                text: "Bank Details" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: bank_details
+                                text: "" 
+                            MDRaisedButton:
+                                text: "Reject"
+                                md_bg_color: 194/255, 2/255, 21/255, 1
+                                theme_text_color: 'Primary'
+                                on_release: app.root.current = 'LoansDetails'
+                                text_color: 0, 0, 0, 1
+                                font_name: "Roboto-Bold.ttf"
+                                size_hint: 1, None
+
+                            MDRaisedButton:
+                                text: "Accept"
+                                md_bg_color: 5/255, 235/255, 77/255, 1
+                                theme_text_color: 'Primary'
+                                font_name: "Roboto-Bold.ttf"
+                                text_color: 0, 0, 0, 1
+                                size_hint: 1, None
+
+'''
 conn = sqlite3.connect('fin_user_profile.db')
 cursor = conn.cursor()
 
@@ -1685,7 +1943,7 @@ class ALlLoansScreen(Screen):
             label_1 = self.ids[id_label]
             label_1.text = loan_id[i]
             label_2 = self.ids[amount]
-            label_2.text = loan_amount[i]
+            label_2.text = str(loan_amount[i])
             label_3 = self.ids[status]
             label_3.text = loan_status[i]
             icon = self.ids[icon]
@@ -1709,3 +1967,90 @@ class ALlLoansScreen(Screen):
 class ViewLoansScreen(Screen):
     def on_back_button_press(self):
         self.manager.current = 'lender_dashboard'
+
+
+class ViewLoansRequest(Screen):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        data = self.get_table_data()
+        customer_id = []
+        loan_id = []
+        loan_amount = []
+        loan_status = []
+        s = 0
+        for i in data:
+            s += 1
+            customer_id.append(i['borrower_customer_id'])
+            loan_id.append(i['loan_id'])
+            loan_amount.append(i['loan_amount'])
+            loan_status.append(i['loan_updated_status'])
+
+        c = -1
+        index_list = []
+        for i in range(s):
+            c += 1
+            if customer_id[i] == row_id_list[log_index] and loan_status[i] == 'under process':
+                index_list.append(c)
+        print(index_list)
+        print(loan_id)
+        b = 1
+        k = -1
+        for i in index_list:
+            b += 1
+            k += 1
+            id_label = f"label_{k}"
+            amount = f"amount_{k}"
+            status = f"status_{k}"
+            icon = f"icon_{k}"  # Fix the variable name here
+
+            label_1 = self.ids[id_label]
+            label_1.text = loan_id[i]
+            label_2 = self.ids[amount]
+            label_2.text = str(loan_amount[i])
+            label_3 = self.ids[status]
+            label_3.text = loan_status[i]
+            icon = self.ids[icon]  # Fix the variable name here
+            icon.opacity = 1
+            self.icon_button_clicked(loan_id[i])
+
+        h = self.ids.box1.height
+
+        for i in range(a + 1):
+            h += 150
+        self.ids.box1.height = h
+
+    def on_back_button_press(self):
+        self.manager.current = 'ViewLoansScreen'
+
+    def get_table_data(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('get_table_data')
+
+    def icon_button_clicked(self, value):
+
+        print(value)
+
+
+class ViewLoansProfileScreen(Screen):
+    def __init__(self, value=None, **kwargs):
+        super().__init__(**kwargs)
+
+    def on_back_button_press(self):
+        self.manager.current = 'ViewLoansRequest'
+
+    def get_table_data(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('get_table_data')
