@@ -178,6 +178,7 @@ user_helpers1 = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                on_release: app.root.current = 'NewExtension'
                 md_bg_color: 0.031, 0.463, 0.91, 1 
                 size_hint_y: None
                 height: dp(60)
@@ -1657,7 +1658,7 @@ user_helpers1 += """
 
 """
 
-a = 8
+a = 50
 
 for i in range(a):
     id_label = f"label_{i}"
@@ -1836,6 +1837,680 @@ user_helpers1 += '''
                                 text_color: 0, 0, 0, 1
                                 size_hint: 1, None
 
+'''
+
+user_helpers1 += """
+<NewExtension>:
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint: 1, 1 
+        pos_hint: {'center_x':0.5, 'center_y':0.5}
+
+        MDTopAppBar:
+            title: "Lender Dashbord"
+            elevation: 2
+            left_action_items: [['arrow-left', lambda x: app.on_menu_button_press()]]
+            right_action_items: [['account', lambda x: root.on_profile_button_press()]]
+
+        MDGridLayout:
+            cols: 2
+            padding: dp(15)
+            spacing: dp(5)
+            pos_hint: {'center_x': .5, 'center_y': .5}
+
+            Button:
+                text: "New Loans Extension"
+                text_color: 0, 0, 0, 1
+                background_color: 0.529, 0.807, 0.922, 0
+                on_release: app.root.current = 'NewLoansE'
+                color: 0, 0, 0, 1
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba:0.529, 0.807, 0.922, 1 
+                    Line:
+                        width: 0.9  
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+
+            Button:
+                text: "Approved Loans"
+                background_color: 0.529, 0.807, 0.922, 0 
+                color: 0, 0, 0, 1
+                on_release: app.root.current = 'ApprovedLoansE'
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba: 0.529, 0.807, 0.922, 1 
+                    Line:
+                        width: 0.9  # Border width
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+            Button:
+                text: "View All Loans"
+                background_color: 0.529, 0.807, 0.922, 0
+                on_release: app.root.current = 'ViewAllLoansE'
+                color: 0, 0, 0, 1
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba: 0.529, 0.807, 0.922, 1 
+                    Line:
+                        width: 
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+            Button:
+                text: "Rejected Loans"
+                background_color: 0.529, 0.807, 0.922, 0
+                on_release: app.root.current = 'RejectedLoansE'
+                color: 0, 0, 0, 1
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba: 0.529, 0.807, 0.922, 1 
+                    Line:
+                        width: 0.9  
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+
+
+            Button:
+                text: "UnderProcess Loans"
+                text_color: 0, 0, 0, 1
+                on_release: app.root.current = 'UnderProcessLoansE'
+                background_color: 0.529, 0.807, 0.922, 0
+                color: 0, 0, 0, 1
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba:0.529, 0.807, 0.922, 1 
+                    Line:
+                        width: 0.9  
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+<NewLoansE>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "View Loans Request"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+
+        ScrollView:
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(20)
+
+                    BoxLayout:
+                        id: box1
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: 0
+
+                        padding: [10, 0,0,0]
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 1, 1  # Blue color for the box
+                            Line:
+                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
+
+
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                text: 'Loan ID'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+
+                            MDLabel:
+                                text: 'Loan Amount'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+                            MDLabel:
+                                text: 'Loan Status'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+                            MDLabel:
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                size_hint_x: None
+                                width: dp(20)
+                                bold: True
+                        Widget:
+                            size_hint_y: None
+                            height: dp(2) 
+                            canvas:
+                                Color:
+                                    rgba: 0, 0, 1, 1
+                                Line:
+                                    width: dp(0.6)  # Set the width of the line to make it bold
+                                    points: self.x, self.y, self.x + self.width, self.y
+
+
+"""
+
+a = 50
+
+for i in range(a):
+    id_label = f"label_{i}"
+    amount = f"amount_{i}"
+    status = f"status_{i}"
+    icon = f"icon_{i}"
+    user_helpers1 += f'''
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                id: {id_label}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+                            MDLabel:
+                                id: {amount}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDLabel:
+                                id: {status}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDIconButton:
+                                id: {icon}
+                                icon: 'arrow-right-thick'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                on_release: app.root.current = 'ViewLoansProfileScreen'
+                                opacity: 0
+
+    '''
+user_helpers1 += '''
+<ApprovedLoansE>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "View Loans Request"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+
+        ScrollView:
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(20)
+
+                    BoxLayout:
+                        id: box1
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: 0
+
+                        padding: [10, 0,0,0]
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 1, 1  # Blue color for the box
+                            Line:
+                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
+
+
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                text: 'Loan ID'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+
+                            MDLabel:
+                                text: 'Loan Amount'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+                            MDLabel:
+                                text: 'Loan Status'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+                            MDLabel:
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                size_hint_x: None
+                                width: dp(20)
+                                bold: True
+                        Widget:
+                            size_hint_y: None
+                            height: dp(2) 
+                            canvas:
+                                Color:
+                                    rgba: 0, 0, 1, 1
+                                Line:
+                                    width: dp(0.6)  # Set the width of the line to make it bold
+                                    points: self.x, self.y, self.x + self.width, self.y
+
+
+'''
+
+a = 50
+
+for i in range(a):
+    id_label = f"label_{i}"
+    amount = f"amount_{i}"
+    status = f"status_{i}"
+    icon = f"icon_{i}"
+    user_helpers1 += f'''
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                id: {id_label}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+                            MDLabel:
+                                id: {amount}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDLabel:
+                                id: {status}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDIconButton:
+                                id: {icon}
+                                icon: 'arrow-right-thick'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                on_release: app.root.current = 'ViewLoansProfileScreen'
+                                opacity: 0
+'''
+
+user_helpers1 += '''
+<ViewAllLoansE>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "View Loans Request"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+
+        ScrollView:
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(20)
+
+                    BoxLayout:
+                        id: box1
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: 0
+
+                        padding: [10, 0,0,0]
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 1, 1  # Blue color for the box
+                            Line:
+                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
+
+
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                text: 'Loan ID'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+
+                            MDLabel:
+                                text: 'Loan Amount'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+                            MDLabel:
+                                text: 'Loan Status'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+                            MDLabel:
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                size_hint_x: None
+                                width: dp(20)
+                                bold: True
+                        Widget:
+                            size_hint_y: None
+                            height: dp(2) 
+                            canvas:
+                                Color:
+                                    rgba: 0, 0, 1, 1
+                                Line:
+                                    width: dp(0.6)  # Set the width of the line to make it bold
+                                    points: self.x, self.y, self.x + self.width, self.y
+
+
+'''
+
+a = 50
+
+for i in range(a):
+    id_label = f"label_{i}"
+    amount = f"amount_{i}"
+    status = f"status_{i}"
+    icon = f"icon_{i}"
+    user_helpers1 += f'''
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                id: {id_label}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+                            MDLabel:
+                                id: {amount}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDLabel:
+                                id: {status}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDIconButton:
+                                id: {icon}
+                                icon: 'arrow-right-thick'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                on_release: app.root.current = 'ViewLoansProfileScreen'
+                                opacity: 0
+'''
+user_helpers1 += '''
+<RejectedLoansE>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "View Loans Request"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+
+        ScrollView:
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(20)
+
+                    BoxLayout:
+                        id: box1
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: 0
+
+                        padding: [10, 0,0,0]
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 1, 1  # Blue color for the box
+                            Line:
+                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
+
+
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                text: 'Loan ID'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+
+                            MDLabel:
+                                text: 'Loan Amount'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+                            MDLabel:
+                                text: 'Loan Status'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+                            MDLabel:
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                size_hint_x: None
+                                width: dp(20)
+                                bold: True
+                        Widget:
+                            size_hint_y: None
+                            height: dp(2) 
+                            canvas:
+                                Color:
+                                    rgba: 0, 0, 1, 1
+                                Line:
+                                    width: dp(0.6)  # Set the width of the line to make it bold
+                                    points: self.x, self.y, self.x + self.width, self.y
+
+
+'''
+
+a = 50
+
+for i in range(a):
+    id_label = f"label_{i}"
+    amount = f"amount_{i}"
+    status = f"status_{i}"
+    icon = f"icon_{i}"
+    user_helpers1 += f'''
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                id: {id_label}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+                            MDLabel:
+                                id: {amount}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDLabel:
+                                id: {status}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDIconButton:
+                                id: {icon}
+                                icon: 'arrow-right-thick'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                on_release: app.root.current = 'ViewLoansProfileScreen'
+                                opacity: 0
+'''
+user_helpers1 += '''
+<UnderProcessLoansE>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "View Loans Request"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+
+        ScrollView:
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(20)
+
+                    BoxLayout:
+                        id: box1
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: 0
+
+                        padding: [10, 0,0,0]
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 1, 1  # Blue color for the box
+                            Line:
+                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
+
+
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                text: 'Loan ID'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+
+                            MDLabel:
+                                text: 'Loan Amount'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+
+                            MDLabel:
+                                text: 'Loan Status'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                bold: True
+                            MDLabel:
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                size_hint_x: None
+                                width: dp(20)
+                                bold: True
+                        Widget:
+                            size_hint_y: None
+                            height: dp(2) 
+                            canvas:
+                                Color:
+                                    rgba: 0, 0, 1, 1
+                                Line:
+                                    width: dp(0.6)  # Set the width of the line to make it bold
+                                    points: self.x, self.y, self.x + self.width, self.y
+
+
+'''
+
+a = 50
+
+for i in range(a):
+    id_label = f"label_{i}"
+    amount = f"amount_{i}"
+    status = f"status_{i}"
+    icon = f"icon_{i}"
+    user_helpers1 += f'''
+                        GridLayout:
+                            cols: 4
+                            spacing: dp(20)
+                            MDLabel:
+                                id: {id_label}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+                            MDLabel:
+                                id: {amount}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDLabel:
+                                id: {status}
+                                text: ''
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+
+
+                            MDIconButton:
+                                id: {icon}
+                                icon: 'arrow-right-thick'
+                                size_hint_y: None
+                                height: dp(50)  # Adjust the height as needed
+                                on_release: app.root.current = 'ViewLoansProfileScreen'
+                                opacity: 0
 '''
 conn = sqlite3.connect('fin_user_profile.db')
 cursor = conn.cursor()
@@ -2031,7 +2706,7 @@ class ViewLoansRequest(Screen):
         self.ids.box1.height = h
 
     def on_back_button_press(self):
-        self.manager.current = 'ViewLoansScreen'
+        self.manager.current = 'lender_dashboard'
 
     def get_table_data(self):
         # Make a call to the Anvil server function
@@ -2054,3 +2729,59 @@ class ViewLoansProfileScreen(Screen):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('get_table_data')
+class NewExtension(Screen):
+    def on_menu_button_press(self):
+        self.manager.current = 'lender_dashboard'
+
+
+class NewLoansE(Screen):
+    def _init_(self, **kwargs):
+        super()._init_(**kwargs)
+        h = self.ids.box1.height
+
+        for i in range(a + 1):
+            h += 150
+        self.ids.box1.height = h
+    def on_back_button_press(self):
+        self.manager.current = 'NewExtension'
+class ApprovedLoansE(Screen):
+    def _init_(self, **kwargs):
+        super()._init_(**kwargs)
+        h = self.ids.box1.height
+
+        for i in range(a + 1):
+            h += 150
+        self.ids.box1.height = h
+    def on_back_button_press(self):
+        self.manager.current = 'NewExtension'
+class ViewAllLoansE(Screen):
+    def _init_(self, **kwargs):
+        super()._init_(**kwargs)
+        h = self.ids.box1.height
+
+        for i in range(a + 1):
+            h += 150
+        self.ids.box1.height = h
+    def on_back_button_press(self):
+        self.manager.current = 'NewExtension'
+
+class RejectedLoansE(Screen):
+    def _init_(self, **kwargs):
+        super()._init_(**kwargs)
+        h = self.ids.box1.height
+
+        for i in range(a + 1):
+            h += 150
+        self.ids.box1.height = h
+    def on_back_button_press(self):
+        self.manager.current = 'NewExtension'
+class UnderProcessLoansE(Screen):
+    def _init_(self, **kwargs):
+        super()._init_(**kwargs)
+        h = self.ids.box1.height
+
+        for i in range(a + 1):
+            h += 150
+        self.ids.box1.height = h
+    def on_back_button_press(self):
+        self.manager.current = 'NewExtension'
