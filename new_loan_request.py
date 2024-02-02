@@ -8,6 +8,12 @@ from kivymd.uix.label import MDLabel
 import sqlite3
 
 user_helpers2 = """
+<WindowManager>:
+    NewloanScreen:
+    NewloanScreen1:
+    NewloanScreen2:
+    
+    
 
 <NewloanScreen>:
 
@@ -581,6 +587,7 @@ user_helpers2 = """
 
 
 class NewloanScreen(Screen):
+    Builder.load_string(user_helpers2)
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
 
@@ -640,3 +647,7 @@ class NewloanScreen2(Screen):
 
     def current(self):
         self.manager.current = 'NewloanScreen1'
+
+
+class MyScreenManager(ScreenManager):
+    pass

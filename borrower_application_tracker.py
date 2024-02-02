@@ -12,7 +12,7 @@ import sqlite3
 
 application_tracker = """
 
-WindowManager:
+<WindowManager>:
     ApplicationTrackerScreen:
 
 <ApplicationTrackerScreen>
@@ -164,6 +164,8 @@ WindowManager:
 
 """
 class ApplicationTrackerScreen(Screen):
+
+    Builder.load_string(application_tracker)
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
 

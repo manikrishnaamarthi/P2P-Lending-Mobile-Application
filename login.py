@@ -3,7 +3,7 @@ import sqlite3
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import Screen, SlideTransition
+from kivy.uix.screenmanager import Screen, SlideTransition,ScreenManager
 from kivymd.uix.label import MDLabel
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRaisedButton, MDFlatButton
@@ -13,6 +13,9 @@ import anvil.server
 anvil.server.connect("server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT")
 
 KV = """
+<WindowManager>:
+    LoginScreen:
+
 <LoginScreen>:
     MDFloatLayout:
         md_bg_color:1,1,1,1
@@ -260,3 +263,8 @@ class LoginScreen(Screen):
 
     def login_data(self):
         return anvil.server.call('login_data')
+
+
+
+class MyScreenManager(ScreenManager):
+    pass

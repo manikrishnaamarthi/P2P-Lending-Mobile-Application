@@ -10,7 +10,14 @@ from kivy.uix.modalview import ModalView
 from dashboard import DashScreen
 
 Landing = '''
+
+<WindowManager>:
+    LenderLanding:
+    LenderHowScreen:
+    
+
 <LenderLanding>:
+
     ScrollView:
         MDFloatLayout:
             md_bg_color:1,1,1,1
@@ -380,6 +387,8 @@ Landing = '''
 
 
 class LenderLanding(Screen):
+
+    Builder.load_string(Landing)
     def build(self):
         sm = MyScreenManager()
         sm.add_widget(LenderLanding(name="LenderLanding"))

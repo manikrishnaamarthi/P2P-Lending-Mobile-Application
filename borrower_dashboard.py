@@ -1,7 +1,7 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
-from kivy.uix.screenmanager import Screen, SlideTransition
+from kivy.uix.screenmanager import Screen, SlideTransition,ScreenManager
 from kivy.utils import platform
 from kivy.clock import mainthread
 from kivymd.uix.filemanager import MDFileManager
@@ -15,6 +15,18 @@ if platform == 'android':
         request_permissions, check_permission, Permission)
 
 user_helpers = """
+<WindowManager>:
+    DashboardScreen:
+    ProfileScreen:
+    LoansDetails:
+    Foreclosure:
+    ForecloseDetails:
+    
+    
+    
+    
+    
+
 <DashboardScreen>:
     MDFloatLayout:
         md_bg_color:1,1,1,1
@@ -2800,6 +2812,8 @@ user_helpers = """
 
 
 class DashboardScreen(Screen):
+
+    Builder.load_string(user_helpers)
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
 
@@ -2957,3 +2971,5 @@ class ForecloseDetails(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'Foreclosure'
 
+class MyScreenManager(ScreenManager):
+    pass
