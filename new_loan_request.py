@@ -20,7 +20,7 @@ user_helpers2 = """
     BoxLayout:
         pos_hint: {'center_x':0.5, 'center_y':0.5}
         elevation: 2
-        padding: 10
+        padding: [10, 0]
         spacing: 15
         orientation: 'vertical'
         radius: [10,]
@@ -40,7 +40,7 @@ user_helpers2 = """
             BoxLayout:
                 pos_hint: {'center_x':0.5, 'center_y':0.5}
                 elevation: 2
-                padding: 40
+                padding: [40, 0]
                 spacing: 25
                 orientation: 'horizontal'
 
@@ -70,7 +70,7 @@ user_helpers2 = """
             BoxLayout:
                 pos_hint: {'center_x':0.5, 'center_y':0.5}
                 elevation: 2
-                padding: 40
+                padding: [40, 0]
                 spacing: 25
                 orientation: 'horizontal'
 
@@ -97,7 +97,7 @@ user_helpers2 = """
         MDGridLayout:
             cols: 2
             spacing: 30
-            padding: 20
+            padding: [20, 0]
             size_hint: 1, 1
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
@@ -116,7 +116,7 @@ user_helpers2 = """
     BoxLayout:
         pos_hint: {'center_x':0.5, 'center_y':0.5}
         elevation: 2
-        padding: 40
+        padding: [40, 0]
         spacing: 25
         orientation: 'vertical'
         radius: [10,]
@@ -367,7 +367,7 @@ user_helpers2 = """
         MDGridLayout:
             cols: 2
             spacing: 30
-            padding: 20
+            padding: [20, 0]
             size_hint: 1, 1
             pos_hint: {'center_x': 0.48, 'center_y': 0.5}
 
@@ -382,7 +382,7 @@ user_helpers2 = """
     BoxLayout:
         pos_hint: {'center_x':0.5, 'center_y':0.5}
         elevation: 2
-        padding: 40
+        padding: [40, 0]
         spacing: 25
         orientation: 'vertical'
         radius: [10,]
@@ -563,7 +563,7 @@ user_helpers2 = """
         MDGridLayout:
             cols: 3
             spacing: 30
-            padding: 20
+            padding: [20, 0]
             size_hint: 1, 1
             pos_hint: {'center_x': 0.48, 'center_y': 0.5}
             MDRaisedButton:

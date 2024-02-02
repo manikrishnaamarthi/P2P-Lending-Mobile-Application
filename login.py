@@ -54,7 +54,7 @@ KV = """
                     rectangle: self.x, self.y, self.width, self.height
             MDTextField:
                 id: email      
-                hint_text: "Email/Mobile Number"
+                hint_text: "Email"
                 helper_text_mode: "on_focus"
                 icon_right: "account"
                 font_name: "Roboto-Bold"

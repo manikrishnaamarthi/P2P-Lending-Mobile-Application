@@ -326,9 +326,9 @@ class SignupScreen(Screen):
 
         validation_errors = []
 
-        if not name or not (name.isalpha() and len(name) >= 4):
-            validation_errors.append((self.ids.name, "Please enter an valid name"))
-
+        name_regex = r'^[a-zA-Z\s]{4,}$'
+        if not name or not re.match(name_regex, name):
+            validation_errors.append((self.ids.name, "Please enter a valid name"))
         if not mobile or not (len(mobile) == 10 or len(mobile) == 12) or not mobile.startswith(('6', '7', '8', '9')):
             validation_errors.append((self.ids.mobile, "Invalid mobile number"))
 
