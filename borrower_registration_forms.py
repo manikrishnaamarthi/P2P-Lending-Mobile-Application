@@ -406,11 +406,6 @@ Borrower = '''
             size_hint_y: None
             height:dp(50)
 
-        MDLabel:
-            text:""
-            size_hint_y: None
-            height:dp(50)
-
         MDBoxLayout:
             orientation: 'vertical'
             spacing: dp(50)
@@ -427,7 +422,7 @@ Borrower = '''
                 text: 'Borrower Registration Form'
                 halign: 'center'
                 font_size: "20dp"
-                font_name: "Roboto-Bold"             
+                font_name: "Roboto-Bold"
 
             MDLabel:
                 text: 'Education Details'
@@ -827,7 +822,7 @@ Borrower = '''
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
             MDLabel:
-                text: "Upload B.tech/B.E certificate"
+                text: "Upload Bachelors Certificate"
                 halign: 'center'
                 bold: True
 
@@ -1013,7 +1008,7 @@ Borrower = '''
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
             MDLabel:
-                text: "Upload B.tech/B.E Certificate"
+                text: "Upload Bachelors Certificate"
                 halign: 'center'
                 bold: True
 
@@ -1247,7 +1242,7 @@ Borrower = '''
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
             MDLabel:
-                text: "Upload Btech/B.E Certificate"
+                text: "Upload Bachelors Certificate"
                 halign: 'center'
                 bold: True
 
@@ -1748,11 +1743,10 @@ Borrower = '''
 
             Spinner:
                 id: spinner_id
-                text: "Select Proficient type"
-                values: ["Select Proficient type", "Student", "Employee", "Business"]
+                text: "Select Profession type"
+                values: ["Select Profession type", "Student", "Employee", "Business"]
                 multiline: False
                 size_hint: 1 , None
-                bold: True
                 background_color: 1, 1 ,1, 0 
                 color: 0, 0, 0, 1
                 canvas.before:
@@ -1765,7 +1759,6 @@ Borrower = '''
             GridLayout:
                 cols: 1
                 spacing:dp(30)
-
                 MDRectangleFlatButton:
                     text: "Next"
                     on_press: root.add_data(spinner_id.text)
@@ -1775,9 +1768,6 @@ Borrower = '''
                     size_hint: 1, None
                     height: "50dp"
                     font_name: "Roboto-Bold"
-
-            Label:
-                text: ""
 
 <BorrowerScreen8>:
     MDTopAppBar:
