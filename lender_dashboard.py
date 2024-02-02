@@ -1,7 +1,7 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
-from kivy.uix.screenmanager import Screen, SlideTransition
+from kivy.uix.screenmanager import Screen, SlideTransition,ScreenManager
 import sqlite3
 import anvil.server
 from kivy.uix.screenmanager import Screen, SlideTransition
@@ -21,6 +21,28 @@ if platform == 'android':
 anvil.server.connect('server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT')
 
 user_helpers1 = """
+<WindowManager>:
+    LenderDashboard:
+    ViewProfileScreen:
+    ViewLoansScreen:
+    ALlLoansScreen:
+    ViewLoansRequest:
+    ViewLoansProfileScreen:
+    NewExtension:
+    NewLoansE:
+    ApprovedLoansE:
+    ViewAllLoansE:
+    RejectedLoansE:
+    UnderProcessLoansE:
+    
+    
+    
+    
+    
+    
+    
+    
+
 <LenderDashboard>
     MDFloatLayout:
         md_bg_color:1,1,1,1
@@ -2538,6 +2560,8 @@ cursor = conn.cursor()
 
 
 class LenderDashboard(Screen):
+
+    Builder.load_string(user_helpers1)
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_back_button)
@@ -3049,3 +3073,6 @@ class UnderProcessLoansE(Screen):
         self.ids.box1.height = h
     def on_back_button_press(self):
         self.manager.current = 'NewExtension'
+
+class MyScreenManager(ScreenManager):
+    pass

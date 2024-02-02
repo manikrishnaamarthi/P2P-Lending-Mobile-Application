@@ -33,6 +33,32 @@ if platform == 'android':
     )
 
 KV = '''
+<WindowManager>:
+    LenderScreen:
+    LenderScreen1:
+    LenderScreen2:
+    LenderScreen3:
+    LenderScreen_Edu_10th:
+    LenderScreen_Edu_Intermediate:
+    LenderScreen_Edu_Bachelors:
+    LenderScreen_Edu_Masters:
+    LenderScreen_Edu_PHD:
+    LenderScreen4:
+    LenderScreen5:
+    LenderScreenInstitutionalForm1:
+    LenderScreenInstitutionalForm2:
+    LenderScreenInstitutionalForm3:
+    LenderScreenInstitutionalForm4:
+    LenderScreenInstitutionalForm5:
+    LenderScreenIndividualForm1:
+    LenderScreenIndividualForm2:
+    LenderScreenIndividualForm3:
+    LenderScreenIndividualBankForm1:
+    LenderScreenIndividualBankForm2:
+    LenderScreenInstitutionalBankForm1:
+    LenderScreenInstitutionalBankForm2:
+    
+    
 <LenderScreen>:
 
     MDTopAppBar:
@@ -2802,6 +2828,8 @@ cursor = conn.cursor()
 
 
 class LenderScreen(Screen):
+
+    Builder.load_string(KV)
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.date_picker = MDDatePicker()

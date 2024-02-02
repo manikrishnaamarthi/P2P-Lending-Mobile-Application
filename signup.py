@@ -2,7 +2,7 @@ import re
 
 from kivy.core.window import Window
 from kivy.lang import Builder
-from kivy.uix.screenmanager import Screen, SlideTransition
+from kivy.uix.screenmanager import Screen, SlideTransition,ScreenManager
 from kivymd.app import MDApp
 import sqlite3
 
@@ -16,6 +16,9 @@ import anvil.server
 anvil.server.connect("server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT")
 
 KV = """
+<WindowManager>:
+    SignupScreen:
+    
 <SignupScreen>:
     canvas.before:
         Color:
@@ -418,3 +421,7 @@ class SignupScreen(Screen):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'MainScreen'
+
+
+class MyScreenManager(ScreenManager):
+    pass

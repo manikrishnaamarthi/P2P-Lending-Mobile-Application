@@ -8,19 +8,19 @@ from homepage import MainScreen
 from login import LoginScreen
 from signup import SignupScreen
 from dashboard import DashScreen
-from borrowerlanding import BorrowerLanding,BorrowerHowScreen,BorrLanding
+from borrowerlanding import BorrowerLanding,BorrowerHowScreen
 from borrower_registration_forms import (
     BorrowerScreen, BorrowerScreen1, BorrowerScreen2, BorrowerScreen3,BorrowerScreen_Edu_10th,BorrowerScreen_Edu_Intermediate,
     BorrowerScreen_Edu_Bachelors,BorrowerScreen_Edu_Masters,BorrowerScreen_Edu_PHD, BorrowerScreen4, BorrowerScreen5,
     BorrowerScreen6,BorrowerScreen7,BorrowerScreen8,BorrowerScreen9,BorrowerScreen10,BorrowerScreen11,
     BorrowerScreen12,BorrowerScreen13,BorrowerScreen14,BorrowerScreen15,BorrowerScreen16,BorrowerScreen17,
-    BorrowerScreen18,BorrowerScreen19,Borrower
+    BorrowerScreen18,BorrowerScreen19
 )
-from borrower_dashboard import (DashboardScreen, ProfileScreen, user_helpers, LoansDetails, ForecloseDetails,
+from borrower_dashboard import (DashboardScreen, ProfileScreen,LoansDetails, ForecloseDetails,
                                 Foreclosure)
 
-from new_loan_request import (NewloanScreen,NewloanScreen1,NewloanScreen2,user_helpers2)
-from LenderLanding import LenderLanding,LenderHowScreen,Landing
+from new_loan_request import (NewloanScreen,NewloanScreen1,NewloanScreen2)
+from LenderLanding import LenderLanding,LenderHowScreen
 from lender_registration_form import (
     LenderScreen, LenderScreen1, LenderScreen2, LenderScreen3,
     LenderScreen_Edu_10th, LenderScreen_Edu_Intermediate,LenderScreen_Edu_Bachelors,
@@ -28,29 +28,18 @@ from lender_registration_form import (
     LenderScreenInstitutionalForm1,LenderScreenInstitutionalForm2,LenderScreenInstitutionalForm3,
     LenderScreenInstitutionalForm4,LenderScreenInstitutionalForm5,LenderScreenIndividualForm1,
     LenderScreenIndividualForm2,LenderScreenIndividualForm3,LenderScreenIndividualBankForm1,
-    LenderScreenIndividualBankForm2,LenderScreenInstitutionalBankForm1,LenderScreenInstitutionalBankForm2,
-    KV
+    LenderScreenIndividualBankForm2,LenderScreenInstitutionalBankForm1,LenderScreenInstitutionalBankForm2
 )
-from lender_dashboard import (LenderDashboard, user_helpers1, ViewProfileScreen, ViewLoansScreen, ALlLoansScreen, ViewLoansRequest, ViewLoansProfileScreen,NewExtension,NewLoansE,ApprovedLoansE,ViewAllLoansE,RejectedLoansE,UnderProcessLoansE)
-from borrower_application_tracker import (ApplicationTrackerScreen,application_tracker)
+from lender_dashboard import (LenderDashboard,ViewProfileScreen, ViewLoansScreen, ALlLoansScreen, ViewLoansRequest, ViewLoansProfileScreen,NewExtension,NewLoansE,ApprovedLoansE,ViewAllLoansE,RejectedLoansE,UnderProcessLoansE)
+from borrower_application_tracker import (ApplicationTrackerScreen)
 
 
 
-class MyScreenManager(ScreenManager):
-    pass
+
 
 
 class MyApp(MDApp):
     def build(self):
-        Builder.load_string(Borrower)
-        Builder.load_string(KV)
-        Builder.load_string(Landing)
-        Builder.load_string(BorrLanding)
-        Builder.load_string(user_helpers)
-        Builder.load_string(user_helpers1)
-        Builder.load_string(user_helpers2)
-        Builder.load_string(application_tracker)
-
 
         sm = ScreenManager(transition=SlideTransition())
         main_screen = MainScreen(name='MainScreen')
@@ -167,6 +156,9 @@ class MyApp(MDApp):
 
     def on_start(self):
         Window.softinput_mode = "below_target"
+
+class MyScreenManager(ScreenManager):
+    pass
 
 
 if __name__ == '__main__':

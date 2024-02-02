@@ -12,6 +12,7 @@ import lender_registration_form
 
 KV = """
 
+
 <DashScreen>:
     canvas.before:
         Color:

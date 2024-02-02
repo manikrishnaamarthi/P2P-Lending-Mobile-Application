@@ -32,6 +32,33 @@ if platform == 'android':
     )
 
 Borrower = '''
+<WindowManager>:
+    BorrowerScreen:
+    BorrowerScreen1:
+    BorrowerScreen2:
+    BorrowerScreen3:
+    BorrowerScreen_Edu_10th:
+    BorrowerScreen_Edu_Intermediate:
+    BorrowerScreen_Edu_Bachelors:
+    BorrowerScreen_Edu_Masters:
+    BorrowerScreen_Edu_PHD:
+    BorrowerScreen4:
+    BorrowerScreen5:
+    BorrowerScreen6:
+    BorrowerScreen7:
+    BorrowerScreen8:
+    BorrowerScreen9:
+    BorrowerScreen10:
+    BorrowerScreen11:
+    BorrowerScreen12:
+    BorrowerScreen13:
+    BorrowerScreen14:
+    BorrowerScreen15:
+    BorrowerScreen16:
+    BorrowerScreen17:
+    BorrowerScreen18:
+    BorrowerScreen19:
+    
 <BorrowerScreen>:
     MDTopAppBar:
         title: "P2P LENDING"
@@ -2976,6 +3003,8 @@ cursor = conn.cursor()
 
 
 class BorrowerScreen(Screen):
+
+    Builder.load_string(Borrower)
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.date_picker = MDDatePicker()

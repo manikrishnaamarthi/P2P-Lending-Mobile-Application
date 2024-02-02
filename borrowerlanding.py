@@ -9,6 +9,12 @@ from kivy.uix.modalview import ModalView
 from dashboard import DashScreen
 
 BorrLanding = '''
+<WindowManager>:
+    BorrowerLanding:
+    BorrowerHowScreen:
+    
+
+
 <BorrowerLanding>:
     ScrollView:
         MDFloatLayout:
@@ -380,6 +386,8 @@ BorrLanding = '''
 
 
 class BorrowerLanding(Screen):
+
+    Builder.load_string(BorrLanding)
     def build(self):
         sm = MyScreenManager()
         sm.add_widget(BorrowerLanding(name="BorrowerLanding"))

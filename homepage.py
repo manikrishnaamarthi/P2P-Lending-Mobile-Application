@@ -1,6 +1,6 @@
 # main.py
 from kivy.lang import Builder
-from kivy.uix.screenmanager import Screen
+from kivy.uix.screenmanager import Screen,ScreenManager
 from kivy.uix.boxlayout import BoxLayout
 from kivy.app import App
 from kivymd.app import MDApp
@@ -10,6 +10,9 @@ from kivymd.uix.label import MDLabel
 from kivy.properties import ObjectProperty
 
 KV = """
+<WindowManager>:
+    MainScreen:
+    
 <MainScreen>:
     id: main
     canvas.before:
@@ -164,3 +167,6 @@ class MainScreen(Screen):
     def go_to_dashboard(self):
         self.manager.current = 'LoginScreen'
 
+
+class MyScreenManager(ScreenManager):
+    pass
