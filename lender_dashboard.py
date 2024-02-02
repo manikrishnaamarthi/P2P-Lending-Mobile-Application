@@ -2702,7 +2702,11 @@ class ALlLoansScreen(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
+        else:
+            # Handle the case where 'logged' is not in the list (choose an appropriate default index)
+            log_index = 0  # Or any other suitable default value depending on your requirements
 
         data = self.get_table_data()
 
@@ -2721,7 +2725,7 @@ class ALlLoansScreen(Screen):
         index_list = []
         for id in customer_id:
             c += 1
-            if id == row_id_list[log_index]:
+            if row_id_list and 0 <= log_index < len(row_id_list) and id == row_id_list[log_index]:
                 index_list.append(c)
 
         b = 1
@@ -2794,8 +2798,11 @@ class ViewLoansRequest(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
-
+        if 'logged' in status:
+            log_index = status.index('logged')
+        else:
+            # Handle the case where 'logged' is not in the list (choose an appropriate default index)
+            log_index = 0
         data = self.get_table_data()
         customer_id = []
         loan_id = []
@@ -2811,10 +2818,11 @@ class ViewLoansRequest(Screen):
 
         c = -1
         index_list = []
-        for i in range(s):
+        for id in customer_id:
             c += 1
-            if customer_id[i] == row_id_list[log_index] and loan_status[i] == 'under process':
+            if row_id_list and 0 <= log_index < len(row_id_list) and id == row_id_list[log_index]:
                 index_list.append(c)
+
         print(index_list)
         print(loan_id)
         b = 1
