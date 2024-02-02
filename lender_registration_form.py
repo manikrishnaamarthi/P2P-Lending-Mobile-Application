@@ -1,3 +1,6 @@
+import os
+
+from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivy.lang import Builder
@@ -17,7 +20,17 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.filemanager import MDFileManager
 import sqlite3
 from kivymd.uix.pickers import MDDatePicker
+from kivy.utils import platform
+from kivy.clock import mainthread
 
+if platform == 'android':
+    from kivy.uix.button import Button
+    from kivy.uix.modalview import ModalView
+    from kivy.clock import Clock
+    from android import api_version, mActivity
+    from android.permissions import (
+        request_permissions, check_permission, Permission
+    )
 
 KV = '''
 <LenderScreen>:
@@ -97,14 +110,26 @@ KV = '''
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
-            MDTextField:
-                id: date_textfield
-                hint_text: "Select Date Of Birth"
-                icon_right: "calendar"
-                readonly: True
-                on_focus: root.show_date_picker()
-                font_name: "Roboto-Bold"
-                hint_text_color: 0, 0, 0, 1
+            MDGridLayout:
+                cols: 3
+                spacing: dp(10)
+                padding: dp(10)
+
+                MDTextField:
+                    id: date_textfield
+
+                    hint_text: "Enter Date Of Birth"
+
+                    helper_text: 'DD/MM/YYYY'
+
+                    font_name: "Roboto-Bold"
+                    hint_text_color: 0, 0, 0, 1
+                MDIconButton:
+
+                    icon: 'calendar-check'
+                    on_press: root.show_date_picker()
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
 
 
 
@@ -120,11 +145,12 @@ KV = '''
 
 
 <LenderScreen1>:
+
     MDTopAppBar:
         title: "P2P LENDING"
         elevation: 2
         pos_hint: {'top': 1}
-        left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'lender_registration_form')]]
+        left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen1')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard]]
         title_align: 'center'  # Center-align the title
 
@@ -179,8 +205,7 @@ KV = '''
                 helper_text_mode: 'on_focus'
                 hint_text_color: 0, 0, 0, 1
                 font_name: "Roboto-Bold"
-                input_type: 'number'  
-                on_touch_down: root.on_mobile_number_touch_down()
+
 
             Spinner:
                 id: spinner_id
@@ -266,7 +291,7 @@ KV = '''
                 padding: "10dp"
                 spacing: "10dp"
                 size_hint: None, None
-                size: dp(200), dp(50)  # Adjust size as needed
+                size: dp(280), dp(50)  # Adjust size as needed
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 canvas:
                     Color:
@@ -283,8 +308,8 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.file_manager_open_1()
-                
+                    on_release: app.root.get_screen('LenderScreen2').check_and_open_file_manager1()
+
                 MDLabel:
                     id: upload_label1
                     text: 'Upload Govt ID1'
@@ -295,6 +320,18 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+
+
+
+            MDLabel:
+                id: image_label1
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
 
             MDTextField:
@@ -312,7 +349,7 @@ KV = '''
                 padding: "10dp"
                 spacing: "10dp"
                 size_hint: None, None
-                size: dp(200), dp(50)  # Adjust size as needed
+                size: dp(280), dp(50)  # Adjust size as needed
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 canvas:
                     Color:
@@ -330,8 +367,8 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.file_manager_open_2()
-    
+                    on_release: app.root.get_screen('LenderScreen2').check_and_open_file_manager2()
+
                 MDLabel:
                     id: upload_label2
                     text: 'Upload Govt ID2'
@@ -342,6 +379,16 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDLabel:
+                id: image_label2
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
 
 
             MDRectangleFlatButton:
@@ -492,8 +539,8 @@ KV = '''
                     Line:
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-    
-    
+
+
                 MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
@@ -501,8 +548,9 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_1()
-    
+                    on_release: app.root.get_screen('LenderScreen_Edu_10th').check_and_open_file_manager1()
+
+
                 MDLabel:
                     id: upload_label1
                     text: 'Upload Certificate'
@@ -513,7 +561,14 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-    
+            MDLabel:
+                id: image_label1
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             GridLayout:
                 cols: 1
                 spacing:dp(30)
@@ -539,7 +594,7 @@ KV = '''
 
     MDBoxLayout:
         orientation: 'vertical'
-        spacing: dp(30)
+        spacing: dp(35)
         padding: dp(10)
         size_hint_y: None
         height: self.minimum_height
@@ -585,7 +640,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_1()
+                    on_release: app.root.get_screen('LenderScreen_Edu_Intermediate').check_and_open_file_manager1()
 
                 MDLabel:
                     id: upload_label1
@@ -597,7 +652,14 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+            MDLabel:
+                id: image_label1
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload Intermediate/PUC"
                 halign: 'center'
@@ -625,7 +687,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_2()
+                    on_release: app.root.get_screen('LenderScreen_Edu_Intermediate').check_and_open_file_manager2()
 
                 MDLabel:
                     id: upload_label2
@@ -637,7 +699,14 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
+            MDLabel:
+                id: image_label2
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             GridLayout:
                 cols: 1
                 spacing:dp(30)
@@ -706,7 +775,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_1()
+                    on_release: app.root.get_screen('LenderScreen_Edu_Bachelors').check_and_open_file_manager1()
 
                 MDLabel:
                     id: upload_label1
@@ -718,6 +787,15 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDLabel:
+                id: image_label1
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload Intermediate/PUC Certificate"
                 halign: 'center'
@@ -746,7 +824,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_2()
+                    on_release: app.root.get_screen('LenderScreen_Edu_Bachelors').check_and_open_file_manager2()
 
                 MDLabel:
                     id: upload_label2
@@ -758,6 +836,15 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDLabel:
+                id: image_label2
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload B.tech/B.E certificate"
                 halign: 'center'
@@ -786,7 +873,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_3()
+                    on_release: app.root.get_screen('LenderScreen_Edu_Bachelors').check_and_open_file_manager3()
 
                 MDLabel:
                     id: upload_label3
@@ -798,6 +885,14 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDLabel:
+                id: image_label3
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
             GridLayout:
                 cols: 1
@@ -872,7 +967,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_1()
+                    on_release: app.root.get_screen('LenderScreen_Edu_Masters').check_and_open_file_manager1()
 
                 MDLabel:
                     id: upload_label1
@@ -884,6 +979,15 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDLabel:
+                id: image_label1
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload Intermediate/PUC Certificate"
                 halign: 'center'
@@ -912,7 +1016,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_2()
+                    on_release: app.root.get_screen('LenderScreen_Edu_Masters').check_and_open_file_manager2()
 
                 MDLabel:
                     id: upload_label2
@@ -924,6 +1028,15 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDLabel:
+                id: image_label2
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload B.tech/B.E Certificate"
                 halign: 'center'
@@ -952,7 +1065,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_3()
+                    on_release: app.root.get_screen('LenderScreen_Edu_Masters').check_and_open_file_manager3()
 
                 MDLabel:
                     id: upload_label3
@@ -964,6 +1077,15 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDLabel:
+                id: image_label3
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
             MDLabel:
                 text: "Upload Masters Certificate"
@@ -992,7 +1114,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_4()
+                    on_release: app.root.get_screen('LenderScreen_Edu_Masters').check_and_open_file_manager4()
 
                 MDLabel:
                     id: upload_label4
@@ -1004,6 +1126,14 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDLabel:
+                id: image_label4
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
 
             GridLayout:
@@ -1077,7 +1207,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_1()
+                    on_release: app.root.get_screen('LenderScreen_Edu_PHD').check_and_open_file_manager1()
 
                 MDLabel:
                     id: upload_label1
@@ -1089,6 +1219,15 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDLabel:
+                id: image_label1
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload Intermediate/PUC Certificate"
                 halign: 'center'
@@ -1116,7 +1255,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_2()
+                    on_release: app.root.get_screen('LenderScreen_Edu_PHD').check_and_open_file_manager2()
 
                 MDLabel:
                     id: upload_label2
@@ -1128,6 +1267,14 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDLabel:
+                id: image_label2
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload Btech/B.E Certificate"
                 halign: 'center'
@@ -1155,7 +1302,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_3()
+                    on_release: app.root.get_screen('LenderScreen_Edu_PHD').check_and_open_file_manager3()
 
                 MDLabel:
                     id: upload_label3
@@ -1167,6 +1314,14 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDLabel:
+                id: image_label3
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
                 text: "Upload Masters Certificate"
                 halign: 'center'
@@ -1195,7 +1350,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_4()
+                    on_release: app.root.get_screen('LenderScreen_Edu_PHD').check_and_open_file_manager4()
 
                 MDLabel:
                     id: upload_label4
@@ -1207,6 +1362,14 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDLabel:
+                id: image_label4
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
             MDLabel:
                 text: "Upload PHD Certificate"
@@ -1234,8 +1397,7 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload_5()
-
+                    on_release: app.root.get_screen('LenderScreen_Edu_PHD').check_and_open_file_manager5()
                 MDLabel:
                     id: upload_label5
                     text: 'Upload Certificate'
@@ -1246,7 +1408,14 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    
+            MDLabel:
+                id: image_label5
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             GridLayout:
                 cols: 1
                 spacing:dp(30)
@@ -1708,8 +1877,8 @@ KV = '''
                     Line:
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-    
-    
+
+
                 MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
@@ -1717,8 +1886,8 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload1()
-    
+                    on_release: app.root.get_screen('LenderScreenInstitutionalForm3').check_and_open_file_manager1()
+
                 MDLabel:
                     id: upload_label1
                     text: 'Upload Document'
@@ -1729,6 +1898,15 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDLabel:
+                id: image_label1
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
             GridLayout:
                 cols: 1
@@ -1890,8 +2068,8 @@ KV = '''
                     Line:
                         width: 0.4  # Border width
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-    
-    
+
+
                 MDIconButton:
                     icon: 'upload'
                     theme_text_color: "Custom"
@@ -1899,8 +2077,8 @@ KV = '''
                     size_hint_x: None
                     width: dp(24)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload1()
-    
+                    on_release: app.root.get_screen('LenderScreenInstitutionalForm5').check_and_open_file_manager1()
+
                 MDLabel:
                     id: upload_label1
                     text: 'Upload Document'
@@ -1911,6 +2089,16 @@ KV = '''
                     height: dp(36)
                     valign: 'middle'  # Align the label text vertically in the center
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDLabel:
+                id: image_label1
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
             MDTextField:
                 id:branch_name
                 hint_text: 'Enter branch name'
@@ -2035,7 +2223,6 @@ KV = '''
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
                     height: "50dp"
-                    font_name: "Roboto-Bold"
 <LenderScreenIndividualForm2>:
     name: 'len_reg_individual_form2'
     MDTopAppBar:
@@ -2066,6 +2253,162 @@ KV = '''
                     width: 0.7  # Border width
                     rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
+
+            MDLabel:
+                text: 'Employment Details'
+                halign: 'center'
+                font_name: "Roboto-Bold"
+                font_size: "20dp"   
+            MDTextField:              
+                id:annual_salary
+                hint_text: 'Enter annual salary'
+                multiline: False                        
+                helper_text_mode: 'on_focus'
+                size_hint_y: None
+                input_type: 'number'  
+                on_touch_down: root.on_annual_salary_touch_down()
+
+            MDTextField:              
+                id:designation
+                hint_text: 'Enter designation'
+                multiline: False                        
+                helper_text_mode: 'on_focus'
+                size_hint_y: None
+
+            MDLabel:
+                text: "Upload Employee ID"
+                halign: 'center'
+                bold: True
+
+
+            BoxLayout:
+                orientation: 'horizontal'
+                padding: "10dp"
+                spacing: "10dp"
+                size_hint: None, None
+                size: dp(200), dp(50)  # Adjust size as needed
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                canvas:
+                    Color:
+                        rgba: 0, 0, 0, 1  # Border color (black in this example)
+                    Line:
+                        width: 0.4  # Border width
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+
+                MDIconButton:
+                    icon: 'upload'
+                    theme_text_color: "Custom"
+                    text_color: 0, 0, 0, 1  # Black text color
+                    size_hint_x: None
+                    width: dp(24)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: app.root.get_screen('LenderScreenIndividualForm2').check_and_open_file_manager1()
+
+                MDLabel:
+                    id: upload_label1
+                    text: 'Upload Document'
+                    halign: 'left'
+                    theme_text_color: "Custom"
+
+            MDLabel:
+                id: image_label1
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDLabel:
+                text: "Upload last 6 months bank statements"
+                halign: 'center'
+                bold: True
+
+
+            BoxLayout:
+                orientation: 'horizontal'
+                padding: "10dp"
+                spacing: "10dp"
+                size_hint: None, None
+                size: dp(200), dp(50)  # Adjust size as needed
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                canvas:
+                    Color:
+                        rgba: 0, 0, 0, 1  # Border color (black in this example)
+                    Line:
+                        width: 0.4  # Border width
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+
+
+                MDIconButton:
+                    icon: 'upload'
+                    theme_text_color: "Custom"
+                    text_color: 0, 0, 0, 1  # Black text color
+                    size_hint_x: None
+                    width: dp(24)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_release: app.root.get_screen('LenderScreenIndividualForm2').check_and_open_file_manager2()
+
+                MDLabel:
+                    id: upload_label1
+                    text: 'Upload Document'
+                    halign: 'left'
+                    theme_text_color: "Custom"
+
+            MDLabel:
+                id: image_label2
+                text: ''
+                halign: 'center'
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Black text color
+                valign: 'middle'  # Align the label text vertically in the center
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            GridLayout:
+                cols: 1
+                spacing:dp(30)
+                padding: [0, "30dp", 0, 0]
+
+
+                MDRaisedButton:
+                    text: "Next"
+                    on_release: app.root.current = 'LenderScreenIndividualForm3'
+                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    pos_hint: {'right': 1, 'y': 0.5}
+                    text_color: 1, 1, 1, 1
+                    size_hint: 1, None
+                    height: "50dp"
+                    font_name: "Roboto-Bold"
+
+<LenderScreenIndividualForm3>:
+    MDTopAppBar:
+        title: "P2P LENDING"
+        elevation: 2
+        pos_hint: {'top': 1}
+        left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenIndividualForm2')]]
+        right_action_items: [['home', lambda x: root.go_to_dashboard()]]
+        title_align: 'center'  # Center-align the title
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: dp(20)
+        padding: dp(50)
+        MDLabel:
+            text:""
+            size_hint_y: None
+            height:dp(40)
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: dp(10)
+            padding: dp(30)  # Reduce the top padding
+            md_bg_color:253/255, 254/255, 254/255, 1
+            canvas:
+                Color:
+                    rgba: 174/255, 214/255, 241/255, 1 # Dull background color
+                Line:
+                    width: 0.7  # Border width
+                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
             MDLabel:
                 text: 'Employment Details'
@@ -2111,154 +2454,7 @@ KV = '''
                 input_type: 'number'  
                 on_touch_down: root.on_business_phone_number_touch_down()
 
-            GridLayout:
-                cols: 1
-                spacing:dp(30)
-                padding: [0, "30dp", 0, 0]
-
-
-                MDRaisedButton:
-                    text: "Next"
-                    on_release: root.add_data(company_address.text, company_pin_code.text, company_country.text, landmark.text, business_phone_number.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
-                    pos_hint: {'right': 1, 'y': 0.5}
-                    text_color: 1, 1, 1, 1
-                    size_hint: 1, None
-                    height: "50dp"
-                    font_name: "Roboto-Bold"
-
-<LenderScreenIndividualForm3>:
-    MDTopAppBar:
-        title: "P2P LENDING"
-        elevation: 2
-        pos_hint: {'top': 1}
-        left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenIndividualForm2')]]
-        right_action_items: [['home', lambda x: root.go_to_dashboard()]]
-        title_align: 'center'  # Center-align the title
-
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(20)
-        padding: dp(50)
-        MDLabel:
-            text:""
-            size_hint_y: None
-            height:dp(40)
-        MDBoxLayout:
-            orientation: 'vertical'
-            spacing: dp(10)
-            padding: dp(30)  # Reduce the top padding
-            md_bg_color:253/255, 254/255, 254/255, 1
-            canvas:
-                Color:
-                    rgba: 174/255, 214/255, 241/255, 1 # Dull background color
-                Line:
-                    width: 0.7  # Border width
-                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-            MDLabel:
-                text: 'Employment Details'
-                halign: 'center'
-                font_name: "Roboto-Bold"
-                font_size: "20dp"   
-            MDTextField:              
-                id:annual_salary
-                hint_text: 'Enter annual salary'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-                input_type: 'number'  
-                on_touch_down: root.on_annual_salary_touch_down()
-
-            MDTextField:              
-                id:designation
-                hint_text: 'Enter designation'
-                multiline: False                        
-                helper_text_mode: 'on_focus'
-                size_hint_y: None
-
-            MDLabel:
-                text: "Upload Employee ID"
-                halign: 'center'
-                bold: True
-
-
-            BoxLayout:
-                orientation: 'horizontal'
-                padding: "10dp"
-                spacing: "10dp"
-                size_hint: None, None
-                size: dp(200), dp(50)  # Adjust size as needed
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                canvas:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-        
-        
-                MDIconButton:
-                    icon: 'upload'
-                    theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1  # Black text color
-                    size_hint_x: None
-                    width: dp(24)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload1()
-        
-                MDLabel:
-                    id: upload_label1
-                    text: 'Upload Document'
-                    halign: 'left'
-                    theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1  # Black text color
-                    size_hint_y: None
-                    height: dp(36)
-                    valign: 'middle'  # Align the label text vertically in the center
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        
-            MDLabel:
-                text: "Upload last 6 months bank statements"
-                halign: 'center'
-                bold: True
-        
-        
-            BoxLayout:
-                orientation: 'horizontal'
-                padding: "10dp"
-                spacing: "10dp"
-                size_hint: None, None
-                size: dp(200), dp(50)  # Adjust size as needed
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                canvas:
-                    Color:
-                        rgba: 0, 0, 0, 1  # Border color (black in this example)
-                    Line:
-                        width: 0.4  # Border width
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-        
-        
-                MDIconButton:
-                    icon: 'upload'
-                    theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1  # Black text color
-                    size_hint_x: None
-                    width: dp(24)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_release: root.upload2()
-        
-                MDLabel:
-                    id: upload_label2
-                    text: 'Upload Document'
-                    halign: 'left'
-                    theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1  # Black text color
-                    size_hint_y: None
-                    height: dp(36)
-                    valign: 'middle'  # Align the label text vertically in the center
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
 
             GridLayout:
                 cols: 1
@@ -2267,13 +2463,14 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: root.add_data(annual_salary.text, designation.text)
+                    on_release: app.root.current = 'LenderScreenIndividualBankForm1'
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
                     height: "50dp"
                     font_name: "Roboto-Bold"        
+
 
 
 <LenderScreenIndividualBankForm1>:
@@ -2603,31 +2800,24 @@ KV = '''
 conn = sqlite3.connect("fin_user_profile.db")
 cursor = conn.cursor()
 
+
 class LenderScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.date_picker = MDDatePicker()
         self.date_picker.bind(on_save=self.on_date_selected)
-        cursor.execute('select * from fin_users')
-        rows = cursor.fetchall()
-        a = 0
-        row_id_list = []
-        status = []
-        name_list = []
-        for row in rows:
-            row_id_list.append(row[0])
-            status.append(row[-1])
-            name_list.append(row[1])
-        log_index = status.index('logged')
-        self.ids.username.text = name_list[log_index]
 
     def show_date_picker(self):
-        self.date_picker.open()
-    def on_date_selected(self, instance, the_date,a):
-        print(f"Selected date: {the_date, the_date.year}")
-        self.ids.date_textfield.text = f'{the_date.year}-{the_date.month}-{the_date.day}'
+        date_dialog = MDDatePicker()
+        date_dialog.bind(on_save=self.on_date_selected)
+        date_dialog.open()
 
-    def add_data(self, name, gender,date):
+    def on_date_selected(self, instance, value, date_range):
+        # This method will be called when the user selects a date
+        print(f"Selected date: {value}")
+        self.ids.date_textfield.text = f'{value.year}-{value.month}-{value.day}'
+
+    def add_data(self, name, gender, date):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -2638,11 +2828,10 @@ class LenderScreen(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-
-        cursor.execute("UPDATE fin_registration_table SET name = ?, gender = ?, date_of_birth = ?, user_type = ? WHERE customer_id = ?",
-                       (name, gender, date,b, row_id_list[log_index]))
+        cursor.execute(
+            "UPDATE fin_registration_table SET name = ?, gender = ?, date_of_birth = ?, user_type = ? WHERE customer_id = ?",
+            (name, gender, date, b, row_id_list[log_index]))
         conn.commit()
-
         self.manager.current = 'LenderScreen1'
 
     def on_pre_enter(self):
@@ -2684,12 +2873,11 @@ class LenderScreen1(Screen):
                        (mobile_number, alternate_email, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreen2'
+
     def on_mobile_number_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.mobile_number.input_type = 'number'
-    def on_mobile_number_touch_down(self):
-        # Change keyboard mode to numeric when the mobile number text input is touched
-        self.ids.mobile_number.input_type = 'number'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2711,29 +2899,73 @@ class LenderScreen1(Screen):
 
 
 class LenderScreen2(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.manager_open_1 = False
-        self.manager_open_2 = False
-        self.file_manager_1 = MDFileManager(
-            exit_manager=self.exit_manager_1,
-            select_path=self.select_path_1
+
+    def check_and_open_file_manager1(self):
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
+                                         "image_label1")
+
+    def check_and_open_file_manager2(self):
+        self.check_and_open_file_manager("upload_icon2", "upload_label2", "selected_file_label2", "selected_image2",
+                                         "image_label2")
+
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        if platform == 'android':
+            if check_permission(Permission.READ_MEDIA_IMAGES):
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+            else:
+                self.request_media_images_permission()
+        else:
+            # For non-Android platforms, directly open the file manager
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        self.file_manager = MDFileManager(
+            exit_manager=self.exit_manager,
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id,
+                                                       image_label_id),
         )
-        self.file_manager_2 = MDFileManager(
-            exit_manager=self.exit_manager_2,
-            select_path=self.select_path_2
+        if platform == 'android':
+            primary_external_storage = "/storage/emulated/0"
+            self.file_manager.show(primary_external_storage)
+        else:
+            # For other platforms, show the file manager from the root directory
+            self.file_manager.show('/')
+
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen2').ids[image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def select_path2(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen2').ids[image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def exit_manager(self, *args):
+        self.file_manager.close()
+
+    def request_media_images_permission(self):
+        request_permissions([Permission.READ_MEDIA_IMAGES], self.permission_callback)
+
+    def permission_callback(self, permissions, grants):
+        if all(grants.values()):
+            # Permission granted, open the file manager
+            self.file_manager_open()
+        else:
+            # Permission denied, show a modal view
+            self.show_permission_denied()
+
+    def show_permission_denied(self):
+        view = ModalView()
+        view.add_widget(Button(
+            text='Permission NOT granted.\n\n' +
+                 'Tap to quit app.\n\n\n' +
+                 'If you selected "Don\'t Allow",\n' +
+                 'enable permission with App Settings.',
+            on_press=self.bye)
         )
+        view.open()
 
-    # Other existing methods here...
-
-    def file_manager_open_1(self):
-        self.file_manager_1.show('/')
-        self.manager_open_1 = True
-
-    def select_path_1(self, path):
-        print(f"Selected path 1: {path}")
-        self.update_data_with_file_1(path)
-        self.exit_manager_1()
     def update_data_with_file_1(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -2744,53 +2976,13 @@ class LenderScreen2(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET aadhar_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET aadhar_file = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
 
         self.ids.upload_label1.text = 'Upload Successfully'
 
-    def exit_manager_1(self, *args):
-        self.manager_open_1 = False
-        self.file_manager_1.close()
-
-    def upload_1(self):
-        if not self.manager_open_1:
-            self.file_manager_open_1()
-
-
     # Repeat similar methods for file manager 2...
-
-    def file_manager_open_2(self):
-        self.file_manager_2.show('/')
-        self.manager_open_2 = True
-
-    def select_path_2(self, path):
-        print(f"Selected path 2: {path}")
-        self.update_data_with_file_2(path)
-        self.exit_manager_2()
-
-    def update_data_with_file_2(self, file_path):
-        cursor.execute('select * from fin_users')
-        rows = cursor.fetchall()
-        row_id_list = []
-        status = []
-        for row in rows:
-            row_id_list.append(row[0])
-            status.append(row[-1])
-        log_index = status.index('logged')
-
-        cursor.execute("UPDATE fin_registration_table SET pan_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label2.text = 'Upload Successfully'
-
-    def exit_manager_2(self, *args):
-        self.manager_open_2 = False
-        self.file_manager_2.close()
-
-    def upload_2(self):
-        if not self.manager_open_2:
-            self.file_manager_open_2()
-
 
     def add_data(self, aadhar_number, pan_number):
         cursor.execute('select * from fin_users')
@@ -2802,9 +2994,11 @@ class LenderScreen2(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET aadhar_number = ?, pan_number = ? WHERE customer_id = ?", (aadhar_number, pan_number, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET aadhar_number = ?, pan_number = ? WHERE customer_id = ?",
+                       (aadhar_number, pan_number, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreen3'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2876,24 +3070,63 @@ class LenderScreen3(Screen):
 
 
 class LenderScreen_Edu_10th(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.manager_open_1 = False
-        self.file_manager_1 = MDFileManager(
-            exit_manager=self.exit_manager_1,
-            select_path=self.select_path_1
+    def check_and_open_file_manager1(self):
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
+                                         "image_label1")
+
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        if platform == 'android':
+            if check_permission(Permission.READ_MEDIA_IMAGES):
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+            else:
+                self.request_media_images_permission()
+        else:
+            # For non-Android platforms, directly open the file manager
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        self.file_manager = MDFileManager(
+            exit_manager=self.exit_manager,
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id,
+                                                       image_label_id),
         )
+        if platform == 'android':
+            primary_external_storage = "/storage/emulated/0"
+            self.file_manager.show(primary_external_storage)
+        else:
+            # For other platforms, show the file manager from the root directory
+            self.file_manager.show('/')
 
-    # Other existing methods here...
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
 
-    def file_manager_open_1(self):
-        self.file_manager_1.show('/')
-        self.manager_open_1 = True
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_10th').ids[image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
 
-    def select_path_1(self, path):
-        print(f"Selected path 1: {path}")
-        self.update_data_with_file_1(path)
-        self.exit_manager_1()
+    def exit_manager(self, *args):
+        self.file_manager.close()
+
+    def request_media_images_permission(self):
+        request_permissions([Permission.READ_MEDIA_IMAGES], self.permission_callback)
+
+    def permission_callback(self, permissions, grants):
+        if all(grants.values()):
+            # Permission granted, open the file manager
+            self.file_manager_open()
+        else:
+            # Permission denied, show a modal view
+            self.show_permission_denied()
+
+    def show_permission_denied(self):
+        view = ModalView()
+        view.add_widget(Button(
+            text='Permission NOT granted.\n\n' +
+                 'Tap to quit app.\n\n\n' +
+                 'If you selected "Don\'t Allow",\n' +
+                 'enable permission with App Settings.',
+            on_press=self.bye)
+        )
+        view.open()
 
     def update_data_with_file_1(self, file_path):
         cursor.execute('select * from fin_users')
@@ -2905,17 +3138,11 @@ class LenderScreen_Edu_10th(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
 
-    def exit_manager_1(self, *args):
-        self.manager_open_1 = False
-        self.file_manager_1.close()
-
-    def upload_1(self):
-        if not self.manager_open_1:
-            self.file_manager_open_1()
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -2937,29 +3164,74 @@ class LenderScreen_Edu_10th(Screen):
 
 
 class LenderScreen_Edu_Intermediate(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.manager_open_1 = False
-        self.manager_open_2 = False
-        self.file_manager_1 = MDFileManager(
-            exit_manager=self.exit_manager_1,
-            select_path=self.select_path_1
+
+    def check_and_open_file_manager1(self):
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
+                                         "image_label1")
+
+    def check_and_open_file_manager2(self):
+        self.check_and_open_file_manager("upload_icon2", "upload_label2", "selected_file_label2", "selected_image2",
+                                         "image_label2")
+
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        if platform == 'android':
+            if check_permission(Permission.READ_MEDIA_IMAGES):
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+            else:
+                self.request_media_images_permission()
+        else:
+            # For non-Android platforms, directly open the file manager
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        self.file_manager = MDFileManager(
+            exit_manager=self.exit_manager,
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id,
+                                                       image_label_id),
         )
-        self.file_manager_2 = MDFileManager(
-            exit_manager=self.exit_manager_2,
-            select_path=self.select_path_2
+        if platform == 'android':
+            primary_external_storage = "/storage/emulated/0"
+            self.file_manager.show(primary_external_storage)
+        else:
+            # For other platforms, show the file manager from the root directory
+            self.file_manager.show('/')
+
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_Intermediate').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def select_path2(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_Intermediate').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def exit_manager(self, *args):
+        self.file_manager.close()
+
+    def request_media_images_permission(self):
+        request_permissions([Permission.READ_MEDIA_IMAGES], self.permission_callback)
+
+    def permission_callback(self, permissions, grants):
+        if all(grants.values()):
+            # Permission granted, open the file manager
+            self.file_manager_open()
+        else:
+            # Permission denied, show a modal view
+            self.show_permission_denied()
+
+    def show_permission_denied(self):
+        view = ModalView()
+        view.add_widget(Button(
+            text='Permission NOT granted.\n\n' +
+                 'Tap to quit app.\n\n\n' +
+                 'If you selected "Don\'t Allow",\n' +
+                 'enable permission with App Settings.',
+            on_press=self.bye)
         )
-
-    # Other existing methods here...
-
-    def file_manager_open_1(self):
-        self.file_manager_1.show('/')
-        self.manager_open_1 = True
-
-    def select_path_1(self, path):
-        print(f"Selected path 1: {path}")
-        self.update_data_with_file_1(path)
-        self.exit_manager_1()
+        view.open()
 
     def update_data_with_file_1(self, file_path):
         cursor.execute('select * from fin_users')
@@ -2970,28 +3242,10 @@ class LenderScreen_Edu_Intermediate(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
-
-    def exit_manager_1(self, *args):
-        self.manager_open_1 = False
-        self.file_manager_1.close()
-
-    def upload_1(self):
-        if not self.manager_open_1:
-            self.file_manager_open_1()
-
-    # Repeat similar methods for file manager 2...
-
-    def file_manager_open_2(self):
-        self.file_manager_2.show('/')
-        self.manager_open_2 = True
-
-    def select_path_2(self, path):
-        print(f"Selected path 2: {path}")
-        self.update_data_with_file_2(path)
-        self.exit_manager_2()
 
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3003,17 +3257,11 @@ class LenderScreen_Edu_Intermediate(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label2.text = 'Upload Successfully'
 
-    def exit_manager_2(self, *args):
-        self.manager_open_2 = False
-        self.file_manager_2.close()
-
-    def upload_2(self):
-        if not self.manager_open_2:
-            self.file_manager_open_2()
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -3035,34 +3283,86 @@ class LenderScreen_Edu_Intermediate(Screen):
 
 
 class LenderScreen_Edu_Bachelors(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.manager_open_1 = False
-        self.manager_open_2 = False
-        self.manager_open_3 = False
-        self.file_manager_1 = MDFileManager(
-            exit_manager=self.exit_manager_1,
-            select_path=self.select_path_1
-        )
-        self.file_manager_2 = MDFileManager(
-            exit_manager=self.exit_manager_2,
-            select_path=self.select_path_2
-        )
-        self.file_manager_3 = MDFileManager(
-            exit_manager=self.exit_manager_3,
-            select_path=self.select_path_3
-        )
+    def check_and_open_file_manager1(self):
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
+                                         "image_label1")
 
-    # Other existing methods here...
+    def check_and_open_file_manager2(self):
+        self.check_and_open_file_manager("upload_icon2", "upload_label2", "selected_file_label2", "selected_image2",
+                                         "image_label2")
 
-    def file_manager_open_1(self):
-        self.file_manager_1.show('/')
-        self.manager_open_1 = True
+    def check_and_open_file_manager3(self):
+        self.check_and_open_file_manager("upload_icon3", "upload_label3", "selected_file_label3", "selected_image3",
+                                         "image_label3")
 
-    def select_path_1(self, path):
-        print(f"Selected path 1: {path}")
-        self.update_data_with_file_1(path)
-        self.exit_manager_1()
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        if platform == 'android':
+            if check_permission(Permission.READ_MEDIA_IMAGES):
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+            else:
+                self.request_media_images_permission()
+        else:
+            # For non-Android platforms, directly open the file manager
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        self.file_manager = MDFileManager(
+            exit_manager=self.exit_manager,
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id,
+                                                       image_label_id),
+        )
+        if platform == 'android':
+            primary_external_storage = "/storage/emulated/0"
+            self.file_manager.show(primary_external_storage)
+        else:
+            # For other platforms, show the file manager from the root directory
+            self.file_manager.show('/')
+
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        # self.manager.get_screen('LenderScreen2').ids[image_id].source = path  # Set the source of the Image widget
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_Bachelors').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def select_path2(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        # self.manager.get_screen('LenderScreen2').ids[image_id].source = path  # Set the source of the Image widget
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_Bachelors').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def select_path3(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        # self.manager.get_screen('LenderScreen2').ids[image_id].source = path  # Set the source of the Image widget
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_Bachelors').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def exit_manager(self, *args):
+        self.file_manager.close()
+
+    def request_media_images_permission(self):
+        request_permissions([Permission.READ_MEDIA_IMAGES], self.permission_callback)
+
+    def permission_callback(self, permissions, grants):
+        if all(grants.values()):
+            # Permission granted, open the file manager
+            self.file_manager_open()
+        else:
+            # Permission denied, show a modal view
+            self.show_permission_denied()
+
+    def show_permission_denied(self):
+        view = ModalView()
+        view.add_widget(Button(
+            text='Permission NOT granted.\n\n' +
+                 'Tap to quit app.\n\n\n' +
+                 'If you selected "Don\'t Allow",\n' +
+                 'enable permission with App Settings.',
+            on_press=self.bye)
+        )
+        view.open()
 
     def update_data_with_file_1(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3073,28 +3373,10 @@ class LenderScreen_Edu_Bachelors(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
-
-    def exit_manager_1(self, *args):
-        self.manager_open_1 = False
-        self.file_manager_1.close()
-
-    def upload_1(self):
-        if not self.manager_open_1:
-            self.file_manager_open_1()
-
-    # Repeat similar methods for file manager 2...
-
-    def file_manager_open_2(self):
-        self.file_manager_2.show('/')
-        self.manager_open_2 = True
-
-    def select_path_2(self, path):
-        print(f"Selected path 2: {path}")
-        self.update_data_with_file_2(path)
-        self.exit_manager_2()
 
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3106,27 +3388,10 @@ class LenderScreen_Edu_Bachelors(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label2.text = 'Upload Successfully'
-
-    def exit_manager_2(self, *args):
-        self.manager_open_2 = False
-        self.file_manager_2.close()
-
-    def upload_2(self):
-        if not self.manager_open_2:
-            self.file_manager_open_2()
-
-
-    def file_manager_open_3(self):
-        self.file_manager_3.show('/')
-        self.manager_open_3 = True
-
-    def select_path_3(self, path):
-        print(f"Selected path 3: {path}")
-        self.update_data_with_file_3(path)
-        self.exit_manager_3()
 
     def update_data_with_file_3(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3138,17 +3403,10 @@ class LenderScreen_Edu_Bachelors(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label3.text = 'Upload Successfully'
-
-    def exit_manager_3(self, *args):
-        self.manager_open_3 = False
-        self.file_manager_3.close()
-
-    def upload_3(self):
-        if not self.manager_open_3:
-            self.file_manager_open_3()
 
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
@@ -3171,38 +3429,97 @@ class LenderScreen_Edu_Bachelors(Screen):
 
 
 class LenderScreen_Edu_Masters(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.manager_open_1 = False
-        self.manager_open_2 = False
-        self.manager_open_3 = False
-        self.manager_open_4 = False
-        self.file_manager_1 = MDFileManager(
-            exit_manager=self.exit_manager_1,
-            select_path=self.select_path_1
-        )
-        self.file_manager_2 = MDFileManager(
-            exit_manager=self.exit_manager_2,
-            select_path=self.select_path_2
-        )
-        self.file_manager_3 = MDFileManager(
-            exit_manager=self.exit_manager_3,
-            select_path=self.select_path_3
-        )
-        self.file_manager_4 = MDFileManager(
-            exit_manager=self.exit_manager_4,
-            select_path=self.select_path_4
-        )
-    # Other existing methods here...
+    def check_and_open_file_manager1(self):
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
+                                         "image_label1")
 
-    def file_manager_open_1(self):
-        self.file_manager_1.show('/')
-        self.manager_open_1 = True
+    def check_and_open_file_manager2(self):
+        self.check_and_open_file_manager("upload_icon2", "upload_label2", "selected_file_label2", "selected_image2",
+                                         "image_label2")
 
-    def select_path_1(self, path):
-        print(f"Selected path 1: {path}")
-        self.update_data_with_file_1(path)
-        self.exit_manager_1()
+    def check_and_open_file_manager3(self):
+        self.check_and_open_file_manager("upload_icon3", "upload_label3", "selected_file_label3", "selected_image3",
+                                         "image_label3")
+
+    def check_and_open_file_manager4(self):
+        self.check_and_open_file_manager("upload_icon4", "upload_label4", "selected_file_label4", "selected_image4",
+                                         "image_label4")
+
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        if platform == 'android':
+            if check_permission(Permission.READ_MEDIA_IMAGES):
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+            else:
+                self.request_media_images_permission()
+        else:
+            # For non-Android platforms, directly open the file manager
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        self.file_manager = MDFileManager(
+            exit_manager=self.exit_manager,
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id,
+                                                       image_label_id),
+        )
+        if platform == 'android':
+            primary_external_storage = "/storage/emulated/0"
+            self.file_manager.show(primary_external_storage)
+        else:
+            # For other platforms, show the file manager from the root directory
+            self.file_manager.show('/')
+
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        # self.manager.get_screen('LenderScreen2').ids[image_id].source = path  # Set the source of the Image widget
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_Masters').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def select_path2(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        # self.manager.get_screen('LenderScreen2').ids[image_id].source = path  # Set the source of the Image widget
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_Masters').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def select_path3(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        # self.manager.get_screen('LenderScreen2').ids[image_id].source = path  # Set the source of the Image widget
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_Masters').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def select_path4(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        # self.manager.get_screen('LenderScreen2').ids[image_id].source = path  # Set the source of the Image widget
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_Masters').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def exit_manager(self, *args):
+        self.file_manager.close()
+
+    def request_media_images_permission(self):
+        request_permissions([Permission.READ_MEDIA_IMAGES], self.permission_callback)
+
+    def permission_callback(self, permissions, grants):
+        if all(grants.values()):
+            # Permission granted, open the file manager
+            self.file_manager_open()
+        else:
+            # Permission denied, show a modal view
+            self.show_permission_denied()
+
+    def show_permission_denied(self):
+        view = ModalView()
+        view.add_widget(Button(
+            text='Permission NOT granted.\n\n' +
+                 'Tap to quit app.\n\n\n' +
+                 'If you selected "Don\'t Allow",\n' +
+                 'enable permission with App Settings.',
+            on_press=self.bye)
+        )
+        view.open()
 
     def update_data_with_file_1(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3213,28 +3530,10 @@ class LenderScreen_Edu_Masters(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
-
-    def exit_manager_1(self, *args):
-        self.manager_open_1 = False
-        self.file_manager_1.close()
-
-    def upload_1(self):
-        if not self.manager_open_1:
-            self.file_manager_open_1()
-
-    # Repeat similar methods for file manager 2...
-
-    def file_manager_open_2(self):
-        self.file_manager_2.show('/')
-        self.manager_open_2 = True
-
-    def select_path_2(self, path):
-        print(f"Selected path 2: {path}")
-        self.update_data_with_file_2(path)
-        self.exit_manager_2()
 
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3246,26 +3545,10 @@ class LenderScreen_Edu_Masters(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label2.text = 'Upload Successfully'
-
-    def exit_manager_2(self, *args):
-        self.manager_open_2 = False
-        self.file_manager_2.close()
-
-    def upload_2(self):
-        if not self.manager_open_2:
-            self.file_manager_open_2()
-
-    def file_manager_open_3(self):
-        self.file_manager_3.show('/')
-        self.manager_open_3 = True
-
-    def select_path_3(self, path):
-        print(f"Selected path 3: {path}")
-        self.update_data_with_file_3(path)
-        self.exit_manager_3()
 
     def update_data_with_file_3(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3277,26 +3560,10 @@ class LenderScreen_Edu_Masters(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label3.text = 'Upload Successfully'
-
-    def exit_manager_3(self, *args):
-        self.manager_open_3 = False
-        self.file_manager_3.close()
-
-    def upload_3(self):
-        if not self.manager_open_3:
-            self.file_manager_open_3()
-
-    def file_manager_open_4(self):
-        self.file_manager_4.show('/')
-        self.manager_open_4 = True
-
-    def select_path_4(self, path):
-        print(f"Selected path 4: {path}")
-        self.update_data_with_file_4(path)
-        self.exit_manager_4()
 
     def update_data_with_file_4(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3307,16 +3574,10 @@ class LenderScreen_Edu_Masters(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE fin_registration_table SET masters_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET masters_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label4.text = 'Upload Successfully'
-    def exit_manager_4(self, *args):
-        self.manager_open_4 = False
-        self.file_manager_4.close()
-
-    def upload_4(self):
-        if not self.manager_open_4:
-            self.file_manager_open_4()
 
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
@@ -3339,44 +3600,103 @@ class LenderScreen_Edu_Masters(Screen):
 
 
 class LenderScreen_Edu_PHD(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.manager_open_1 = False
-        self.manager_open_2 = False
-        self.manager_open_3 = False
-        self.manager_open_4 = False
-        self.manager_open_5 = False
-        self.file_manager_1 = MDFileManager(
-            exit_manager=self.exit_manager_1,
-            select_path=self.select_path_1
-        )
-        self.file_manager_2 = MDFileManager(
-            exit_manager=self.exit_manager_2,
-            select_path=self.select_path_2
-        )
-        self.file_manager_3 = MDFileManager(
-            exit_manager=self.exit_manager_3,
-            select_path=self.select_path_3
-        )
-        self.file_manager_4 = MDFileManager(
-            exit_manager=self.exit_manager_4,
-            select_path=self.select_path_4
-        )
-        self.file_manager_5 = MDFileManager(
-            exit_manager=self.exit_manager_5,
-            select_path=self.select_path_5
-        )
+    def check_and_open_file_manager1(self):
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
+                                         "image_label1")
 
-    # Other existing methods here...
+    def check_and_open_file_manager2(self):
+        self.check_and_open_file_manager("upload_icon2", "upload_label2", "selected_file_label2", "selected_image2",
+                                         "image_label2")
 
-    def file_manager_open_1(self):
-        self.file_manager_1.show('/')
-        self.manager_open_1 = True
+    def check_and_open_file_manager3(self):
+        self.check_and_open_file_manager("upload_icon3", "upload_label3", "selected_file_label3", "selected_image3",
+                                         "image_label3")
 
-    def select_path_1(self, path):
-        print(f"Selected path 1: {path}")
-        self.update_data_with_file_1(path)
-        self.exit_manager_1()
+    def check_and_open_file_manager4(self):
+        self.check_and_open_file_manager("upload_icon4", "upload_label4", "selected_file_label4", "selected_image4",
+                                         "image_label4")
+
+    def check_and_open_file_manager5(self):
+        self.check_and_open_file_manager("upload_icon5", "upload_label5", "selected_file_label5", "selected_image5",
+                                         "image_label5")
+
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        if platform == 'android':
+            if check_permission(Permission.READ_MEDIA_IMAGES):
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+            else:
+                self.request_media_images_permission()
+        else:
+            # For non-Android platforms, directly open the file manager
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        self.file_manager = MDFileManager(
+            exit_manager=self.exit_manager,
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id,
+                                                       image_label_id),
+        )
+        if platform == 'android':
+            primary_external_storage = "/storage/emulated/0"
+            self.file_manager.show(primary_external_storage)
+        else:
+            # For other platforms, show the file manager from the root directory
+            self.file_manager.show('/')
+
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        # self.manager.get_screen('LenderScreen2').ids[image_id].source = path  # Set the source of the Image widget
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_PHD').ids[image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def select_path2(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        # self.manager.get_screen('LenderScreen2').ids[image_id].source = path  # Set the source of the Image widget
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_PHD').ids[image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def select_path3(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        # self.manager.get_screen('LenderScreen2').ids[image_id].source = path  # Set the source of the Image widget
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_PHD').ids[image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def select_path4(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        # self.manager.get_screen('LenderScreen2').ids[image_id].source = path  # Set the source of the Image widget
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_PHD').ids[image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def select_path5(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        # self.manager.get_screen('LenderScreen2').ids[image_id].source = path  # Set the source of the Image widget
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreen_Edu_PHD').ids[image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def exit_manager(self, *args):
+        self.file_manager.close()
+
+    def request_media_images_permission(self):
+        request_permissions([Permission.READ_MEDIA_IMAGES], self.permission_callback)
+
+    def permission_callback(self, permissions, grants):
+        if all(grants.values()):
+            # Permission granted, open the file manager
+            self.file_manager_open()
+        else:
+            # Permission denied, show a modal view
+            self.show_permission_denied()
+
+    def show_permission_denied(self):
+        view = ModalView()
+        view.add_widget(Button(
+            text='Permission NOT granted.\n\n' +
+                 'Tap to quit app.\n\n\n' +
+                 'If you selected "Don\'t Allow",\n' +
+                 'enable permission with App Settings.',
+            on_press=self.bye)
+        )
+        view.open()
 
     def update_data_with_file_1(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3387,28 +3707,10 @@ class LenderScreen_Edu_PHD(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
-
-    def exit_manager_1(self, *args):
-        self.manager_open_1 = False
-        self.file_manager_1.close()
-
-    def upload_1(self):
-        if not self.manager_open_1:
-            self.file_manager_open_1()
-
-    # Repeat similar methods for file manager 2...
-
-    def file_manager_open_2(self):
-        self.file_manager_2.show('/')
-        self.manager_open_2 = True
-
-    def select_path_2(self, path):
-        print(f"Selected path 2: {path}")
-        self.update_data_with_file_2(path)
-        self.exit_manager_2()
 
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3420,26 +3722,10 @@ class LenderScreen_Edu_PHD(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label2.text = 'Upload Successfully'
-
-    def exit_manager_2(self, *args):
-        self.manager_open_2 = False
-        self.file_manager_2.close()
-
-    def upload_2(self):
-        if not self.manager_open_2:
-            self.file_manager_open_2()
-
-    def file_manager_open_3(self):
-        self.file_manager_3.show('/')
-        self.manager_open_3 = True
-
-    def select_path_3(self, path):
-        print(f"Selected path 3: {path}")
-        self.update_data_with_file_3(path)
-        self.exit_manager_3()
 
     def update_data_with_file_3(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3451,26 +3737,10 @@ class LenderScreen_Edu_PHD(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label3.text = 'Upload Successfully'
-
-    def exit_manager_3(self, *args):
-        self.manager_open_3 = False
-        self.file_manager_3.close()
-
-    def upload_3(self):
-        if not self.manager_open_3:
-            self.file_manager_open_3()
-
-    def file_manager_open_4(self):
-        self.file_manager_4.show('/')
-        self.manager_open_4 = True
-
-    def select_path_4(self, path):
-        print(f"Selected path 4: {path}")
-        self.update_data_with_file_4(path)
-        self.exit_manager_4()
 
     def update_data_with_file_4(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3482,25 +3752,10 @@ class LenderScreen_Edu_PHD(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET masters_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET masters_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label4.text = 'Upload Successfully'
-
-    def exit_manager_4(self, *args):
-        self.manager_open_4 = False
-        self.file_manager_4.close()
-
-    def upload_4(self):
-        if not self.manager_open_4:
-            self.file_manager_open_4()
-    def file_manager_open_5(self):
-        self.file_manager_5.show('/')
-        self.manager_open_5 = True
-
-    def select_path_5(self, path):
-        print(f"Selected path 5: {path}")
-        self.update_data_with_file_5(path)
-        self.exit_manager_5()
 
     def update_data_with_file_5(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3512,16 +3767,11 @@ class LenderScreen_Edu_PHD(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET phd_certificate = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET phd_certificate = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label5.text = 'Upload Successfully'
-    def exit_manager_5(self, *args):
-        self.manager_open_5 = False
-        self.file_manager_5.close()
 
-    def upload_5(self):
-        if not self.manager_open_5:
-            self.file_manager_open_5()
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -3553,13 +3803,16 @@ class LenderScreen4(Screen):
             status.append(row[-1])
         log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET street_name = ?, city_name = ?, zip_code = ?, state_name = ?, country_name = ? WHERE customer_id = ?",
-                       (street, city, zip_code,state, country, row_id_list[log_index]))
+        cursor.execute(
+            "UPDATE fin_registration_table SET street_name = ?, city_name = ?, zip_code = ?, state_name = ?, country_name = ? WHERE customer_id = ?",
+            (street, city, zip_code, state, country, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreen5'
+
     def on_mobile_number_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.zip_code.input_type = 'number'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -3600,6 +3853,7 @@ class LenderScreen5(Screen):
             "UPDATE fin_registration_table SET loan_type = ?, investment = ?, lending_period = ? WHERE customer_id = ?",
             (id, investment, period, row_id_list[log_index]))
         conn.commit()
+
     def on_investment_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.investment.input_type = 'number'
@@ -3637,7 +3891,7 @@ class LenderScreenInstitutionalForm1(Screen):
 
         cursor.execute(
             "UPDATE fin_registration_table SET business_name = ?, business_location = ?, business_address = ?, business_branch_name = ? WHERE customer_id = ?",
-            (business_name, business_location, business_address,business_branch_name, row_id_list[log_index]))
+            (business_name, business_location, business_address, business_branch_name, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenInstitutionalForm2'
 
@@ -3677,6 +3931,7 @@ class LenderScreenInstitutionalForm2(Screen):
             (business_type, nearest_location, no_of_employees_working, year_of_estd, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenInstitutionalForm3'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -3698,24 +3953,64 @@ class LenderScreenInstitutionalForm2(Screen):
 
 
 class LenderScreenInstitutionalForm3(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.manager_open_1 = False
-        self.file_manager_1 = MDFileManager(
-            exit_manager=self.exit_manager_1,
-            select_path=self.select_path_1
+    def check_and_open_file_manager1(self):
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
+                                         "image_label1")
+
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        if platform == 'android':
+            if check_permission(Permission.READ_MEDIA_IMAGES):
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+            else:
+                self.request_media_images_permission()
+        else:
+            # For non-Android platforms, directly open the file manager
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        self.file_manager = MDFileManager(
+            exit_manager=self.exit_manager,
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id,
+                                                       image_label_id),
         )
+        if platform == 'android':
+            primary_external_storage = "/storage/emulated/0"
+            self.file_manager.show(primary_external_storage)
+        else:
+            # For other platforms, show the file manager from the root directory
+            self.file_manager.show('/')
 
-    # Other existing methods here...
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
 
-    def file_manager_open_1(self):
-        self.file_manager_1.show('/')
-        self.manager_open_1 = True
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreenInstitutionalForm3').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
 
-    def select_path_1(self, path):
-        print(f"Selected path 1: {path}")
-        self.update_data_with_file_1(path)
-        self.exit_manager_1()
+    def exit_manager(self, *args):
+        self.file_manager.close()
+
+    def request_media_images_permission(self):
+        request_permissions([Permission.READ_MEDIA_IMAGES], self.permission_callback)
+
+    def permission_callback(self, permissions, grants):
+        if all(grants.values()):
+            # Permission granted, open the file manager
+            self.file_manager_open()
+        else:
+            # Permission denied, show a modal view
+            self.show_permission_denied()
+
+    def show_permission_denied(self):
+        view = ModalView()
+        view.add_widget(Button(
+            text='Permission NOT granted.\n\n' +
+                 'Tap to quit app.\n\n\n' +
+                 'If you selected "Don\'t Allow",\n' +
+                 'enable permission with App Settings.',
+            on_press=self.bye)
+        )
+        view.open()
 
     def update_data_with_file_1(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3726,17 +4021,10 @@ class LenderScreenInstitutionalForm3(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
         log_index = status.index('logged')
-        cursor.execute("UPDATE fin_registration_table SET last_six_months_turnover_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
+        cursor.execute("UPDATE fin_registration_table SET last_six_months_turnover_file = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
-
-    def exit_manager_1(self, *args):
-        self.manager_open_1 = False
-        self.file_manager_1.close()
-
-    def upload1(self):
-        if not self.manager_open_1:
-            self.file_manager_open_1()
 
     def add_data(self, industry_type, last_six_months_turnover):
         cursor.execute('select * from fin_users')
@@ -3753,9 +4041,11 @@ class LenderScreenInstitutionalForm3(Screen):
             (industry_type, last_six_months_turnover, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenInstitutionalForm4'
+
     def on_last_six_months_turnover_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.last_six_months_turnover.input_type = 'number'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -3796,6 +4086,7 @@ class LenderScreenInstitutionalForm4(Screen):
     def on_director_mobile_number_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.director_mobile_number.input_type = 'number'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -3817,24 +4108,64 @@ class LenderScreenInstitutionalForm4(Screen):
 
 
 class LenderScreenInstitutionalForm5(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.manager_open_1 = False
-        self.file_manager_1 = MDFileManager(
-            exit_manager=self.exit_manager_1,
-            select_path=self.select_path_1
+    def check_and_open_file_manager1(self):
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
+                                         "image_label1")
+
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        if platform == 'android':
+            if check_permission(Permission.READ_MEDIA_IMAGES):
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+            else:
+                self.request_media_images_permission()
+        else:
+            # For non-Android platforms, directly open the file manager
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        self.file_manager = MDFileManager(
+            exit_manager=self.exit_manager,
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id,
+                                                       image_label_id),
         )
+        if platform == 'android':
+            primary_external_storage = "/storage/emulated/0"
+            self.file_manager.show(primary_external_storage)
+        else:
+            # For other platforms, show the file manager from the root directory
+            self.file_manager.show('/')
 
-    # Other existing methods here...
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
 
-    def file_manager_open_1(self):
-        self.file_manager_1.show('/')
-        self.manager_open_1 = True
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreenInstitutionalForm5').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
 
-    def select_path_1(self, path):
-        print(f"Selected path 1: {path}")
-        self.update_data_with_file_1(path)
-        self.exit_manager_1()
+    def exit_manager(self, *args):
+        self.file_manager.close()
+
+    def request_media_images_permission(self):
+        request_permissions([Permission.READ_MEDIA_IMAGES], self.permission_callback)
+
+    def permission_callback(self, permissions, grants):
+        if all(grants.values()):
+            # Permission granted, open the file manager
+            self.file_manager_open()
+        else:
+            # Permission denied, show a modal view
+            self.show_permission_denied()
+
+    def show_permission_denied(self):
+        view = ModalView()
+        view.add_widget(Button(
+            text='Permission NOT granted.\n\n' +
+                 'Tap to quit app.\n\n\n' +
+                 'If you selected "Don\'t Allow",\n' +
+                 'enable permission with App Settings.',
+            on_press=self.bye)
+        )
+        view.open()
 
     def update_data_with_file_1(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3851,14 +4182,6 @@ class LenderScreenInstitutionalForm5(Screen):
         conn.commit()
         self.ids.upload_label1.text = 'Upload Successfully'
 
-    def exit_manager_1(self, *args):
-        self.manager_open_1 = False
-        self.file_manager_1.close()
-
-    def upload1(self):
-        if not self.manager_open_1:
-            self.file_manager_open_1()
-
     def add_data(self, registered_office_address):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3874,6 +4197,7 @@ class LenderScreenInstitutionalForm5(Screen):
             (registered_office_address, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenInstitutionalBankForm1'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -3910,6 +4234,7 @@ class LenderScreenIndividualForm1(Screen):
             (employeent_type, company_name, organization, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenIndividualForm2'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -3931,7 +4256,105 @@ class LenderScreenIndividualForm1(Screen):
 
 
 class LenderScreenIndividualForm2(Screen):
-    def add_data(self, company_address, company_pincode, company_country, landmark, business_number):
+    def check_and_open_file_manager1(self):
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
+                                         "image_label1")
+
+    def check_and_open_file_manager2(self):
+        self.check_and_open_file_manager("upload_icon2", "upload_label2", "selected_file_label2", "selected_image2",
+                                         "image_label2")
+
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        if platform == 'android':
+            if check_permission(Permission.READ_MEDIA_IMAGES):
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+            else:
+                self.request_media_images_permission()
+        else:
+            # For non-Android platforms, directly open the file manager
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id, image_label_id)
+
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id, image_label_id):
+        self.file_manager = MDFileManager(
+            exit_manager=self.exit_manager,
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id,
+                                                       image_label_id),
+        )
+        if platform == 'android':
+            primary_external_storage = "/storage/emulated/0"
+            self.file_manager.show(primary_external_storage)
+        else:
+            # For other platforms, show the file manager from the root directory
+            self.file_manager.show('/')
+
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreenIndividualForm2').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def select_path2(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
+        file_name = os.path.basename(path)  # Extract file name from the path
+        self.manager.get_screen('LenderScreenIndividualForm2').ids[
+            image_label_id].text = file_name  # Update the label text
+        self.file_manager.close()
+
+    def exit_manager(self, *args):
+        self.file_manager.close()
+
+    def request_media_images_permission(self):
+        request_permissions([Permission.READ_MEDIA_IMAGES], self.permission_callback)
+
+    def permission_callback(self, permissions, grants):
+        if all(grants.values()):
+            # Permission granted, open the file manager
+            self.file_manager_open()
+        else:
+            # Permission denied, show a modal view
+            self.show_permission_denied()
+
+    def show_permission_denied(self):
+        view = ModalView()
+        view.add_widget(Button(
+            text='Permission NOT granted.\n\n' +
+                 'Tap to quit app.\n\n\n' +
+                 'If you selected "Don\'t Allow",\n' +
+                 'enable permission with App Settings.',
+            on_press=self.bye)
+        )
+        view.open()
+
+    def update_data_with_file_1(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET employee_id_file = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label1.text = 'Upload Successfully'
+
+    def update_data_with_file_2(self, file_path):
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+        log_index = status.index('logged')
+
+        cursor.execute("UPDATE fin_registration_table SET six_months_bank_statement_file = ? WHERE customer_id = ?",
+                       (file_path, row_id_list[log_index]))
+        conn.commit()
+        self.ids.upload_label2.text = 'Upload Successfully'
+
+    def add_data(self, annual_salary, designation):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -3942,16 +4365,15 @@ class LenderScreenIndividualForm2(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE fin_registration_table SET company_address = ?, company_pincode = ?, company_country = ?, landmark = ?, business_number = ? WHERE customer_id = ?",
-            (company_address, company_pincode, company_country, landmark, business_number, row_id_list[log_index]))
+            "UPDATE fin_registration_table SET annual_salary = ?, designation = ? WHERE customer_id = ?",
+            (annual_salary, designation, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenIndividualForm3'
-    def on_company_pin_code_touch_down(self):
+
+    def on_annual_salary_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
-        self.ids.company_pin_code.input_type = 'number'
-    def on_business_phone_number_touch_down(self):
-        # Change keyboard mode to numeric when the mobile number text input is touched
-        self.ids.business_phone_number.input_type = 'number'
+        self.ids.annual_salary.input_type = 'number'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -3973,87 +4395,7 @@ class LenderScreenIndividualForm2(Screen):
 
 
 class LenderScreenIndividualForm3(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.manager_open_1 = False
-        self.manager_open_2 = False
-        self.file_manager_1 = MDFileManager(
-            exit_manager=self.exit_manager_1,
-            select_path=self.select_path_1
-        )
-        self.file_manager_2 = MDFileManager(
-            exit_manager=self.exit_manager_2,
-            select_path=self.select_path_2
-        )
-
-    # Other existing methods here...
-
-    def file_manager_open_1(self):
-        self.file_manager_1.show('/')
-        self.manager_open_1 = True
-
-    def select_path_1(self, path):
-        print(f"Selected path 1: {path}")
-        self.update_data_with_file_1(path)
-        self.exit_manager_1()
-
-    def update_data_with_file_1(self, file_path):
-        cursor.execute('select * from fin_users')
-        rows = cursor.fetchall()
-        row_id_list = []
-        status = []
-        for row in rows:
-            row_id_list.append(row[0])
-            status.append(row[-1])
-        log_index = status.index('logged')
-
-        cursor.execute("UPDATE fin_registration_table SET employee_id_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label1.text = 'Upload Successfully'
-
-    def exit_manager_1(self, *args):
-        self.manager_open_1 = False
-        self.file_manager_1.close()
-
-    def upload1(self):
-        if not self.manager_open_1:
-            self.file_manager_open_1()
-
-    # Repeat similar methods for file manager 2...
-
-    def file_manager_open_2(self):
-        self.file_manager_2.show('/')
-        self.manager_open_2 = True
-
-    def select_path_2(self, path):
-        print(f"Selected path 2: {path}")
-        self.update_data_with_file_2(path)
-        self.exit_manager_2()
-
-    def update_data_with_file_2(self, file_path):
-        cursor.execute('select * from fin_users')
-        rows = cursor.fetchall()
-        row_id_list = []
-        status = []
-        for row in rows:
-            row_id_list.append(row[0])
-            status.append(row[-1])
-        log_index = status.index('logged')
-
-        cursor.execute("UPDATE fin_registration_table SET six_months_bank_statement_file = ? WHERE customer_id = ?", (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label2.text = 'Upload Successfully'
-
-    def exit_manager_2(self, *args):
-        self.manager_open_2 = False
-        self.file_manager_2.close()
-
-    def upload2(self):
-        if not self.manager_open_2:
-            self.file_manager_open_2()
-
-
-    def add_data(self, annual_salary, designation):
+    def add_data(self, company_address, company_pincode, company_country, landmark, business_number):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4064,13 +4406,19 @@ class LenderScreenIndividualForm3(Screen):
         log_index = status.index('logged')
 
         cursor.execute(
-            "UPDATE fin_registration_table SET annual_salary = ?, designation = ? WHERE customer_id = ?",
-            (annual_salary, designation, row_id_list[log_index]))
+            "UPDATE fin_registration_table SET company_address = ?, company_pincode = ?, company_country = ?, landmark = ?, business_number = ? WHERE customer_id = ?",
+            (company_address, company_pincode, company_country, landmark, business_number, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenIndividualBankForm1'
-    def on_annual_salary_touch_down(self):
+
+    def on_company_pin_code_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
-        self.ids.annual_salary.input_type = 'number'
+        self.ids.company_pin_code.input_type = 'number'
+
+    def on_business_phone_number_touch_down(self):
+        # Change keyboard mode to numeric when the mobile number text input is touched
+        self.ids.business_phone_number.input_type = 'number'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -4107,6 +4455,7 @@ class LenderScreenIndividualBankForm1(Screen):
             (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenIndividualBankForm2'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
@@ -4139,7 +4488,7 @@ class LenderScreenIndividualBankForm2(Screen):
         log_index = status.index('logged')
 
         cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
-            (bank_id, branch_name, row_id_list[log_index]))
+                       (bank_id, branch_name, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'lender_dashboard'
 
@@ -4179,6 +4528,7 @@ class LenderScreenInstitutionalBankForm1(Screen):
             (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
         conn.commit()
         self.manager.current = 'LenderScreenInstitutionalBankForm2'
+
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 

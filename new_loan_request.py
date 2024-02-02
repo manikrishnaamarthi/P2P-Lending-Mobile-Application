@@ -8,201 +8,576 @@ from kivymd.uix.label import MDLabel
 import sqlite3
 
 user_helpers2 = """
+
 <NewloanScreen>:
-    MDRectangleFlatButton:
-        text: 'HOME'
-        text_color: 0, 0, 0, 1 
-        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-        md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: app.root.current ='borrower_dashboard'
-        size_hint: (0.1, 0.03)
-        font_size: "13sp"
 
     BoxLayout:
+        pos_hint: {'center_x':0.5, 'center_y':0.5}
+        elevation: 2
+        padding: 10
+        spacing: 15
         orientation: 'vertical'
-        padding: "40dp"
-        spacing:dp(20)
-
-        MDLabel:
-            text: 'New Loan Request'
-            halign: 'center'
-            bold: True
-
-        MDTextField:
-            id: loan_amount
-            hint_text: "Enter the Required Loan Amount"
-            helper_text:"Minimum Loan Amount will be 100000"
-            helper_text_mode: "on_focus"
-            font_name: "Roboto-Bold"
-
-        Spinner:
-            padding: [10,10]
-            id: loan_type
-            text: "Please Select the Loan Type "
-            values: ["Personal Loan", "Education  Loan", "Home Loan", "Vehicle Loan"]
-            multiline: False
-            size_hint: 1 , None
-
-            background_color: 1, 1 ,1, 0 
-            color: 0, 0, 0, 1
-            canvas.before:
-                Color:
-                    rgba: 0, 0, 0, 1  
-                Line:
-                    width: 0.7
-                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-        MDTextField:
-            id: interest
-            hint_text: 'Interest rate'
-            helper_text_mode: "on_focus"
-            helper_text:"interest rate starts at 5%"
-            font_name: "Roboto-Bold"
-
-
-        Spinner:
-            padding: [10,10]
-            id: tenure
-            text: "Tenure"
-            values: ["1 - year", "2 - year", "3 - year", "4 - year", "5 - year"]
-            multiline: False
-            size_hint: 1 , None
-
-            background_color: 1, 1 ,1, 0 
-            color: 0, 0, 0, 1
-            canvas.before:
-                Color:
-                    rgba: 0, 0, 0, 1  
-                Line:
-                    width: 0.7
-                    rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: "29dp"
-            spacing:dp(5)
-
-        GridLayout:
-            cols: 1
-            spacing:dp(20)
-            padding:dp(20)
-            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
-            size_hint: 1, None
-            height: "50dp"
-
-            MDRaisedButton:
-                text: 'Next'
-                text_color: 0, 0, 0, 1  # Black text color
-                md_bg_color: 0.031, 0.463, 0.91, 1
-                size_hint: 1, None
-                height: "50dp"
-                on_release: app.root.current = 'new'
-
-<NewScreen>:
-    MDRectangleFlatButton:
-        text: 'HOME'
-        text_color: 0, 0, 0, 1 
-        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-        md_bg_color: 0.031, 0.463, 0.91, 1
-        pos_hint: {'right': 1, 'top': 1}
-        on_release: root.current()
-        size_hint: (0.1, 0.03)
-        font_size: "13sp"
-
-    BoxLayout:
-        orientation: 'vertical'
-        padding: "40dp"
-
-        MDLabel:
-            text: 'New Loan Request'
-            halign: 'center'
-            bold: True
-
-        MDTextField:
-            id:total_due
-            hint_text: 'Total Due'
-            helper_text_mode: "on_focus"
-            font_name: "Roboto-Bold"
-            readonly: True
-
-        MDTextField:
-            id:total_repayment_amount
-            hint_text: 'Total Repayment Amount'
-            helper_text_mode: "on_focus"
-            font_name: "Roboto-Bold"
-            readonly: True
-
-        MDTextField:
-            id: purpose_of_loan
-            hint_text: "Purpose of loan"
-            helper_text_mode: "on_focus"
-            font_name: "Roboto-Bold"
-
-        MDTextField:
-            id: password
-            hint_text: "Please enter your OTP"
-            helper_text: "Enter your OTP"
-            helper_text_mode: "on_focus"
-            password: True
-            font_name: "Roboto-Bold"
-
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: "29dp"
-            spacing: 5
-
-        GridLayout:
+        radius: [10,]
+        MDGridLayout:
             cols: 2
-            spacing: 20
+            spacing: dp(10)
+            padding: dp(10)
+            MDLabel:
+                text: "Credit Limit" 
+                font_size: 36
+            MDLabel:
+                id: credit_limit
+                text: "" 
+        MDGridLayout:
+            cols: 1
+            spacing: dp(10)
+            BoxLayout:
+                pos_hint: {'center_x':0.5, 'center_y':0.5}
+                elevation: 2
+                padding: 40
+                spacing: 25
+                orientation: 'horizontal'
+
+                MDLabel:
+                    size_hint: 1, None
+                    width: dp(300)
+                    text: "Product Group"
+                    bold: True
+
+                Spinner:
+                    id: group_id
+                    text: "Select Group"
+                    width: dp(300)
+                    multiline: False
+                    size_hint: 1, None
+                    background_color: 1, 1 ,1, 0 
+                    color: 0, 0, 0, 1
+                    canvas.before:
+                        Color:
+                            rgba: 0, 0, 0, 1  
+                        Line:
+                            width: 0.7
+                            rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+        MDGridLayout:
+            cols: 1
+            spacing: dp(10)
+            BoxLayout:
+                pos_hint: {'center_x':0.5, 'center_y':0.5}
+                elevation: 2
+                padding: 40
+                spacing: 25
+                orientation: 'horizontal'
+
+                MDLabel:
+                    size_hint: 1, None
+                    width: dp(300)
+                    text: "Product Categories"
+                    bold: True
+
+                Spinner:
+                    id: group_id
+                    text: "Select Categories"
+                    width: dp(300)
+                    multiline: False
+                    size_hint: 1, None
+                    background_color: 1, 1 ,1, 0 
+                    color: 0, 0, 0, 1
+                    canvas.before:
+                        Color:
+                            rgba: 0, 0, 0, 1  
+                        Line:
+                            width: 0.7
+                            rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+        MDGridLayout:
+            cols: 2
+            spacing: 30
             padding: 20
-            pos_hint: {'center_x': 0.50, 'center_y': 0.5}
-            size_hint: 1, None
-            height: "50dp"
+            size_hint: 1, 1
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
             MDRaisedButton:
-                text: "Submit"
+                text: "NEXT"
                 md_bg_color: 0.031, 0.463, 0.91, 1
-                theme_text_color: 'Custom'
-                text_color: 1, 1, 1, 1
-                size_hint: 1, None
-                height: "50dp"
-
-            MDRaisedButton:
-                text: "Cancel"
-                md_bg_color: 0.031, 0.463, 0.91, 1
-                pos_hint: {'right': 1, 'y': 0.5}
-                size_hint: 1, None
-                height: "50dp"
+                on_release: app.root.current = "NewloanScreen1"
+                size_hint: 1, None                    
 
 
         MDLabel:
-            id: error_text
-            text: ""
+            text:""
+
+<NewloanScreen1>:
+
+    BoxLayout:
+        pos_hint: {'center_x':0.5, 'center_y':0.5}
+        elevation: 2
+        padding: 40
+        spacing: 25
+        orientation: 'vertical'
+        radius: [10,]
+
+        MDLabel:
+            text: "New Loan Request"
+            halign: "center"
+            bold: True
+        Widget:
+            size_hint_y: None
+            height: 5
+
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, 1  
+                Line:
+                    points: self.x, self.y, self.x + self.width, self.y
+
+        MDGridLayout:
+            cols: 2
+            spacing: 60
+
+            MDLabel:
+                text: "Loan ID"
+
+            MDFloatLayout:
+                size_hint: None, None
+                size: dp(200), dp(40)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1 
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10, 10, 10, 10]
+
+                    Color:
+                        rgba: 0, 0, 0, 1  
+
+                    Line:
+                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
+                        width: 1  # Border line width
+
+                MDLabel:
+                    id: loan id
+                    text: ""
+
+        MDGridLayout:
+            cols: 2
+            spacing: 60
+
+            MDLabel:
+                text: "Loan Amount"
+
+            MDFloatLayout:
+                size_hint: None, None
+                size: dp(200), dp(40)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1 
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10, 10, 10, 10]
+
+                    Color:
+                        rgba: 0, 0, 0, 1  
+
+                    Line:
+                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
+                        width: 1  # Border line width
+
+                MDTextField:
+                    id: text_input1
+                    size_hint: None, None
+                    size_hint_x: 0.91
+                    multiline: False
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    line_color_normal: [1, 1, 1, 1]  
+                    line_color_focus: [1, 1, 1, 1]
+                    font_name: "Roboto-Bold"
+        MDGridLayout:
+            cols: 2
+            spacing: 60
+
+            MDLabel:
+                text: "Interest Amount (%)"
+
+            MDFloatLayout:
+                size_hint: None, None
+                size: dp(200), dp(40)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10, 10, 10, 10]
+
+                    Color:
+                        rgba: 0, 0, 0, 1  
+
+                    Line:
+                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
+                        width: 1  
+
+                MDLabel:
+                    id: text_input2
+                    text: ""
+
+        MDGridLayout:
+            cols: 2
+            spacing: 60
+
+            MDLabel:
+                text: "Processing Fee"
+
+            MDFloatLayout:
+                size_hint: None, None
+                size: dp(200), dp(40)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10, 10, 10, 10]
+
+                    Color:
+                        rgba: 0, 0, 0, 1  
+
+                    Line:
+                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
+                        width: 1  # Border line width
+
+                MDLabel:
+                    id: text_input3
+                    text: ""
+
+
+        MDGridLayout:
+            cols: 2
+            spacing: 60
+
+            MDLabel:
+                text: "Loan Period (Months)"
+
+            MDFloatLayout:
+                size_hint: None, None
+                size: dp(200), dp(40)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10, 10, 10, 10]
+
+                    Color:
+                        rgba: 0, 0, 0, 1  
+
+                    Line:
+                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
+                        width: 1  
+
+                MDTextField:
+                    id: text_input5
+                    size_hint: None, None
+                    size_hint_x: 0.91
+                    multiline: False
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    line_color_normal: [1, 1, 1, 1]  
+                    line_color_focus: [1, 1, 1, 1]
+                    font_name: "Roboto-Bold"
+        MDLabel:
+            text: "EMI Amount"
+            bold: True
+            halign: "left"
+        MDBoxLayout:
+            orientation: "horizontal"
+
+            MDGridLayout:
+                cols: 2
+                spacing: 10
+
+                CheckBox:
+                    size_hint: (None, None)
+                    width: 50
+                    bold: True
+                    color: (195/255,110/255,108/255,1)
+
+                MDLabel:
+                    text: "One Time"
+                    multiline: False
+            MDGridLayout:
+                cols: 2
+                spacing: 10
+
+                CheckBox:
+                    size_hint: (None, None)
+                    width: 50
+                    bold: True
+                    color: (195/255,110/255,108/255,1)
+
+                MDLabel:
+                    text: "Monthly"
+                    multiline: False
+            MDGridLayout:
+                cols: 2
+                spacing: 10
+
+                CheckBox:
+                    size_hint: (None, None)
+                    width: 50
+                    bold: True
+                    color: (195/255,110/255,108/255,1)
+
+                MDLabel:
+                    text: " Three Months"
+                    multiline: False
+            MDGridLayout:
+                cols: 2
+                spacing: 10
+
+                CheckBox:
+                    size_hint: (None, None)
+                    width: 50
+                    bold: True
+                    color: (195/255,110/255,108/255,1)
+
+                MDLabel:
+                    text: " Six Months"
+                    multiline: False
+        MDLabel:
+            text: " "
+
+
+        MDGridLayout:
+            cols: 2
+            spacing: 30
+            padding: 20
+            size_hint: 1, 1
+            pos_hint: {'center_x': 0.48, 'center_y': 0.5}
+
+            MDRaisedButton:
+                text: "NEXT"
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                on_release: app.root.current = "NewloanScreen2"
+                size_hint: 1, None
+
+<NewloanScreen2>:
+
+    BoxLayout:
+        pos_hint: {'center_x':0.5, 'center_y':0.5}
+        elevation: 2
+        padding: 40
+        spacing: 25
+        orientation: 'vertical'
+        radius: [10,]
+
+        MDLabel:
+            text: "Loan Summary"
+            halign: "center"
+            bold: True
+        Widget:
+            size_hint_y: None
+            height: 5
+
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, 1  
+                Line:
+                    points: self.x, self.y, self.x + self.width, self.y
+
+        MDGridLayout:
+            cols: 2
+            spacing: 60
+
+            MDLabel:
+                text: "Loan Amount"
+
+            MDFloatLayout:
+                size_hint: None, None
+                size: dp(200), dp(40)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1 
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10, 10, 10, 10]
+
+                    Color:
+                        rgba: 0, 0, 0, 1  
+
+                    Line:
+                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
+                        width: 1  # Border line width
+
+                MDLabel:
+                    id: loanamount
+                    text: ""
+
+        MDGridLayout:
+            cols: 2
+            spacing: 60
+
+            MDLabel:
+                text: "Total interest amount"
+
+            MDFloatLayout:
+                size_hint: None, None
+                size: dp(200), dp(40)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1 
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10, 10, 10, 10]
+
+                    Color:
+                        rgba: 0, 0, 0, 1  
+
+                    Line:
+                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
+                        width: 1  # Border line width
+
+                MDLabel:
+                    id: interestamount
+                    text: " "
+        MDGridLayout:
+            cols: 2
+            spacing: 60
+
+            MDLabel:
+                text: "Processing Fee Amount"
+
+            MDFloatLayout:
+                size_hint: None, None
+                size: dp(200), dp(40)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10, 10, 10, 10]
+
+                    Color:
+                        rgba: 0, 0, 0, 1  
+
+                    Line:
+                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
+                        width: 1  
+
+                MDLabel:
+                    id: text_input2
+                    text: ""
+
+        MDGridLayout:
+            cols: 2
+            spacing: 60
+
+            MDLabel:
+                text: "Monthly EMI"
+
+            MDFloatLayout:
+                size_hint: None, None
+                size: dp(200), dp(40)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10, 10, 10, 10]
+
+                    Color:
+                        rgba: 0, 0, 0, 1  
+
+                    Line:
+                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
+                        width: 1  # Border line width
+
+                MDLabel:
+                    id: text_input3
+                    text: ""
+
+
+        MDGridLayout:
+            cols: 2
+            spacing: 60
+
+            MDLabel:
+                text: "Total Repayment Amount"
+
+            MDFloatLayout:
+                size_hint: None, None
+                size: dp(200), dp(40)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_x: 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10, 10, 10, 10]
+
+                    Color:
+                        rgba: 0, 0, 0, 1  
+
+                    Line:
+                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
+                        width: 1  
+
+                MDLabel:
+                    id: text_input4
+                    text: " "
+
+        MDLabel:
+            text: " "
+
+
+        MDGridLayout:
+            cols: 3
+            spacing: 30
+            padding: 20
+            size_hint: 1, 1
+            pos_hint: {'center_x': 0.48, 'center_y': 0.5}
+            MDRaisedButton:
+                text: "BACK"
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                on_release: app.root.current = "ForecloseDetails"
+                size_hint: 1, None
+            MDRaisedButton:
+                text: "EDIT"
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                on_release: app.root.current = "ForecloseDetails"
+                size_hint: 1, None
+
+            MDRaisedButton:
+                text: "NEXT"
+                md_bg_color: 0.031, 0.463, 0.91, 1
+                on_release: app.root.current = "ForecloseDetails"
+                size_hint: 1, None
+
 """
-
-conn = sqlite3.connect("fin_user_profile.db")
-cursor = conn.cursor()
-
-# Create a table named 'fin_users'
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS fin_loan_details (
-        customer_id INT,
-        loan_id TEXT,
-        loan_amount INT,
-        loan_type TEXT,
-        tenure TEXT,
-        interest INT,
-        processing_fee INT,
-        loan_status TEXT
-
-    )
-''')
-
-conn.commit()
-conn.close()
 
 
 class NewloanScreen(Screen):
@@ -226,7 +601,7 @@ class NewloanScreen(Screen):
         self.manager.current = 'borrower_dashboard'
 
 
-class NewScreen(Screen):
+class NewloanScreen1(Screen):
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
 
@@ -241,7 +616,27 @@ class NewScreen(Screen):
 
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'new_loan_request'
+        self.manager.current = 'NewloanScreen'
 
     def current(self):
-        self.manager.current = 'new_loan_request'
+        self.manager.current = 'NewloanScreen'
+
+class NewloanScreen2(Screen):
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        if key == 27:
+            self.go_back()
+            return True
+        return False
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'NewloanScreen1'
+
+    def current(self):
+        self.manager.current = 'NewloanScreen1'

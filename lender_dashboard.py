@@ -4,9 +4,20 @@ from kivy.core.window import Window
 from kivy.uix.screenmanager import Screen, SlideTransition
 import sqlite3
 import anvil.server
+from kivy.uix.screenmanager import Screen, SlideTransition
+from kivy.utils import platform
+from kivy.clock import mainthread
+from kivymd.uix.filemanager import MDFileManager
 
-# Assuming 'LiveObject' has been replaced with something else, replace it accordingly
-# For example, if it's now 'NewLiveObject', use that instead
+if platform == 'android':
+    from kivy.uix.button import Button
+    from kivy.uix.modalview import ModalView
+    from kivy.clock import Clock
+    from android import api_version, mActivity
+    from android.permissions import (
+        request_permissions, check_permission, Permission )
+
+
 anvil.server.connect('server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT')
 
 user_helpers1 = """
@@ -270,7 +281,6 @@ user_helpers1 = """
             text_color: 1,1,1,1
             pos_hint: {'center_x': 0.92, 'center_y': 0.1}
             md_bg_color: 0.031, 0.463, 0.91, 1              
-
 <ViewProfileScreen>
     canvas.before:
         Color:
@@ -299,12 +309,40 @@ user_helpers1 = """
 
 
 
-                CustomIconButton:
-                    id: selected_image_button
-                    on_release: app.file_manager_open()
-                    selected_image_source: "path/to/your/default/image.jpg"
+                MDRectangleFlatButton:
+                   
+                    line_color:1,1,1,1
                     size_hint: None, None
+                    size: dp(120), dp(120)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    canvas.before:
+                        Color:
+                            rgba: 174/255, 214/255, 241/255, 1
+                        Ellipse:
+                            size: self.size
+                            pos: self.pos 
+          
+                    Image:
+                        id: selected_image1
+                        source: "profile.png"
 
+                      
+                    MDFloatLayout:
+        
+                        size_hint:(None,None)
+                        spacing:0
+                        padding:0
+                        pos_hint: {'center_x': 0, 'center_y': 0}
+                        MDIconButton:
+                            icon: 'camera-plus'
+                            on_release: app.root.get_screen('ViewProfileScreen').check_and_open_file_manager1()
+                            pos_hint: {'center_x':1.2, 'center_y':0}
+                Label:
+                    id: selected_file_label
+                    text: 'Selected File: None'
+                    size_hint_y: None
+                    height: 30
+                 
                 MDLabel:
                     text: ' Customer ID '
                     color: 0, 0, 0, 1
@@ -342,7 +380,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         readonly: True
-
+               
                 MDLabel:
                     text: ' Full Name '
                     color: 0, 0, 0, 1
@@ -389,7 +427,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
-
+                 
                 MDLabel:
                     text: ' Mobile Number '
                     color: 0, 0, 0, 1
@@ -432,9 +470,9 @@ user_helpers1 = """
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
-
-
-
+                    
+                    
+                 
                 MDLabel:
                     text: ' Date Of Birth '
                     color: 0, 0, 0, 1
@@ -477,7 +515,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
-
+                
                 MDLabel:
                     text: ' Gender '
                     color: 0, 0, 0, 1
@@ -520,7 +558,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
-
+  
                 MDLabel:
                     text: ' Alternate email '
                     color: 0, 0, 0, 1
@@ -565,7 +603,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
-
+ 
                 MDLabel:
                     text: ' Government ID1 '
                     color: 0, 0, 0, 1
@@ -645,7 +683,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
                         readonly: True
-
+  
                 MDLabel:
                     text: ' Highest Qualification'
                     color: 0, 0, 0, 1
@@ -690,8 +728,8 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold" 
-
-
+      
+                  
                 MDLabel:
                     text: ' Street Name '
                     color: 0, 0, 0, 1
@@ -737,7 +775,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-
+                 
                 MDLabel:
                     text: ' City Name '
                     color: 0, 0, 0, 1
@@ -783,7 +821,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-
+                
                 MDLabel:
                     text: ' Zipcode '
                     color: 0, 0, 0, 1
@@ -829,7 +867,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-
+                  
                 MDLabel:
                     text: ' State Name '
                     color: 0, 0, 0, 1
@@ -1360,23 +1398,6 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
-
-
-
-<CustomIconButton@MDRectangleFlatButton>:
-    selected_image_source: ""
-    size_hint: None, None
-    size: dp(100), dp(100)
-    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-    canvas.before:
-        Color:
-            rgba: 174/255, 214/255, 241/255, 1
-        Ellipse:
-            size: self.size
-            pos: self.pos 
-    MDIconButton:
-        icon: 'camera-plus'
-        on_release: app.root.file_manager_open()
 
 
 <ViewLoansScreen>
@@ -2548,6 +2569,61 @@ class LenderDashboard(Screen):
 
 
 class ViewProfileScreen(Screen):
+    def check_and_open_file_manager1(self):
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1")
+
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id):
+        if platform == 'android':
+            if check_permission(Permission.READ_MEDIA_IMAGES):
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id)
+            else:
+                self.request_media_images_permission()
+        else:
+            # For non-Android platforms, directly open the file manager
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id)
+
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id):
+        self.file_manager = MDFileManager(
+            exit_manager=self.exit_manager,
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id),
+        )
+        if platform == 'android':
+            primary_external_storage = "/storage/emulated/0"
+            self.file_manager.show(primary_external_storage)
+        else:
+            # For other platforms, show the file manager from the root directory
+            self.file_manager.show('/')
+
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id):
+        self.ids[image_id].source = path  # Set the source of the Image widget
+        self.file_manager.close()
+
+
+
+    def exit_manager(self, *args):
+        self.file_manager.close()
+
+    def request_media_images_permission(self):
+        request_permissions([Permission.READ_MEDIA_IMAGES], self.permission_callback)
+
+    def permission_callback(self, permissions, grants):
+        if all(grants.values()):
+            # Permission granted, open the file manager
+            self.file_manager_open()
+        else:
+            # Permission denied, show a modal view
+            self.show_permission_denied()
+
+    def show_permission_denied(self):
+        view = ModalView()
+        view.add_widget(Button(
+            text='Permission NOT granted.\n\n' +
+                 'Tap to quit app.\n\n\n' +
+                 'If you selected "Don\'t Allow",\n' +
+                 'enable permission with App Settings.',
+            on_press=self.bye)
+        )
+        view.open()
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_back_button)
@@ -2573,6 +2649,25 @@ class ViewProfileScreen(Screen):
 
 
 class ALlLoansScreen(Screen):
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'lender_dashboard'
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -2640,6 +2735,25 @@ class ALlLoansScreen(Screen):
 
 
 class ViewLoansScreen(Screen):
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'lender_dashboard'
     def on_back_button_press(self):
         self.manager.current = 'lender_dashboard'
 
@@ -2717,7 +2831,25 @@ class ViewLoansRequest(Screen):
 
         print(value)
 
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
 
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'lender_dashboard'
 class ViewLoansProfileScreen(Screen):
     def __init__(self, value=None, **kwargs):
         super().__init__(**kwargs)
@@ -2729,12 +2861,70 @@ class ViewLoansProfileScreen(Screen):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('get_table_data')
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'ViewLoansRequest'
 class NewExtension(Screen):
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'lender_dashboard'
+
     def on_menu_button_press(self):
         self.manager.current = 'lender_dashboard'
 
 
 class NewLoansE(Screen):
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'NewExtension'
     def _init_(self, **kwargs):
         super()._init_(**kwargs)
         h = self.ids.box1.height
@@ -2745,6 +2935,25 @@ class NewLoansE(Screen):
     def on_back_button_press(self):
         self.manager.current = 'NewExtension'
 class ApprovedLoansE(Screen):
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'NewExtension'
     def _init_(self, **kwargs):
         super()._init_(**kwargs)
         h = self.ids.box1.height
@@ -2755,6 +2964,25 @@ class ApprovedLoansE(Screen):
     def on_back_button_press(self):
         self.manager.current = 'NewExtension'
 class ViewAllLoansE(Screen):
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'NewExtension'
     def _init_(self, **kwargs):
         super()._init_(**kwargs)
         h = self.ids.box1.height
@@ -2764,8 +2992,25 @@ class ViewAllLoansE(Screen):
         self.ids.box1.height = h
     def on_back_button_press(self):
         self.manager.current = 'NewExtension'
-
 class RejectedLoansE(Screen):
+    def on_pre_enter(self):
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'NewExtension'
     def _init_(self, **kwargs):
         super()._init_(**kwargs)
         h = self.ids.box1.height
@@ -2776,6 +3021,25 @@ class RejectedLoansE(Screen):
     def on_back_button_press(self):
         self.manager.current = 'NewExtension'
 class UnderProcessLoansE(Screen):
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'NewExtension'
     def _init_(self, **kwargs):
         super()._init_(**kwargs)
         h = self.ids.box1.height

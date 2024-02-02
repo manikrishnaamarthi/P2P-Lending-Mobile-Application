@@ -8,6 +8,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/borrower_registration_forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/borrower_registration_forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fin_user_profile.db" beforeDir="false" afterPath="$PROJECT_DIR$/fin_user_profile.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lender_dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/lender_dashboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lender_registration_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/lender_registration_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_loan_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/new_loan_request.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +52,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-50da183f06c8-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13135.95" />
+        <option value="bundled-python-sdk-7a29c1521ef0-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.11799.298" />
       </set>
     </attachedChunks>
   </component>
