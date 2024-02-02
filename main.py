@@ -16,9 +16,10 @@ from borrower_registration_forms import (
     BorrowerScreen12,BorrowerScreen13,BorrowerScreen14,BorrowerScreen15,BorrowerScreen16,BorrowerScreen17,
     BorrowerScreen18,BorrowerScreen19,Borrower
 )
-from borrower_dashboard import (DashboardScreen,ProfileScreen,user_helpers)
+from borrower_dashboard import (DashboardScreen, ProfileScreen, user_helpers, LoansDetails, ForecloseDetails,
+                                Foreclosure)
 
-from new_loan_request import (NewloanScreen,NewScreen,user_helpers2)
+from new_loan_request import (NewloanScreen,NewloanScreen1,NewloanScreen2,user_helpers2)
 from LenderLanding import LenderLanding,LenderHowScreen,Landing
 from lender_registration_form import (
     LenderScreen, LenderScreen1, LenderScreen2, LenderScreen3,
@@ -91,6 +92,9 @@ class MyApp(MDApp):
         sm.add_widget(DashboardScreen(name='borrower_dashboard'))
         sm.add_widget(ProfileScreen(name='ProfileScreen'))
         sm.add_widget(ApplicationTrackerScreen(name='borrower_application_tracker'))
+        sm.add_widget(LoansDetails(name='LoansDetails'))
+        sm.add_widget(ForecloseDetails(name='ForecloseDetails'))
+        sm.add_widget(Foreclosure(name='Foreclosure'))
         sm.add_widget(LenderScreen(name='LenderScreen'))
         sm.add_widget(LenderScreen1(name='LenderScreen1'))
         sm.add_widget(LenderScreen2(name='LenderScreen2'))
@@ -119,7 +123,9 @@ class MyApp(MDApp):
         sm.add_widget(ViewLoansScreen(name='ViewLoansScreen'))
         sm.add_widget(ALlLoansScreen(name='ALlLoansScreen'))
         sm.add_widget(NewloanScreen(name='new_loan_request'))
-        sm.add_widget(NewScreen(name='new'))
+        sm.add_widget(NewloanScreen(name='NewloanScreen'))
+        sm.add_widget(NewloanScreen1(name='NewloanScreen1'))
+        sm.add_widget(NewloanScreen2(name='NewloanScreen2'))
         sm.add_widget(ViewLoansRequest(name='ViewLoansRequest'))
         sm.add_widget(ViewLoansProfileScreen(name='ViewLoansProfileScreen'))
         sm.add_widget(NewExtension(name='NewExtension'))
