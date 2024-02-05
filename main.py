@@ -30,13 +30,11 @@ from lender_registration_form import (
     LenderScreenIndividualForm2,LenderScreenIndividualForm3,LenderScreenIndividualBankForm1,
     LenderScreenIndividualBankForm2,LenderScreenInstitutionalBankForm1,LenderScreenInstitutionalBankForm2
 )
-from lender_dashboard import (LenderDashboard,ViewProfileScreen, ViewLoansScreen, ALlLoansScreen, ViewLoansRequest, ViewLoansProfileScreen,NewExtension,NewLoansE,ApprovedLoansE,ViewAllLoansE,RejectedLoansE,UnderProcessLoansE)
+from lender_dashboard import (LenderDashboard,ViewProfileScreen)
 from borrower_application_tracker import (ApplicationTrackerScreen)
-
-
-
-
-
+from lender_view_loans_request import (ViewLoansRequest, ViewLoansProfileScreen)
+from lender_view_loans import (ViewLoansScreen, ALlLoansScreen)
+from lender_view_extension_request import (NewExtension, NewLoansE, ApprovedLoansE, RejectedLoansE, ViewAllLoansE, UnderProcessLoansE, ViewProfileE)
 
 class MyApp(MDApp):
     def build(self):
@@ -123,6 +121,7 @@ class MyApp(MDApp):
         sm.add_widget(ViewAllLoansE(name='ViewAllLoansE'))
         sm.add_widget(RejectedLoansE(name='RejectedLoansE'))
         sm.add_widget(UnderProcessLoansE(name='UnderProcessLoansE'))
+        sm.add_widget(ViewProfileE(name='ViewProfileE'))
         # Set the initial screen to the login screen
         sm.current = 'MainScreen'
 
