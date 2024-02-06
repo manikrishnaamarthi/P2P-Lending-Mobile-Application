@@ -34,7 +34,10 @@ from lender_dashboard import (LenderDashboard,ViewProfileScreen)
 from borrower_application_tracker import (ApplicationTrackerScreen)
 from lender_view_loans_request import (ViewLoansRequest, ViewLoansProfileScreen)
 from lender_view_loans import (ViewLoansScreen, ALlLoansScreen)
-from lender_view_extension_request import (NewExtension, NewLoansE, ApprovedLoansE, RejectedLoansE, ViewAllLoansE, UnderProcessLoansE, ViewProfileE)
+from lender_view_extension_request import (NewExtension, ApprovedLoansE, RejectedLoansE, ViewAllLoansE, UnderProcessLoansE, ViewProfileE)
+from borrower_foreclosure import (DashboardScreenFB, LoansDetailsFB, ViewProfileScreenFB, ForecloseDetailsFB)
+
+
 
 class MyApp(MDApp):
     def build(self):
@@ -116,12 +119,15 @@ class MyApp(MDApp):
         sm.add_widget(ViewLoansRequest(name='ViewLoansRequest'))
         sm.add_widget(ViewLoansProfileScreen(name='ViewLoansProfileScreen'))
         sm.add_widget(NewExtension(name='NewExtension'))
-        sm.add_widget(NewLoansE(name='NewLoansE'))
         sm.add_widget(ApprovedLoansE(name='ApprovedLoansE'))
         sm.add_widget(ViewAllLoansE(name='ViewAllLoansE'))
         sm.add_widget(RejectedLoansE(name='RejectedLoansE'))
         sm.add_widget(UnderProcessLoansE(name='UnderProcessLoansE'))
         sm.add_widget(ViewProfileE(name='ViewProfileE'))
+        sm.add_widget(DashboardScreenFB(name='DashboardScreenFB'))
+        sm.add_widget(LoansDetailsFB(name='LoansDetailsFB'))
+        sm.add_widget(ViewProfileScreenFB(name='ViewProfileScreenFB'))
+        sm.add_widget(ForecloseDetailsFB(name='ForecloseDetailsFB'))
         # Set the initial screen to the login screen
         sm.current = 'MainScreen'
 

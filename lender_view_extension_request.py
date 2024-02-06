@@ -1,5 +1,3 @@
-
-
 import anvil.server
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
@@ -15,12 +13,11 @@ anvil.server.connect('server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT')
 lender_view_extension = """
 <WindowManager>:
     NewExtension:
-    NewLoansE:
     ApprovedLoansE:
     RejectedLoansE:
     UnderProcessLoansE:
     ViewProfileE:
-    
+
 <NewExtension>
     BoxLayout:
         orientation: 'vertical'
@@ -37,20 +34,6 @@ lender_view_extension = """
             padding: dp(15)
             spacing: dp(5)
             pos_hint: {'center_x': .5, 'center_y': .5}
-
-            Button:
-                text: "New Loans Extension"
-                text_color: 0, 0, 0, 1
-                background_color: 0.529, 0.807, 0.922, 0
-                on_release: app.root.current = 'NewLoansE'
-                color: 0, 0, 0, 1
-                bold: True
-                canvas.before:
-                    Color:
-                        rgba:0.529, 0.807, 0.922, 1 
-                    Line:
-                        width: 0.9  
-                        rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
 
             Button:
@@ -105,124 +88,7 @@ lender_view_extension = """
                     Line:
                         width: 0.9  
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-<NewLoansE>
-    BoxLayout:
-        orientation: 'vertical'
-        MDTopAppBar:
-            title: "New Loans "
-            elevation: 3
-            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
-
-        ScrollView:
-
-            MDBoxLayout:
-                orientation: 'vertical'
-                size_hint_y: None
-                height: self.minimum_height
-
-
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    size_hint_y: None
-                    height: self.minimum_height
-                    padding: dp(20)
-
-                    BoxLayout:
-                        id: box1
-                        orientation: 'vertical'
-                        size_hint_y: None
-                        height: 0
-
-                        padding: [10, 0,0,0]
-                        canvas.before:
-                            Color:
-                                rgba: 0, 0, 1, 1  # Blue color for the box
-                            Line:
-                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
-
-
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                text: 'Loan ID'
-                                size_hint_y: None
-                                height: dp(50)  
-                                bold: True
-
-
-                            MDLabel:
-                                text: 'Borrower Name'
-                                size_hint_y: None
-                                height: dp(50)  
-                                bold: True
-
-                            MDLabel:
-                                text: 'Loan Amount'
-                                size_hint_y: None
-                                height: dp(50) 
-                                bold: True
-                            MDLabel:
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  
-                                size_hint_x: None
-                                width: dp(20)
-                                bold: True
-                        Widget:
-                            size_hint_y: None
-                            height: dp(2) 
-                            canvas:
-                                Color:
-                                    rgba: 0, 0, 1, 1
-                                Line:
-                                    width: dp(0.6)  # Set the width of the line to make it bold
-                                    points: self.x, self.y, self.x + self.width, self.y
-
-
 """
-
-a = 10
-
-for i in range(a):
-    id_label = f"label_{i}"
-    amount = f"amount_{i}"
-    status = f"status_{i}"
-    icon = f"icon_{i}"
-    lender_view_extension += f'''
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                id: {id_label}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  # Adjust the height as needed
-
-                            MDLabel:
-                                id: {amount}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  # Adjust the height as needed
-
-
-                            MDLabel:
-                                id: {status}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  # Adjust the height as needed
-
-
-                            MDIconButton:
-                                id: {icon}
-                                icon: 'arrow-right-thick'
-                                size_hint_y: None
-                                height: dp(50)  # Adjust the height as needed
-                                on_release: root.icon_button_clicked({id_label}.text)
-                                opacity: 0
-
-    '''
 
 lender_view_extension += '''
 <ApprovedLoansE>
@@ -272,7 +138,7 @@ lender_view_extension += '''
 
 
                             MDLabel:
-                                text: 'Borroer Name'
+                                text: 'Loan Amount'
                                 size_hint_y: None
                                 height: dp(50) 
                                 bold: True
@@ -338,7 +204,7 @@ for i in range(a):
                                 icon: 'arrow-right-thick'
                                 size_hint_y: None
                                 height: dp(50) 
-                                on_release: app.root.current = 'ViewProfileE'
+                                on_release: root.icon_button_clicked({id_label}.text)
                                 opacity: 0
 '''
 
@@ -390,13 +256,13 @@ lender_view_extension += '''
 
 
                             MDLabel:
-                                text: 'Borrower Name'
+                                text: 'Loan Amount'
                                 size_hint_y: None
                                 height: dp(50)  
                                 bold: True
 
                             MDLabel:
-                                text: 'Loan Amount'
+                                text: 'Loan Extension status'
                                 size_hint_y: None
                                 height: dp(50) 
                                 bold: True
@@ -456,7 +322,7 @@ for i in range(a):
                                 icon: 'arrow-right-thick'
                                 size_hint_y: None
                                 height: dp(50)  
-                                on_release: app.root.current = 'ViewProfileE'
+                                on_release: root.icon_button_clicked({id_label}.text)
                                 opacity: 0
 '''
 lender_view_extension += '''
@@ -507,7 +373,7 @@ lender_view_extension += '''
 
 
                             MDLabel:
-                                text: 'Borrower Name'
+                                text: 'Loan Amount'
                                 size_hint_y: None
                                 height: dp(50)  
                                 bold: True
@@ -573,7 +439,7 @@ for i in range(a):
                                 icon: 'arrow-right-thick'
                                 size_hint_y: None
                                 height: dp(50) 
-                                on_release: app.root.current = 'ViewProfileE'
+                                on_release: root.icon_button_clicked({id_label}.text)
                                 opacity: 0
 '''
 lender_view_extension += '''
@@ -690,7 +556,7 @@ for i in range(a):
                                 icon: 'arrow-right-thick'
                                 size_hint_y: None
                                 height: dp(50)  
-                                on_release: app.root.current = 'ViewProfileE'
+                                on_release: root.icon_button_clicked({id_label}.text)
                                 opacity: 0
 
 '''
@@ -740,53 +606,60 @@ lender_view_extension += f'''
                             spacing: dp(10)
                             padding: dp(10)
                             MDLabel:
-                                text: "Borrower Name" 
+                                text: "Loan ID" 
                                 size_hint_y:None
                                 height:dp(50)
                             MDLabel:
-                                id: user1
-                                text: "" 
+                                id: loanid
+                                text: ""
                             MDLabel:
-                                text: "Loan Amount" 
+                                text: "Borrower Name" 
                                 size_hint_y:None
                                 height:dp(50)
                             MDLabel:
                                 id: name
                                 text: "" 
                             MDLabel:
+                                text: "Loan Amount" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: amount
+                                text: "" 
+                            MDLabel:
                                 text: "Extension Fee(%)" 
                                 size_hint_y:None
                                 height:dp(50)
                             MDLabel:
-                                id: beseem
+                                id: extension
                                 text: "" 
                             MDLabel:
                                 text: "Extension Amount" 
                                 size_hint_y:None
                                 height:dp(50)
                             MDLabel:
-                                id: tenure
+                                id: extension_amount
                                 text: "" 
                             MDLabel:
-                                text: "Total Extension Amount" 
+                                text: "Total Paid Amount" 
                                 size_hint_y:None
                                 height:dp(50)
                             MDLabel:
-                                id: rome
+                                id: total_amount
                                 text: "" 
                             MDLabel:
                                 text: "Remaining Amount" 
                                 size_hint_y:None
                                 height:dp(50)
                             MDLabel:
-                                id: since
+                                id: remaining_amount
                                 text: "" 
                             MDLabel:
                                 text: "Reason For Extension" 
                                 size_hint_y:None
                                 height:dp(50)
                             MDLabel:
-                                id: limit
+                                id: reason
                                 text: "" 
                             MDLabel:
                                 text: "New EMI" 
@@ -800,14 +673,15 @@ lender_view_extension += f'''
                                 text: "Reject"
                                 md_bg_color: 194/255, 2/255, 21/255, 1
                                 theme_text_color: 'Primary'
-                                on_release: app.root.current = 'LoansDetails'
                                 text_color: 0, 0, 0, 1
+                                on_release: root.reject_request()
                                 font_name: "Roboto-Bold.ttf"
                                 size_hint: 1, None
 
                             MDRaisedButton:
                                 text: "Accept"
                                 md_bg_color: 194/255, 2/255, 21/255, 1
+                                on_release: root.accept_request()
                                 theme_text_color: 'Primary'
                                 font_name: "Roboto-Bold.ttf"
                                 text_color: 0, 0, 0, 1
@@ -837,40 +711,7 @@ class NewExtension(Screen):
         self.manager.current = 'lender_dashboard'
 
 
-class NewLoansE(Screen):
-    def init(self, **kwargs):
-        super().init(**kwargs)
-        h = self.ids.box1.height
 
-        for i in range(a + 1):
-            h += 150
-        self.ids.box1.height = h
-    def on_pre_enter(self):
-        Window.bind(on_keyboard=self.on_keyboard)
-        Window.bind(on_keyboard=self.on_back_button)
-
-    def on_pre_leave(self):
-       Window.unbind(on_keyboard=self.on_keyboard)
-       Window.unbind(on_keyboard=self.on_back_button)
-
-    def on_back_button(self, instance, key, scancode, codepoint, modifier):
-
-        if key == 27:
-            self.go_back()
-            return True
-        return False
-
-    def on_keyboard(self, window, key, *args):
-        if key == 27:  # Key code for the 'Escape' key
-            # Keyboard is closed, move the screen down
-            self.screen_manager.y = 0
-        return True
-
-
-    def on_start(self):
-        Window.softinput_mode = "below_target"
-    def on_back_button_press(self):
-        self.manager.current = 'NewExtension'
 
 
 class ApprovedLoansE(Screen):
@@ -879,8 +720,8 @@ class ApprovedLoansE(Screen):
         Window.bind(on_keyboard=self.on_back_button)
 
     def on_pre_leave(self):
-       Window.unbind(on_keyboard=self.on_keyboard)
-       Window.unbind(on_keyboard=self.on_back_button)
+        Window.unbind(on_keyboard=self.on_keyboard)
+        Window.unbind(on_keyboard=self.on_back_button)
 
     def on_back_button(self, instance, key, scancode, codepoint, modifier):
 
@@ -953,21 +794,93 @@ class ApprovedLoansE(Screen):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('get_extension_data')
+    def icon_button_clicked(self, value):
+        data = self.get_table_data()  # Fetch data here
+        self.manager.current = 'ViewProfileE'
+        self.manager.get_screen('ViewProfileE').initialize_with_value(value, data)
+
 class ViewAllLoansE(Screen):
-    def init(self, **kwargs):
-        super().init(**kwargs)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        data = self.get_table_data()
+        customer_id = []
+        loan_id = []
+        loan_amount = []
+        loan_status = []
+        s = 0
+
+        # Separate lists for different loan statuses
+        approved_loans = []
+        rejected_loans = []
+        underprocess_loans = []
+
+        for i in data:
+            s += 1
+            customer_id.append(i['borrower_full_name'])
+            loan_id.append(i['loan_id'])
+            loan_amount.append(i['loan_amount'])
+            loan_status.append(i['status'])
+
+            # Categorize loans based on status
+            if i['status'] == 'approved':
+                approved_loans.append(s - 1)
+            elif i['status'] == 'rejected':
+                rejected_loans.append(s - 1)
+            elif i['status'] == 'under process':
+                underprocess_loans.append(s - 1)
+
+        # Iterate over approved loans
+        k = -1
+        for i in approved_loans:
+            k += 1
+            self.populate_loan_data(i, k, loan_id, loan_amount, loan_status)
+
+        # Iterate over rejected loans
+        for i in rejected_loans:
+            k += 1
+            self.populate_loan_data(i, k, loan_id, loan_amount, loan_status)
+
+        # Iterate over under process loans
+        for i in underprocess_loans:
+            k += 1
+            self.populate_loan_data(i, k, loan_id, loan_amount, loan_status)
+
+        # Iterate over new loans
+
+
+    def populate_loan_data(self, i, k, loan_id, loan_amount, loan_status):
+        id_label = f"label_{k}"
+        amount = f"amount_{k}"
+        status = f"status_{k}"
+        icon = f"icon_{k}"  # Fix the variable name here
+
+        label_1 = self.ids[id_label]
+        label_1.text = loan_id[i]
+        label_2 = self.ids[amount]
+        label_2.text = str(loan_amount[i])
+        label_3 = self.ids[status]
+        label_3.text = loan_status[i]
+        icon = self.ids[icon]  # Fix the variable name here
+        icon.opacity = 1
+
         h = self.ids.box1.height
 
         for i in range(a + 1):
-            h += 150
+            h += 30
         self.ids.box1.height = h
+
+    def icon_button_clicked(self, value):
+        data = self.get_table_data()  # Fetch data here
+        self.manager.current = 'ViewProfileE'
+        self.manager.get_screen('ViewProfileE').initialize_with_value(value, data)
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_keyboard)
         Window.bind(on_keyboard=self.on_back_button)
 
     def on_pre_leave(self):
-       Window.unbind(on_keyboard=self.on_keyboard)
-       Window.unbind(on_keyboard=self.on_back_button)
+        Window.unbind(on_keyboard=self.on_keyboard)
+        Window.unbind(on_keyboard=self.on_back_button)
 
     def on_back_button(self, instance, key, scancode, codepoint, modifier):
 
@@ -1039,14 +952,18 @@ class RejectedLoansE(Screen):
         for i in range(a + 1):
             h += 150
         self.ids.box1.height = h
+    def icon_button_clicked(self, value):
+        data = self.get_table_data()  # Fetch data here
+        self.manager.current = 'ViewProfileE'
+        self.manager.get_screen('ViewProfileE').initialize_with_value(value, data)
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_keyboard)
         Window.bind(on_keyboard=self.on_back_button)
 
     def on_pre_leave(self):
-       Window.unbind(on_keyboard=self.on_keyboard)
-       Window.unbind(on_keyboard=self.on_back_button)
+        Window.unbind(on_keyboard=self.on_keyboard)
+        Window.unbind(on_keyboard=self.on_back_button)
 
     def on_back_button(self, instance, key, scancode, codepoint, modifier):
 
@@ -1070,6 +987,11 @@ class RejectedLoansE(Screen):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('get_extension_data')
+
+    def icon_button_clicked(self, value):
+        data = self.get_table_data()
+        self.manager.current = 'ViewProfileE'
+        self.manager.get_screen('ViewProfileE').initialize_with_value(value, data)
 
 
 class UnderProcessLoansE(Screen):
@@ -1135,8 +1057,8 @@ class UnderProcessLoansE(Screen):
         Window.bind(on_keyboard=self.on_back_button)
 
     def on_pre_leave(self):
-       Window.unbind(on_keyboard=self.on_keyboard)
-       Window.unbind(on_keyboard=self.on_back_button)
+        Window.unbind(on_keyboard=self.on_keyboard)
+        Window.unbind(on_keyboard=self.on_back_button)
 
     def on_back_button(self, instance, key, scancode, codepoint, modifier):
 
@@ -1159,13 +1081,46 @@ class UnderProcessLoansE(Screen):
 
 
 class ViewProfileE(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def initialize_with_value(self, value, data):
+        borrower_name = []
+        loan_id = []
+        loan_amount = []
+        extension_fee = []
+        extension_amount = []
+        reason_for_extension = []
+        remaining_amount = []
+        new_emi = []
+
+        for i in data:
+            loan_id.append(i['loan_id'])
+            borrower_name.append(i['borrower_full_name'])
+            loan_amount.append(i['loan_amount'])
+            extension_fee.append(i['extend_fee'])
+            extension_amount.append(i['extension_amount'])
+            reason_for_extension.append(i['reason'])
+            remaining_amount.append(i['final_repayment_amount'])
+            new_emi.append(i['new_emi'])
+
+        if value in loan_id:
+            index = loan_id.index(value)
+            self.ids.loanid.text = str(loan_id[index])
+            self.ids.name.text = str(borrower_name[index])
+            self.ids.amount.text = str(loan_amount[index])
+            self.ids.extension.text = str(extension_fee[index])
+            self.ids.extension_amount.text = str(extension_amount[index])
+            self.ids.reason.text = str(reason_for_extension[index])
+            self.ids.remaining_amount.text = str(remaining_amount[index])
+            self.ids.interest.text = str(new_emi[index])
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_keyboard)
         Window.bind(on_keyboard=self.on_back_button)
 
     def on_pre_leave(self):
-       Window.unbind(on_keyboard=self.on_keyboard)
-       Window.unbind(on_keyboard=self.on_back_button)
+        Window.unbind(on_keyboard=self.on_keyboard)
+        Window.unbind(on_keyboard=self.on_back_button)
 
     def on_back_button(self, instance, key, scancode, codepoint, modifier):
 
@@ -1185,6 +1140,35 @@ class ViewProfileE(Screen):
         Window.softinput_mode = "below_target"
     def on_back_button_press(self):
         self.manager.current = 'NewExtension'
+
+    def accept_request(self):
+        # Code to send the request to the borrower for accepting the loan extension
+        # Replace the following line with your actual logic
+        print("Request Accepted")
+        # Optionally, you can display a message to the user or navigate to another screen
+        self.show_acceptance_popup()
+
+    def reject_request(self):
+        # Code to reject the loan extension request
+        # Replace the following line with your actual logic
+        print("Request Rejected")
+        # Optionally, you can display a pop-up message to the user
+        self.show_rejection_popup()
+
+    def show_acceptance_popup(self):
+        # Code to show a popup message for acceptance
+        popup = Popup(title='',
+                      content=Label(text='Your loan extension request has been accepted.'),
+                      size_hint=(None, None), size=(400, 200))
+        popup.open()
+
+    def show_rejection_popup(self):
+        # Code to show a popup message for rejection
+        popup = Popup(title='',
+                      content=Label(text='Your loan extension request has been rejected.'),
+                      size_hint=(None, None), size=(400, 200))
+        popup.open()
+
 
 class MyScreenManager(ScreenManager):
     pass

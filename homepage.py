@@ -34,17 +34,11 @@ KV = """
             theme_text_color: 'Custom'
             text_color: 0, 0, 0, 1
             bold: True
-
-
         Image:
             source: "LOGO.png"
             pos_hint: {'center_x': 0.5, 'center_y': 0.85}
             size_hint: None, None
             size: "150dp", "150dp"
-
-
-
-
         GridLayout:
             cols: 2
             spacing: dp(20)
