@@ -1,28 +1,23 @@
 import os
-
+from login import LoginScreen
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
+from anvil import Media
 from kivy.lang import Builder
-from kivymd.uix.button import MDRectangleFlatButton
-from kivy.metrics import dp
-from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.pickers import MDDatePicker
-import sqlite3
-from kivy import platform
-from kivy.lang import Builder
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.image import Image
 from kivy.uix.screenmanager import Screen, ScreenManager
-from kivymd.app import MDApp
-from kivymd.uix.button import MDRaisedButton, MDIconButton, MDRectangleFlatButton
-from kivymd.uix.dialog import MDDialog
 from kivymd.uix.filemanager import MDFileManager
 import sqlite3
 from kivymd.uix.pickers import MDDatePicker
 from kivy.utils import platform
 from kivy.clock import mainthread
+import anvil.server
+import anvil.tables as tables
+from anvil.tables import app_tables
+from anvil import BlobMedia
+from datetime import datetime
 
+anvil.server.connect("server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT")
 if platform == 'android':
     from kivy.uix.button import Button
     from kivy.uix.modalview import ModalView
@@ -57,8 +52,8 @@ KV = '''
     LenderScreenIndividualBankForm2:
     LenderScreenInstitutionalBankForm1:
     LenderScreenInstitutionalBankForm2:
-    
-    
+
+
 <LenderScreen>:
 
     MDTopAppBar:
@@ -2399,7 +2394,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreenIndividualForm3'
+                    on_release: root.add_data(annual_salary.text, designation.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -2489,7 +2484,7 @@ KV = '''
 
                 MDRaisedButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreenIndividualBankForm1'
+                    on_release: root.add_data(company_address.text, company_pin_code.text, company_country.text, landmark.text, business_phone_number.text)
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -2828,8 +2823,12 @@ cursor = conn.cursor()
 
 
 class LenderScreen(Screen):
-
     Builder.load_string(KV)
+
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.date_picker = MDDatePicker()
@@ -2846,20 +2845,42 @@ class LenderScreen(Screen):
         self.ids.date_textfield.text = f'{value.year}-{value.month}-{value.day}'
 
     def add_data(self, name, gender, date):
+
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
+        email_list = []
         status = []
         b = 'lender'
+
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET name = ?, gender = ?, date_of_birth = ?, user_type = ? WHERE customer_id = ?",
             (name, gender, date, b, row_id_list[log_index]))
         conn.commit()
+
+        data = self.profile()
+
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+
+        date_object = datetime.strptime(date, '%Y-%m-%d')
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['full_name'] = name
+            data[index]['gender'] = gender
+            data[index]['date_of_birth'] = date_object.date()
+            data[index]['usertype'] = b
+
+        else:
+            print("email not there")
         self.manager.current = 'LenderScreen1'
 
     def on_pre_enter(self):
@@ -2885,21 +2906,45 @@ class LenderScreen(Screen):
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
 
+    def profile(self):
+        return anvil.server.call('profile')
+
 
 class LenderScreen1(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def add_data(self, mobile_number, alternate_email):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute("UPDATE fin_registration_table SET mobile_number = ?, alternate_email = ? WHERE customer_id = ?",
                        (mobile_number, alternate_email, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['mobile'] = mobile_number
+            data[index]['another_email'] = alternate_email
+        else:
+            print('no email found')
         self.manager.current = 'LenderScreen2'
 
     def on_mobile_number_touch_down(self):
@@ -2927,6 +2972,12 @@ class LenderScreen1(Screen):
 
 
 class LenderScreen2(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
 
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
@@ -2962,6 +3013,18 @@ class LenderScreen2(Screen):
     def select_path1(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
         file_name = os.path.basename(path)  # Extract file name from the path
         self.manager.get_screen('LenderScreen2').ids[image_label_id].text = file_name  # Update the label text
+        print(path)
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['aadhaar_photo'])
+
+        a = anvil.server.call('convert_path_to_media', path)
+        print(a)
+        print(id_list, id_list[0])
+        print(id_list[0].url)
+        user_email = self.get_email()
+
         self.file_manager.close()
 
     def select_path2(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
@@ -2999,9 +3062,11 @@ class LenderScreen2(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute("UPDATE fin_registration_table SET aadhar_file = ? WHERE customer_id = ?",
@@ -3009,6 +3074,14 @@ class LenderScreen2(Screen):
         conn.commit()
 
         self.ids.upload_label1.text = 'Upload Successfully'
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+
+        if email_list[log_index] in id_list:
+            index = id_list.index(email_list[log_index])
+            data[index]['aadhaar_photo'] = file_path
 
     # Repeat similar methods for file manager 2...
 
@@ -3017,14 +3090,28 @@ class LenderScreen2(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute("UPDATE fin_registration_table SET aadhar_number = ?, pan_number = ? WHERE customer_id = ?",
                        (aadhar_number, pan_number, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['aadhaar_no'] = aadhar_number
+            data[index]['pan_number'] = pan_number
+        else:
+            print('no email found')
         self.manager.current = 'LenderScreen3'
 
     def go_to_dashboard(self):
@@ -3048,6 +3135,12 @@ class LenderScreen2(Screen):
 
 
 class LenderScreen3(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
 
     def next_pressed(self, id):
         if id == '10th class':
@@ -3069,13 +3162,24 @@ class LenderScreen3(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
         cursor.execute("UPDATE fin_registration_table SET highest_qualification = ? WHERE customer_id = ?",
                        (id, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['qualification'] = id
 
     def go_to_dashboard(self):
         self.manager.current = 'dashboard'
@@ -3098,6 +3202,10 @@ class LenderScreen3(Screen):
 
 
 class LenderScreen_Edu_10th(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -3192,6 +3300,9 @@ class LenderScreen_Edu_10th(Screen):
 
 
 class LenderScreen_Edu_Intermediate(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
 
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
@@ -3311,6 +3422,10 @@ class LenderScreen_Edu_Intermediate(Screen):
 
 
 class LenderScreen_Edu_Bachelors(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -3457,6 +3572,10 @@ class LenderScreen_Edu_Bachelors(Screen):
 
 
 class LenderScreen_Edu_Masters(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -3628,6 +3747,10 @@ class LenderScreen_Edu_Masters(Screen):
 
 
 class LenderScreen_Edu_PHD(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -3821,20 +3944,41 @@ class LenderScreen_Edu_PHD(Screen):
 
 
 class LenderScreen4(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
     def add_data(self, street, city, zip_code, state, country):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET street_name = ?, city_name = ?, zip_code = ?, state_name = ?, country_name = ? WHERE customer_id = ?",
             (street, city, zip_code, state, country, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['city'] = city
+            data[index]['street'] = street
+            data[index]['pincode'] = zip_code
+            data[index]['state'] = state
+            data[index]['country'] = country
+        else:
+            print('no email found')
         self.manager.current = 'LenderScreen5'
 
     def on_mobile_number_touch_down(self):
@@ -3860,8 +4004,18 @@ class LenderScreen4(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LenderScreen3'
 
+    def profile(self):
+        return anvil.server.call('profile')
+
 
 class LenderScreen5(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def next_pressed(self, id, investment, period):
         if id == 'Individual':
             self.manager.current = 'LenderScreenIndividualForm1'
@@ -3872,15 +4026,30 @@ class LenderScreen5(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET loan_type = ?, investment = ?, lending_period = ? WHERE customer_id = ?",
             (id, investment, period, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['loan_type'] = id
+            data[index]['investment'] = investment
+            data[index]['lending_period'] = period
+        else:
+            print('email not found')
 
     def on_investment_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
@@ -3907,20 +4076,43 @@ class LenderScreen5(Screen):
 
 
 class LenderScreenInstitutionalForm1(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def add_data(self, business_name, business_location, business_address, business_branch_name):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET business_name = ?, business_location = ?, business_address = ?, business_branch_name = ? WHERE customer_id = ?",
             (business_name, business_location, business_address, business_branch_name, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['business_name'] = business_name
+            data[index]['business_add'] = business_address
+            data[index]['business_location'] = business_location
+            data[index]['branch_name'] = business_branch_name
+        else:
+            print('no email found')
         self.manager.current = 'LenderScreenInstitutionalForm2'
 
     def go_to_dashboard(self):
@@ -3944,20 +4136,42 @@ class LenderScreenInstitutionalForm1(Screen):
 
 
 class LenderScreenInstitutionalForm2(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def add_data(self, business_type, nearest_location, no_of_employees_working, year_of_estd):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET business_type = ?, nearest_location = ?, no_of_employees_working = ?, year_of_estd = ? WHERE customer_id = ?",
             (business_type, nearest_location, no_of_employees_working, year_of_estd, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['business_type'] = business_type
+            data[index]['nearest_location'] = nearest_location
+            data[index]['employees_working'] = no_of_employees_working
+            data[index]['year_estd'] = year_of_estd
+        else:
+            print('email not found')
         self.manager.current = 'LenderScreenInstitutionalForm3'
 
     def go_to_dashboard(self):
@@ -3981,6 +4195,13 @@ class LenderScreenInstitutionalForm2(Screen):
 
 
 class LenderScreenInstitutionalForm3(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -4059,15 +4280,28 @@ class LenderScreenInstitutionalForm3(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET industry_type = ?, last_six_months_turnover = ? WHERE customer_id = ?",
             (industry_type, last_six_months_turnover, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['industry_type'] = industry_type
+            data[index]['six_month_turnover'] = last_six_months_turnover
+        else:
+            print('email not found')
         self.manager.current = 'LenderScreenInstitutionalForm4'
 
     def on_last_six_months_turnover_touch_down(self):
@@ -4095,20 +4329,42 @@ class LenderScreenInstitutionalForm3(Screen):
 
 
 class LenderScreenInstitutionalForm4(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def add_data(self, director_name, director_mobile_number, DIN, CIN):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET director_name = ?, director_mobile_number = ?, DIN = ?, CIN = ? WHERE customer_id = ?",
             (director_name, director_mobile_number, DIN, CIN, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['director_name'] = director_name
+            data[index]['director_no'] = director_mobile_number
+            data[index]['din'] = DIN
+            data[index]['cin'] = CIN
+        else:
+            print('emai not fond')
         self.manager.current = 'LenderScreenInstitutionalForm5'
 
     def on_director_mobile_number_touch_down(self):
@@ -4136,6 +4392,13 @@ class LenderScreenInstitutionalForm4(Screen):
 
 
 class LenderScreenInstitutionalForm5(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -4208,6 +4471,7 @@ class LenderScreenInstitutionalForm5(Screen):
         cursor.execute("UPDATE fin_registration_table SET proof_of_verification_file = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
+
         self.ids.upload_label1.text = 'Upload Successfully'
 
     def add_data(self, registered_office_address):
@@ -4215,15 +4479,27 @@ class LenderScreenInstitutionalForm5(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET registered_office_address = ? WHERE customer_id = ?",
             (registered_office_address, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['registered_off_add'] = registered_office_address
+        else:
+            print('email not found')
         self.manager.current = 'LenderScreenInstitutionalBankForm1'
 
     def go_to_dashboard(self):
@@ -4247,20 +4523,41 @@ class LenderScreenInstitutionalForm5(Screen):
 
 
 class LenderScreenIndividualForm1(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def add_data(self, employeent_type, company_name, organization):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET employment_type = ?, company_name = ?, organization_type = ? WHERE customer_id = ?",
             (employeent_type, company_name, organization, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['employment_type'] = employeent_type
+            data[index]['company_name'] = company_name
+            data[index]['organization_type'] = organization
+        else:
+            print('email not fond')
         self.manager.current = 'LenderScreenIndividualForm2'
 
     def go_to_dashboard(self):
@@ -4284,6 +4581,13 @@ class LenderScreenIndividualForm1(Screen):
 
 
 class LenderScreenIndividualForm2(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -4357,9 +4661,11 @@ class LenderScreenIndividualForm2(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute("UPDATE fin_registration_table SET employee_id_file = ? WHERE customer_id = ?",
@@ -4387,15 +4693,28 @@ class LenderScreenIndividualForm2(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET annual_salary = ?, designation = ? WHERE customer_id = ?",
             (annual_salary, designation, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['annual_salary'] = annual_salary
+            data[index]['designation'] = designation
+        else:
+            print('email not found')
         self.manager.current = 'LenderScreenIndividualForm3'
 
     def on_annual_salary_touch_down(self):
@@ -4423,20 +4742,43 @@ class LenderScreenIndividualForm2(Screen):
 
 
 class LenderScreenIndividualForm3(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def add_data(self, company_address, company_pincode, company_country, landmark, business_number):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET company_address = ?, company_pincode = ?, company_country = ?, landmark = ?, business_number = ? WHERE customer_id = ?",
             (company_address, company_pincode, company_country, landmark, business_number, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['company_address'] = company_address
+            data[index]['company_landmark'] = landmark
+            data[index]['business_no'] = business_number
+            data[index]['company_country'] = company_country
+            data[index]['company_pincode'] = company_pincode
+        else:
+            print('email not found')
         self.manager.current = 'LenderScreenIndividualBankForm1'
 
     def on_company_pin_code_touch_down(self):
@@ -4468,20 +4810,42 @@ class LenderScreenIndividualForm3(Screen):
 
 
 class LenderScreenIndividualBankForm1(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def add_data(self, account_holder_name, account_type, account_number, bank_name):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
             (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['account_name'] = account_holder_name
+            data[index]['account_type'] = account_type
+            data[index]['account_number'] = account_number
+            data[index]['bank_name'] = bank_name
+        else:
+            print('email not found')
         self.manager.current = 'LenderScreenIndividualBankForm2'
 
     def go_to_dashboard(self):
@@ -4505,19 +4869,39 @@ class LenderScreenIndividualBankForm1(Screen):
 
 
 class LenderScreenIndividualBankForm2(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def go_to_lender_dashboard(self, bank_id, branch_name):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
                        (bank_id, branch_name, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['bank_id'] = bank_id
+            data[index]['account_bank_branch'] = branch_name
+        else:
+            print('email not fond')
         self.manager.current = 'lender_dashboard'
 
     def go_to_dashboard(self):
@@ -4541,20 +4925,42 @@ class LenderScreenIndividualBankForm2(Screen):
 
 
 class LenderScreenInstitutionalBankForm1(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def add_data(self, account_holder_name, account_type, account_number, bank_name):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute(
             "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
             (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['account_name'] = account_holder_name
+            data[index]['account_type'] = account_type
+            data[index]['account_number'] = account_number
+            data[index]['bank_name'] = bank_name
+        else:
+            print('email not valid')
         self.manager.current = 'LenderScreenInstitutionalBankForm2'
 
     def go_to_dashboard(self):
@@ -4578,19 +4984,39 @@ class LenderScreenInstitutionalBankForm1(Screen):
 
 
 class LenderScreenInstitutionalBankForm2(Screen):
+    def get_email(self):
+        data = anvil.server.call('another_method')
+        return data
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def go_to_lender_dashboard(self, bank_id, branch_name):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
+            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
                        (bank_id, branch_name, row_id_list[log_index]))
         conn.commit()
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['bank_id'] = bank_id
+            data[index]['account_bank_branch'] = branch_name
+        else:
+            print('email not fond')
         self.manager.current = 'lender_dashboard'
 
     def on_pre_enter(self):
