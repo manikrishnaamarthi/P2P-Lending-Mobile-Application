@@ -2,7 +2,7 @@ import re
 
 from kivy.core.window import Window
 from kivy.lang import Builder
-from kivy.uix.screenmanager import Screen, SlideTransition,ScreenManager
+from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
 from kivymd.app import MDApp
 import sqlite3
 
@@ -18,7 +18,7 @@ anvil.server.connect("server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT")
 KV = """
 <WindowManager>:
     SignupScreen:
-    
+
 <SignupScreen>:
     canvas.before:
         Color:
@@ -260,10 +260,8 @@ cursor.execute(''' CREATE TABLE IF NOT EXISTS fin_registration_table (
                                     )
                                 ''')
 
-
 # Commit the changes and close the connection
 conn.commit()
-
 
 
 class SignupScreen(Screen):
@@ -282,6 +280,17 @@ class SignupScreen(Screen):
 
             cursor.execute('SELECT user_id FROM fin_users ORDER BY user_id DESC LIMIT 1')
             latest_user_id = cursor.fetchone()
+
+            c_id = anvil.server.call('profile')
+
+            id_c = []
+            for i in c_id:
+                id_c.append(i['customer_id'])
+
+            if len(id_c) >= 1:
+                user_id = id_c[-1] + 1
+            else:
+                user_id = 1000
 
             if latest_user_id is not None:
                 next_user_id = latest_user_id[0] + 1
@@ -304,7 +313,8 @@ class SignupScreen(Screen):
 
             conn.commit()
             cursor.execute('''INSERT INTO fin_registration_table (customer_id) VALUES (?)''', (next_user_id,))
-            self.add_data(user_id=next_user_id, email=self.ids.email.text, password=self.ids.password.text, name=self.ids.name.text,number=self.ids.mobile.text)
+            self.add_data(user_id=user_id, email=self.ids.email.text, password=self.ids.password.text,
+                          name=self.ids.name.text, number=self.ids.mobile.text)
             conn.commit()
         except sqlite3.Error as e:
 
@@ -313,7 +323,6 @@ class SignupScreen(Screen):
     def add_data(self, user_id, email, password, name, number):
         # Ensure 'YOUR_ANVIL_UPLINK_KEY' is replaced with your actual Anvil Uplink key
         anvil.server.call('add_data', user_id, email, password, name, number)
-
 
     def go_to_login(self):
         name = self.ids.name.text
@@ -366,10 +375,7 @@ class SignupScreen(Screen):
 
         snackbar.open()
 
-
         self.manager.current = 'LoginScreen'
-
-
 
     def show_validation_error(self, widget, error_text):
         widget.error = True

@@ -1,13 +1,11 @@
 import sqlite3
-
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import Screen, SlideTransition,ScreenManager
+from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
 from kivymd.uix.label import MDLabel
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRaisedButton, MDFlatButton
-
 import anvil.server
 
 anvil.server.connect("server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT")
@@ -24,23 +22,23 @@ KV = """
             pos_hint: {'center_x': 0.5, 'center_y': 0.93}
             size_hint: None, None
             size: "100dp", "100dp"
-    
+
         MDLabel:
             id: label1
             text: 'Welcome Back!'
             font_size:dp(23)
-            
+
             halign: 'center'
             font_name:"Roboto-Bold"
             underline:"True"
             pos_hint: {'center_x': 0.5, 'center_y': 0.81}
         MDLabel:
-         
+
             text: 'Login to continue'
             color:6/255, 143/255, 236/255, 1
             font_size:dp(16)
             halign: 'center'
-          
+
             pos_hint: {'center_x': 0.5, 'center_y': 0.77}
         BoxLayout:
             orientation: 'vertical'
@@ -136,7 +134,7 @@ KV = """
         MDFlatButton:
             text: "Sign Up"
             font_size:dp(18)
-        
+
             theme_text_color: 'Custom'
             text_color: 6/255, 143/255, 236/255, 1
             on_release: root.go_to_signup()
@@ -156,7 +154,7 @@ class LoginScreen(Screen):
             print(value)
 
     def go_to_dashboard(self):
-        # Get the entered email and password
+
         entered_email = self.ids.email.text
         entered_password = self.ids.password.text
 
@@ -182,11 +180,23 @@ class LoginScreen(Screen):
         password_list = []
         a = 0
         for i in data:
-            a+=1
+            a += 1
             email_list.append(i['email'])
             password_list.append(i['password_hash'])
 
-        if user_data:
+        if entered_email in email_list:
+            i = email_list.index(entered_email)
+
+            if (email_list[i] == entered_email) and (password_list[i] == entered_password):
+                self.share_email_with_anvil(email_list[i])
+                self.manager.current = 'dashboard'
+
+            else:
+                self.show_error_dialog("Incorrect email/password")
+
+
+
+        elif user_data:
 
             if user_data[4] == entered_password:  # Fix index to 4 for the password field
 
@@ -214,15 +224,14 @@ class LoginScreen(Screen):
             else:
 
                 self.show_error_dialog("Incorrect password")
-        elif entered_email in email_list:
-            for i in range(a):
-                print(i, email_list[i], password_list[i])
-                if email_list[i] == entered_email and password_list[i] == entered_password:
-                    self.manager.current = 'dashboard'
-            print(email_list, password_list, a)
+
         else:
 
             self.show_error_dialog("Invalid credentials")
+
+    def share_email_with_anvil(self, email):
+        # Make an API call to Anvil server to share the email
+        anvil.server.call('share_email', email)
 
     def show_error_dialog(self, message):
 
@@ -256,6 +265,7 @@ class LoginScreen(Screen):
 
     def on_start(self):
         Window.softinput_mode = "below_target"
+
     def go_back(self):
 
         self.manager.transition = SlideTransition(direction='right')
@@ -263,7 +273,6 @@ class LoginScreen(Screen):
 
     def login_data(self):
         return anvil.server.call('login_data')
-
 
 
 class MyScreenManager(ScreenManager):
