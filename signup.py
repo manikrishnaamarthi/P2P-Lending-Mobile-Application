@@ -13,12 +13,14 @@ from kivymd.uix.button import MDRectangleFlatButton, MDFlatButton
 
 import anvil.server
 
-anvil.server.connect("server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT")
+from login import LoginScreen
+
+anvil.server.connect("server_ANJQTKQ62KGHGX2XHC43NVOG-6JH2LHL646DIRMSE")
 
 KV = """
 <WindowManager>:
     SignupScreen:
-
+    
 <SignupScreen>:
     canvas.before:
         Color:
@@ -267,6 +269,7 @@ conn.commit()
 class SignupScreen(Screen):
     Builder.load_string(KV)
 
+
     def on_mobile_number_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.mobile.input_type = 'number'
@@ -366,6 +369,15 @@ class SignupScreen(Screen):
 
         self.save_to_database()
 
+        # Reset input fields
+        self.ids.name.text = ""
+        self.ids.mobile.text = ""
+        self.ids.email.text = ""
+        self.ids.password.text = ""
+        self.ids.password2.text = ""
+        self.ids.terms_checkbox.active = False
+        self.ids.kyc_checkbox.active = False
+
         snackbar = Snackbar(
             text="Signup Successful!",
             md_bg_color=[1, 1, 1, 1],
@@ -375,7 +387,12 @@ class SignupScreen(Screen):
 
         snackbar.open()
 
-        self.manager.current = 'LoginScreen'
+        # self.manager.current = 'LoginScreen'
+        sm = self.manager
+        lender_screen = LoginScreen(name='LoginScreen')
+        sm.add_widget(lender_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LoginScreen'
 
     def show_validation_error(self, widget, error_text):
         widget.error = True

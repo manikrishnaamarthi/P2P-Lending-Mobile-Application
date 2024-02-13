@@ -7,11 +7,11 @@ from kivymd.uix.button import MDIconButton
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivy.uix.modalview import ModalView
 
-from dashboard import DashScreen
+from lender_registration_form import LenderScreen
 
 Landing = '''
 
-<WindowManager>:
+<MyScreenManager>:
     LenderLanding:
     LenderHowScreen:
     
@@ -160,7 +160,7 @@ Landing = '''
                 pos_hint: {'center_x': 0.5, 'center_y': 0.32}
 
                 color: 0, 0, 0, 1
-                on_release: root.switch_screen('LenderHowScreen')
+                on_release: root.go_to_lender_landing()
             Widget:
                 # Widget to draw a line below the image
                 size_hint_y: None
@@ -177,7 +177,7 @@ Landing = '''
                 md_bg_color: 6/255, 143/255, 236/255, 1
                 pos_hint: {'center_x': 0.5, 'center_y': 0.2}
                 border_radius: [1, 1, 1, 1]
-                on_release: root.switch_screen('LenderScreen')
+                on_release: root.go_to_lenderscreen()
 
 <LenderHowScreen>:
 
@@ -387,13 +387,10 @@ Landing = '''
 
 
 class LenderLanding(Screen):
-
     Builder.load_string(Landing)
-    def build(self):
-        sm = MyScreenManager()
-        sm.add_widget(LenderLanding(name="LenderLanding"))
-        sm.add_widget(DashScreen(name='dashboard'))
-        return sm
+
+    def __init__(self, **kwargs):
+        super(LenderLanding, self).__init__(**kwargs)
 
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
@@ -413,22 +410,23 @@ class LenderLanding(Screen):
     def go_back(self):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'dashboard'  # Replace with the actual name of your previous screen
+        self.manager.current = 'DashScreen'  # Replace with the actual name of your previous screen
 
-    def LenderHowScreen(self):
-        self.root.current = "LenderHowScreen"
-
-    def LenderScreen(self):
-        self.root.current = "LenderScreen"
-
-    def switch_screen(self, screen_name):
-        print(f"Switching to screen: {screen_name}")
-
-        # Get the screen manager
+    def go_to_lender_landing(self):
+        print("Going to LenderHowScreen")
         sm = self.manager
+        how_screen = LenderHowScreen(name='LenderHowScreen')
+        sm.add_widget(how_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderHowScreen'
+        print("Switched to LenderHowScreen")
 
-        sm.transition = SlideTransition(direction='left')
-        sm.current = screen_name
+    def go_to_lenderscreen(self):
+        sm = self.manager
+        lender_screen = LenderScreen(name='LenderScreen')
+        sm.add_widget(lender_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderScreen'
 
 
 class LenderHowScreen(Screen):
@@ -445,20 +443,9 @@ class LenderHowScreen(Screen):
         return False
 
     def go_back(self):
-        self.manager.transition = SlideTransition(direction='right')
+        self.manager.transition.direction = 'right'
         self.manager.current = 'LenderLanding'
 
 
 class MyScreenManager(ScreenManager):
     pass
-
-
-class LenderScreen(Screen):
-    pass
-
-
-
-
-
-
-

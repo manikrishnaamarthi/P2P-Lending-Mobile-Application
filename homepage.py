@@ -1,6 +1,5 @@
-# main.py
 from kivy.lang import Builder
-from kivy.uix.screenmanager import Screen,ScreenManager
+from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.boxlayout import BoxLayout
 from kivy.app import App
 from kivymd.app import MDApp
@@ -8,6 +7,11 @@ from kivymd.uix.button import MDRaisedButton, MDIconButton, MDRectangleFlatButto
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.label import MDLabel
 from kivy.properties import ObjectProperty
+
+from dashboard import DashScreen
+from login import LoginScreen
+
+from signup import SignupScreen
 
 KV = """
 <WindowManager>:
@@ -34,11 +38,17 @@ KV = """
             theme_text_color: 'Custom'
             text_color: 0, 0, 0, 1
             bold: True
+
+
         Image:
             source: "LOGO.png"
             pos_hint: {'center_x': 0.5, 'center_y': 0.85}
             size_hint: None, None
             size: "150dp", "150dp"
+
+
+
+
         GridLayout:
             cols: 2
             spacing: dp(20)
@@ -153,13 +163,43 @@ class MainScreen(Screen):
     Builder.load_string(KV)
 
     def go_to_login(self):
-        self.manager.current = 'LoginScreen'
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        dashboard_screen = DashScreen(name='DashScreen')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(dashboard_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'DashScreen'
 
     def go_to_signup(self):
-        self.manager.current = 'SignupScreen'
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        login_screen = SignupScreen(name='SignupScreen')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'SignupScreen'
 
     def go_to_dashboard(self):
-        self.manager.current = 'LoginScreen'
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        login_screen = LoginScreen(name='LoginScreen')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'LoginScreen'
 
 
 class MyScreenManager(ScreenManager):

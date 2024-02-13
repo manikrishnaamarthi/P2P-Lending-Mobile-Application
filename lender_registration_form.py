@@ -1,23 +1,36 @@
 import os
-from login import LoginScreen
+
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
-from anvil import Media
 from kivy.lang import Builder
+from kivymd.uix.button import MDRectangleFlatButton
+from kivy.metrics import dp
+from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.pickers import MDDatePicker
+import sqlite3
+from kivy import platform
+from kivy.lang import Builder
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.image import Image
 from kivy.uix.screenmanager import Screen, ScreenManager
+from kivymd.app import MDApp
+from kivymd.uix.button import MDRaisedButton, MDIconButton, MDRectangleFlatButton
+from kivymd.uix.dialog import MDDialog
 from kivymd.uix.filemanager import MDFileManager
 import sqlite3
 from kivymd.uix.pickers import MDDatePicker
 from kivy.utils import platform
 from kivy.clock import mainthread
-import anvil.server
-import anvil.tables as tables
-from anvil.tables import app_tables
-from anvil import BlobMedia
 from datetime import datetime
+from kivymd.uix.snackbar import Snackbar
+import anvil.server
 
-anvil.server.connect("server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT")
+anvil.server.connect("server_ANJQTKQ62KGHGX2XHC43NVOG-6JH2LHL646DIRMSE")
+
+
+from lender_dashboard import LenderDashboard
+
 if platform == 'android':
     from kivy.uix.button import Button
     from kivy.uix.modalview import ModalView
@@ -141,7 +154,7 @@ KV = '''
 
                     hint_text: "Enter Date Of Birth"
 
-                    helper_text: 'DD/MM/YYYY'
+                    helper_text: 'YYYY-MM-DD'
 
                     font_name: "Roboto-Bold"
                     hint_text_color: 0, 0, 0, 1
@@ -596,7 +609,7 @@ KV = '''
 
                 MDRectangleFlatButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreen4'
+                    on_release: root.go_to_lender_screen4()
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -736,7 +749,7 @@ KV = '''
 
                 MDRectangleFlatButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreen4'
+                    on_release: root.go_to_lender_screen4()
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -923,7 +936,7 @@ KV = '''
 
                 MDRectangleFlatButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreen4'
+                    on_release: root.go_to_lender_screen4()
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -1164,7 +1177,7 @@ KV = '''
 
                 MDRectangleFlatButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreen4'
+                    on_release: root.go_to_lender_screen4()
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -1445,7 +1458,7 @@ KV = '''
 
                 MDRectangleFlatButton:
                     text: "Next"
-                    on_release: app.root.current = 'LenderScreen4'
+                    on_release: root.go_to_lender_screen4()
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
@@ -2846,6 +2859,16 @@ class LenderScreen(Screen):
 
     def add_data(self, name, gender, date):
 
+        if not name.strip():
+            self.show_snackbar("Please enter your full name.")
+            return
+        if gender not in ['Male', 'Female', 'Other']:
+            self.show_snackbar("Please select a valid gender.")
+            return
+        if not date:
+            self.show_snackbar("Please select your date of birth.")
+            return
+
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -2857,13 +2880,15 @@ class LenderScreen(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
-
-        cursor.execute(
-            "UPDATE fin_registration_table SET name = ?, gender = ?, date_of_birth = ?, user_type = ? WHERE customer_id = ?",
-            (name, gender, date, b, row_id_list[log_index]))
-        conn.commit()
-
+        if 'logged' in status:
+            log_index = status.index('logged')
+            cursor.execute(
+                "UPDATE fin_registration_table SET name = ?, gender = ?, date_of_birth = ?, user_type = ? WHERE customer_id = ?",
+                (name, gender, date, b, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
 
         id_list = []
@@ -2878,10 +2903,18 @@ class LenderScreen(Screen):
             data[index]['gender'] = gender
             data[index]['date_of_birth'] = date_object.date()
             data[index]['usertype'] = b
-
         else:
             print("email not there")
-        self.manager.current = 'LenderScreen1'
+
+        sm = self.manager
+        lender_screen1 = LenderScreen1(name='LenderScreen1')
+        sm.add_widget(lender_screen1)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderScreen1'
+
+    def show_snackbar(self, text):
+        Snackbar(text=text, pos_hint={'top': 1}, md_bg_color=[1, 0, 0, 1]).open()
+
 
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
@@ -2904,13 +2937,15 @@ class LenderScreen(Screen):
         self.manager.current = 'LenderLanding'  # Replace with the actual name of your previous screen
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
+    # def go_to_lenderscreen1(self):
     def profile(self):
         return anvil.server.call('profile')
 
 
 class LenderScreen1(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -2928,11 +2963,15 @@ class LenderScreen1(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET mobile_number = ?, alternate_email = ? WHERE customer_id = ?",
-                       (mobile_number, alternate_email, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute("UPDATE fin_registration_table SET mobile_number = ?, alternate_email = ? WHERE customer_id = ?",
+                           (mobile_number, alternate_email, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -2945,14 +2984,19 @@ class LenderScreen1(Screen):
             data[index]['another_email'] = alternate_email
         else:
             print('no email found')
-        self.manager.current = 'LenderScreen2'
+
+        sm = self.manager
+        lender_screen2 = LenderScreen2(name='LenderScreen2')
+        sm.add_widget(lender_screen2)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderScreen2'
 
     def on_mobile_number_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.mobile_number.input_type = 'number'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -3013,18 +3057,6 @@ class LenderScreen2(Screen):
     def select_path1(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
         file_name = os.path.basename(path)  # Extract file name from the path
         self.manager.get_screen('LenderScreen2').ids[image_label_id].text = file_name  # Update the label text
-        print(path)
-        data = self.profile()
-        id_list = []
-        for i in data:
-            id_list.append(i['aadhaar_photo'])
-
-        a = anvil.server.call('convert_path_to_media', path)
-        print(a)
-        print(id_list, id_list[0])
-        print(id_list[0].url)
-        user_email = self.get_email()
-
         self.file_manager.close()
 
     def select_path2(self, path, icon_id, label_id, file_label_id, image_id, image_label_id):
@@ -3062,11 +3094,9 @@ class LenderScreen2(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
-        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-            email_list.append(row[2])
         log_index = status.index('logged')
 
         cursor.execute("UPDATE fin_registration_table SET aadhar_file = ? WHERE customer_id = ?",
@@ -3074,14 +3104,6 @@ class LenderScreen2(Screen):
         conn.commit()
 
         self.ids.upload_label1.text = 'Upload Successfully'
-        data = self.profile()
-        id_list = []
-        for i in data:
-            id_list.append(i['email_user'])
-
-        if email_list[log_index] in id_list:
-            index = id_list.index(email_list[log_index])
-            data[index]['aadhaar_photo'] = file_path
 
     # Repeat similar methods for file manager 2...
 
@@ -3090,16 +3112,18 @@ class LenderScreen2(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
-        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-            email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET aadhar_number = ?, pan_number = ? WHERE customer_id = ?",
-                       (aadhar_number, pan_number, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute("UPDATE fin_registration_table SET aadhar_number = ?, pan_number = ? WHERE customer_id = ?",
+                           (aadhar_number, pan_number, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -3112,10 +3136,15 @@ class LenderScreen2(Screen):
             data[index]['pan_number'] = pan_number
         else:
             print('no email found')
-        self.manager.current = 'LenderScreen3'
+        # self.manager.current = 'LenderScreen3'
+        sm = self.manager
+        lender_screen3 = LenderScreen3(name='LenderScreen3')
+        sm.add_widget(lender_screen3)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderScreen3'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -3134,6 +3163,7 @@ class LenderScreen2(Screen):
         self.manager.current = 'LenderScreen1'
 
 
+
 class LenderScreen3(Screen):
     def get_email(self):
         data = anvil.server.call('another_method')
@@ -3141,48 +3171,71 @@ class LenderScreen3(Screen):
 
     def profile(self):
         return anvil.server.call('profile')
-
     def next_pressed(self, id):
         if id == '10th class':
             LenderScreen_Edu_10th()
-            self.manager.current = 'LenderScreen_Edu_10th'
-
+            sm = self.manager
+            lender_screen = LenderScreen_Edu_10th(name='LenderScreen_Edu_10th')
+            sm.add_widget(lender_screen)
+            sm.transition.direction = 'left'  # Set the transition direction explicitly
+            sm.current = 'LenderScreen_Edu_10th'
         elif id == 'Intermediate':
             LenderScreen_Edu_Intermediate()
-            self.manager.current = 'LenderScreen_Edu_Intermediate'
-
+            sm = self.manager
+            lender_screen = LenderScreen_Edu_Intermediate(name='LenderScreen_Edu_Intermediate')
+            sm.add_widget(lender_screen)
+            sm.transition.direction = 'left'  # Set the transition direction explicitly
+            sm.current = 'LenderScreen_Edu_Intermediate'
         elif id == 'Bachelors':
-            self.manager.current = 'LenderScreen_Edu_Bachelors'
+
+            sm = self.manager
+            lender_screen = LenderScreen_Edu_Bachelors(name='LenderScreen_Edu_Bachelors')
+            sm.add_widget(lender_screen)
+            sm.transition.direction = 'left'  # Set the transition direction explicitly
+            sm.current = 'LenderScreen_Edu_Bachelors'
         elif id == 'Masters':
-            self.manager.current = 'LenderScreen_Edu_Masters'
+
+            sm = self.manager
+            lender_screen = LenderScreen_Edu_Masters(name='LenderScreen_Edu_Masters')
+            sm.add_widget(lender_screen)
+            sm.transition.direction = 'left'  # Set the transition direction explicitly
+            sm.current = 'LenderScreen_Edu_Masters'
         elif id == 'PHD':
-            self.manager.current = 'LenderScreen_Edu_PHD'
+
+            sm = self.manager
+            lender_screen = LenderScreen_Edu_PHD(name='LenderScreen_Edu_PHD')
+            sm.add_widget(lender_screen)
+            sm.transition.direction = 'left'  # Set the transition direction explicitly
+            sm.current = 'LenderScreen_Edu_PHD'
         print(id)
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
-        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-            email_list.append(row[2])
-        log_index = status.index('logged')
-        cursor.execute("UPDATE fin_registration_table SET highest_qualification = ? WHERE customer_id = ?",
-                       (id, row_id_list[log_index]))
-        conn.commit()
-        data = self.profile()
-        id_list = []
-        for i in data:
-            id_list.append(i['email_user'])
+        if 'logged' in status:
+            log_index = status.index('logged')
+            cursor.execute("UPDATE fin_registration_table SET highest_qualification = ? WHERE customer_id = ?",
+                           (id, row_id_list[log_index]))
+            conn.commit()
+            data = self.profile()
+            id_list = []
+            for i in data:
+                id_list.append(i['email_user'])
 
-        user_email = self.get_email()
-        if user_email in id_list:
-            index = id_list.index(user_email)
-            data[index]['qualification'] = id
+            user_email = self.get_email()
+            if user_email in id_list:
+                index = id_list.index(user_email)
+                data[index]['qualification'] = id
+            else:
+                print('email not found')
+        else:
+            print('User is not logged in.')
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -3206,6 +3259,8 @@ class LenderScreen_Edu_10th(Screen):
         data = anvil.server.call('another_method')
         return data
 
+    def profile(self):
+        return anvil.server.call('profile')
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -3272,15 +3327,17 @@ class LenderScreen_Edu_10th(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label1.text = 'Upload Successfully'
-
+            cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label1.text = 'Upload Successfully'
+        else:
+            print('User is not logged in.')
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -3298,8 +3355,22 @@ class LenderScreen_Edu_10th(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LenderScreen3'
 
+    def go_to_lender_screen4(self):
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        lender_screen4 = LenderScreen4(name='LenderScreen4')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(lender_screen4)
+
+        # Switch to the LoginScreen
+        sm.current = 'LenderScreen4'
+
 
 class LenderScreen_Edu_Intermediate(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -3380,11 +3451,14 @@ class LenderScreen_Edu_Intermediate(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
-        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label1.text = 'Upload Successfully'
+        try:
+            log_index = status.index('logged')
+            cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label1.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
 
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3394,15 +3468,17 @@ class LenderScreen_Edu_Intermediate(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
+        try:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label2.text = 'Upload Successfully'
-
+            cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label2.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -3420,12 +3496,27 @@ class LenderScreen_Edu_Intermediate(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LenderScreen3'
 
+    def go_to_lender_screen4(self):
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        lender_screen4 = LenderScreen4(name='LenderScreen4')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(lender_screen4)
+
+        # Switch to the LoginScreen
+        sm.current = 'LenderScreen4'
+
 
 class LenderScreen_Edu_Bachelors(Screen):
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
 
+    def profile(self):
+        return anvil.server.call('profile')
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -3515,12 +3606,14 @@ class LenderScreen_Edu_Bachelors(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
-        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label1.text = 'Upload Successfully'
-
+        try:
+            log_index = status.index('logged')
+            cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label1.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3529,13 +3622,15 @@ class LenderScreen_Edu_Bachelors(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
+        try:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label2.text = 'Upload Successfully'
-
+            cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label2.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
     def update_data_with_file_3(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3544,15 +3639,17 @@ class LenderScreen_Edu_Bachelors(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
+        try:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label3.text = 'Upload Successfully'
-
+            cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label3.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -3570,12 +3667,27 @@ class LenderScreen_Edu_Bachelors(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LenderScreen3'
 
+    def go_to_lender_screen4(self):
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        lender_screen4 = LenderScreen4(name='LenderScreen4')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(lender_screen4)
+
+        # Switch to the LoginScreen
+        sm.current = 'LenderScreen4'
+
 
 class LenderScreen_Edu_Masters(Screen):
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
 
+    def profile(self):
+        return anvil.server.call('profile')
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -3676,12 +3788,14 @@ class LenderScreen_Edu_Masters(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
-        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label1.text = 'Upload Successfully'
-
+        try:
+            log_index = status.index('logged')
+            cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label1.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3690,13 +3804,15 @@ class LenderScreen_Edu_Masters(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
+        try:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label2.text = 'Upload Successfully'
-
+            cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label2.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
     def update_data_with_file_3(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3705,12 +3821,15 @@ class LenderScreen_Edu_Masters(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
+        try:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label3.text = 'Upload Successfully'
+            cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label3.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
 
     def update_data_with_file_4(self, file_path):
         cursor.execute('select * from fin_users')
@@ -3720,14 +3839,16 @@ class LenderScreen_Edu_Masters(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
-        cursor.execute("UPDATE fin_registration_table SET masters_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label4.text = 'Upload Successfully'
-
+        try:
+            log_index = status.index('logged')
+            cursor.execute("UPDATE fin_registration_table SET masters_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label4.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -3745,12 +3866,27 @@ class LenderScreen_Edu_Masters(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LenderScreen3'
 
+    def go_to_lender_screen4(self):
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        lender_screen4 = LenderScreen4(name='LenderScreen4')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(lender_screen4)
+
+        # Switch to the LoginScreen
+        sm.current = 'LenderScreen4'
+
 
 class LenderScreen_Edu_PHD(Screen):
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
 
+    def profile(self):
+        return anvil.server.call('profile')
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -3857,12 +3993,14 @@ class LenderScreen_Edu_PHD(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
-        cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label1.text = 'Upload Successfully'
-
+        try:
+            log_index = status.index('logged')
+            cursor.execute("UPDATE fin_registration_table SET tenth_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label1.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3871,13 +4009,15 @@ class LenderScreen_Edu_PHD(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
+        try:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label2.text = 'Upload Successfully'
-
+            cursor.execute("UPDATE fin_registration_table SET inter_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label2.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
     def update_data_with_file_3(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3886,13 +4026,15 @@ class LenderScreen_Edu_PHD(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
+        try:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label3.text = 'Upload Successfully'
-
+            cursor.execute("UPDATE fin_registration_table SET bachelors_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label3.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
     def update_data_with_file_4(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3901,13 +4043,15 @@ class LenderScreen_Edu_PHD(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
+        try:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET masters_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label4.text = 'Upload Successfully'
-
+            cursor.execute("UPDATE fin_registration_table SET masters_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label4.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
     def update_data_with_file_5(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3916,15 +4060,17 @@ class LenderScreen_Edu_PHD(Screen):
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-        log_index = status.index('logged')
+        try:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET phd_certificate = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label5.text = 'Upload Successfully'
-
+            cursor.execute("UPDATE fin_registration_table SET phd_certificate = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label5.text = 'Upload Successfully'
+        except ValueError:
+            print('User is not logged in.')
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -3942,8 +4088,22 @@ class LenderScreen_Edu_PHD(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LenderScreen3'
 
+    def go_to_lender_screen4(self):
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        lender_screen4 = LenderScreen4(name='LenderScreen4')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(lender_screen4)
+
+        # Switch to the LoginScreen
+        sm.current = 'LenderScreen4'
+
 
 class LenderScreen4(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -3953,17 +4113,19 @@ class LenderScreen4(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
-        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-            email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute(
-            "UPDATE fin_registration_table SET street_name = ?, city_name = ?, zip_code = ?, state_name = ?, country_name = ? WHERE customer_id = ?",
-            (street, city, zip_code, state, country, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute(
+                "UPDATE fin_registration_table SET street_name = ?, city_name = ?, zip_code = ?, state_name = ?, country_name = ? WHERE customer_id = ?",
+                (street, city, zip_code, state, country, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -3979,14 +4141,18 @@ class LenderScreen4(Screen):
             data[index]['country'] = country
         else:
             print('no email found')
-        self.manager.current = 'LenderScreen5'
+        sm = self.manager
+        lender_screen = LenderScreen5(name='LenderScreen5')
+        sm.add_widget(lender_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderScreen5'
 
     def on_mobile_number_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.zip_code.input_type = 'number'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4009,6 +4175,7 @@ class LenderScreen4(Screen):
 
 
 class LenderScreen5(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -4018,10 +4185,21 @@ class LenderScreen5(Screen):
 
     def next_pressed(self, id, investment, period):
         if id == 'Individual':
-            self.manager.current = 'LenderScreenIndividualForm1'
+            # self.manager.current = 'LenderScreenIndividualForm1'
+            sm = self.manager
+            lender_screen = LenderScreenIndividualForm1(name='LenderScreenIndividualForm1')
+            sm.add_widget(lender_screen)
+            sm.transition.direction = 'left'  # Set the transition direction explicitly
+            sm.current = 'LenderScreenIndividualForm1'
 
         elif id == 'Institutional':
-            self.manager.current = 'LenderScreenInstitutionalForm1'
+            # ++++++++
+            # self.manager.current = 'LenderScreenInstitutionalForm1'
+            sm = self.manager
+            lender_screen = LenderScreenInstitutionalForm1(name='LenderScreenInstitutionalForm1')
+            sm.add_widget(lender_screen)
+            sm.transition.direction = 'left'  # Set the transition direction explicitly
+            sm.current = 'LenderScreenInstitutionalForm1'
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4031,12 +4209,16 @@ class LenderScreen5(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute(
-            "UPDATE fin_registration_table SET loan_type = ?, investment = ?, lending_period = ? WHERE customer_id = ?",
-            (id, investment, period, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute(
+                "UPDATE fin_registration_table SET loan_type = ?, investment = ?, lending_period = ? WHERE customer_id = ?",
+                (id, investment, period, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -4056,7 +4238,7 @@ class LenderScreen5(Screen):
         self.ids.investment.input_type = 'number'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4076,6 +4258,7 @@ class LenderScreen5(Screen):
 
 
 class LenderScreenInstitutionalForm1(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -4093,12 +4276,16 @@ class LenderScreenInstitutionalForm1(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute(
-            "UPDATE fin_registration_table SET business_name = ?, business_location = ?, business_address = ?, business_branch_name = ? WHERE customer_id = ?",
-            (business_name, business_location, business_address, business_branch_name, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute(
+                "UPDATE fin_registration_table SET business_name = ?, business_location = ?, business_address = ?, business_branch_name = ? WHERE customer_id = ?",
+                (business_name, business_location, business_address, business_branch_name, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -4113,10 +4300,14 @@ class LenderScreenInstitutionalForm1(Screen):
             data[index]['branch_name'] = business_branch_name
         else:
             print('no email found')
-        self.manager.current = 'LenderScreenInstitutionalForm2'
+        sm = self.manager
+        lender_screen = LenderScreenInstitutionalForm2(name='LenderScreenInstitutionalForm2')
+        sm.add_widget(lender_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderScreenInstitutionalForm2'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4136,6 +4327,7 @@ class LenderScreenInstitutionalForm1(Screen):
 
 
 class LenderScreenInstitutionalForm2(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -4153,12 +4345,16 @@ class LenderScreenInstitutionalForm2(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute(
-            "UPDATE fin_registration_table SET business_type = ?, nearest_location = ?, no_of_employees_working = ?, year_of_estd = ? WHERE customer_id = ?",
-            (business_type, nearest_location, no_of_employees_working, year_of_estd, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute(
+                "UPDATE fin_registration_table SET business_type = ?, nearest_location = ?, no_of_employees_working = ?, year_of_estd = ? WHERE customer_id = ?",
+                (business_type, nearest_location, no_of_employees_working, year_of_estd, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -4172,10 +4368,15 @@ class LenderScreenInstitutionalForm2(Screen):
             data[index]['year_estd'] = year_of_estd
         else:
             print('email not found')
-        self.manager.current = 'LenderScreenInstitutionalForm3'
+        # self.manager.current = 'LenderScreenInstitutionalForm3'
+        sm = self.manager
+        lender_screen = LenderScreenInstitutionalForm3(name='LenderScreenInstitutionalForm3')
+        sm.add_widget(lender_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderScreenInstitutionalForm3'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4195,13 +4396,13 @@ class LenderScreenInstitutionalForm2(Screen):
 
 
 class LenderScreenInstitutionalForm3(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
 
     def profile(self):
         return anvil.server.call('profile')
-
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -4285,12 +4486,16 @@ class LenderScreenInstitutionalForm3(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute(
-            "UPDATE fin_registration_table SET industry_type = ?, last_six_months_turnover = ? WHERE customer_id = ?",
-            (industry_type, last_six_months_turnover, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute(
+                "UPDATE fin_registration_table SET industry_type = ?, last_six_months_turnover = ? WHERE customer_id = ?",
+                (industry_type, last_six_months_turnover, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -4302,14 +4507,19 @@ class LenderScreenInstitutionalForm3(Screen):
             data[index]['six_month_turnover'] = last_six_months_turnover
         else:
             print('email not found')
-        self.manager.current = 'LenderScreenInstitutionalForm4'
+        # self.manager.current = 'LenderScreenInstitutionalForm4'
+        sm = self.manager
+        lender_screen = LenderScreenInstitutionalForm4(name='LenderScreenInstitutionalForm4')
+        sm.add_widget(lender_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderScreenInstitutionalForm4'
 
     def on_last_six_months_turnover_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.last_six_months_turnover.input_type = 'number'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4329,6 +4539,7 @@ class LenderScreenInstitutionalForm3(Screen):
 
 
 class LenderScreenInstitutionalForm4(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -4346,12 +4557,16 @@ class LenderScreenInstitutionalForm4(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute(
-            "UPDATE fin_registration_table SET director_name = ?, director_mobile_number = ?, DIN = ?, CIN = ? WHERE customer_id = ?",
-            (director_name, director_mobile_number, DIN, CIN, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute(
+                "UPDATE fin_registration_table SET director_name = ?, director_mobile_number = ?, DIN = ?, CIN = ? WHERE customer_id = ?",
+                (director_name, director_mobile_number, DIN, CIN, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -4365,14 +4580,19 @@ class LenderScreenInstitutionalForm4(Screen):
             data[index]['cin'] = CIN
         else:
             print('emai not fond')
-        self.manager.current = 'LenderScreenInstitutionalForm5'
+        # self.manager.current = 'LenderScreenInstitutionalForm5'
+        sm = self.manager
+        lender_screen = LenderScreenInstitutionalForm5(name='LenderScreenInstitutionalForm5')
+        sm.add_widget(lender_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderScreenInstitutionalForm5'
 
     def on_director_mobile_number_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.director_mobile_number.input_type = 'number'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4392,13 +4612,13 @@ class LenderScreenInstitutionalForm4(Screen):
 
 
 class LenderScreenInstitutionalForm5(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
 
     def profile(self):
         return anvil.server.call('profile')
-
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -4471,7 +4691,6 @@ class LenderScreenInstitutionalForm5(Screen):
         cursor.execute("UPDATE fin_registration_table SET proof_of_verification_file = ? WHERE customer_id = ?",
                        (file_path, row_id_list[log_index]))
         conn.commit()
-
         self.ids.upload_label1.text = 'Upload Successfully'
 
     def add_data(self, registered_office_address):
@@ -4484,12 +4703,16 @@ class LenderScreenInstitutionalForm5(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute(
-            "UPDATE fin_registration_table SET registered_office_address = ? WHERE customer_id = ?",
-            (registered_office_address, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute(
+                "UPDATE fin_registration_table SET registered_office_address = ? WHERE customer_id = ?",
+                (registered_office_address, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -4500,10 +4723,16 @@ class LenderScreenInstitutionalForm5(Screen):
             data[index]['registered_off_add'] = registered_office_address
         else:
             print('email not found')
-        self.manager.current = 'LenderScreenInstitutionalBankForm1'
+
+        # self.manager.current = 'LenderScreenInstitutionalBankForm1'
+        sm = self.manager
+        lender_screen = LenderScreenInstitutionalBankForm1(name='LenderScreenInstitutionalBankForm1')
+        sm.add_widget(lender_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderScreenInstitutionalBankForm1'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4523,6 +4752,7 @@ class LenderScreenInstitutionalForm5(Screen):
 
 
 class LenderScreenIndividualForm1(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -4540,12 +4770,16 @@ class LenderScreenIndividualForm1(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute(
-            "UPDATE fin_registration_table SET employment_type = ?, company_name = ?, organization_type = ? WHERE customer_id = ?",
-            (employeent_type, company_name, organization, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute(
+                "UPDATE fin_registration_table SET employment_type = ?, company_name = ?, organization_type = ? WHERE customer_id = ?",
+                (employeent_type, company_name, organization, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -4558,10 +4792,14 @@ class LenderScreenIndividualForm1(Screen):
             data[index]['organization_type'] = organization
         else:
             print('email not fond')
-        self.manager.current = 'LenderScreenIndividualForm2'
+        sm = self.manager
+        lender_screen = LenderScreenIndividualForm2(name='LenderScreenIndividualForm2')
+        sm.add_widget(lender_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderScreenIndividualForm2'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4581,6 +4819,7 @@ class LenderScreenIndividualForm1(Screen):
 
 
 class LenderScreenIndividualForm2(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -4661,18 +4900,19 @@ class LenderScreenIndividualForm2(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
-        email_list = []
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-            email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET employee_id_file = ? WHERE customer_id = ?",
-                       (file_path, row_id_list[log_index]))
-        conn.commit()
-        self.ids.upload_label1.text = 'Upload Successfully'
-
+            cursor.execute("UPDATE fin_registration_table SET employee_id_file = ? WHERE customer_id = ?",
+                           (file_path, row_id_list[log_index]))
+            conn.commit()
+            self.ids.upload_label1.text = 'Upload Successfully'
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -4698,12 +4938,16 @@ class LenderScreenIndividualForm2(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute(
-            "UPDATE fin_registration_table SET annual_salary = ?, designation = ? WHERE customer_id = ?",
-            (annual_salary, designation, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute(
+                "UPDATE fin_registration_table SET annual_salary = ?, designation = ? WHERE customer_id = ?",
+                (annual_salary, designation, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -4715,14 +4959,23 @@ class LenderScreenIndividualForm2(Screen):
             data[index]['designation'] = designation
         else:
             print('email not found')
-        self.manager.current = 'LenderScreenIndividualForm3'
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        lender_screen = LenderScreenIndividualForm3(name='LenderScreenIndividualForm3')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(lender_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'LenderScreenIndividualForm3'
 
     def on_annual_salary_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.annual_salary.input_type = 'number'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4742,6 +4995,7 @@ class LenderScreenIndividualForm2(Screen):
 
 
 class LenderScreenIndividualForm3(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -4759,12 +5013,16 @@ class LenderScreenIndividualForm3(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
+            cursor.execute(
+                "UPDATE fin_registration_table SET company_address = ?, company_pincode = ?, company_country = ?, landmark = ?, business_number = ? WHERE customer_id = ?",
+                (company_address, company_pincode, company_country, landmark, business_number, row_id_list[log_index]))
+            conn.commit()
 
-        cursor.execute(
-            "UPDATE fin_registration_table SET company_address = ?, company_pincode = ?, company_country = ?, landmark = ?, business_number = ? WHERE customer_id = ?",
-            (company_address, company_pincode, company_country, landmark, business_number, row_id_list[log_index]))
-        conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -4779,7 +5037,16 @@ class LenderScreenIndividualForm3(Screen):
             data[index]['company_pincode'] = company_pincode
         else:
             print('email not found')
-        self.manager.current = 'LenderScreenIndividualBankForm1'
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        lender_screen = LenderScreenIndividualBankForm1(name='LenderScreenIndividualBankForm1')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(lender_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'LenderScreenIndividualBankForm1'
 
     def on_company_pin_code_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
@@ -4790,7 +5057,7 @@ class LenderScreenIndividualForm3(Screen):
         self.ids.business_phone_number.input_type = 'number'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4810,6 +5077,7 @@ class LenderScreenIndividualForm3(Screen):
 
 
 class LenderScreenIndividualBankForm1(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -4827,12 +5095,16 @@ class LenderScreenIndividualBankForm1(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute(
-            "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
-            (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute(
+                "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
+                (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -4846,10 +5118,19 @@ class LenderScreenIndividualBankForm1(Screen):
             data[index]['bank_name'] = bank_name
         else:
             print('email not found')
-        self.manager.current = 'LenderScreenIndividualBankForm2'
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        lender_screen = LenderScreenIndividualBankForm2(name='LenderScreenIndividualBankForm2')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(lender_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'LenderScreenIndividualBankForm2'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4869,6 +5150,7 @@ class LenderScreenIndividualBankForm1(Screen):
 
 
 class LenderScreenIndividualBankForm2(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -4886,11 +5168,15 @@ class LenderScreenIndividualBankForm2(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
-                       (bank_id, branch_name, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
+                           (bank_id, branch_name, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -4902,10 +5188,21 @@ class LenderScreenIndividualBankForm2(Screen):
             data[index]['account_bank_branch'] = branch_name
         else:
             print('email not fond')
-        self.manager.current = 'lender_dashboard'
+
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        lender_dashboard = LenderDashboard(name='LenderDashboard')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(lender_dashboard)
+
+        # Switch to the LoginScreen
+        sm.current = 'LenderDashboard'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4925,6 +5222,7 @@ class LenderScreenIndividualBankForm2(Screen):
 
 
 class LenderScreenInstitutionalBankForm1(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -4942,12 +5240,16 @@ class LenderScreenInstitutionalBankForm1(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute(
-            "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
-            (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute(
+                "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
+                (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
         data = self.profile()
         id_list = []
         for i in data:
@@ -4961,10 +5263,15 @@ class LenderScreenInstitutionalBankForm1(Screen):
             data[index]['bank_name'] = bank_name
         else:
             print('email not valid')
-        self.manager.current = 'LenderScreenInstitutionalBankForm2'
+        # self.manager.current = 'LenderScreenInstitutionalBankForm2'
+        sm = self.manager
+        lender_screen = LenderScreenInstitutionalBankForm2(name='LenderScreenInstitutionalBankForm2')
+        sm.add_widget(lender_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderScreenInstitutionalBankForm2'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -4984,6 +5291,7 @@ class LenderScreenInstitutionalBankForm1(Screen):
 
 
 class LenderScreenInstitutionalBankForm2(Screen):
+
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
@@ -5001,11 +5309,16 @@ class LenderScreenInstitutionalBankForm2(Screen):
             row_id_list.append(row[0])
             status.append(row[-1])
             email_list.append(row[2])
-        log_index = status.index('logged')
+        if 'logged' in status:
+            log_index = status.index('logged')
 
-        cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
-                       (bank_id, branch_name, row_id_list[log_index]))
-        conn.commit()
+            cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
+                           (bank_id, branch_name, row_id_list[log_index]))
+            conn.commit()
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
+
         data = self.profile()
         id_list = []
         for i in data:
@@ -5017,7 +5330,11 @@ class LenderScreenInstitutionalBankForm2(Screen):
             data[index]['account_bank_branch'] = branch_name
         else:
             print('email not fond')
-        self.manager.current = 'lender_dashboard'
+        sm = self.manager
+        lender_screen = LenderDashboard(name='LenderDashboard')
+        sm.add_widget(lender_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'LenderDashboard'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -5036,7 +5353,7 @@ class LenderScreenInstitutionalBankForm2(Screen):
         self.manager.current = 'LenderScreenInstitutionalBankForm1'
 
     def go_to_dashboard(self):
-        self.manager.current = 'dashboard'
+        self.manager.current = 'DashScreen'
 
 
 class MyScreenManager(ScreenManager):
