@@ -6,14 +6,17 @@ from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
 import sqlite3
 import anvil.server
 from kivy.uix.screenmanager import Screen, SlideTransition
+from kivymd.app import MDApp
+from datetime import datetime, timedelta, timezone
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
 
-anvil.server.connect('server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT')
-
+anvil.server.connect("server_ANJQTKQ62KGHGX2XHC43NVOG-6JH2LHL646DIRMSE")
 view_loan_request = """
 <WindowManager>:
     ViewLoansRequest:
     ViewLoansProfileScreen:
-    
+
 <ViewLoansRequest> 
     BoxLayout:
         orientation: 'vertical'
@@ -257,7 +260,7 @@ view_loan_request += '''
                                 text: "Reject"
                                 md_bg_color: 194/255, 2/255, 21/255, 1
                                 theme_text_color: 'Primary'
-                                on_release: app.root.current = 'LoansDetails'
+                                on_release: root.rejected_click()
                                 text_color: 0, 0, 0, 1
                                 font_name: "Roboto-Bold.ttf"
                                 size_hint: 1, None
@@ -265,11 +268,278 @@ view_loan_request += '''
                             MDRaisedButton:
                                 text: "Accept"
                                 md_bg_color: 5/255, 235/255, 77/255, 1
+                                on_release: root.approved_click()
                                 theme_text_color: 'Primary'
                                 font_name: "Roboto-Bold.ttf"
                                 text_color: 0, 0, 0, 1
                                 size_hint: 1, None
+<ViewLoansProfileScreenLR>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "All Loans"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
 
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                BoxLayout:
+                    id: box1
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    MDLabel:
+                        text: " Borrower Loan details"
+                        halign: "center"
+                        bold: True
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(20)
+
+                    BoxLayout:
+                        id: box1
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: dp(950)
+
+                        padding: [10, 0,0,0]
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 0, 1  # Blue color for the box
+                            Line:
+                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
+
+                        GridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "User ID" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: user1
+                                text: "" 
+                            MDLabel:
+                                text: "Name" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: name
+                                text: "" 
+                            MDLabel:
+                                text: "Beseem Score" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: beseem
+                                text: "" 
+                            MDLabel:
+                                text: "Loan Tenure" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: tenure
+                                text: "" 
+                            MDLabel:
+                                text: "Member Rome" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: rome
+                                text: "" 
+                            MDLabel:
+                                text: "Member since" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: since
+                                text: "" 
+                            MDLabel:
+                                text: "Credit Limit" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: limit
+                                text: "" 
+                            MDLabel:
+                                text: "Interest Rate" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: interest
+                                text: "" 
+                            MDLabel:
+                                text: "Loan Amount Applied" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: amount_applied
+                                text: "" 
+                            MDLabel:
+                                text: "Loan ID" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: loan_id
+                                text: "" 
+                            MDLabel:
+                                text: "Bank Details" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: bank_details
+                                text: "" 
+                            MDRaisedButton:
+                                text: "Cancel"
+                                md_bg_color: 194/255, 2/255, 21/255, 1
+                                theme_text_color: 'Primary'
+                                on_release: app.root.current = 'ViewLoansRequest'
+                                text_color: 0, 0, 0, 1
+                                font_name: "Roboto-Bold.ttf"
+                                size_hint: 1, None
+
+                            MDRaisedButton:
+                                text: "Pay Now"
+                                md_bg_color: 5/255, 235/255, 77/255, 1
+                                theme_text_color: 'Primary'
+                                font_name: "Roboto-Bold.ttf"
+                                text_color: 0, 0, 0, 1
+                                size_hint: 1, None
+                                on_release: root.paynow()
+
+<ViewLoansProfileScreenRL>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "All Loans"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                BoxLayout:
+                    id: box1
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    MDLabel:
+                        text: " Borrower Loan details"
+                        halign: "center"
+                        bold: True
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(20)
+
+                    BoxLayout:
+                        id: box1
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: dp(950)
+
+                        padding: [10, 0,0,0]
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 0, 1  # Blue color for the box
+                            Line:
+                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
+
+                        GridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "User ID" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: user1
+                                text: "" 
+                            MDLabel:
+                                text: "Name" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: name
+                                text: "" 
+                            MDLabel:
+                                text: "Beseem Score" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: beseem
+                                text: "" 
+                            MDLabel:
+                                text: "Loan Tenure" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: tenure
+                                text: "" 
+                            MDLabel:
+                                text: "Member Rome" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: rome
+                                text: "" 
+                            MDLabel:
+                                text: "Member since" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: since
+                                text: "" 
+                            MDLabel:
+                                text: "Credit Limit" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: limit
+                                text: "" 
+                            MDLabel:
+                                text: "Interest Rate" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: interest
+                                text: "" 
+                            MDLabel:
+                                text: "Loan Amount Applied" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: amount_applied
+                                text: "" 
+                            MDLabel:
+                                text: "Loan ID" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: loan_id
+                                text: "" 
+                            MDLabel:
+                                text: "Bank Details" 
+                                size_hint_y:None
+                                height:dp(50)
+                            MDLabel:
+                                id: bank_details
+                                text: "" 
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            MDLabel:
+                                text: "Your Loan request is Rejected"    
+                                bold: True  
+                                halign: "center"    
 '''
 Builder.load_string(view_loan_request)
 
@@ -295,7 +565,7 @@ class ViewLoansRequest(Screen):
         index_list = []
         for i in range(s):
             c += 1
-            if loan_status[i] == 'under process':
+            if loan_status[c] == 'approved' or loan_status[c] == 'rejected' or loan_status[c] == 'under process':
                 index_list.append(c)
 
         b = 1
@@ -324,7 +594,7 @@ class ViewLoansRequest(Screen):
         self.ids.box1.height = h
 
     def on_back_button_press(self):
-        self.manager.current = 'LenderDashboard'
+        self.manager.current = 'lender_dashboard'
 
     def get_table_data(self):
         # Make a call to the Anvil server function
@@ -333,8 +603,27 @@ class ViewLoansRequest(Screen):
 
     def icon_button_clicked(self, value):
         data = self.get_table_data()  # Fetch data here
-        self.manager.current = 'ViewLoansProfileScreen'
-        self.manager.get_screen('ViewLoansProfileScreen').initialize_with_value(value, data)
+        loan_status = None
+        for loan in data:
+            if loan['loan_id'] == value:
+                loan_status = loan['loan_updated_status']
+                break
+
+        if loan_status == 'approved':
+            # Open the screen for approved loans
+            self.manager.current = 'ViewLoansProfileScreenLR'
+            self.manager.get_screen('ViewLoansProfileScreenLR').initialize_with_value(value, data)
+        elif loan_status == 'under process':
+            # Open the screen for pending loans
+            self.manager.current = 'ViewLoansProfileScreen'
+            self.manager.get_screen('ViewLoansProfileScreen').initialize_with_value(value, data)
+        elif loan_status == 'rejected':
+            # Open the screen for pending loans
+            self.manager.current = 'ViewLoansProfileScreenRL'
+            self.manager.get_screen('ViewLoansProfileScreenRL').initialize_with_value(value, data)
+        else:
+            # Handle other loan statuses or show an error message
+            pass
 
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
@@ -354,10 +643,238 @@ class ViewLoansRequest(Screen):
     def go_back(self):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'LenderDashboard'
+        self.manager.current = 'lender_dashboard'
 
 
 class ViewLoansProfileScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def on_back_button_press(self):
+        self.manager.current = 'ViewLoansRequest'
+
+    def initialize_with_value(self, value, data):
+        customer_id = []
+        loan_id = []
+        tenure = []
+        interest_rate = []
+        loan_amount = []
+        member_rom = []
+        member_since = []
+        credit_limit = []
+        beseem_score = []
+        name = []
+        for i in data:
+            customer_id.append(i['borrower_customer_id'])
+            loan_id.append(i['loan_id'])
+            tenure.append(i['tenure'])
+            interest_rate.append(i['interest_rate'])
+            loan_amount.append(i['loan_amount'])
+            member_rom.append(i['member_rom'])
+            member_since.append(i['member_since'])
+            credit_limit.append(i['credit_limit'])
+            beseem_score.append(i['beseem_score'])
+            name.append(i['borrower_full_name'])
+
+        if value in loan_id:
+            index = loan_id.index(value)
+            self.ids.loan_id.text = str(loan_id[index])
+            self.ids.user1.text = str(customer_id[index])
+            self.ids.interest.text = str(interest_rate[index])
+            self.ids.tenure.text = str(tenure[index])
+            self.ids.amount_applied.text = str(loan_amount[index])
+            self.ids.rome.text = str(member_rom[index])
+            self.ids.since.text = str(member_since[index])
+            self.ids.limit.text = str(credit_limit[index])
+            self.ids.beseem.text = str(beseem_score[index])
+            self.ids.name.text = str(name[index])
+
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def approved_click(self):
+        approved_date = datetime.now()
+        data = self.get_table_data()
+        loan_id = self.ids.loan_id.text
+        print(loan_id)
+
+        loan_idlist = []
+        for i in data:
+            loan_idlist.append(i['loan_id'])
+        print(loan_idlist)
+        if loan_id in loan_idlist:
+            index = loan_idlist.index(loan_id)
+            data[index]['loan_updated_status'] = 'approved'
+            data[index]['loan_disbursed_timestamp'] = approved_date
+            self.manager.current = 'ViewLoansRequest'
+
+    def rejected_click(self):
+        data = self.get_table_data()
+        loan_id = self.ids.loan_id.text
+        print(loan_id)
+
+        loan_idlist = []
+        for i in data:
+            loan_idlist.append(i['loan_id'])
+        print(loan_idlist)
+        if loan_id in loan_idlist:
+            index = loan_idlist.index(loan_id)
+            data[index]['loan_updated_status'] = 'rejected'
+            self.manager.current = 'ViewLoansRequest'
+
+    def get_table_data(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('get_table_data')
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'ViewLoansRequest'
+
+
+class ViewLoansProfileScreenLR(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def show_alert_dialog(self, alert_text):
+        if not hasattr(self, 'dialog') or not self.dialog:
+            self.dialog = MDDialog(
+                text=alert_text,
+                buttons=[
+                    MDFlatButton(
+                        text="OK", on_release=self.close_dialog
+                    ),
+                ],
+            )
+
+        self.dialog.text = alert_text
+        self.dialog.open()
+
+    # Click Cancel Button
+    def close_dialog(self, obj):
+        # Close alert box
+        self.dialog.dismiss()
+
+    def get_table_data(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('get_table_data')
+
+    def on_back_button_press(self):
+        self.manager.current = 'ViewLoansRequest'
+
+    def initialize_with_value(self, value, data):
+        customer_id = []
+        loan_id = []
+        tenure = []
+        interest_rate = []
+        loan_amount = []
+        member_rom = []
+        member_since = []
+        credit_limit = []
+        beseem_score = []
+        name = []
+        for i in data:
+            customer_id.append(i['borrower_customer_id'])
+            loan_id.append(i['loan_id'])
+            tenure.append(i['tenure'])
+            interest_rate.append(i['interest_rate'])
+            loan_amount.append(i['loan_amount'])
+            member_rom.append(i['member_rom'])
+            member_since.append(i['member_since'])
+            credit_limit.append(i['credit_limit'])
+            beseem_score.append(i['beseem_score'])
+            name.append(i['borrower_full_name'])
+
+        if value in loan_id:
+            index = loan_id.index(value)
+            self.ids.loan_id.text = str(loan_id[index])
+            self.ids.user1.text = str(customer_id[index])
+            self.ids.interest.text = str(interest_rate[index])
+            self.ids.tenure.text = str(tenure[index])
+            self.ids.amount_applied.text = str(loan_amount[index])
+            self.ids.rome.text = str(member_rom[index])
+            self.ids.since.text = str(member_since[index])
+            self.ids.limit.text = str(credit_limit[index])
+            self.ids.beseem.text = str(beseem_score[index])
+            self.ids.name.text = str(name[index])
+
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'ViewLoansRequest'
+
+    def paynow(self):
+        data = self.get_table_data()
+        disbursed_time = datetime.now()
+        loan_id = self.ids.loan_id.text
+        print(loan_id)
+        loan_id_list = []
+        disbursed = []
+        credit_limit = []
+        loan_amount = []
+        for i in data:
+            loan_id_list.append(i['loan_id'])
+            disbursed.append(i['loan_disbursed_timestamp'])
+            credit_limit.append(i['credit_limit'])
+            loan_amount.append(i['loan_amount'])
+
+        if loan_id in loan_id_list:
+            index = loan_id_list.index(loan_id)
+
+        datetime1 = datetime.fromisoformat(str(disbursed_time)).replace(tzinfo=timezone.utc)
+        datetime2 = datetime.fromisoformat(str(disbursed[index])).replace(tzinfo=timezone.utc)
+
+        # Calculate the time difference
+        time_difference = datetime1 - datetime2
+
+        # Extract minutes from the timedelta
+        minutes_difference = round(time_difference.total_seconds() / 60)
+
+        print(f"The difference in minutes is: {minutes_difference} minutes")
+
+        if minutes_difference < 30 and credit_limit[index] > loan_amount[index]:
+            self.show_alert_dialog(f"Amount Paid Successfully {loan_amount[index]} to this Loan ID {loan_id_list[index]}")
+            data[index]['loan_updated_status'] = 'disbursed'
+
+        elif minutes_difference > 30:
+            self.show_alert_dialog(f"Time Out You Must Finish Before 30 Minutes")
+            data[index]['loan_updated_status'] = 'lost opportunities'
+
+        elif credit_limit[index] < loan_amount[index]:
+            self.show_alert_dialog(f"Your Credit Limit Not Sufficient for Loan Amount")
+
+
+
+class ViewLoansProfileScreenRL(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -423,3 +940,4 @@ class ViewLoansProfileScreen(Screen):
 
 class MyScreenManager(ScreenManager):
     pass
+
