@@ -163,9 +163,11 @@ application_tracker = """
 
 
 """
-class ApplicationTrackerScreen(Screen):
 
+
+class ApplicationTrackerScreen(Screen):
     Builder.load_string(application_tracker)
+
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
 
@@ -180,10 +182,11 @@ class ApplicationTrackerScreen(Screen):
 
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'borrower_dashboard'
+        self.manager.current = 'DashboardScreen'
 
     def borrower_dashboard(self):
-        self.manager.current = 'borrower_dashboard'
+        self.manager.current = 'DashboardScreen'
+
 
 class WindowManager(ScreenManager):
     pass

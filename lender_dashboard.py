@@ -1,7 +1,7 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
-from kivy.uix.screenmanager import Screen, SlideTransition,ScreenManager
+from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
 import sqlite3
 import anvil.server
 from kivy.uix.screenmanager import Screen, SlideTransition
@@ -9,14 +9,17 @@ from kivy.utils import platform
 from kivy.clock import mainthread
 from kivymd.uix.filemanager import MDFileManager
 
+from lender_view_loans import ViewLoansScreen
+from lender_view_loans_request import ViewLoansRequest
+from lender_view_extension_request import NewExtension
+
 if platform == 'android':
     from kivy.uix.button import Button
     from kivy.uix.modalview import ModalView
     from kivy.clock import Clock
     from android import api_version, mActivity
     from android.permissions import (
-        request_permissions, check_permission, Permission )
-
+        request_permissions, check_permission, Permission)
 
 anvil.server.connect('server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT')
 
@@ -34,7 +37,7 @@ user_helpers1 = """
             md_bg_color:1,1,1,1
             specific_text_color:1/255, 26/255, 51/255, 1
             elevation:2
-            left_action_items: [['menu', lambda x: root.profile()]]
+            left_action_items: [['account', lambda x: root.profile()]]
             right_action_items: [['logout', lambda x: root.logout()]]
             pos_hint: {'center_x': 0.5, 'center_y': 0.96}
         Image:
@@ -69,29 +72,6 @@ user_helpers1 = """
                     orientation: 'horizontal'
                     spacing:dp(10)
                     MDLabel:
-                        text: "View Profile "
-                        font_size:dp(14)
-                        bold:True
-                        theme_text_color: 'Custom'
-                        halign: "center"
-                        text_color:1,1,1,1
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-
-            MDFlatButton:
-                size_hint: None, None
-
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color:0.031, 0.463, 0.91, 1 
-                size_hint_y: None
-                height: dp(60)
-                size_hint_x: None
-                width: dp(110)
-
-                BoxLayout:
-                    orientation: 'horizontal'
-                    spacing:dp(10)
-                    MDLabel:
                         text: "View Opening Balance"
                         font_size:dp(14)
                         bold:True
@@ -99,6 +79,8 @@ user_helpers1 = """
                         halign: "center"
                         text_color:1,1,1,1
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+
             MDFlatButton:
                 size_hint: None, None
 
@@ -114,6 +96,27 @@ user_helpers1 = """
                     spacing:dp(10)
                     MDLabel:
                         text: "View Available Balance"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDFlatButton:
+                size_hint: None, None
+
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color:0.031, 0.463, 0.91, 1 
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "Today's Dues"
                         font_size:dp(14)
                         bold:True
                         theme_text_color: 'Custom'
@@ -152,7 +155,7 @@ user_helpers1 = """
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-                on_release: app.root.current = 'ViewLoansRequest'
+                on_release: root.view_loan_request()
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -175,7 +178,7 @@ user_helpers1 = """
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-                on_release: app.root.current = 'ViewLoansScreen'
+                on_release: root.view_loanscreen()
 
                 BoxLayout:
                     orientation: 'horizontal'
@@ -193,7 +196,7 @@ user_helpers1 = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                on_release: app.root.current = 'NewExtension'
+                on_release: root.newloan_extension()
                 md_bg_color: 0.031, 0.463, 0.91, 1 
                 size_hint_y: None
                 height: dp(60)
@@ -257,28 +260,6 @@ user_helpers1 = """
             MDLabel:
                 text:""
 
-            MDFlatButton:
-                size_hint: None, None
-                pos_hint: {'center_x': 0.5, 'center_y': 0.25}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
-                size_hint_y: None
-                height: dp(60)
-                size_hint_x: None
-                width: dp(110)
-
-                BoxLayout:
-                    orientation: 'vertical'
-                    spacing: dp(10)
-                    MDLabel:
-                        text: "View Lost Opportunities"
-                        font_size: dp(14)
-                        bold:True
-                        theme_text_color: 'Custom'
-                        halign: "center"
-                        text_color: 1,1,1,1
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-
         MDIconButton:
             icon:'help-circle'
             theme_text_color: 'Custom'
@@ -311,8 +292,6 @@ user_helpers1 = """
                 size_hint_y: None
                 height: self.minimum_height
 
-
-
                 MDRectangleFlatButton:
                    
                     line_color:1,1,1,1
@@ -330,7 +309,6 @@ user_helpers1 = """
                         id: selected_image1
                         source: "profile.png"
 
-                      
                     MDFloatLayout:
         
                         size_hint:(None,None)
@@ -373,7 +351,6 @@ user_helpers1 = """
                         Line:
                             rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
                             width: 1  # Border line width
-
 
                     MDTextField:
                         id: customer_id
@@ -1410,8 +1387,8 @@ cursor = conn.cursor()
 
 
 class LenderDashboard(Screen):
-
     Builder.load_string(user_helpers1)
+
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_back_button)
@@ -1430,7 +1407,9 @@ class LenderDashboard(Screen):
     def go_back(self):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'LenderLanding'  # Replace with the actual name of your previous screen
+        self.manager.current = 'LenderLanding'
+
+        # Replace with the actual name of your previous screen
 
     def homepage(self):
         self.manager.current = 'MainScreen'
@@ -1439,7 +1418,56 @@ class LenderDashboard(Screen):
         self.manager.current = 'MainScreen'
 
     def profile(self):
-        self.manager.current = 'ViewProfileScreen'
+        # self.manager.current = 'ViewProfileScreen'
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = ViewProfileScreen(name='ViewProfileScreen')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'ViewProfileScreen'
+
+    def view_loan_request(self):
+        # self.manager.current = 'ViewProfileScreen'
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = ViewLoansRequest(name='ViewLoansRequest')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'ViewLoansRequest'
+
+    def view_loanscreen(self):
+        # self.manager.current = 'ViewProfileScreen'
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = ViewLoansScreen(name=' ViewLoansScreen')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = ' ViewLoansScreen'
+
+    def newloan_extension(self):
+        # self.manager.current = 'ViewProfileScreen'
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = NewExtension(name=' NewExtension')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = ' NewExtension'
 
 
 class ViewProfileScreen(Screen):
@@ -1472,8 +1500,6 @@ class ViewProfileScreen(Screen):
         self.ids[image_id].source = path  # Set the source of the Image widget
         self.file_manager.close()
 
-
-
     def exit_manager(self, *args):
         self.file_manager.close()
 
@@ -1498,6 +1524,7 @@ class ViewProfileScreen(Screen):
             on_press=self.bye)
         )
         view.open()
+
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_back_button)
@@ -1516,10 +1543,11 @@ class ViewProfileScreen(Screen):
     def go_back(self):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'lender_dashboard'  # Replace with the actual name of your previous screen
+        self.manager.current = 'LenderDashboard'  # Replace with the actual name of your previous screen
 
     def on_back_button_press(self):
-        self.manager.current = 'lender_dashboard'
+        self.manager.current = 'LenderDashboard'
+
 
 class MyScreenManager(ScreenManager):
     pass

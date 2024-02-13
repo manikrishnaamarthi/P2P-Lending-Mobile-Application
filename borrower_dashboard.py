@@ -1,10 +1,13 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
-from kivy.uix.screenmanager import Screen, SlideTransition,ScreenManager
+from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
 from kivy.utils import platform
 from kivy.clock import mainthread
 from kivymd.uix.filemanager import MDFileManager
+
+from borrower_application_tracker import ApplicationTrackerScreen
+from new_loan_request import NewloanScreen
 
 if platform == 'android':
     from kivy.uix.button import Button
@@ -21,11 +24,6 @@ user_helpers = """
     LoansDetails:
     Foreclosure:
     ForecloseDetails:
-    
-    
-    
-    
-    
 
 <DashboardScreen>:
     MDFloatLayout:
@@ -36,7 +34,7 @@ user_helpers = """
             md_bg_color:1,1,1,1
             specific_text_color:1/255, 26/255, 51/255, 1
             elevation: 3
-            left_action_items: [['menu', lambda x: root.profile()]]
+            left_action_items: [['account', lambda x: root.go_to_profile()]]
             right_action_items: [['logout', lambda x: root.logout()]]
             pos_hint: {'center_x': 0.5, 'center_y': 0.96}
         Image:
@@ -55,30 +53,7 @@ user_helpers = """
             height: self.minimum_height
             width: self.minimum_width
             size_hint_x: None
-            MDFlatButton:
-                size_hint: None, None
-
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
-
-                size_hint_y: None
-                height: dp(59)
-                size_hint_x: None
-                width: dp(110)
-
-                BoxLayout:
-                    orientation: 'horizontal'
-                    spacing:dp(10)
-                    MDLabel:
-                        text: "My Commitments"
-                        font_size:dp(14)
-                        bold:True
-                        theme_text_color: 'Custom'
-                        halign: "center"
-                        text_color:1,1,1,1
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-
+            
             MDFlatButton:
                 size_hint: None, None
 
@@ -89,52 +64,7 @@ user_helpers = """
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-
-                BoxLayout:
-                    orientation: 'horizontal'
-                    spacing:dp(10)
-                    MDLabel:
-                        text: "Opening Balance"
-                        font_size:dp(14)
-                        bold:True
-                        theme_text_color: 'Custom'
-                        halign: "center"
-                        text_color:1,1,1,1
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-            MDFlatButton:
-                size_hint: None, None
-
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1       
-                size_hint_y: None
-                height: dp(60)
-                size_hint_x: None
-                width: dp(110)
-
-                BoxLayout:
-                    orientation: 'horizontal'
-                    spacing:dp(10)
-                    MDLabel:
-                        text: "My Returns"
-                        font_size:dp(14)
-                        bold:True
-                        theme_text_color: 'Custom'
-                        halign: "center"
-                        text_color:1,1,1,1
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-            MDFlatButton:
-                size_hint: None, None
-
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
-
-                size_hint_y: None
-                height: dp(60)
-                size_hint_x: None
-                width: dp(110)
-                on_release: root.open_balance()
+                on_release: root.go_to_newloan_screen()
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -203,7 +133,7 @@ user_helpers = """
                 height: dp(60)
                 size_hint_x: None
                 width: dp(110)
-                on_release: root.borrower_application_tracker()
+                on_release: root.go_to_app_tracker()
                 BoxLayout:
                     orientation: 'horizontal'
                     spacing:dp(10)
@@ -246,7 +176,7 @@ user_helpers = """
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color: 0.031, 0.463, 0.91, 1 
-                on_release: app.root.current = "LoansDetails"
+                on_release: root.go_to_loan_details()
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -281,7 +211,7 @@ user_helpers = """
                     orientation: 'horizontal'
                     spacing:dp(10)
                     MDLabel:
-                        text: "View Profile "
+                        text: "Extended Loan Request"
                         font_size:dp(14)
                         bold:True
                         theme_text_color: 'Custom'
@@ -2279,7 +2209,7 @@ user_helpers = """
                     text: "View Profile "
                     text_color: 0, 0, 0, 1
                     background_color: 0.529, 0.807, 0.922, 0
-                    on_release: app.root.current = "Foreclosure"
+                    on_release: root.go_to_foreclose()
                     color: 0, 0, 0, 1
                     bold: True
                     canvas.before:
@@ -2616,7 +2546,7 @@ user_helpers = """
             MDRaisedButton:
                 text: "FORECLOSE"
                 md_bg_color: 0.031, 0.463, 0.91, 1
-                on_release: app.root.current = "ForecloseDetails"
+                on_release: root.go_to_foreclose_details()
                 size_hint: 1, 1
 
 <ForecloseDetails>:
@@ -2812,8 +2742,8 @@ user_helpers = """
 
 
 class DashboardScreen(Screen):
-
     Builder.load_string(user_helpers)
+
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
 
@@ -2830,17 +2760,60 @@ class DashboardScreen(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'BorrowerLanding'
 
-    def open_balance(self):
-        self.manager.current = 'NewloanScreen'
+    def go_to_newloan_screen(self):
+        # Get the existing ScreenManager
+        sm = self.manager
 
-    def borrower_application_tracker(self):
-        self.manager.current = 'borrower_application_tracker'
+        # Create a new instance of the LoginScreen
+        login_screen = NewloanScreen(name='NewloanScreen')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'NewloanScreen'
+
+    def go_to_app_tracker(self):
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        login_screen = ApplicationTrackerScreen(name='ApplicationTrackerScreen')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'ApplicationTrackerScreen'
+
+    def go_to_loan_details(self):
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        login_screen = LoansDetails(name='LoansDetails')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'LoansDetails'
 
     def logout(self):
         self.manager.current = 'MainScreen'
 
-    def profile(self):
-        self.manager.current = 'ProfileScreen'
+    def go_to_profile(self):
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        login_screen = ProfileScreen(name='ProfileScreen')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'ProfileScreen'
 
 
 class ProfileScreen(Screen):
@@ -2912,10 +2885,10 @@ class ProfileScreen(Screen):
 
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'borrower_dashboard'
+        self.manager.current = 'DashboardScreen'
 
     def on_back_button_press(self):
-        self.manager.current = 'borrower_dashboard'
+        self.manager.current = 'DashboardScreen'
 
 
 class LoansDetails(Screen):
@@ -2933,7 +2906,20 @@ class LoansDetails(Screen):
 
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'borrower_dashboard'
+        self.manager.current = 'DashboardScreen'
+
+    def go_to_foreclose(self):
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        login_screen = Foreclosure(name='Foreclosure')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'Foreclosure'
 
 
 class Foreclosure(Screen):
@@ -2953,6 +2939,19 @@ class Foreclosure(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LoansDetails'
 
+    def go_to_foreclose_details(self):
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        login_screen = ForecloseDetails(name='ForecloseDetails')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'ForecloseDetails'
+
 
 class ForecloseDetails(Screen):
     def on_pre_enter(self):
@@ -2970,6 +2969,7 @@ class ForecloseDetails(Screen):
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'Foreclosure'
+
 
 class MyScreenManager(ScreenManager):
     pass

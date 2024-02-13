@@ -13,8 +13,6 @@ user_helpers2 = """
     NewloanScreen1:
     NewloanScreen2:
     
-    
-
 <NewloanScreen>:
 
     BoxLayout:
@@ -104,7 +102,7 @@ user_helpers2 = """
             MDRaisedButton:
                 text: "NEXT"
                 md_bg_color: 0.031, 0.463, 0.91, 1
-                on_release: app.root.current = "NewloanScreen1"
+                on_release: root.go_to_newloan_screen1()
                 size_hint: 1, None                    
 
 
@@ -374,7 +372,7 @@ user_helpers2 = """
             MDRaisedButton:
                 text: "NEXT"
                 md_bg_color: 0.031, 0.463, 0.91, 1
-                on_release: app.root.current = "NewloanScreen2"
+                on_release: root.go_to_newloan_screen2()
                 size_hint: 1, None
 
 <NewloanScreen2>:
@@ -588,6 +586,7 @@ user_helpers2 = """
 
 class NewloanScreen(Screen):
     Builder.load_string(user_helpers2)
+
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
 
@@ -602,10 +601,23 @@ class NewloanScreen(Screen):
 
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'borrower_dashboard'
+        self.manager.current = 'DashboardScreen'
 
     def current(self):
-        self.manager.current = 'borrower_dashboard'
+        self.manager.current = 'DashboardScreen'
+
+    def go_to_newloan_screen1(self):
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        login_screen = NewloanScreen1(name='NewloanScreen1')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'NewloanScreen1'
 
 
 class NewloanScreen1(Screen):
@@ -627,6 +639,20 @@ class NewloanScreen1(Screen):
 
     def current(self):
         self.manager.current = 'NewloanScreen'
+
+    def go_to_newloan_screen2(self):
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        login_screen = NewloanScreen2(name='NewloanScreen2')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'NewloanScreen2'
+
 
 class NewloanScreen2(Screen):
     def on_pre_enter(self):

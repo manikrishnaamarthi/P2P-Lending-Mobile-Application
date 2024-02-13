@@ -6,22 +6,17 @@ from kivymd.uix.button import MDIconButton
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivy.uix.modalview import ModalView
 
-from dashboard import DashScreen
+from borrower_registration_forms import BorrowerScreen
 
 BorrLanding = '''
 <WindowManager>:
     BorrowerLanding:
     BorrowerHowScreen:
     
-
-
 <BorrowerLanding>:
     ScrollView:
         MDFloatLayout:
             md_bg_color:1,1,1,1
-
-
-
             Image:
                 source: "LOGO.png"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.91}
@@ -158,7 +153,7 @@ BorrLanding = '''
                 pos_hint: {'center_x': 0.5, 'center_y': 0.32}
 
                 color: 0, 0, 0, 1
-                on_release: root.switch_screen('BorrowerHowScreen')
+                on_release: root.go_to_borrower_landing()
             Widget:
                 # Widget to draw a line below the image
                 size_hint_y: None
@@ -175,7 +170,7 @@ BorrLanding = '''
                 md_bg_color: 6/255, 143/255, 236/255, 1
                 pos_hint: {'center_x': 0.5, 'center_y': 0.2}
                 border_radius: [1, 1, 1, 1]
-                on_release: root.switch_screen('BorrowerScreen')
+                on_release: root.go_to_borrower_screen()
 
 <BorrowerHowScreen>:
 
@@ -187,7 +182,7 @@ BorrLanding = '''
         MDIconButton:
 
             icon: 'arrow-left'
-            on_release: app.root.current = 'LenderLanding'
+            on_release: app.root.current = 'BorrowerLanding'
             pos_hint: {'center_x': 0.045, 'center_y': 0.95}
             theme_text_color: 'Custom'
             text_color: 0,0,0,1  # Set color to white
@@ -386,13 +381,7 @@ BorrLanding = '''
 
 
 class BorrowerLanding(Screen):
-
     Builder.load_string(BorrLanding)
-    def build(self):
-        sm = MyScreenManager()
-        sm.add_widget(BorrowerLanding(name="BorrowerLanding"))
-        sm.add_widget(DashScreen(name='dashboard'))
-        return sm
 
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
@@ -412,13 +401,23 @@ class BorrowerLanding(Screen):
     def go_back(self):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'dashboard'  # Replace with the actual name of your previous screen
+        self.manager.current = 'DashScreen'  # Replace with the actual name of your previous screen
 
-    def BorrowerHowScreen(self):
-        self.root.current = "BorrowerHowScreen"
+    def go_to_borrower_landing(self):
+        # self.root.current = "BorrowerScreen"
+        sm = self.manager
+        borrower_screen = BorrowerHowScreen(name='BorrowerHowScreen')
+        sm.add_widget(borrower_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'BorrowerHowScreen'
 
-    def BorrowerScreen(self):
-        self.root.current = "BorrowerScreen"
+    def go_to_borrower_screen(self):
+        # self.root.current = "BorrowerScreen"
+        sm = self.manager
+        borrower_screen = BorrowerScreen(name='BorrowerScreen')
+        sm.add_widget(borrower_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'BorrowerScreen'
 
     def switch_screen(self, screen_name):
         print(f"Switching to screen: {screen_name}")
@@ -454,14 +453,3 @@ class BorrowerHowScreen(Screen):
 
 class MyScreenManager(ScreenManager):
     pass
-
-
-class BorrowerScreen(Screen):
-    pass
-
-
-
-
-
-
-

@@ -1,4 +1,5 @@
 import sqlite3
+
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
@@ -6,9 +7,11 @@ from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
 from kivymd.uix.label import MDLabel
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRaisedButton, MDFlatButton
-import anvil.server
 
-anvil.server.connect("server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT")
+import anvil.server
+from dashboard import DashScreen
+
+anvil.server.connect("server_ANJQTKQ62KGHGX2XHC43NVOG-6JH2LHL646DIRMSE")
 
 KV = """
 <WindowManager>:
@@ -22,23 +25,23 @@ KV = """
             pos_hint: {'center_x': 0.5, 'center_y': 0.93}
             size_hint: None, None
             size: "100dp", "100dp"
-
+    
         MDLabel:
             id: label1
             text: 'Welcome Back!'
             font_size:dp(23)
-
+            
             halign: 'center'
             font_name:"Roboto-Bold"
             underline:"True"
             pos_hint: {'center_x': 0.5, 'center_y': 0.81}
         MDLabel:
-
+         
             text: 'Login to continue'
             color:6/255, 143/255, 236/255, 1
             font_size:dp(16)
             halign: 'center'
-
+          
             pos_hint: {'center_x': 0.5, 'center_y': 0.77}
         BoxLayout:
             orientation: 'vertical'
@@ -134,7 +137,7 @@ KV = """
         MDFlatButton:
             text: "Sign Up"
             font_size:dp(18)
-
+        
             theme_text_color: 'Custom'
             text_color: 6/255, 143/255, 236/255, 1
             on_release: root.go_to_signup()
@@ -189,7 +192,11 @@ class LoginScreen(Screen):
 
             if (email_list[i] == entered_email) and (password_list[i] == entered_password):
                 self.share_email_with_anvil(email_list[i])
-                self.manager.current = 'dashboard'
+                sm = self.manager
+                lender_screen = DashScreen(name='DashScreen')
+                sm.add_widget(lender_screen)
+                sm.transition.direction = 'left'  # Set the transition direction explicitly
+                sm.current = 'DashScreen'
 
             else:
                 self.show_error_dialog("Incorrect email/password")
@@ -219,15 +226,21 @@ class LoginScreen(Screen):
                                         WHERE user_id = ?
                                     ''', (i,))
                         conn.commit()
-                self.manager.current = 'dashboard'
+                sm = self.manager
+                lender_screen = DashScreen(name='DashScreen')
+                sm.add_widget(lender_screen)
+                sm.transition.direction = 'left'  # Set the transition direction explicitly
+                sm.current = 'DashScreen'
                 conn.close()
+
             else:
 
                 self.show_error_dialog("Incorrect password")
 
         else:
 
-            self.show_error_dialog("Invalid credentials")
+            self.show_error_dialog("Enter valid Email and password")
+
 
     def share_email_with_anvil(self, email):
         # Make an API call to Anvil server to share the email
@@ -248,7 +261,12 @@ class LoginScreen(Screen):
         dialog.open()
 
     def go_to_signup(self):
-        self.manager.current = 'SignupScreen'
+        from signup import SignupScreen
+        sm = self.manager
+        lender_screen = SignupScreen(name='SignupScreen')
+        sm.add_widget(lender_screen)
+        sm.transition.direction = 'left'  # Set the transition direction explicitly
+        sm.current = 'SignupScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)

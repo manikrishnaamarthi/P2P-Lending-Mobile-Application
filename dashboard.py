@@ -8,7 +8,8 @@ from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
 import sqlite3
 
-import lender_registration_form
+from borrowerlanding import BorrowerLanding
+from lender_landing import LenderLanding
 
 KV = """
 
@@ -134,7 +135,7 @@ class DashScreen(Screen):
 
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'MainScreen'
+        self.manager.current = 'DashScreen'
 
     def switch_screen(self, screen_name):
         print(f"Switching to screen: {screen_name}")
@@ -147,14 +148,27 @@ class DashScreen(Screen):
 
     def go_to_lender_landing(self):
         # Get the screen manager
+        # Get the existing ScreenManager
         sm = self.manager
 
-        # Access the desired screen by name and change the current screen
+        # Create a new instance of the LoginScreen
+        login_screen = LenderLanding(name='LenderLanding')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
         sm.current = 'LenderLanding'
 
     def go_to_borrower_landing(self):
         # Get the screen manager
         sm = self.manager
 
-        # Access the desired screen by name and change the current screen
+        # Create a new instance of the LoginScreen
+        login_screen = BorrowerLanding(name='BorrowerLanding')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
         sm.current = 'BorrowerLanding'
