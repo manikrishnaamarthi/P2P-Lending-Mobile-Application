@@ -10,6 +10,7 @@ from kivymd.app import MDApp
 from datetime import datetime, timedelta, timezone
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
+from kivymd.uix.snackbar import Snackbar
 
 anvil.server.connect("server_ANJQTKQ62KGHGX2XHC43NVOG-6JH2LHL646DIRMSE")
 view_loan_request = """
@@ -18,7 +19,7 @@ view_loan_request = """
     ViewLoansProfileScreen:
     ViewLoansProfileScreenLR:
     ViewLoansProfileScreenRL:
-    
+
 <ViewLoansRequest> 
     BoxLayout:
         orientation: 'vertical'
@@ -747,8 +748,12 @@ class ViewLoansProfileScreen(Screen):
         if loan_id in loan_idlist:
             index = loan_idlist.index(loan_id)
             data[index]['loan_updated_status'] = 'approved'
-            data[index]['loan_disbursed_timestamp'] = approved_date
+            data[index]['lender_accepted_timestamp'] = approved_date
             self.manager.current = 'ViewLoansRequest'
+            self.show_snackbar(f"This Loan ID {loan_id} is Approved")
+            return
+        else:
+            pass
 
     def rejected_click(self):
         data = self.get_table_data()
@@ -763,6 +768,13 @@ class ViewLoansProfileScreen(Screen):
             index = loan_idlist.index(loan_id)
             data[index]['loan_updated_status'] = 'rejected'
             self.manager.current = 'ViewLoansRequest'
+            self.show_snackbar(f"This Loan ID {loan_id} is Rejected")
+            return
+        else:
+            pass
+
+    def show_snackbar(self, text):
+        Snackbar(text=text, pos_hint={'top': 1}, md_bg_color=[1, 0, 0, 1]).open()
 
     def get_table_data(self):
         # Make a call to the Anvil server function
@@ -862,9 +874,13 @@ class ViewLoansProfileScreenLR(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'ViewLoansRequest'
 
+    def show_snackbar(self, text):
+        Snackbar(text=text, pos_hint={'top': 1}, md_bg_color=[1, 0, 0, 1]).open()
+
     def paynow(self):
         data = self.get_table_data()
         disbursed_time = datetime.now()
+        paid_time = datetime.now()
         loan_id = self.ids.loan_id.text
         print(loan_id)
         loan_id_list = []
@@ -873,7 +889,7 @@ class ViewLoansProfileScreenLR(Screen):
         loan_amount = []
         for i in data:
             loan_id_list.append(i['loan_id'])
-            disbursed.append(i['loan_disbursed_timestamp'])
+            disbursed.append(i['lender_accepted_timestamp'])
             credit_limit.append(i['credit_limit'])
             loan_amount.append(i['loan_amount'])
 
@@ -892,16 +908,22 @@ class ViewLoansProfileScreenLR(Screen):
         print(f"The difference in minutes is: {minutes_difference} minutes")
 
         if minutes_difference < 30 and credit_limit[index] > loan_amount[index]:
-            self.show_alert_dialog(f"Amount Paid Successfully {loan_amount[index]} to this Loan ID {loan_id_list[index]}")
+            self.show_snackbar(f"Amount Paid Successfully {loan_amount[index]} to this Loan ID {loan_id_list[index]}")
             data[index]['loan_updated_status'] = 'disbursed'
+            data[index]['loan_disbursed_timestamp'] = paid_time
+            self.manager.current = 'ViewLoansRequest'
+            return
 
         elif minutes_difference > 30:
-            self.show_alert_dialog(f"Time Out You Must Finish Before 30 Minutes")
+            self.show_snackbar(f"Time Out You Must Finish Before 30 Minutes")
             data[index]['loan_updated_status'] = 'lost opportunities'
+            self.manager.current = 'ViewLoansRequest'
+            return
 
         elif credit_limit[index] < loan_amount[index]:
-            self.show_alert_dialog(f"Your Credit Limit Not Sufficient for Loan Amount")
-
+            self.show_snackbar(f"Your Credit Limit Not Sufficient for Loan Amount {loan_amount[index]}")
+            self.manager.current = 'ViewLoansRequest'
+            return
 
 
 class ViewLoansProfileScreenRL(Screen):
