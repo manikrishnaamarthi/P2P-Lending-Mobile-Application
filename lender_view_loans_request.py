@@ -16,7 +16,9 @@ view_loan_request = """
 <WindowManager>:
     ViewLoansRequest:
     ViewLoansProfileScreen:
-
+    ViewLoansProfileScreenLR:
+    ViewLoansProfileScreenRL:
+    
 <ViewLoansRequest> 
     BoxLayout:
         orientation: 'vertical'
@@ -594,7 +596,7 @@ class ViewLoansRequest(Screen):
         self.ids.box1.height = h
 
     def on_back_button_press(self):
-        self.manager.current = 'lender_dashboard'
+        self.manager.current = 'LenderDashboard'
 
     def get_table_data(self):
         # Make a call to the Anvil server function
@@ -611,15 +613,43 @@ class ViewLoansRequest(Screen):
 
         if loan_status == 'approved':
             # Open the screen for approved loans
-            self.manager.current = 'ViewLoansProfileScreenLR'
+
+            sm = self.manager
+
+            # Create a new instance of the LoginScreen
+            approved = ViewLoansProfileScreenLR(name='ViewLoansProfileScreenLR')
+
+            # Add the LoginScreen to the existing ScreenManager
+            sm.add_widget(approved)
+
+            # Switch to the LoginScreen
+            sm.current = 'ViewLoansProfileScreenLR'
             self.manager.get_screen('ViewLoansProfileScreenLR').initialize_with_value(value, data)
         elif loan_status == 'under process':
             # Open the screen for pending loans
-            self.manager.current = 'ViewLoansProfileScreen'
+            sm = self.manager
+
+            # Create a new instance of the LoginScreen
+            under_process = ViewLoansProfileScreen(name='ViewLoansProfileScreen')
+
+            # Add the LoginScreen to the existing ScreenManager
+            sm.add_widget(under_process)
+
+            # Switch to the LoginScreen
+            sm.current = 'ViewLoansProfileScreen'
             self.manager.get_screen('ViewLoansProfileScreen').initialize_with_value(value, data)
         elif loan_status == 'rejected':
             # Open the screen for pending loans
-            self.manager.current = 'ViewLoansProfileScreenRL'
+            sm = self.manager
+
+            # Create a new instance of the LoginScreen
+            rejected = ViewLoansProfileScreenRL(name='ViewLoansProfileScreenRL')
+
+            # Add the LoginScreen to the existing ScreenManager
+            sm.add_widget(rejected)
+
+            # Switch to the LoginScreen
+            sm.current = 'ViewLoansProfileScreenRL'
             self.manager.get_screen('ViewLoansProfileScreenRL').initialize_with_value(value, data)
         else:
             # Handle other loan statuses or show an error message
@@ -643,7 +673,7 @@ class ViewLoansRequest(Screen):
     def go_back(self):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'lender_dashboard'
+        self.manager.current = 'LenderDashboard'
 
 
 class ViewLoansProfileScreen(Screen):
