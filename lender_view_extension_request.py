@@ -693,6 +693,7 @@ Builder.load_string(lender_view_extension)
 
 
 class NewExtension(Screen):
+
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
 
@@ -722,21 +723,21 @@ class NewExtension(Screen):
 
     def rejected_loans(self):
         sm = self.manager
-        borrower_screen = ApprovedLoansE(name='RejectedLoansE')
+        borrower_screen = RejectedLoansE(name='RejectedLoansE')
         sm.add_widget(borrower_screen)
         sm.transition.direction = 'left'  # Set the transition direction explicitly
         sm.current = 'RejectedLoansE'
 
     def under_process_loans(self):
         sm = self.manager
-        borrower_screen = ApprovedLoansE(name='UnderProcessLoansE')
+        borrower_screen = UnderProcessLoansE(name='UnderProcessLoansE')
         sm.add_widget(borrower_screen)
         sm.transition.direction = 'left'  # Set the transition direction explicitly
         sm.current = 'UnderProcessLoansE'
 
     def all_loans(self):
         sm = self.manager
-        borrower_screen = ApprovedLoansE(name='ViewProfileE')
+        borrower_screen = ViewProfileE(name='ViewProfileE')
         sm.add_widget(borrower_screen)
         sm.transition.direction = 'left'  # Set the transition direction explicitly
         sm.current = 'ViewProfileE'
@@ -816,8 +817,9 @@ class ApprovedLoansE(Screen):
         self.ids.box1.height = h
 
     def go_back(self):
-        screen_manager = NewExtension()
+        screen_manager = self.manager
         screen_manager.add_widget(NewExtension(name='NewExtension'))
+        screen_manager.current = 'NewExtension'
 
     def get_table_data(self):
         # Make a call to the Anvil server function
@@ -930,8 +932,9 @@ class ViewAllLoansE(Screen):
         Window.softinput_mode = "below_target"
 
     def go_back(self):
-        screen_manager = NewExtension()
+        screen_manager = self.manager
         screen_manager.add_widget(NewExtension(name='NewExtension'))
+        screen_manager.current = 'NewExtension'
 
     def get_table_data(self):
         # Make a call to the Anvil server function
@@ -1018,8 +1021,9 @@ class RejectedLoansE(Screen):
         Window.softinput_mode = "below_target"
 
     def go_back(self):
-        screen_manager = NewExtension()
+        screen_manager = self.manager
         screen_manager.add_widget(NewExtension(name='NewExtension'))
+        screen_manager.current = 'NewExtension'
 
     def get_table_data(self):
         # Make a call to the Anvil server function
@@ -1116,8 +1120,9 @@ class UnderProcessLoansE(Screen):
         Window.softinput_mode = "below_target"
 
     def go_back(self):
-        screen_manager = NewExtension()
+        screen_manager = self.manager
         screen_manager.add_widget(NewExtension(name='NewExtension'))
+        screen_manager.current = 'NewExtension'
 
 
 class ViewProfileE(Screen):
@@ -1180,8 +1185,9 @@ class ViewProfileE(Screen):
         Window.softinput_mode = "below_target"
 
     def go_back(self):
-        screen_manager = NewExtension()
+        screen_manager = self.manager
         screen_manager.add_widget(NewExtension(name='NewExtension'))
+        screen_manager.current = 'NewExtension'
 
     def accept_request(self):
         # Code to send the request to the borrower for accepting the loan extension
