@@ -203,7 +203,7 @@ class LoginScreen(Screen):
 
 
 
-        elif user_data:
+        if user_data:
 
             if user_data[4] == entered_password:  # Fix index to 4 for the password field
 

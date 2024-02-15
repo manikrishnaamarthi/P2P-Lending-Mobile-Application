@@ -5432,13 +5432,13 @@ class BorrowerScreen16(Screen):
 
             id_list = [i['email_user'] for i in data]
 
-            date_object = datetime.strptime(spouse_date_textfield, '%Y-%m-%d')
+
             user_email = self.get_email()
             if user_email in id_list:
                 index = id_list.index(user_email)
                 data[index]['spouse_name'] = spouse_name
                 data[index]['spouse_mobile'] = spouse_mobile
-                data[index]['spouse_date'] = date_object.date()
+                data[index]['spouse_date'] = str(spouse_date_textfield)
                 data[index]['spouse_profession'] = spouse_profession
             else:
                 print("email not there")

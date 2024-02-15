@@ -184,8 +184,8 @@ KV = '''
         title: "P2P LENDING"
         elevation: 2
         pos_hint: {'top': 1}
-        left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen1')]]
-        right_action_items: [['home', lambda x: root.go_to_dashboard]]
+        left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen')]]
+        right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
 
     MDBoxLayout:
@@ -3013,6 +3013,8 @@ class LenderScreen1(Screen):
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LenderScreen'
+    def go_to_dashboard(self):
+        self.manager.current = 'DashScreen'
 
 
 class LenderScreen2(Screen):
