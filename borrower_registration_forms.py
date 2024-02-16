@@ -4702,14 +4702,14 @@ class BorrowerScreen8(Screen):
             else:
                 print('email not found')
 
-            sm = self.manager
-            borrower_screen = BorrowerScreen15(name='BorrowerScreen15')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen15'
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+        sm = self.manager
+        borrower_screen = BorrowerScreen15(name='BorrowerScreen15')
+        sm.add_widget(borrower_screen)
+        sm.transition.direction = 'left'
+        sm.current = 'BorrowerScreen15'
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -4769,14 +4769,15 @@ class BorrowerScreen9(Screen):
             else:
                 print('no email found')
 
-            sm = self.manager
-            borrower_screen = BorrowerScreen10(name='BorrowerScreen10')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen10'
+
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+        sm = self.manager
+        borrower_screen = BorrowerScreen10(name='BorrowerScreen10')
+        sm.add_widget(borrower_screen)
+        sm.transition.direction = 'left'
+        sm.current = 'BorrowerScreen10'
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -5043,14 +5044,14 @@ class BorrowerScreen12(Screen):
             else:
                 print('email not found')
 
-            sm = self.manager
-            borrower_screen = BorrowerScreen13(name='BorrowerScreen13')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen13'
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+        sm = self.manager
+        borrower_screen = BorrowerScreen13(name='BorrowerScreen13')
+        sm.add_widget(borrower_screen)
+        sm.transition.direction = 'left'
+        sm.current = 'BorrowerScreen13'
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'

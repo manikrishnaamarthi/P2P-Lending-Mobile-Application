@@ -1,3 +1,4 @@
+from kivymd.uix.list import *
 import anvil.server
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
@@ -20,129 +21,24 @@ view_loan_request = """
     ViewLoansProfileScreenLR:
     ViewLoansProfileScreenRL:
 
-<ViewLoansRequest> 
+<ViewLoansRequest>
     BoxLayout:
         orientation: 'vertical'
         MDTopAppBar:
             title: "View Loans Request"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            right_action_items: [['refresh', lambda x: root.refresh()]]
+        MDScrollView:
+        
+            MDList:
+                id: container
 
-        ScrollView:
-
-            MDBoxLayout:
-                orientation: 'vertical'
-                size_hint_y: None
-                height: self.minimum_height
-
-
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    size_hint_y: None
-                    height: self.minimum_height
-                    padding: dp(20)
-
-                    BoxLayout:
-                        id: box1
-                        orientation: 'vertical'
-                        size_hint_y: None
-                        height: 0
-
-                        padding: [10, 0,0,0]
-                        canvas.before:
-                            Color:
-                                rgba: 0, 0, 1, 1  # Blue color for the box
-                            Line:
-                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
-
-
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                text: 'Loan ID'
-                                size_hint_y: None
-                                height: dp(50)  # Adjust the height as needed
-                                bold: True
-
-
-                            MDLabel:
-                                text: 'Loan Amount'
-                                size_hint_y: None
-                                height: dp(50)  # Adjust the height as needed
-                                bold: True
-
-                            MDLabel:
-                                text: 'Loan Status'
-                                size_hint_y: None
-                                height: dp(50)  # Adjust the height as needed
-                                bold: True
-                            MDLabel:
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  # Adjust the height as needed
-                                size_hint_x: None
-                                width: dp(20)
-                                bold: True
-                        Widget:
-                            size_hint_y: None
-                            height: dp(2) 
-                            canvas:
-                                Color:
-                                    rgba: 0, 0, 1, 1
-                                Line:
-                                    width: dp(0.6)  # Set the width of the line to make it bold
-                                    points: self.x, self.y, self.x + self.width, self.y
-
-"""
-
-a = 50
-
-for i in range(a):
-    id_label = f"label_{i}"
-    amount = f"amount_{i}"
-    status = f"status_{i}"
-    icon = f"icon_{i}"
-    view_loan_request += f'''
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                id: {id_label}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  # Adjust the height as needed
-
-                            MDLabel:
-                                id: {amount}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  # Adjust the height as needed
-
-
-                            MDLabel:
-                                id: {status}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  # Adjust the height as needed
-
-
-                            MDIconButton:
-                                id: {icon}
-                                icon: 'arrow-right-thick'
-                                size_hint_y: None
-                                height: dp(50)  # Adjust the height as needed
-                                on_release: root.icon_button_clicked({id_label}.text)
-                                opacity: 0
-
-    '''
-
-view_loan_request += '''
 <ViewLoansProfileScreen>
     BoxLayout:
         orientation: 'vertical'
         MDTopAppBar:
-            title: "All Loans"
+            title: "View Profile"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
 
@@ -156,7 +52,7 @@ view_loan_request += '''
                     orientation: 'vertical'
                     size_hint_y: None
                     MDLabel:
-                        text: " Borrower Loan details"
+                        text: "Borrower Full Loan details"
                         halign: "center"
                         bold: True
                 MDBoxLayout:
@@ -169,7 +65,7 @@ view_loan_request += '''
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: dp(950)
+                        height: dp(750)
 
                         padding: [10, 0,0,0]
                         canvas.before:
@@ -183,82 +79,139 @@ view_loan_request += '''
                             spacing: dp(10)
                             padding: dp(10)
                             MDLabel:
-                                text: "User ID" 
+                                text: "User ID:" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: user1
                                 text: "" 
-                            MDLabel:
-                                text: "Name" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                                
+                            MDLabel:
+                                text: "Borrower Name:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: name
-                                text: "" 
-                            MDLabel:
-                                text: "Beseem Score" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Beseem Score:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: beseem
                                 text: "" 
-                            MDLabel:
-                                text: "Loan Tenure" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Loan Tenure:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                                
                             MDLabel:
                                 id: tenure
                                 text: "" 
-                            MDLabel:
-                                text: "Member Rome" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Phone Number:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: rome
                                 text: "" 
-                            MDLabel:
-                                text: "Member since" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                                
+                            MDLabel:
+                                text: "Member since:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: since
                                 text: "" 
-                            MDLabel:
-                                text: "Credit Limit" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Credit Limit:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: limit
                                 text: "" 
-                            MDLabel:
-                                text: "Interest Rate" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Interest Rate:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: interest
                                 text: "" 
-                            MDLabel:
-                                text: "Loan Amount Applied" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Loan Amount Applied:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: amount_applied
                                 text: "" 
-                            MDLabel:
-                                text: "Loan ID" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Loan ID:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: loan_id
                                 text: "" 
-                            MDLabel:
-                                text: "Bank Details" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Bank Details:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: bank_details
-                                text: "" 
+                                text: ""
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"  
                             MDRaisedButton:
                                 text: "Reject"
                                 md_bg_color: 194/255, 2/255, 21/255, 1
@@ -280,7 +233,7 @@ view_loan_request += '''
     BoxLayout:
         orientation: 'vertical'
         MDTopAppBar:
-            title: "All Loans"
+            title: "View Profile"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
 
@@ -294,7 +247,7 @@ view_loan_request += '''
                     orientation: 'vertical'
                     size_hint_y: None
                     MDLabel:
-                        text: " Borrower Loan details"
+                        text: "Borrower Full Loan details"
                         halign: "center"
                         bold: True
                 MDBoxLayout:
@@ -307,7 +260,7 @@ view_loan_request += '''
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: dp(950)
+                        height: dp(750)
 
                         padding: [10, 0,0,0]
                         canvas.before:
@@ -321,97 +274,152 @@ view_loan_request += '''
                             spacing: dp(10)
                             padding: dp(10)
                             MDLabel:
-                                text: "User ID" 
+                                text: "User ID:" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: user1
                                 text: "" 
-                            MDLabel:
-                                text: "Name" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                                
+                            MDLabel:
+                                text: "Borrower Name:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: name
-                                text: "" 
-                            MDLabel:
-                                text: "Beseem Score" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Beseem Score:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: beseem
                                 text: "" 
-                            MDLabel:
-                                text: "Loan Tenure" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Loan Tenure:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                                
                             MDLabel:
                                 id: tenure
                                 text: "" 
-                            MDLabel:
-                                text: "Member Rome" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Phone Number:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: rome
                                 text: "" 
-                            MDLabel:
-                                text: "Member since" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                                
+                            MDLabel:
+                                text: "Member since:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: since
                                 text: "" 
-                            MDLabel:
-                                text: "Credit Limit" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Credit Limit:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: limit
                                 text: "" 
-                            MDLabel:
-                                text: "Interest Rate" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Interest Rate:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: interest
                                 text: "" 
-                            MDLabel:
-                                text: "Loan Amount Applied" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Loan Amount Applied:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: amount_applied
                                 text: "" 
-                            MDLabel:
-                                text: "Loan ID" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Loan ID:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: loan_id
                                 text: "" 
-                            MDLabel:
-                                text: "Bank Details" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Bank Details:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: bank_details
-                                text: "" 
+                                text: ""
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center" 
                             MDRaisedButton:
                                 text: "Cancel"
-                                md_bg_color: 194/255, 2/255, 21/255, 1
-                                theme_text_color: 'Primary'
+                                md_bg_color: 11/255, 4/255, 64/255, 1
                                 on_release: app.root.current = 'ViewLoansRequest'
-                                text_color: 0, 0, 0, 1
+                                text_color: 1,1,1,1
                                 font_name: "Roboto-Bold.ttf"
                                 size_hint: 1, None
 
                             MDRaisedButton:
                                 text: "Pay Now"
-                                md_bg_color: 5/255, 235/255, 77/255, 1
-                                theme_text_color: 'Primary'
+                                md_bg_color: 11/255, 4/255, 64/255, 1
                                 font_name: "Roboto-Bold.ttf"
-                                text_color: 0, 0, 0, 1
+                                text_color: 1,1,1,1
                                 size_hint: 1, None
                                 on_release: root.paynow()
 
@@ -419,7 +427,7 @@ view_loan_request += '''
     BoxLayout:
         orientation: 'vertical'
         MDTopAppBar:
-            title: "All Loans"
+            title: "View Profile"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
 
@@ -433,7 +441,7 @@ view_loan_request += '''
                     orientation: 'vertical'
                     size_hint_y: None
                     MDLabel:
-                        text: " Borrower Loan details"
+                        text: "Borrower Full Loan details"
                         halign: "center"
                         bold: True
                 MDBoxLayout:
@@ -446,7 +454,7 @@ view_loan_request += '''
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: dp(950)
+                        height: dp(750)
 
                         padding: [10, 0,0,0]
                         canvas.before:
@@ -459,98 +467,159 @@ view_loan_request += '''
                             cols: 2
                             spacing: dp(10)
                             padding: dp(10)
+                            
                             MDLabel:
-                                text: "User ID" 
+                                text: "User ID:" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: user1
                                 text: "" 
-                            MDLabel:
-                                text: "Name" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                                
+                            MDLabel:
+                                text: "Borrower Name:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: name
-                                text: "" 
-                            MDLabel:
-                                text: "Beseem Score" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Beseem Score:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: beseem
                                 text: "" 
-                            MDLabel:
-                                text: "Loan Tenure" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Loan Tenure:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                                
                             MDLabel:
                                 id: tenure
                                 text: "" 
-                            MDLabel:
-                                text: "Member Rome" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Phone Number:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: rome
                                 text: "" 
-                            MDLabel:
-                                text: "Member since" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                                
+                            MDLabel:
+                                text: "Member since:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: since
                                 text: "" 
-                            MDLabel:
-                                text: "Credit Limit" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Credit Limit:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: limit
                                 text: "" 
-                            MDLabel:
-                                text: "Interest Rate" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Interest Rate:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: interest
                                 text: "" 
-                            MDLabel:
-                                text: "Loan Amount Applied" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Loan Amount Applied:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: amount_applied
                                 text: "" 
-                            MDLabel:
-                                text: "Loan ID" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Loan ID:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: loan_id
                                 text: "" 
-                            MDLabel:
-                                text: "Bank Details" 
                                 size_hint_y:None
                                 height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Bank Details:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
                             MDLabel:
                                 id: bank_details
-                                text: "" 
+                                text: ""
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center" 
 
                         MDBoxLayout:
                             orientation: "vertical"
+                            size_hint_y: None
+                            height: dp(50)
                             MDLabel:
                                 text: "Your Loan request is Rejected"    
                                 bold: True  
-                                halign: "center"    
-'''
+                                halign: "center"
+                                size_hint_y: None
+                                height: dp(50)    
+"""
 Builder.load_string(view_loan_request)
 
 
 class ViewLoansRequest(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
         data = self.get_table_data()
         customer_id = []
         loan_id = []
@@ -576,35 +645,22 @@ class ViewLoansRequest(Screen):
         for i in index_list:
             b += 1
             k += 1
-            id_label = f"label_{k}"
-            amount = f"amount_{k}"
-            status = f"status_{k}"
-            icon = f"icon_{k}"  # Fix the variable name here
+            item = ThreeLineAvatarIconListItem(
 
-            label_1 = self.ids[id_label]
-            label_1.text = loan_id[i]
-            label_2 = self.ids[amount]
-            label_2.text = str(loan_amount[i])
-            label_3 = self.ids[status]
-            label_3.text = loan_status[i]
-            icon = self.ids[icon]  # Fix the variable name here
-            icon.opacity = 1
+                IconLeftWidget(
+                    icon="card-account-details-outline"
+                ),
+                text=f"Loan ID : {loan_id[i]}",
+                secondary_text=f"Amount: {loan_amount[i]}",
+                tertiary_text=f"Status: {loan_status[i]}",
+            )
+            item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
+            self.ids.container.add_widget(item)
 
-        h = self.ids.box1.height
-
-        for i in range(a + 1):
-            h += 150
-        self.ids.box1.height = h
-
-    def on_back_button_press(self):
-        self.manager.current = 'LenderDashboard'
-
-    def get_table_data(self):
-        # Make a call to the Anvil server function
-        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
-        return anvil.server.call('get_table_data')
-
-    def icon_button_clicked(self, value):
+    def icon_button_clicked(self, instance):
+        # Handle the on_release event here
+        value = instance.text.split(':')
+        value = value[-1][1:]
         data = self.get_table_data()  # Fetch data here
         loan_status = None
         for loan in data:
@@ -675,7 +731,13 @@ class ViewLoansRequest(Screen):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LenderDashboard'
-
+    def refresh(self):
+        self.ids.container.clear_widgets()
+        self.__init__()
+    def get_table_data(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('get_table_data')
 
 class ViewLoansProfileScreen(Screen):
     def __init__(self, **kwargs):
@@ -907,7 +969,7 @@ class ViewLoansProfileScreenLR(Screen):
 
         print(f"The difference in minutes is: {minutes_difference} minutes")
 
-        if minutes_difference < 30 and credit_limit[index] > loan_amount[index]:
+        if minutes_difference < 30:
             self.show_snackbar(f"Amount Paid Successfully {loan_amount[index]} to this Loan ID {loan_id_list[index]}")
             data[index]['loan_updated_status'] = 'disbursed'
             data[index]['loan_disbursed_timestamp'] = paid_time
@@ -920,10 +982,6 @@ class ViewLoansProfileScreenLR(Screen):
             self.manager.current = 'ViewLoansRequest'
             return
 
-        elif credit_limit[index] < loan_amount[index]:
-            self.show_snackbar(f"Your Credit Limit Not Sufficient for Loan Amount {loan_amount[index]}")
-            self.manager.current = 'ViewLoansRequest'
-            return
 
 
 class ViewLoansProfileScreenRL(Screen):
