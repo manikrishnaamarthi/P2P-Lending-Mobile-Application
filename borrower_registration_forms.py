@@ -3055,15 +3055,15 @@ class BorrowerScreen(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
-        b = 'borrower'
+
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
         if 'logged' in status:
             log_index = status.index('logged')
             cursor.execute(
-                "UPDATE fin_registration_table SET name = ?, gender = ?,  date_of_birth = ?, user_type = ? WHERE customer_id = ?",
-                (name, gender, date_of_birth, b, row_id_list[log_index]))
+                "UPDATE fin_registration_table SET name = ?, gender = ?,  date_of_birth = ? WHERE customer_id = ?",
+                (name, gender, date_of_birth, row_id_list[log_index]))
             conn.commit()
         else:
             # Handle the case where the user is not logged in
@@ -3082,7 +3082,7 @@ class BorrowerScreen(Screen):
             data[index]['full_name'] = name
             data[index]['gender'] = gender
             data[index]['date_of_birth'] = date_object.date()
-            data[index]['usertype'] = b
+
         else:
             print("email not there")
 
@@ -3388,17 +3388,18 @@ class BorrowerScreen3(Screen):
             cursor.execute("UPDATE fin_registration_table SET highest_qualification = ? WHERE customer_id = ?",
                            (id, row_id_list[log_index]))
             conn.commit()
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
 
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['qualification'] = id
-            else:
-                print('email not found')
         else:
             print('User is not logged in.')
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['qualification'] = id
+        else:
+            print('email not found')
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -4530,30 +4531,6 @@ class BorrowerScreen7(Screen):
                 (spinner_id, row_id_list[log_index]))
             conn.commit()
 
-            if spinner_id == 'Student':
-                # self.manager.current = 'BorrowerScreen8'
-                sm = self.manager
-                borrower_screen = BorrowerScreen8(name='BorrowerScreen8')
-                sm.add_widget(borrower_screen)
-                sm.transition.direction = 'left'
-                sm.current = 'BorrowerScreen8'
-
-            elif spinner_id == 'Business':
-                # self.manager.current = 'BorrowerScreen9'
-                sm = self.manager
-                borrower_screen = BorrowerScreen9(name='BorrowerScreen9')
-                sm.add_widget(borrower_screen)
-                sm.transition.direction = 'left'
-                sm.current = 'BorrowerScreen9'
-
-            elif spinner_id == 'Employee':
-                # self.manager.current = 'BorrowerScreen12'
-                sm = self.manager
-                borrower_screen = BorrowerScreen12(name='BorrowerScreen12')
-                sm.add_widget(borrower_screen)
-                sm.transition.direction = 'left'
-                sm.current = 'BorrowerScreen12'
-
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
@@ -4569,6 +4546,29 @@ class BorrowerScreen7(Screen):
             data[index]['profficen'] = spinner_id
         else:
             print('no email found')
+        if spinner_id == 'Student':
+            # self.manager.current = 'BorrowerScreen8'
+            sm = self.manager
+            borrower_screen = BorrowerScreen8(name='BorrowerScreen8')
+            sm.add_widget(borrower_screen)
+            sm.transition.direction = 'left'
+            sm.current = 'BorrowerScreen8'
+
+        elif spinner_id == 'Business':
+            # self.manager.current = 'BorrowerScreen9'
+            sm = self.manager
+            borrower_screen = BorrowerScreen9(name='BorrowerScreen9')
+            sm.add_widget(borrower_screen)
+            sm.transition.direction = 'left'
+            sm.current = 'BorrowerScreen9'
+
+        elif spinner_id == 'Employee':
+            # self.manager.current = 'BorrowerScreen12'
+            sm = self.manager
+            borrower_screen = BorrowerScreen12(name='BorrowerScreen12')
+            sm.add_widget(borrower_screen)
+            sm.transition.direction = 'left'
+            sm.current = 'BorrowerScreen12'
         print(id)
 
     def go_to_dashboard(self):
@@ -4687,24 +4687,22 @@ class BorrowerScreen8(Screen):
                 "UPDATE fin_registration_table SET collage_name = ?, college_address = ?, college_id = ? WHERE customer_id = ?",
                 (collage_name, college_address, collage_id, row_id_list[log_index]))
             conn.commit()
-
-            data = self.profile()
-            id_list = []
-            for i in data:
-                id_list.append(i['email_user'])
-
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['college_name'] = collage_name
-                data[index]['college_address'] = college_address
-                data[index]['college_id'] = collage_id
-            else:
-                print('email not found')
-
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['college_name'] = collage_name
+            data[index]['college_address'] = college_address
+            data[index]['college_id'] = collage_id
+        else:
+            print('email not found')
         sm = self.manager
         borrower_screen = BorrowerScreen15(name='BorrowerScreen15')
         sm.add_widget(borrower_screen)
@@ -4755,24 +4753,24 @@ class BorrowerScreen9(Screen):
                 (business_name, business_location, business_address, row_id_list[log_index]))
             conn.commit()
 
-            data = self.profile()
-            id_list = []
-            for i in data:
-                id_list.append(i['email_user'])
-
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['business_name'] = business_name
-                data[index]['business_add'] = business_address
-                data[index]['business_location'] = business_location
-            else:
-                print('no email found')
-
-
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['business_name'] = business_name
+            data[index]['business_add'] = business_address
+            data[index]['business_location'] = business_location
+        else:
+            print('no email found')
+
         sm = self.manager
         borrower_screen = BorrowerScreen10(name='BorrowerScreen10')
         sm.add_widget(borrower_screen)
@@ -4824,30 +4822,30 @@ class BorrowerScreen10(Screen):
                  row_id_list[log_index]))
             conn.commit()
 
-            data = self.profile()
-            id_list = []
-            for i in data:
-                id_list.append(i['email_user'])
-
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['registered_off_add'] = registered_office_address
-                data[index]['business_type'] = business_type
-                data[index]['employees_working'] = no_of_employees_working
-                data[index]['year_estd'] = year_of_estd
-                data[index]['company_landmark'] = landmark
-            else:
-                print('no email found')
-
-            sm = self.manager
-            borrower_screen = BorrowerScreen15(name='BorrowerScreen15')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen15'
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+        data = self.profile()
+        id_list = []
+        for i in data:
+            id_list.append(i['email_user'])
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['registered_off_add'] = registered_office_address
+            data[index]['business_type'] = business_type
+            data[index]['employees_working'] = no_of_employees_working
+            data[index]['year_estd'] = year_of_estd
+            data[index]['company_landmark'] = landmark
+        else:
+            print('no email found')
+
+        sm = self.manager
+        borrower_screen = BorrowerScreen15(name='BorrowerScreen15')
+        sm.add_widget(borrower_screen)
+        sm.transition.direction = 'left'
+        sm.current = 'BorrowerScreen15'
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -4970,24 +4968,23 @@ class BorrowerScreen11(Screen):
                 (industry_type, last_six_months_turnover, row_id_list[log_index]))
             conn.commit()
 
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['industry_type'] = industry_type
-                data[index]['six_month_turnover'] = last_six_months_turnover
-            else:
-                print('email not found')
-
-            sm = self.manager
-            borrower_screen = BorrowerScreen12(name='BorrowerScreen12')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen12'
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['industry_type'] = industry_type
+            data[index]['six_month_turnover'] = last_six_months_turnover
+        else:
+            print('email not found')
+        sm = self.manager
+        borrower_screen = BorrowerScreen12(name='BorrowerScreen12')
+        sm.add_widget(borrower_screen)
+        sm.transition.direction = 'left'
+        sm.current = 'BorrowerScreen12'
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -5033,20 +5030,19 @@ class BorrowerScreen12(Screen):
                 (employment_type, company_name, organization, row_id_list[log_index]))
             conn.commit()
 
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['employment_type'] = employment_type
-                data[index]['company_name'] = company_name
-                data[index]['organization_type'] = organization
-            else:
-                print('email not found')
-
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['employment_type'] = employment_type
+            data[index]['company_name'] = company_name
+            data[index]['organization_type'] = organization
+        else:
+            print('email not found')
         sm = self.manager
         borrower_screen = BorrowerScreen13(name='BorrowerScreen13')
         sm.add_widget(borrower_screen)
@@ -5097,27 +5093,26 @@ class BorrowerScreen14(Screen):
                 (company_address, company_pincode, company_country, landmark, business_number, row_id_list[log_index]))
             conn.commit()
 
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['company_address'] = company_address
-                data[index]['company_landmark'] = landmark
-                data[index]['business_no'] = business_number
-                data[index]['company_country'] = company_country
-                data[index]['company_pincode'] = company_pincode
-            else:
-                print('email not found')
-
-            sm = self.manager
-            borrower_screen = BorrowerScreen15(name='BorrowerScreen15')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen15'
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['company_address'] = company_address
+            data[index]['company_landmark'] = landmark
+            data[index]['business_no'] = business_number
+            data[index]['company_country'] = company_country
+            data[index]['company_pincode'] = company_pincode
+        else:
+            print('email not found')
+        sm = self.manager
+        borrower_screen = BorrowerScreen15(name='BorrowerScreen15')
+        sm.add_widget(borrower_screen)
+        sm.transition.direction = 'left'
+        sm.current = 'BorrowerScreen15'
 
     def on_company_pincode_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
@@ -5271,24 +5266,23 @@ class BorrowerScreen13(Screen):
                 (annual_salary, designation, row_id_list[log_index]))
             conn.commit()
 
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['annual_salary'] = annual_salary
-                data[index]['designation'] = designation
-            else:
-                print('email not found')
-
-            sm = self.manager
-            borrower_screen = BorrowerScreen14(name='BorrowerScreen14')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen14'
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['annual_salary'] = annual_salary
+            data[index]['designation'] = designation
+        else:
+            print('email not found')
+        sm = self.manager
+        borrower_screen = BorrowerScreen14(name='BorrowerScreen14')
+        sm.add_widget(borrower_screen)
+        sm.transition.direction = 'left'
+        sm.current = 'BorrowerScreen14'
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -5355,17 +5349,38 @@ class BorrowerScreen15(Screen):
                 sm.transition.direction = 'left'
                 sm.current = 'BorrowerScreen18'
 
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['marital_status'] = marital_status_id
-            else:
-                print('email not found')
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['marital_status'] = marital_status_id
+        else:
+            print('email not found')
+
+        if marital_status_id == 'Un-Married':
+            sm = self.manager
+            borrower_screen = BorrowerScreen18(name='BorrowerScreen18')
+            sm.add_widget(borrower_screen)
+            sm.transition.direction = 'left'
+            sm.current = 'BorrowerScreen18'
+
+        elif marital_status_id == 'Married':
+            sm = self.manager
+            borrower_screen = BorrowerScreen16(name='BorrowerScreen16')
+            sm.add_widget(borrower_screen)
+            sm.transition.direction = 'left'
+            sm.current = 'BorrowerScreen16'
+
+        elif marital_status_id == 'Divorced':
+            sm = self.manager
+            borrower_screen = BorrowerScreen18(name='BorrowerScreen18')
+            sm.add_widget(borrower_screen)
+            sm.transition.direction = 'left'
+            sm.current = 'BorrowerScreen18'
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -5429,23 +5444,23 @@ class BorrowerScreen16(Screen):
                 "UPDATE fin_registration_table SET spouse_name = ?,spouse_date_textfield = ?, spouse_mobile = ?, spouse_profession = ? WHERE customer_id = ?",
                 (spouse_name, spouse_date_textfield, spouse_mobile, spouse_profession, row_id_list[log_index]))
             conn.commit()
-            data = self.profile()
 
-            id_list = [i['email_user'] for i in data]
-
-
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['spouse_name'] = spouse_name
-                data[index]['spouse_mobile'] = spouse_mobile
-                data[index]['spouse_date'] = str(spouse_date_textfield)
-                data[index]['spouse_profession'] = spouse_profession
-            else:
-                print("email not there")
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+        data = self.profile()
+
+        id_list = [i['email_user'] for i in data]
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['spouse_name'] = spouse_name
+            data[index]['spouse_mobile'] = spouse_mobile
+            data[index]['spouse_date'] = str(spouse_date_textfield)
+            data[index]['spouse_profession'] = spouse_profession
+        else:
+            print("email not there")
 
         sm = self.manager
         borrower_screen = BorrowerScreen17(name='BorrowerScreen17')
@@ -5505,19 +5520,21 @@ class BorrowerScreen17(Screen):
                 (spouse_company_name, spouse_company_address, spouse_annual_salary, spouse_office_no,
                  row_id_list[log_index]))
             conn.commit()
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['spouse_company_name'] = spouse_company_name
-                data[index]['spouse_company_address'] = spouse_company_address
-                data[index]['spouse_annual_salary'] = spouse_annual_salary
-                data[index]['spouse_office_no'] = spouse_office_no
-            else:
-                print('email not valid')
+
         else:
             print('User is not logged in.')
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['spouse_company_name'] = spouse_company_name
+            data[index]['spouse_company_address'] = spouse_company_address
+            data[index]['spouse_annual_salary'] = spouse_annual_salary
+            data[index]['spouse_office_no'] = spouse_office_no
+        else:
+            print('email not valid')
+
 
         sm = self.manager
         borrower_screen = BorrowerScreen18(name='BorrowerScreen18')
@@ -5568,19 +5585,20 @@ class BorrowerScreen18(Screen):
                 "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
                 (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
             conn.commit()
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['account_name'] = account_holder_name
-                data[index]['account_type'] = account_type
-                data[index]['account_number'] = account_number
-                data[index]['bank_name'] = bank_name
-            else:
-                print('email not valid')
+
         else:
             print('User is not logged in.')
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['account_name'] = account_holder_name
+            data[index]['account_type'] = account_type
+            data[index]['account_number'] = account_number
+            data[index]['bank_name'] = bank_name
+        else:
+            print('email not valid')
 
         sm = self.manager
         borrower_screen = BorrowerScreen19(name='BorrowerScreen19')
@@ -5621,6 +5639,7 @@ class BorrowerScreen19(Screen):
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+        b = 'borrower'
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
@@ -5628,20 +5647,23 @@ class BorrowerScreen19(Screen):
         if 'logged' in status:
             log_index = status.index('logged')
             cursor.execute(
-                "UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
-                (bank_id, branch_name, row_id_list[log_index]))
+                "UPDATE fin_registration_table SET bank_id = ?, branch_name = ?,user_type = ?  WHERE customer_id = ?",
+                (bank_id, branch_name,b, row_id_list[log_index]))
             conn.commit()
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['bank_id'] = bank_id
-                data[index]['account_bank_branch'] = branch_name
-            else:
-                print('email not valid')
+
         else:
             print('User is not logged in.')
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['bank_id'] = bank_id
+            data[index]['account_bank_branch'] = branch_name
+            data[index]['usertype'] = b
+            data[index]['registration_approve'] = True
+        else:
+            print('email not valid')
 
         sm = self.manager
         borrower_screen = DashboardScreen(name='DashboardScreen')

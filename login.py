@@ -10,8 +10,9 @@ from kivymd.uix.button import MDRaisedButton, MDFlatButton
 
 import anvil.server
 from dashboard import DashScreen
-
-anvil.server.connect("server_ANJQTKQ62KGHGX2XHC43NVOG-6JH2LHL646DIRMSE")
+from lender_dashboard import LenderDashboard
+from borrower_dashboard import DashboardScreen
+anvil.server.connect("server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT")
 
 KV = """
 <WindowManager>:
@@ -179,18 +180,43 @@ class LoginScreen(Screen):
 
         user_data = cursor.fetchone()
         data = self.login_data()
+        profile = self.profile()
         email_list = []
         password_list = []
+        registartion_approve = []
+        user_type = []
+        email_user = []
         a = 0
         for i in data:
             a += 1
             email_list.append(i['email'])
             password_list.append(i['password_hash'])
+        for i in profile:
+            registartion_approve.append(i['registration_approve'])
+            user_type.append(i['usertype'])
+            email_user.append(i['email_user'])
 
         if entered_email in email_list:
             i = email_list.index(entered_email)
+            if entered_email in email_user:
+                index = email_user.index(entered_email)
+            else:
+                print('no email found')
 
-            if (email_list[i] == entered_email) and (password_list[i] == entered_password):
+            if (email_list[i] == entered_email) and (password_list[i] == entered_password) and (registartion_approve[index] == True) and (user_type[index] == 'borrower'):
+                sm = self.manager
+                borrower_screen = DashboardScreen(name='DashboardScreen')
+                sm.add_widget(borrower_screen)
+                sm.transition.direction = 'left'  # Set the transition direction explicitly
+                sm.current = 'DashboardScreen'
+            elif (email_list[i] == entered_email) and (password_list[i] == entered_password) and (registartion_approve[index] == True) and (user_type[index] == 'lender'):
+                sm = self.manager
+                lender_screen = LenderDashboard(name='LenderDashboard')
+                sm.add_widget(lender_screen)
+                sm.transition.direction = 'left'  # Set the transition direction explicitly
+                sm.current = 'LenderDashboard'
+
+            elif (email_list[i] == entered_email) and (password_list[i] == entered_password):
                 self.share_email_with_anvil(email_list[i])
                 sm = self.manager
                 lender_screen = DashScreen(name='DashScreen')
@@ -226,12 +252,8 @@ class LoginScreen(Screen):
                                         WHERE user_id = ?
                                     ''', (i,))
                         conn.commit()
-                sm = self.manager
-                lender_screen = DashScreen(name='DashScreen')
-                sm.add_widget(lender_screen)
-                sm.transition.direction = 'left'  # Set the transition direction explicitly
-                sm.current = 'DashScreen'
-                conn.close()
+
+
 
             else:
 
@@ -292,6 +314,7 @@ class LoginScreen(Screen):
     def login_data(self):
         return anvil.server.call('login_data')
 
-
+    def profile(self):
+        return anvil.server.call('profile')
 class MyScreenManager(ScreenManager):
     pass

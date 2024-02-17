@@ -27,7 +27,7 @@ view_loan_request = """
         MDTopAppBar:
             title: "View Loans Request"
             elevation: 3
-            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            left_action_items: [['arrow-left', lambda x: root.go_back()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
         MDScrollView:
         
