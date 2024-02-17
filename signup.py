@@ -20,7 +20,7 @@ anvil.server.connect("server_ANJQTKQ62KGHGX2XHC43NVOG-6JH2LHL646DIRMSE")
 KV = """
 <WindowManager>:
     SignupScreen:
-    
+
 <SignupScreen>:
     canvas.before:
         Color:
@@ -269,7 +269,6 @@ conn.commit()
 class SignupScreen(Screen):
     Builder.load_string(KV)
 
-
     def on_mobile_number_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.mobile.input_type = 'number'
@@ -328,6 +327,7 @@ class SignupScreen(Screen):
         anvil.server.call('add_data', user_id, email, password, name, number)
 
     def go_to_login(self):
+        # Retrieve user input data
         name = self.ids.name.text
         mobile = self.ids.mobile.text
         email = self.ids.email.text
@@ -336,37 +336,62 @@ class SignupScreen(Screen):
         terms_checkbox = self.ids.terms_checkbox
         kyc_checkbox = self.ids.kyc_checkbox
 
+        # Validation errors list
         validation_errors = []
 
-        name_regex = r'^[a-zA-Z\s]{4,}$'
-        if not name or not re.match(name_regex, name):
+        # Regular expression for email validation
+        email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+
+        # Check for existing email in the database
+        conn = sqlite3.connect("fin_user_profile.db")
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT * FROM fin_users
+            WHERE email = ?
+        ''', (email,))
+        existing_user = cursor.fetchone()
+
+        # Check if the email already exists in the database
+        if existing_user:
+            validation_errors.append((self.ids.email, "Email already exists"))
+
+        # Other input validations
+        # Name validation
+        if not name or not re.match(r'^[a-zA-Z\s]{4,}$', name):
             validation_errors.append((self.ids.name, "Please enter a valid name"))
+
+        # Mobile number validation
         if not mobile or not (len(mobile) == 10 or len(mobile) == 12) or not mobile.startswith(('6', '7', '8', '9')):
             validation_errors.append((self.ids.mobile, "Invalid mobile number"))
 
-        if not email or "@gmail.com" not in email:
+        # Email validation
+        if not email or not re.match(email_regex, email):
             validation_errors.append((self.ids.email, "Invalid email address"))
 
+        # Password validation
         if not password or not self.is_strong_password(password):
-            validation_errors.append((self.ids.password, "Please set an strong password"))
+            validation_errors.append((self.ids.password, "Please set a strong password"))
 
+        # Confirm password validation
         if not password2 or password != password2:
             validation_errors.append((self.ids.password2, "Passwords do not match"))
 
+        # Terms and Conditions checkbox validation
         if not terms_checkbox.active:
             validation_errors.append((terms_checkbox, "Please accept the Terms and Conditions"))
-            self.show_validation_error(terms_checkbox, "Please accept the Terms and Conditions")
 
+        # KYC checkbox validation
         if not kyc_checkbox.active:
             validation_errors.append((kyc_checkbox, "Please authorize KYC details"))
-            self.show_validation_error(kyc_checkbox, "Please authorize KYC details")
 
+        # Show validation errors if any
         for widget, error_text in validation_errors:
             self.show_validation_error(widget, error_text)
 
         if validation_errors:
             return
 
+        # If no validation errors, proceed with saving to the database
         self.save_to_database()
 
         # Reset input fields
@@ -422,7 +447,7 @@ class SignupScreen(Screen):
     def is_strong_password(self, password):
 
         return bool(
-            re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=])[A-Za-z\d!@#$%^&*()-_+=]+$', password))
+            re.match(r'^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[!@#$%^&()-_+=])[A-Za-z\d!@#$%^&()-_+=]+$', password))
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)

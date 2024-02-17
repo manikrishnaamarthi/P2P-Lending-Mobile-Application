@@ -2874,7 +2874,7 @@ class LenderScreen(Screen):
         row_id_list = []
         email_list = []
         status = []
-        b = 'lender'
+
 
         for row in rows:
             row_id_list.append(row[0])
@@ -2883,8 +2883,8 @@ class LenderScreen(Screen):
         if 'logged' in status:
             log_index = status.index('logged')
             cursor.execute(
-                "UPDATE fin_registration_table SET name = ?, gender = ?, date_of_birth = ?, user_type = ? WHERE customer_id = ?",
-                (name, gender, date, b, row_id_list[log_index]))
+                "UPDATE fin_registration_table SET name = ?, gender = ?, date_of_birth = ? WHERE customer_id = ?",
+                (name, gender, date, row_id_list[log_index]))
             conn.commit()
         else:
             # Handle the case where the user is not logged in
@@ -2902,7 +2902,6 @@ class LenderScreen(Screen):
             data[index]['full_name'] = name
             data[index]['gender'] = gender
             data[index]['date_of_birth'] = date_object.date()
-            data[index]['usertype'] = b
         else:
             print("email not there")
 
@@ -5166,6 +5165,7 @@ class LenderScreenIndividualBankForm2(Screen):
         row_id_list = []
         status = []
         email_list = []
+        b = 'lender'
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
@@ -5173,12 +5173,14 @@ class LenderScreenIndividualBankForm2(Screen):
         if 'logged' in status:
             log_index = status.index('logged')
 
-            cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
-                           (bank_id, branch_name, row_id_list[log_index]))
+            cursor.execute(
+                "UPDATE fin_registration_table SET bank_id = ?, branch_name = ?, user_type = ? WHERE customer_id = ?",
+                (bank_id, branch_name,b, row_id_list[log_index]))
             conn.commit()
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+
         data = self.profile()
         id_list = []
         for i in data:
@@ -5188,6 +5190,8 @@ class LenderScreenIndividualBankForm2(Screen):
             index = id_list.index(user_email)
             data[index]['bank_id'] = bank_id
             data[index]['account_bank_branch'] = branch_name
+            data[index]['usertype'] = b
+            data[index]['registration_approve'] = True
         else:
             print('email not fond')
 
@@ -5307,6 +5311,7 @@ class LenderScreenInstitutionalBankForm2(Screen):
         row_id_list = []
         status = []
         email_list = []
+        b = 'lender'
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
@@ -5314,8 +5319,8 @@ class LenderScreenInstitutionalBankForm2(Screen):
         if 'logged' in status:
             log_index = status.index('logged')
 
-            cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ? WHERE customer_id = ?",
-                           (bank_id, branch_name, row_id_list[log_index]))
+            cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ?, user_type = ? WHERE customer_id = ?",
+                           (bank_id, branch_name,b, row_id_list[log_index]))
             conn.commit()
         else:
             # Handle the case where the user is not logged in
@@ -5330,6 +5335,8 @@ class LenderScreenInstitutionalBankForm2(Screen):
             index = id_list.index(user_email)
             data[index]['bank_id'] = bank_id
             data[index]['account_bank_branch'] = branch_name
+            data[index]['usertype'] = b
+            data[index]['registration_approve'] = True
         else:
             print('email not fond')
         sm = self.manager
