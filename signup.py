@@ -15,7 +15,7 @@ import anvil.server
 
 from login import LoginScreen
 
-anvil.server.connect("server_ANJQTKQ62KGHGX2XHC43NVOG-6JH2LHL646DIRMSE")
+anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
 
 KV = """
 <WindowManager>:
@@ -445,9 +445,10 @@ class SignupScreen(Screen):
         dialog.open()
 
     def is_strong_password(self, password):
+        # Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter,
+        # one digit, and one special character
+        return len(password) >= 8 and bool(re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=-])[A-Za-z\d!@#$%^&*()_+=-]+$', password))
 
-        return bool(
-            re.match(r'^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[!@#$%^&()-_+=])[A-Za-z\d!@#$%^&()-_+=]+$', password))
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)

@@ -26,8 +26,7 @@ from datetime import datetime
 from kivymd.uix.snackbar import Snackbar
 import anvil.server
 
-anvil.server.connect("server_ANJQTKQ62KGHGX2XHC43NVOG-6JH2LHL646DIRMSE")
-
+anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
 
 from lender_dashboard import LenderDashboard
 
@@ -118,7 +117,7 @@ KV = '''
                 id: username
                 hint_text: 'Enter full name'
                 multiline: False
-                helper_text: 'Enter valid name'
+                helper_text: 'Enter Your name'
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
                 height: self.minimum_height
@@ -224,7 +223,7 @@ KV = '''
                 id: mobile_number
                 hint_text: 'Enter mobile number'
                 multiline: False
-                helper_text: 'Enter valid number'
+                helper_text: 'Enter Your number'
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
                 hint_text_color: 0,0,0, 1
@@ -235,7 +234,7 @@ KV = '''
                 id: altername_email
                 hint_text: 'Enter your alternate email'
                 multiline: False
-                helper_text: 'Enter your valid email_id'
+                helper_text: 'Enter your Your email_id'
                 helper_text_mode: 'on_focus'
                 hint_text_color: 0, 0, 0, 1
                 font_name: "Roboto-Bold"
@@ -313,7 +312,7 @@ KV = '''
                 id: aadhar_number
                 hint_text: 'Enter Government ID1 '
                 multiline: False
-                helper_text: 'Enter valid number'
+                helper_text: 'Enter Your number'
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
                 height: self.minimum_height
@@ -372,7 +371,7 @@ KV = '''
                 id: pan_number
                 hint_text: 'Enter Government ID2 '
                 multiline: False
-                helper_text: 'Enter valid number'
+                helper_text: 'Enter Your number'
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
                 height: self.minimum_height
@@ -1535,7 +1534,7 @@ KV = '''
                 id: street_address
                 hint_text: 'Enter Street Name'
                 multiline: False
-                helper_text: 'Enter valid address'
+                helper_text: 'Enter Your address'
                 helper_text_mode: 'on_focus'
 
             GridLayout:
@@ -2547,7 +2546,7 @@ KV = '''
                 id: account_holder_name
                 hint_text: 'Enter account holder name '
                 multiline: False
-                helper_text: 'Enter valid account holder name'
+                helper_text: 'Enter Your account holder name'
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
 
@@ -2572,7 +2571,7 @@ KV = '''
                 id: account_number
                 hint_text: 'Enter account number '
                 multiline: False
-                helper_text: 'Enter valid account number'
+                helper_text: 'Enter Your account number'
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
 
@@ -2638,7 +2637,7 @@ KV = '''
                 id: ifsc_code
                 hint_text: 'Enter Bank ID '
                 multiline: False
-                helper_text: 'Enter valid ifsc code'
+                helper_text: 'Enter Your ifsc code'
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
 
@@ -2708,7 +2707,7 @@ KV = '''
                 id: account_holder_name
                 hint_text: 'Enter account holder name '
                 multiline: False
-                helper_text: 'Enter valid account holder name'
+                helper_text: 'Enter Your account holder name'
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
 
@@ -2734,7 +2733,7 @@ KV = '''
                 id: account_number
                 hint_text: 'Enter account number '
                 multiline: False
-                helper_text: 'Enter valid account number'
+                helper_text: 'Enter Your account number'
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
 
@@ -2801,7 +2800,7 @@ KV = '''
                 id: ifsc_code
                 hint_text: 'Enter Bank ID '
                 multiline: False
-                helper_text: 'Enter valid ifsc code'
+                helper_text: 'Enter Your ifsc code'
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
 

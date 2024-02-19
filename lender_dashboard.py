@@ -21,7 +21,7 @@ if platform == 'android':
     from android.permissions import (
         request_permissions, check_permission, Permission)
 
-anvil.server.connect('server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT')
+anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
 
 user_helpers1 = """
 <WindowManager>:

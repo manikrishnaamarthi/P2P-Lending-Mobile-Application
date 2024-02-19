@@ -10,7 +10,7 @@ from kivymd.app import MDApp
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 
-anvil.server.connect('server_BQ6Z7GHPS3ZH5TPKQJBHTYJI-ZVMP6VAENIF2GORT')
+anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
 
 lender_view_extension = """
 <WindowManager>:
