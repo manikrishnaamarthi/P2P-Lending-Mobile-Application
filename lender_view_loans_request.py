@@ -65,7 +65,7 @@ view_loan_request = """
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: dp(750)
+                        height: dp(650)
 
                         padding: [10, 0,0,0]
                         canvas.before:
@@ -103,13 +103,13 @@ view_loan_request = """
                                 height:dp(50)
                                 halign: "center"
                             MDLabel:
-                                text: "Beseem Score:" 
+                                text: "Date Of Apply:" 
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
                                 bold: True
                             MDLabel:
-                                id: beseem
+                                id: date
                                 text: "" 
                                 size_hint_y:None
                                 height:dp(50)
@@ -134,24 +134,12 @@ view_loan_request = """
                                 halign: "center"
                                 bold: True
                             MDLabel:
-                                id: rome
+                                id: number
                                 text: "" 
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
                                 
-                            MDLabel:
-                                text: "Member since:" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                                bold: True
-                            MDLabel:
-                                id: since
-                                text: "" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
                             MDLabel:
                                 text: "Credit Limit:" 
                                 size_hint_y:None
@@ -200,18 +188,7 @@ view_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
-                            MDLabel:
-                                text: "Bank Details:" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                                bold: True
-                            MDLabel:
-                                id: bank_details
-                                text: ""
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"  
+                              
                             MDRaisedButton:
                                 text: "Reject"
                                 md_bg_color: 194/255, 2/255, 21/255, 1
@@ -260,7 +237,7 @@ view_loan_request = """
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: dp(750)
+                        height: dp(650)
 
                         padding: [10, 0,0,0]
                         canvas.before:
@@ -298,13 +275,13 @@ view_loan_request = """
                                 height:dp(50)
                                 halign: "center"
                             MDLabel:
-                                text: "Beseem Score:" 
+                                text: "Date Of Apply:" 
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
                                 bold: True
                             MDLabel:
-                                id: beseem
+                                id: date
                                 text: "" 
                                 size_hint_y:None
                                 height:dp(50)
@@ -329,24 +306,12 @@ view_loan_request = """
                                 halign: "center"
                                 bold: True
                             MDLabel:
-                                id: rome
+                                id: number
                                 text: "" 
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
                                 
-                            MDLabel:
-                                text: "Member since:" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                                bold: True
-                            MDLabel:
-                                id: since
-                                text: "" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
                             MDLabel:
                                 text: "Credit Limit:" 
                                 size_hint_y:None
@@ -395,18 +360,6 @@ view_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
-                            MDLabel:
-                                text: "Bank Details:" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                                bold: True
-                            MDLabel:
-                                id: bank_details
-                                text: ""
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center" 
                             MDRaisedButton:
                                 text: "Cancel"
                                 md_bg_color: 11/255, 4/255, 64/255, 1
@@ -454,7 +407,7 @@ view_loan_request = """
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: dp(750)
+                        height: dp(650)
 
                         padding: [10, 0,0,0]
                         canvas.before:
@@ -493,13 +446,13 @@ view_loan_request = """
                                 height:dp(50)
                                 halign: "center"
                             MDLabel:
-                                text: "Beseem Score:" 
+                                text: "Date Of Apply:" 
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
                                 bold: True
                             MDLabel:
-                                id: beseem
+                                id: date
                                 text: "" 
                                 size_hint_y:None
                                 height:dp(50)
@@ -524,24 +477,12 @@ view_loan_request = """
                                 halign: "center"
                                 bold: True
                             MDLabel:
-                                id: rome
+                                id: number
                                 text: "" 
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
                                 
-                            MDLabel:
-                                text: "Member since:" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                                bold: True
-                            MDLabel:
-                                id: since
-                                text: "" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
                             MDLabel:
                                 text: "Credit Limit:" 
                                 size_hint_y:None
@@ -590,18 +531,6 @@ view_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
-                            MDLabel:
-                                text: "Bank Details:" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                                bold: True
-                            MDLabel:
-                                id: bank_details
-                                text: ""
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center" 
 
                         MDBoxLayout:
                             orientation: "vertical"
@@ -623,14 +552,14 @@ class ViewLoansRequest(Screen):
         data = self.get_table_data()
         customer_id = []
         loan_id = []
-        loan_amount = []
+        borrower_name = []
         loan_status = []
         s = 0
         for i in data:
             s += 1
             customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
-            loan_amount.append(i['loan_amount'])
+            borrower_name.append(i['borrower_full_name'])
             loan_status.append(i['loan_updated_status'])
 
         c = -1
@@ -651,7 +580,7 @@ class ViewLoansRequest(Screen):
                     icon="card-account-details-outline"
                 ),
                 text=f"Loan ID : {loan_id[i]}",
-                secondary_text=f"Amount: {loan_amount[i]}",
+                secondary_text=f"Borrower Name: {borrower_name[i]}",
                 tertiary_text=f"Status: {loan_status[i]}",
             )
             item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
@@ -763,10 +692,7 @@ class ViewLoansProfileScreen(Screen):
             tenure.append(i['tenure'])
             interest_rate.append(i['interest_rate'])
             loan_amount.append(i['loan_amount'])
-            member_rom.append(i['member_rom'])
-            member_since.append(i['member_since'])
             credit_limit.append(i['credit_limit'])
-            beseem_score.append(i['beseem_score'])
             name.append(i['borrower_full_name'])
 
         if value in loan_id:
@@ -776,10 +702,7 @@ class ViewLoansProfileScreen(Screen):
             self.ids.interest.text = str(interest_rate[index])
             self.ids.tenure.text = str(tenure[index])
             self.ids.amount_applied.text = str(loan_amount[index])
-            self.ids.rome.text = str(member_rom[index])
-            self.ids.since.text = str(member_since[index])
             self.ids.limit.text = str(credit_limit[index])
-            self.ids.beseem.text = str(beseem_score[index])
             self.ids.name.text = str(name[index])
 
     def on_pre_enter(self):
@@ -897,10 +820,7 @@ class ViewLoansProfileScreenLR(Screen):
             tenure.append(i['tenure'])
             interest_rate.append(i['interest_rate'])
             loan_amount.append(i['loan_amount'])
-            member_rom.append(i['member_rom'])
-            member_since.append(i['member_since'])
             credit_limit.append(i['credit_limit'])
-            beseem_score.append(i['beseem_score'])
             name.append(i['borrower_full_name'])
 
         if value in loan_id:
@@ -910,10 +830,7 @@ class ViewLoansProfileScreenLR(Screen):
             self.ids.interest.text = str(interest_rate[index])
             self.ids.tenure.text = str(tenure[index])
             self.ids.amount_applied.text = str(loan_amount[index])
-            self.ids.rome.text = str(member_rom[index])
-            self.ids.since.text = str(member_since[index])
             self.ids.limit.text = str(credit_limit[index])
-            self.ids.beseem.text = str(beseem_score[index])
             self.ids.name.text = str(name[index])
 
     def on_pre_enter(self):
@@ -1008,10 +925,7 @@ class ViewLoansProfileScreenRL(Screen):
             tenure.append(i['tenure'])
             interest_rate.append(i['interest_rate'])
             loan_amount.append(i['loan_amount'])
-            member_rom.append(i['member_rom'])
-            member_since.append(i['member_since'])
             credit_limit.append(i['credit_limit'])
-            beseem_score.append(i['beseem_score'])
             name.append(i['borrower_full_name'])
 
         if value in loan_id:
@@ -1021,10 +935,7 @@ class ViewLoansProfileScreenRL(Screen):
             self.ids.interest.text = str(interest_rate[index])
             self.ids.tenure.text = str(tenure[index])
             self.ids.amount_applied.text = str(loan_amount[index])
-            self.ids.rome.text = str(member_rom[index])
-            self.ids.since.text = str(member_since[index])
             self.ids.limit.text = str(credit_limit[index])
-            self.ids.beseem.text = str(beseem_score[index])
             self.ids.name.text = str(name[index])
 
     def on_pre_enter(self):
