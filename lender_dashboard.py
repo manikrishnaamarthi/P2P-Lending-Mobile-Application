@@ -1448,13 +1448,13 @@ class LenderDashboard(Screen):
         sm = self.manager
 
         # Create a new instance of the LoginScreen
-        profile_screen = ViewLoansScreen(name=' ViewLoansScreen')
+        profile_screen = ViewLoansScreen(name='ViewLoansScreen')
 
         # Add the LoginScreen to the existing ScreenManager
         sm.add_widget(profile_screen)
 
         # Switch to the LoginScreen
-        sm.current = ' ViewLoansScreen'
+        sm.current = 'ViewLoansScreen'
 
     def newloan_extension(self):
         # self.manager.current = 'ViewProfileScreen'
