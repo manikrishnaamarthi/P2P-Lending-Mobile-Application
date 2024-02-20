@@ -1,3 +1,5 @@
+import sqlite3
+
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
@@ -8,6 +10,8 @@ from kivymd.uix.filemanager import MDFileManager
 
 from borrower_application_tracker import ApplicationTrackerScreen
 from new_loan_request import NewloanScreen
+from borrower_viewloan import DashboardScreenVLB
+from borrower_foreclosure import LoansDetailsB
 
 if platform == 'android':
     from kivy.uix.button import Button
@@ -82,7 +86,7 @@ user_helpers = """
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color: 0.031, 0.463, 0.91, 1 
-
+                on_release: root.go_to_view_loan_screen()
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -176,7 +180,7 @@ user_helpers = """
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color: 0.031, 0.463, 0.91, 1 
-                on_release: root.go_to_loan_details()
+                on_release: root.go_to_fore_closer_details()
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -917,140 +921,7 @@ user_helpers = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-                MDLabel:
-                    text: ' Address Type '
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    size_hint_x: 1
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    bold: True
-
-                MDFloatLayout:
-                    size_hint: None, None
-                    size: dp(200), dp(40)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    size_hint_x: 1
-                    canvas.before:
-                        Color:
-                            rgba: 1, 1, 1, 1  # Set background color to white
-                        RoundedRectangle:
-                            pos: self.pos
-                            size: self.size
-                            radius: [10, 10, 10, 10]
-
-                        Color:
-                            rgba: 0, 0, 0, 1  # Set border color to black
-
-                        Line:
-                            rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                            width: 1  # Border line width
-
-                    MDFlatButton:
-                        text: "EDIT"
-                        pos_hint: {'center_x': 0.9, 'center_y': 0.5}
-                        theme_text_color: "Custom"
-                        text_color:6/255, 143/255, 236/255, 1
-                        font_name: "Roboto-Bold"
-
-                    MDTextField:
-                        id: text_input22
-                        size_hint: None, None
-                        size_hint_x: 0.91
-                        multiline: False
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        line_color_normal: [1, 1, 1, 1]
-                        line_color_focus: [1, 1, 1, 1]
-                        font_name: "Roboto-Bold"
-
-                MDLabel:
-                    text: ' House Landmark '
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    size_hint_x: 1
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    bold: True
-
-                MDFloatLayout:
-                    size_hint: None, None
-                    size: dp(200), dp(40)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    size_hint_x: 1
-                    canvas.before:
-                        Color:
-                            rgba: 1, 1, 1, 1  # Set background color to white
-                        RoundedRectangle:
-                            pos: self.pos
-                            size: self.size
-                            radius: [10, 10, 10, 10]
-
-                        Color:
-                            rgba: 0, 0, 0, 1  # Set border color to black
-
-                        Line:
-                            rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                            width: 1  # Border line width
-
-                    MDFlatButton:
-                        text: "EDIT"
-                        pos_hint: {'center_x': 0.9, 'center_y': 0.5}
-                        theme_text_color: "Custom"
-                        text_color:6/255, 143/255, 236/255, 1
-                        font_name: "Roboto-Bold"
-
-                    MDTextField:
-                        id: text_input24
-                        size_hint: None, None
-                        size_hint_x: 0.91
-                        multiline: False
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        line_color_normal: [1, 1, 1, 1]
-                        line_color_focus: [1, 1, 1, 1]
-                        font_name: "Roboto-Bold"
-
-                MDLabel:
-                    text: ' House no '
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    size_hint_x: 1
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    bold: True
-
-                MDFloatLayout:
-                    size_hint: None, None
-                    size: dp(200), dp(40)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    size_hint_x: 1
-                    canvas.before:
-                        Color:
-                            rgba: 1, 1, 1, 1  # Set background color to white
-                        RoundedRectangle:
-                            pos: self.pos
-                            size: self.size
-                            radius: [10, 10, 10, 10]
-
-                        Color:
-                            rgba: 0, 0, 0, 1  # Set border color to black
-
-                        Line:
-                            rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                            width: 1  # Border line width
-
-                    MDFlatButton:
-                        text: "EDIT"
-                        pos_hint: {'center_x': 0.9, 'center_y': 0.5}
-                        theme_text_color: "Custom"
-                        text_color:6/255, 143/255, 236/255, 1
-                        font_name: "Roboto-Bold"
-
-                    MDTextField:
-                        id: text_input25
-                        size_hint: None, None
-                        size_hint_x: 0.91
-                        multiline: False
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        line_color_normal: [1, 1, 1, 1]
-                        line_color_focus: [1, 1, 1, 1]
-                        font_name: "Roboto-Bold"
+                
 
                 MDLabel:
                     text: ' Pincode '
@@ -1697,54 +1568,9 @@ user_helpers = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-                MDLabel:
-                    text: ' Branch Name '
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    size_hint_x: 1
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    bold: True
-
-
-                MDFloatLayout:
-                    size_hint: None, None
-                    size: dp(200), dp(40)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    size_hint_x: 1
-                    canvas.before:
-                        Color:
-                            rgba: 1, 1, 1, 1  # Set background color to white
-                        RoundedRectangle:
-                            pos: self.pos
-                            size: self.size
-                            radius: [10, 10, 10, 10]
-
-                        Color:
-                            rgba: 0, 0, 0, 1  # Set border color to black
-
-                        Line:
-                            rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                            width: 1  # Border line width
-
-                    MDFlatButton:
-                        text: "EDIT"
-                        pos_hint: {'center_x': 0.9, 'center_y': 0.5}
-                        theme_text_color: "Custom"
-                        text_color:6/255, 143/255, 236/255, 1
-                        font_name: "Roboto-Bold"
-
-                    MDTextField:
-                        id: text_input42
-                        size_hint: None, None
-                        size_hint_x: 0.91
-                        multiline: False
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        line_color_normal: [1, 1, 1, 1]
-                        line_color_focus: [1, 1, 1, 1]
-                        font_name: "Roboto-Bold"
 
                 MDLabel:
-                    text: ' IFSC Code '
+                    text: ' Bank Name'
                     color: 0, 0, 0, 1
                     halign: 'left'
                     size_hint_x: 1
@@ -1828,51 +1654,7 @@ user_helpers = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-                MDLabel:
-                    text: ' Net Bank '
-                    color: 0, 0, 0, 1
-                    halign: 'left'
-                    size_hint_x: 1
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    bold: True
-
-
-                MDFloatLayout:
-                    size_hint: None, None
-                    size: dp(200), dp(40)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    size_hint_x: 1
-                    canvas.before:
-                        Color:
-                            rgba: 1, 1, 1, 1  # Set background color to white
-                        RoundedRectangle:
-                            pos: self.pos
-                            size: self.size
-                            radius: [10, 10, 10, 10]
-
-                        Color:
-                            rgba: 0, 0, 0, 1  # Set border color to black
-
-                        Line:
-                            rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                            width: 1  # Border line width
-
-                    MDFlatButton:
-                        text: "EDIT"
-                        pos_hint: {'center_x': 0.9, 'center_y': 0.5}
-                        theme_text_color: "Custom"
-                        text_color:6/255, 143/255, 236/255, 1
-                        font_name: "Roboto-Bold"
-
-                    MDTextField:
-                        id: text_input46
-                        size_hint: None, None
-                        size_hint_x: 0.91
-                        multiline: False
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        line_color_normal: [1, 1, 1, 1]
-                        line_color_focus: [1, 1, 1, 1]
-                        font_name: "Roboto-Bold"
+                
 
                 MDLabel:
                     text: ' Father Name '
@@ -2739,7 +2521,8 @@ user_helpers = """
                         md_bg_color: 0.031, 0.463, 0.91, 1
                         size_hint: 1, None
 """
-
+conn = sqlite3.connect('fin_user_profile.db')
+cursor = conn.cursor()
 
 class DashboardScreen(Screen):
     Builder.load_string(user_helpers)
@@ -2773,6 +2556,19 @@ class DashboardScreen(Screen):
         # Switch to the LoginScreen
         sm.current = 'NewloanScreen'
 
+    def go_to_view_loan_screen(self):
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        login_screen = DashboardScreenVLB(name='DashboardScreenVLB')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'DashboardScreenVLB'
+
+
     def go_to_app_tracker(self):
         # Get the existing ScreenManager
         sm = self.manager
@@ -2785,6 +2581,18 @@ class DashboardScreen(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'ApplicationTrackerScreen'
+    def go_to_fore_closer_details(self):
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        login_screen = LoansDetailsB(name='LoansDetailsB')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'LoansDetailsB'
+
 
     def go_to_loan_details(self):
         # Get the existing ScreenManager
@@ -2817,6 +2625,149 @@ class DashboardScreen(Screen):
 
 
 class ProfileScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        cursor.execute('select * from fin_users')
+        users = cursor.fetchall()
+
+        status = []
+        customer = []
+
+        for i in users:
+            status.append(i[-1])
+            customer.append(i[0])
+
+        log_index = status.index('logged')
+
+        cursor.execute('select * from fin_registration_table')
+        rows = cursor.fetchall()
+        row_id_list = []
+        name_list = []
+        dateofbirth_list = []
+        gender_list = []
+        mobile_list = []
+        aadhar_list = []
+        pan_list = []
+        city_list = []
+        sname_list = []
+        smobile_list = []
+        scompanyname_list = []
+        scompanyaddress_list = []
+        sprofession_list = []
+        usertype_list = []
+        sdatafiled_list = []
+        pincode_list = []
+        qualification_list = []
+        state_list = []
+        anothermail_list = []
+        company_list = []
+        organization_list = []
+        employmenttype_list = []
+        businessno_list = []
+        companylandmark_list = []
+        companyaddress_list = []
+        cannualsalary_list = []
+        designation_list = []
+        accountname_list = []
+        accounttype_list = []
+        accountnumber_list = []
+        branchname_list = []
+        ifsccode_list = []
+        sbank_list = []
+        fathername_list = []
+        fatherage_list = []
+        mothername_list = []
+        motherage_list = []
+        collegename_list = []
+        collageid_list = []
+        collageaddress_list = []
+
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+            name_list.append(row[1])
+            dateofbirth_list.append(row[3])
+            gender_list.append(row[2])
+            mobile_list.append(row[4])
+            aadhar_list.append(row[8])
+            pan_list.append(row[9])
+            city_list.append(row[19])
+            sname_list.append(row[76])
+            smobile_list.append(row[78])
+            scompanyname_list.append(row[80])
+            scompanyaddress_list.append(row[81])
+            sprofession_list.append(row[79])
+            usertype_list.append(row[84])
+            sdatafiled_list.append(row[77])
+            pincode_list.append(row[20])
+            qualification_list.append(row[12])
+            state_list.append(row[21])
+            anothermail_list.append(row[6])
+            company_list.append(row[40])
+            organization_list.append(row[41])
+            employmenttype_list.append(row[39])
+            businessno_list.append(row[46])
+            companylandmark_list.append(row[45])
+            companyaddress_list.append(row[41])
+            cannualsalary_list.append(row[47])
+            designation_list.append(row[48])
+            accountname_list.append(row[51])
+            accounttype_list.append(row[52])
+            accountnumber_list.append(row[53])
+            branchname_list.append(row[56])
+            ifsccode_list.append(row[54])
+            sbank_list.append(row[53])
+            fathername_list.append(row[23])
+            fatherage_list.append(row[24])
+            mothername_list.append(row[27])
+            motherage_list.append(row[28])
+            collegename_list.append(row[33])
+            collageid_list.append(row[32])
+            collageaddress_list.append(row[34])
+        if customer[log_index] in row_id_list:
+            index = row_id_list.index(customer[log_index])
+            self.ids.text_input1.text = str(row_id_list[index])
+            self.ids.text_input2.text = name_list[index]
+            self.ids.text_input4.text = str(dateofbirth_list[index])
+            self.ids.text_input5.text = str(gender_list[index])
+            self.ids.text_input7.text = str(mobile_list[index])
+            self.ids.text_input8.text = str(aadhar_list[index])
+            self.ids.text_input9.text = str(pan_list[index])
+            self.ids.text_input10.text = str(city_list[index])
+            self.ids.text_input13.text = str(sname_list[index])
+            self.ids.text_input14.text = str(smobile_list[index])
+            self.ids.text_input15.text = str(scompanyname_list[index])
+            self.ids.text_input16.text = str(scompanyaddress_list[index])
+            self.ids.text_input17.text = str(sprofession_list[index])
+            self.ids.text_input19.text = usertype_list[index]
+            self.ids.text_input20.text = str(sdatafiled_list[index])
+            self.ids.text_input26.text = str(pincode_list[index])
+            self.ids.text_input28.text = str(state_list[index])
+            self.ids.text_input27.text = str(qualification_list[index])
+            self.ids.text_input30.text = str(anothermail_list[index])
+            self.ids.text_input31.text = str(company_list[index])
+            self.ids.text_input32.text = str(organization_list[index])
+            self.ids.text_input33.text = str(employmenttype_list[index])
+            self.ids.text_input34.text = str(businessno_list[index])
+            self.ids.text_input35.text = str(companylandmark_list[index])
+            self.ids.text_input36.text = str(collageaddress_list[index])
+            self.ids.text_input37.text = str(cannualsalary_list[index])
+            self.ids.text_input38.text = str(designation_list[index])
+            self.ids.text_input39.text = str(accountname_list[index])
+            self.ids.text_input40.text = str(accounttype_list[index])
+            self.ids.text_input41.text = str(accountnumber_list[index])
+            #self.ids.text_input42.text = str(branchname_list[index])
+            self.ids.text_input43.text = str(ifsccode_list[index])
+            self.ids.text_input45.text = str(sbank_list[index])
+            self.ids.text_input47.text = str(fathername_list[index])
+            self.ids.text_input48.text = str(fatherage_list[index])
+            self.ids.text_input49.text = str(mothername_list[index])
+            self.ids.text_input50.text = str(motherage_list[index])
+            self.ids.text_input51.text = str(collegename_list[index])
+            self.ids.text_input52.text = str(collageid_list[index])
+            self.ids.text_input53.text = str(collageaddress_list[index])
+        else:
+            print('coustomer id not fount ')
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1")
 
