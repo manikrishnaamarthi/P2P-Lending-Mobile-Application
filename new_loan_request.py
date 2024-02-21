@@ -1,4 +1,5 @@
 import anvil
+
 from kivy.core.window import Window
 from kivy.properties import ListProperty
 from kivymd.app import MDApp
@@ -10,24 +11,17 @@ from kivymd.uix.label import MDLabel
 import sqlite3
 from math import pow
 from kivymd.uix.dialog import MDDialog, dialog
+import anvil.server
+from kivy.uix.spinner import Spinner
 
-GROUP_CATEGORIES = {
-    "Vehicle": ["2 wheeler", "3 wheeler", "4 wheeler"],
-    "Personal": ["Home", "Electronics"],
-    "k12": ["k12"],
-    "Educational": ["Educational"],
-}
+anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
 
 user_helpers2 = """
 <WindowManager>:
     NewloanScreen:
     NewloanScreen1:
     NewloanScreen2:
-
-
-
 <NewloanScreen>:
-
     BoxLayout:
         id:new_loan_screen
         pos_hint: {'center_x':0.5, 'center_y':0.5}
@@ -37,21 +31,17 @@ user_helpers2 = """
         orientation: 'vertical'
         MDFloatLayout:
             MDIconButton:
-
                 icon: 'arrow-left'
                 on_release:root.go_back()
                 pos_hint: {'center_x': 0.045, 'center_y': 0.90}
                 theme_text_color: 'Custom'
                 text_color: 0,0,0,1  # Set color to white
-
-
             Image:
                 source:"LOGO.png"
                 size_hint:None,None
                 size:"100dp","100dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.89}
             MDLabel:
-
                 text: "  Experience Hassle-Free Borrowing  " 
                 font_size:dp(15)
                 halign:"center"
@@ -61,19 +51,13 @@ user_helpers2 = """
                 pos_hint: {'center_x': 0.5, 'center_y': 0.4}
         MDLabel:
             text:""
-
-
         MDGridLayout:
             cols: 2
             BoxLayout:
                 orientation:"horizontal"
-
-
                 pos_hint: {'center_x':0.5, 'center_y':0.5}
-
                 padding: dp(25)
                 spacing: dp(20)
-
                 MDLabel:
                     text: "Credit Limit" 
                     color:0.031, 0.463, 0.91, 1
@@ -83,58 +67,46 @@ user_helpers2 = """
                     id: credit_limit        
                     text: "" 
                     font_size:dp(20)
-
-
-
         MDGridLayout:
             cols: 2
             BoxLayout:
                 orientation:"horizontal"
-
-
                 pos_hint: {'center_x':0.5, 'center_y':0.5}
-
                 padding: dp(25)
                 spacing: dp(20)
-
-
                 MDLabel:
-                    font_size:dp(16)
-
+                    font_size: dp(16)
                     text: "Product Group"
                     bold: True
 
                 Spinner:
                     id: group_id1
                     text: "Select Group"
-                    values: ["Select Group","Vehicle", "Personal", "k12", "Educational"]
                     width: dp(200)
                     multiline: False
-                    size_hint:None,None
+                    size_hint: None, None
                     pos_hint: {'center_x':0.5, 'center_y':0.5}
-                    size:"180dp","45dp"
-                    background_color: 1, 1 ,1, 0 
-                    color:0,0,0,1
+                    size: "180dp", "45dp"
+                    background_color: 1, 1, 1, 0
+                    color: 0, 0, 0, 1
                     canvas.before:
                         Color:
-                            rgba: 0, 0, 0, 1  
+                            rgba: 0, 0, 0, 1
                         Line:
                             width: 0.7
                             rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
                     # Call the update method
-                    on_text: root.update_group_categories(self.text)  # Call the update method
+                      # Call the update method
+                    values: ['Select Group'] + root.product_groups
+                    on_text: root.load_product_categories()
+
         MDGridLayout:
             cols: 2
             BoxLayout:
                 orientation:"horizontal"
-
-
                 pos_hint: {'center_x':0.5, 'center_y':0.5}
-
                 padding: dp(25)
                 spacing: dp(20)
-
-
                 MDLabel:
                     font_size:dp(16)
                     text: "Product Categories"
@@ -145,51 +117,52 @@ user_helpers2 = """
                     text: "Select Categories"
                     width: dp(200)
                     multiline: False
-                    pos_hint: {'center_x':0.5, 'center_y':0.5}
-                    size_hint:None,None
-                    size:"180dp","45dp"
-                    background_color: 1, 1 ,1, 0 
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    size_hint: None, None
+                    size: "180dp", "45dp"
+                    background_color: 1, 1, 1, 0
                     color: 0, 0, 0, 1
                     canvas.before:
                         Color:
-                            rgba: 0, 0, 0, 1  
+                            rgba: 0, 0, 0, 1
                         Line:
                             width: 0.7
                             rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-                    values: root.group_categories
+                    values: root.product_categories
+                    on_text: root.load_product_names()
+
         MDGridLayout:
             cols: 2
             BoxLayout:
                 orientation:"horizontal"
-
-
                 pos_hint: {'center_x':0.5, 'center_y':0.5}
-
                 padding: dp(25)
                 spacing: dp(20)
-
-
                 MDLabel:
                     font_size:dp(16)
                     text: "Product Name"
                     bold: True
-                MDTextField:
-                    id:product_name
-                    hint_text: "Product Name"
-                    width: dp(250)
+                Spinner:
+                    id: product_id1
+                    text: "Product Name"
+                    width: dp(200)
                     multiline: False
-                    pos_hint: {'center_x':0.5, 'center_y':0.5}
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     size_hint: None, None
                     size: "180dp", "45dp"
-                    background_color: 1, 1, 1, 0 
+                    background_color: 1, 1, 1, 0
                     color: 0, 0, 0, 1
-                    line_color_normal: 0, 0, 0, 1  # Set the line color to black
-                    color: 0, 0, 0, 1
+                    canvas.before:
+                        Color:
+                            rgba: 0, 0, 0, 1
+                        Line:
+                            width: 0.7
+                            rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+                    values: root.product_names
+
         MDLabel:
             text: " "             
-
         MDFloatLayout:
-
             MDRaisedButton:
                 text: "Next"
                 md_bg_color: 0.031, 0.463, 0.91, 1
@@ -198,11 +171,8 @@ user_helpers2 = """
                 size_hint:0.4, None  
                 font_name:"Roboto-Bold"
                 font_size:dp(15)
-
         MDLabel:
             text: " "  
-
-
 <NewloanScreen1>:
     BoxLayout:
         pos_hint: {'center_x':0.5, 'center_y':0.5}
@@ -211,17 +181,13 @@ user_helpers2 = """
         spacing: dp(20)
         orientation: 'vertical'
         radius: [10,]
-
         MDFloatLayout:
             MDIconButton:
-
                 icon: 'arrow-left'
                 on_release:root.go_back()
                 pos_hint: {'center_x': 0, 'center_y': 0.90}
                 theme_text_color: 'Custom'
                 text_color: 0,0,0,1  # Set color to white
-
-
             Image:
                 source:"LOGO.png"
                 size_hint:None,None
@@ -229,31 +195,17 @@ user_helpers2 = """
                 pos_hint: {'center_x': 0.2, 'center_y': 0.92}
         MDLabel:
             text:""
-
-
-
-
-
-
         MDGridLayout:
             cols: 2
             BoxLayout:
                 orientation:"horizontal"
-
-
                 pos_hint: {'center_x':0.5, 'center_y':0.5}
-
                 padding: dp(25)
                 spacing: dp(20)
-
-
                 MDLabel:
                     text: "Loan Amount"
                     bold:True
                     font_size:dp(16)
-
-
-
                 MDTextField:
                     id: text_input1
                     width: dp(250)
@@ -268,23 +220,12 @@ user_helpers2 = """
                     color: 0, 0, 0, 1
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     helper_text: ""
-                    helper_text_mode: "on_error"
-
-
-
-
-
-
-
 
         MDGridLayout:
             cols: 2
             BoxLayout:
                 orientation:"horizontal"
-
-
                 pos_hint: {'center_x':0.5, 'center_y':0.5}
-
                 padding: dp(25)
                 spacing: dp(20)
 
@@ -292,8 +233,6 @@ user_helpers2 = """
                     text: "Loan Period (Months)"
                     font_size:dp(16)
                     bold:True
-
-
 
                 MDTextField:
                     id: text_input2
@@ -314,10 +253,7 @@ user_helpers2 = """
             cols: 2
             BoxLayout:
                 orientation:"horizontal"
-
-
                 pos_hint: {'center_x':0.5, 'center_y':0.5}
-
                 padding: dp(25)
                 spacing: dp(20)
 
@@ -326,7 +262,6 @@ user_helpers2 = """
                     text: "EMI Type"
                     bold: True
                     font_size:dp(16)
-
 
                 Spinner:
                     id: group_id3
@@ -345,9 +280,6 @@ user_helpers2 = """
                         Line:
                             width: 0.7
                             rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-
-
         MDLabel:
             id: max_tenure 
             color:1,1,1,1      
@@ -355,8 +287,6 @@ user_helpers2 = """
             font_size:dp(1)
 
         MDFloatLayout:
-
-
             MDRaisedButton:
                 text: "Next"
                 md_bg_color: 0.031, 0.463, 0.91, 1
@@ -368,12 +298,8 @@ user_helpers2 = """
         MDLabel:
             text: " "
 <NewloanScreen2>:
-
-
-
     BoxLayout:
         pos_hint: {'center_x':0.5, 'center_y':0.5}
-
         padding: dp(20)
         spacing: dp(20)
         orientation: 'vertical'
@@ -387,9 +313,6 @@ user_helpers2 = """
         MDGridLayout:
             cols: 1
 
-
-
-
             MDLabel:
                 text: "Loan Summary"
                 halign: "center"
@@ -397,19 +320,14 @@ user_helpers2 = """
                 bold: True
                 underline:"True"
 
-
         MDGridLayout:
             cols: 2
             spacing:dp(30)
             padding:dp(50)
 
-
             MDLabel:
                 text: "Loan Amount"
                 bold:True
-
-
-
 
             MDLabel:
                 id: loan_amount
@@ -426,10 +344,6 @@ user_helpers2 = """
                 text: "ROI"
                 bold:True
 
-
-
-
-
             MDLabel:
                 id: roi
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
@@ -443,9 +357,6 @@ user_helpers2 = """
             MDLabel:
                 text: "Processing Fee "
                 bold:True
-
-
-
 
             MDLabel:
                 id: processing_fee
@@ -462,9 +373,6 @@ user_helpers2 = """
                 text: "Monthly EMI"
                 bold:True
 
-
-
-
             MDLabel:
                 id: monthly_emi
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
@@ -479,15 +387,11 @@ user_helpers2 = """
                 text: "Tenure"
                 bold:True
 
-
-
-
             MDLabel:
                 id:tenure
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 text: ""
                 halign:"right"
-
 
         MDGridLayout:
             cols: 2
@@ -497,10 +401,6 @@ user_helpers2 = """
             MDLabel:
                 text: "Total Repayment Amount"
                 bold:True
-
-
-
-
 
             MDLabel:
                 id: total
@@ -512,8 +412,6 @@ user_helpers2 = """
             text: " "
         MDLabel:
             text: " "
-
-
         MDFloatLayout:
             GridLayout:
                 cols: 2
@@ -534,33 +432,79 @@ user_helpers2 = """
                 MDRaisedButton:
                     text: "Send request"
                     on_release: root.send_request()
-
-
                     md_bg_color: 0.031, 0.463, 0.91, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     size_hint: 1, None
                     height: "50dp"
                     font_name: "Roboto-Bold"
-
         MDLabel:
             text: " "
-
 """
+Builder.load_string(user_helpers2)
 
 
 class NewloanScreen(Screen):
-    group_categories = ListProperty([])
-    selected_group = ""
-    selected_category = ""
+    product_groups = ListProperty([])
+    product_categories = ListProperty([])
+    product_names = ListProperty([])
 
-    Builder.load_string(user_helpers2)
+    def __init__(self, **kwargs):
+        super(NewloanScreen, self).__init__(**kwargs)
+        try:
+            # Fetch and print the returned values for debugging
+            self.product_groups = anvil.server.call('get_product_groups')
+            print(f"Product Groups: {self.product_groups}")
+            self.product_groups = sorted(list(set(self.product_groups)), key=str.lower)
 
-    def update_group_categories(self, selected_group):
-        # Update the group_categories property based on the selected group
-        self.ids.group_id2.text = "Select Categories"
+            # Check the type of the returned value
+            if not isinstance(self.product_groups, list):
+                raise TypeError("Product Groups is not a list")
 
-        # Assuming GROUP_CATEGORIES is defined somewhere in your code
-        self.group_categories = GROUP_CATEGORIES.get(selected_group, [])
+            print(f"Type of Product Groups: {type(self.product_groups)}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+    def load_product_categories(self):
+        try:
+            product_group = self.ids.group_id1.text
+            response = anvil.server.call('get_product_categories', product_group)
+
+            # Print the response and its type
+            print(f"product categories: {response}, Type: {type(response)}")
+
+            # Check if 'product_categories' key exists in the response
+            if isinstance(response, dict) and 'product_categories' in response:
+                product_categories = response['product_categories']
+                self.product_categories = ['Select Category'] + product_categories
+            else:
+                print(f"Error in load_product_categories: 'product_categories' key not found in response")
+                self.product_categories = ['Select Category']
+
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            print(f"Error in load_product_categories: {e}")
+            self.product_categories = ['Select Category']
+
+    def load_product_names(self):
+        try:
+            product_group = self.ids.group_id1.text
+            product_category = self.ids.group_id2.text
+            response = anvil.server.call('get_product_names', product_group, product_category)
+            print(f"Product Name: {response}, Type: {type(response)}")
+            # Check if 'product_names' key exists in the response
+            if isinstance(response, dict) and 'product_name' in response:
+                product_names = response['product_name']
+                self.product_names = ['Select Product Name'] + product_names
+            else:
+                print(f"Error in load_product_names: 'product_names' key not found in response")
+                self.product_names = ['Select Product Name']
+
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            print(f"Error in load_product_names: {e}")
+            self.product_names = ['Select Product Name']
 
     def on_pre_enter(self, *args):
         Window.bind(on_keyboard=self.on_back_button)
@@ -580,7 +524,7 @@ class NewloanScreen(Screen):
     def reset_fields(self):
         self.ids.group_id1.text = "Select Group"
         self.ids.group_id2.text = "Select Categories"
-        self.ids.product_name.text = ""
+        self.ids.product_id1.text = "Select Product Name"
 
     def on_pre_leave(self):
         Window.unbind(on_keyboard=self.on_back_button)
@@ -604,7 +548,7 @@ class NewloanScreen(Screen):
         self.selected_category = selected_category
         self.selected_group = selected_group
         # Get the existing ScreenManager
-        product_name = self.ids.product_name.text
+        product_name = self.ids.product_id1.text
 
         sm = self.manager
 
