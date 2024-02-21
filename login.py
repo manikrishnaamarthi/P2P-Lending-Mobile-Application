@@ -381,6 +381,7 @@ class LoginScreen(Screen):
             ]
         )
         dialog.open()
+        self.hide_loading_spinner()
 
 
 

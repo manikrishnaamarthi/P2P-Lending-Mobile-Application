@@ -12,6 +12,9 @@ from kivymd.uix.filemanager import MDFileManager
 from lender_view_loans import ViewLoansScreen
 from lender_view_loans_request import ViewLoansRequest
 from lender_view_extension_request import NewExtension
+from kivy.uix.modalview import ModalView
+from kivymd.uix.spinner import MDSpinner
+from kivy.clock import Clock
 
 if platform == 'android':
     from kivy.uix.button import Button
@@ -27,7 +30,7 @@ user_helpers1 = """
 <WindowManager>:
     LenderDashboard:
     ViewProfileScreen:
-    
+
 <LenderDashboard>
     MDFloatLayout:
         md_bg_color:1,1,1,1
@@ -167,7 +170,7 @@ user_helpers1 = """
                         halign: "center"
                         text_color:1,1,1,1
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        
+
 
             MDFlatButton:
                 size_hint: None, None
@@ -293,7 +296,7 @@ user_helpers1 = """
                 height: self.minimum_height
 
                 MDRectangleFlatButton:
-                   
+
                     line_color:1,1,1,1
                     size_hint: None, None
                     size: dp(120), dp(120)
@@ -304,13 +307,13 @@ user_helpers1 = """
                         Ellipse:
                             size: self.size
                             pos: self.pos 
-          
+
                     Image:
                         id: selected_image1
                         source: "profile.png"
 
                     MDFloatLayout:
-        
+
                         size_hint:(None,None)
                         spacing:0
                         padding:0
@@ -324,7 +327,7 @@ user_helpers1 = """
                     text: 'Selected File: None'
                     size_hint_y: None
                     height: 30
-                 
+
                 MDLabel:
                     text: ' Customer ID '
                     color: 0, 0, 0, 1
@@ -361,7 +364,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         readonly: True
-               
+
                 MDLabel:
                     text: ' Full Name '
                     color: 0, 0, 0, 1
@@ -408,7 +411,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
-                 
+
                 MDLabel:
                     text: ' Mobile Number '
                     color: 0, 0, 0, 1
@@ -451,9 +454,9 @@ user_helpers1 = """
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
-                    
-                    
-                 
+
+
+
                 MDLabel:
                     text: ' Date Of Birth '
                     color: 0, 0, 0, 1
@@ -496,7 +499,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
-                
+
                 MDLabel:
                     text: ' Gender '
                     color: 0, 0, 0, 1
@@ -539,7 +542,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
-  
+
                 MDLabel:
                     text: ' Alternate email '
                     color: 0, 0, 0, 1
@@ -584,7 +587,7 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
- 
+
                 MDLabel:
                     text: ' Government ID1 '
                     color: 0, 0, 0, 1
@@ -664,7 +667,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
                         readonly: True
-  
+
                 MDLabel:
                     text: ' Highest Qualification'
                     color: 0, 0, 0, 1
@@ -709,8 +712,8 @@ user_helpers1 = """
                         line_color_normal: [1, 1, 1, 1]  
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold" 
-      
-                  
+
+
                 MDLabel:
                     text: ' Street Name '
                     color: 0, 0, 0, 1
@@ -756,7 +759,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-                 
+
                 MDLabel:
                     text: ' City Name '
                     color: 0, 0, 0, 1
@@ -802,7 +805,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-                
+
                 MDLabel:
                     text: ' Zipcode '
                     color: 0, 0, 0, 1
@@ -848,7 +851,7 @@ user_helpers1 = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-                  
+
                 MDLabel:
                     text: ' State Name '
                     color: 0, 0, 0, 1
@@ -1431,33 +1434,62 @@ class LenderDashboard(Screen):
         sm.current = 'ViewProfileScreen'
 
     def view_loan_request(self):
-        # self.manager.current = 'ViewProfileScreen'
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
+                               background_color=(0, 0, 0, 0))  # Set background color to white
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_loan_request_action(modal_view), 2)
+
+    def perform_loan_request_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
+
         sm = self.manager
-
-        # Create a new instance of the LoginScreen
         profile_screen = ViewLoansRequest(name='ViewLoansRequest')
-
-        # Add the LoginScreen to the existing ScreenManager
         sm.add_widget(profile_screen)
-
-        # Switch to the LoginScreen
         sm.current = 'ViewLoansRequest'
 
     def view_loanscreen(self):
-        # self.manager.current = 'ViewProfileScreen'
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
+                               background_color=(0, 0, 0, 0))  # Set background color to white
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_view_loanscreen(modal_view), 2)
+
+    def perform_view_loanscreen(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
+
         sm = self.manager
-
-        # Create a new instance of the LoginScreen
         profile_screen = ViewLoansScreen(name='ViewLoansScreen')
-
-        # Add the LoginScreen to the existing ScreenManager
         sm.add_widget(profile_screen)
-
-        # Switch to the LoginScreen
         sm.current = 'ViewLoansScreen'
 
     def newloan_extension(self):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
+                               background_color=(0, 0, 0, 0))  # Set background color to white
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_newloan_extension(modal_view), 2)
+
+    def perform_newloan_extension(self, modal_view):
         # self.manager.current = 'ViewProfileScreen'
+        modal_view.dismiss()
         sm = self.manager
 
         # Create a new instance of the LoginScreen

@@ -7,11 +7,15 @@ from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
 from kivy.utils import platform
 from kivy.clock import mainthread
 from kivymd.uix.filemanager import MDFileManager
+from kivymd.uix.spinner import MDSpinner
 
 from borrower_application_tracker import ApplicationTrackerScreen
 from new_loan_request import NewloanScreen
 from borrower_viewloan import DashboardScreenVLB
 from borrower_foreclosure import LoansDetailsB
+from kivy.uix.modalview import ModalView
+from kivymd.uix.spinner import MDSpinner
+from kivy.clock import Clock
 
 if platform == 'android':
     from kivy.uix.button import Button
@@ -57,7 +61,7 @@ user_helpers = """
             height: self.minimum_height
             width: self.minimum_width
             size_hint_x: None
-            
+
             MDFlatButton:
                 size_hint: None, None
 
@@ -921,7 +925,7 @@ user_helpers = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-                
+
 
                 MDLabel:
                     text: ' Pincode '
@@ -1654,7 +1658,7 @@ user_helpers = """
                         line_color_focus: [1, 1, 1, 1]
                         font_name: "Roboto-Bold"
 
-                
+
 
                 MDLabel:
                     text: ' Father Name '
@@ -2524,6 +2528,7 @@ user_helpers = """
 conn = sqlite3.connect('fin_user_profile.db')
 cursor = conn.cursor()
 
+
 class DashboardScreen(Screen):
     Builder.load_string(user_helpers)
 
@@ -2544,6 +2549,19 @@ class DashboardScreen(Screen):
         self.manager.current = 'BorrowerLanding'
 
     def go_to_newloan_screen(self):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_loan_request_action(modal_view), 2)
+
+    def perform_loan_request_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -2557,6 +2575,19 @@ class DashboardScreen(Screen):
         sm.current = 'NewloanScreen'
 
     def go_to_view_loan_screen(self):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_view_loan_screen_action(modal_view), 2)
+
+    def perform_view_loan_screen_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         sm = self.manager
 
         # Create a new instance of the LoginScreen
@@ -2568,8 +2599,19 @@ class DashboardScreen(Screen):
         # Switch to the LoginScreen
         sm.current = 'DashboardScreenVLB'
 
-
     def go_to_app_tracker(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_app_tracker_action(modal_view), 2)
+
+    def perform_app_tracker_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -2581,7 +2623,20 @@ class DashboardScreen(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'ApplicationTrackerScreen'
+
     def go_to_fore_closer_details(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_fore_closer_details_action(modal_view), 2)
+
+    def perform_fore_closer_details_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         sm = self.manager
 
         # Create a new instance of the LoginScreen
@@ -2593,8 +2648,19 @@ class DashboardScreen(Screen):
         # Switch to the LoginScreen
         sm.current = 'LoansDetailsB'
 
-
     def go_to_loan_details(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_loan_details_action(modal_view), 2)
+
+    def perform_loan_details_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -2611,6 +2677,18 @@ class DashboardScreen(Screen):
         self.manager.current = 'MainScreen'
 
     def go_to_profile(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_profile_action(modal_view), 2)
+
+    def perform_profile_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -2756,7 +2834,7 @@ class ProfileScreen(Screen):
             self.ids.text_input39.text = str(accountname_list[index])
             self.ids.text_input40.text = str(accounttype_list[index])
             self.ids.text_input41.text = str(accountnumber_list[index])
-            #self.ids.text_input42.text = str(branchname_list[index])
+            # self.ids.text_input42.text = str(branchname_list[index])
             self.ids.text_input43.text = str(ifsccode_list[index])
             self.ids.text_input45.text = str(sbank_list[index])
             self.ids.text_input47.text = str(fathername_list[index])
@@ -2768,6 +2846,7 @@ class ProfileScreen(Screen):
             self.ids.text_input53.text = str(collageaddress_list[index])
         else:
             print('coustomer id not fount ')
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1")
 
@@ -2860,6 +2939,18 @@ class LoansDetails(Screen):
         self.manager.current = 'DashboardScreen'
 
     def go_to_foreclose(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_foreclose_action(modal_view), 2)
+
+    def perform_foreclose_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -2891,6 +2982,18 @@ class Foreclosure(Screen):
         self.manager.current = 'LoansDetails'
 
     def go_to_foreclose_details(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_foreclose_details_action(modal_view), 2)
+
+    def perform_foreclose_details_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
