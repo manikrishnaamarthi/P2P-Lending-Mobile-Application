@@ -1,3 +1,4 @@
+
 import os
 import anvil.server
 from kivy.core.window import Window
@@ -23,6 +24,10 @@ from kivy.utils import platform
 from kivy.clock import mainthread
 from datetime import datetime
 from kivymd.uix.snackbar import Snackbar
+from kivy.uix.modalview import ModalView
+from kivy.clock import Clock
+from kivy.uix.label import Label
+from kivymd.uix.spinner import MDSpinner
 
 from borrower_dashboard import DashboardScreen
 
@@ -34,8 +39,8 @@ if platform == 'android':
     from android.permissions import (
         request_permissions, check_permission, Permission
     )
+import anvil.server
 anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
-
 Borrower = '''
 <WindowManager>:
     BorrowerScreen:
@@ -112,7 +117,7 @@ Borrower = '''
                 id: username
                 hint_text: 'Enter Full Name'
                 multiline: False
-                helper_text: "Enter Your Name"
+                helper_text: "Enter Valid Name"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
                 height:self.minimum_height
@@ -213,7 +218,7 @@ Borrower = '''
                 id: mobile_number
                 hint_text: 'Enter mobile number'
                 multiline: False
-                helper_text: 'Enter Your number'
+                helper_text: 'Enter valid number'
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
                 hint_text_color: 0,0,0, 1
@@ -224,15 +229,15 @@ Borrower = '''
                 id: alternate_email
                 hint_text: ' Enter Alternate Email ID'
                 multiline: False
-                helper_text: "Enter Your Email ID"
+                helper_text: "Enter Valid Alternate Email ID"
                 helper_text_mode: 'on_focus'
                 hint_text_color: 0,0,0, 1
                 font_name: "Roboto-Bold"
 
             Spinner:
                 id: spinner_id
-                text: "Please Select Your References"
-                values: ["Select Your References" ,"Google", "Facebook", "Ads","Electronic media","Others"]
+                text: "Please Select your References"
+                values: ["Select your References" ,"Google", "Facebook", "Ads","Electronic media","Others"]
                 multiline:False
                 size_hint_y: (None)
                 background_color: (0,0,0,0)
@@ -299,7 +304,7 @@ Borrower = '''
                 id: aadhar_number
                 hint_text: 'Enter Gov ID1 Number '
                 multiline: False
-                helper_text: "Enter Your Number"
+                helper_text: "Enter Valid Number"
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
                 height:self.minimum_height
@@ -355,7 +360,7 @@ Borrower = '''
                 id: pan_number
                 hint_text: 'Enter Gov ID2 Number '
                 multiline: False
-                helper_text: "Enter Your Gov ID2 No"
+                helper_text: "Enter Valid Gov ID2 No"
                 helper_text_mode: 'on_focus'
                 hint_text_color: 0,0,0, 1
                 height:self.minimum_height
@@ -528,7 +533,7 @@ Borrower = '''
                 height:dp(50)
 
             MDLabel:
-                text: "Upload 10th certificate"
+                text: "Upload 10th class certificate"
                 halign: 'center'
                 bold: True
                 size_hint_y: None
@@ -621,7 +626,7 @@ Borrower = '''
                 halign: 'center'
                 bold: True
             MDLabel:
-                text: "Upload 10th"
+                text: "Upload 10th class"
                 halign: 'center'
                 bold: True
 
@@ -756,9 +761,10 @@ Borrower = '''
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
 
             MDLabel:
-                text: "Upload 10th Certificate"
+                text: "Upload 10th class Certificate"
                 halign: 'center'
                 bold: True
+
 
             BoxLayout:
                 orientation: 'horizontal'
@@ -943,7 +949,7 @@ Borrower = '''
                 halign: 'center'
                 bold: True
             MDLabel:
-                text: "Upload 10th Certificate"
+                text: "Upload 10th class Certificate"
                 halign: 'center'
                 bold: True
 
@@ -1178,7 +1184,7 @@ Borrower = '''
                 bold: True
 
             MDLabel:
-                text: "Upload 10th Certificate"
+                text: "Upload 10th Class Certificate"
                 halign: 'center'
                 bold: True
 
@@ -1504,7 +1510,7 @@ Borrower = '''
                 id: street_address
                 hint_text: 'Enter Street Name'
                 multiline: False
-                helper_text: 'Enter Your address'
+                helper_text: 'Enter valid address'
                 helper_text_mode: 'on_focus'
 
             GridLayout:
@@ -1568,7 +1574,7 @@ Borrower = '''
             MDTextField:
                 id: father_name
                 hint_text: 'Enter Father Name'
-                helper_text: 'Enter Your Name'
+                helper_text: 'Enter valid Father Name'
                 multiline: False
                 helper_text_mode: 'on_focus'
                 hint_text_color: 0,0,0, 1
@@ -1577,7 +1583,7 @@ Borrower = '''
             MDTextField:
                 id: father_age
                 hint_text: 'Enter Father Age'
-                helper_text: 'Enter Your Age'
+                helper_text: 'Enter valid Father Age'
                 multiline: False
                 helper_text_mode: 'on_focus'
                 hint_text_color: 0,0,0, 1
@@ -1588,7 +1594,7 @@ Borrower = '''
             MDTextField:
                 id: father_occupation
                 hint_text: 'Enter Father Occupation'
-                helper_text: 'Enter Your Occupation'
+                helper_text: 'Enter valid Father Occupation'
                 multiline: False
                 helper_text_mode: 'on_focus'
                 hint_text_color: 0,0,0, 1
@@ -1598,7 +1604,7 @@ Borrower = '''
                 id: father_ph_no
                 hint_text: 'Enter Father Phone NO'
                 multiline: False
-                helper_text: 'Enter Your PH No'
+                helper_text: 'Enter valid PH No'
                 helper_text_mode: 'on_focus'
                 text_color: 0,0,0, 1
                 font_name: "Roboto-Bold"
@@ -1667,7 +1673,7 @@ Borrower = '''
             MDTextField:
                 id: mother_name
                 hint_text: 'Enter Mother Name'
-                helper_text: 'Enter Your Name'
+                helper_text: 'Enter Valid Mother Name'
                 multiline: False
                 helper_text_mode: 'on_focus'
                 halign: 'left'
@@ -1679,7 +1685,7 @@ Borrower = '''
             MDTextField:
                 id: mother_age
                 hint_text: 'Enter Mother Age'
-                helper_text: 'Enter Your Age'
+                helper_text: 'Enter Valid Mother Age'
                 multiline: False
                 helper_text_mode: 'on_focus'
                 halign: 'left'
@@ -1693,7 +1699,7 @@ Borrower = '''
             MDTextField:
                 id: mother_occupation
                 hint_text: 'Enter Mother Occupation'
-                helper_text: 'Enter Your Occupation'
+                helper_text: 'Enter Valid Mother Occupation'
                 multiline: False
                 helper_text_mode: 'on_focus'
                 halign: 'left'
@@ -1705,7 +1711,7 @@ Borrower = '''
             MDTextField:
                 id: mother_ph_no
                 hint_text: 'Enter Mother Phone No'
-                helper_text: 'Enter Your Phone No'
+                helper_text: 'Enter Valid Mother Phone No'
                 helper_text_mode: 'on_focus'
                 halign: 'left'
                 theme_text_color: 'Custom'
@@ -1843,7 +1849,7 @@ Borrower = '''
                 hint_text: 'Enter Collage Name '
                 hint_text_color:0,0,0, 1
                 multiline: False
-                helper_text: 'Enter Your Collage Name'
+                helper_text: 'Enter Valid Collage Name'
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
 
@@ -1852,7 +1858,7 @@ Borrower = '''
                 hint_text: 'Enter Collage ID'
                 hint_text_color: 0,0,0, 1
                 multiline: True
-                helper_text: "Enter Your Collage ID"
+                helper_text: "Enter valid Collage ID"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
                 bold: True
@@ -1902,7 +1908,7 @@ Borrower = '''
                 theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
                 multiline: False
-                helper_text: 'Enter Your College Address'
+                helper_text: 'Enter valid College Address'
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
                 bold: True
@@ -1968,7 +1974,7 @@ Borrower = '''
                 id: business_name
                 hint_text: 'Enter Business Name '
                 multiline: False
-                helper_text: "Enter Your Name"
+                helper_text: "Enter valid Business Name"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
 
@@ -1976,7 +1982,7 @@ Borrower = '''
                 id: business_location
                 hint_text: 'Enter Business Location'
                 multiline: False
-                helper_text: "Enter Your Location"
+                helper_text: "Enter valid Business Location"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
 
@@ -1984,7 +1990,7 @@ Borrower = '''
                 id:  business_address
                 hint_text: 'Enter Business Address'
                 multiline: False
-                helper_text: "Enter Your Address"
+                helper_text: "Enter valid Business Address"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
 
@@ -2058,7 +2064,7 @@ Borrower = '''
                 id: landmark
                 hint_text: 'Enter LandMark '
                 multiline: False
-                helper_text: "Enter Your LandMark"
+                helper_text: "Enter Valid LandMark"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
 
@@ -2081,7 +2087,7 @@ Borrower = '''
                 id: reg_office_address
                 hint_text: 'Enter Registered Office Address '
                 multiline: False
-                helper_text: "Enter Your Registration Office Address"
+                helper_text: "Enter valid Registration Office Address"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
 
@@ -2089,7 +2095,7 @@ Borrower = '''
                 id: year_of_estd
                 hint_text: 'Enter Year of Estd'
                 multiline: False
-                helper_text: "Enter Your Year of Estd"
+                helper_text: "Enter valid Year of Estd"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
 
@@ -2161,7 +2167,7 @@ Borrower = '''
                 id: last_six_months_turnover
                 hint_text: 'Enter Last 6 Months Turnover'
                 multiline: False
-                helper_text: "Enter Your 6 months Turnover"
+                helper_text: "Enter valid 6 months Turnover"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
                 input_type: 'number'  
@@ -2369,7 +2375,7 @@ Borrower = '''
                 theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
                 multiline: False
-                helper_text:  "Enter Your Annual Salary"
+                helper_text:  "Enter Valid Annual Salary"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
                 bold: True
@@ -2383,7 +2389,7 @@ Borrower = '''
                 theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
                 multiline: False
-                helper_text: "Enter Your Designation"
+                helper_text: "Enter Valid Designation"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
                 bold: True
@@ -2684,7 +2690,7 @@ Borrower = '''
                 id: spouse_name
                 hint_text: 'Enter Spouse Name '
                 multiline: False
-                helper_text: "Enter Your Name"
+                helper_text: "Enter Valid Spouse Name"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
 
@@ -2708,7 +2714,7 @@ Borrower = '''
                 id: spouse_mobile
                 hint_text: 'Enter Spouse Mobile No'
                 multiline: False
-                helper_text: "Enter Your Mobile No"
+                helper_text: "Enter valid Spouse Mobile No"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
                 input_type: 'number'  
@@ -2718,7 +2724,7 @@ Borrower = '''
                 id: spouse_profession
                 hint_text: 'Enter Spouse Profession '
                 multiline: False
-                helper_text: "Enter Your Profession"
+                helper_text: "Enter valid Spouse Profession"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
 
@@ -2777,7 +2783,7 @@ Borrower = '''
                 id: spouse_company_name
                 hint_text: 'Enter Spouse Company Name '
                 multiline: False
-                helper_text: 'Enter Your Company Name '
+                helper_text: 'Enter Valid Spouse Company Name '
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
 
@@ -2785,7 +2791,7 @@ Borrower = '''
                 id: spouse_company_address
                 hint_text: 'Enter Spouse Company Address'
                 multiline: False
-                helper_text: "Enter Your Company Address"
+                helper_text: "Enter valid Spouse Company Address"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
 
@@ -2793,7 +2799,7 @@ Borrower = '''
                 id: spouse_annual_salary
                 hint_text: 'Enter Annual Salary'
                 multiline: False
-                helper_text: 'Enter Your Annual Salary'
+                helper_text: 'Enter valid Annual Salary'
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
                 input_type: 'number'
@@ -2803,7 +2809,7 @@ Borrower = '''
                 id: spouse_office_no
                 hint_text: 'Enter Spouse Office Number'
                 multiline: False
-                helper_text: "Enter Your Office No"
+                helper_text: "Enter valid Spouse Office No"
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
                 input_type: 'number'
@@ -2864,7 +2870,7 @@ Borrower = '''
             MDTextField:
                 id: account_holder_name
                 hint_text: 'Enter Account Holder Name '
-                helper_text: 'Enter account holder name'
+                helper_text: 'Enter valid account holder name'
                 multiline: False
                 helper_text_mode: 'on_focus'
                 font_name: "Roboto-Bold"
@@ -2889,7 +2895,7 @@ Borrower = '''
                 id: account_number
                 hint_text: 'Enter Account number '
                 multiline: False
-                helper_text: 'Enter Account number'
+                helper_text: 'Enter valid Account number'
                 helper_text_mode: 'on_focus'
                 size_hint_y: None
                 font_name: "Roboto-Bold"
@@ -2897,7 +2903,7 @@ Borrower = '''
             MDTextField:
                 id: bank_name
                 hint_text: 'Enter Bank Name '
-                helper_text: 'Enter Bank Name'
+                helper_text: 'Enter valid Bank Name'
                 multiline: False
                 helper_text_mode: 'on_focus'
                 size_hint_y:None
@@ -2959,7 +2965,7 @@ Borrower = '''
                 id: ifsc_code
                 hint_text: 'Enter Bank ID '
                 multiline: False
-                helper_text: 'Enter Bank ID'
+                helper_text: 'Enter valid Bank ID'
                 helper_text_mode: 'on_focus'
                 size_hint_y:None
                 font_name: "Roboto-Bold"
@@ -2967,7 +2973,7 @@ Borrower = '''
             MDTextField:
                 id: branch_name
                 hint_text: 'Enter Branch Name'
-                helper_text: 'Enter Branch Name'
+                helper_text: 'Enter valid Branch Name'
                 hint_text_mode: 'on_focus'
                 multiline: False
                 halign: 'left'
@@ -3040,6 +3046,20 @@ class BorrowerScreen(Screen):
         return errors
 
     def add_data(self, name, gender, date_of_birth):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        validation_errors = self.validate_input(name, gender, date_of_birth)
+
+        # Delay to simulate processing time (replace with your actual logic)
+        Clock.schedule_once(lambda dt: self.process_data(name, gender, date_of_birth, modal_view, validation_errors), 2)
+
+    def process_data(self, name, gender, date_of_birth, modal_view, validation_errors):
+        # Close the modal view
+        modal_view.dismiss()
         validation_errors = self.validate_input(name, gender, date_of_birth)
 
         if validation_errors:
@@ -3090,6 +3110,7 @@ class BorrowerScreen(Screen):
         sm.transition.direction = 'left'  # Set the transition direction explicitly
         sm.current = 'BorrowerScreen1'
 
+
     def show_validation_error(self, error_text):
         # Show validation errors in a snackbar
         Snackbar(text=error_text,pos_hint={'top': 1}, md_bg_color=[1, 0, 0, 1]).open()
@@ -3125,6 +3146,17 @@ class BorrowerScreen1(Screen):
         self.ids.mobile_number.input_type = 'number'
 
     def add_data(self, mobile_number, alternate_email, spinner_id):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action1(mobile_number, alternate_email, modal_view), 2)
+
+    def perform_data_addition_action1(self, mobile_number, alternate_email, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -3272,6 +3304,16 @@ class BorrowerScreen2(Screen):
         self.ids.upload_label1.text = 'Upload Successfully'
 
     def add_data(self, aadhar_number, pan_number):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action2(aadhar_number, pan_number, modal_view), 2)
+
+    def perform_data_addition_action2(self, aadhar_number, pan_number, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -3336,6 +3378,18 @@ class BorrowerScreen3(Screen):
         return anvil.server.call('profile')
 
     def next_pressed(self, id):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_loan_request_action3(modal_view, id), 2)
+
+    def perform_loan_request_action3(self, modal_view,id):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         if id == '10th class':
             BorrowerScreen_Edu_10th()
             sm = self.manager
@@ -3386,18 +3440,17 @@ class BorrowerScreen3(Screen):
             cursor.execute("UPDATE fin_registration_table SET highest_qualification = ? WHERE customer_id = ?",
                            (id, row_id_list[log_index]))
             conn.commit()
+            data = self.profile()
+            id_list = [i['email_user'] for i in data]
 
+            user_email = self.get_email()
+            if user_email in id_list:
+                index = id_list.index(user_email)
+                data[index]['qualification'] = id
+            else:
+                print('email not found')
         else:
             print('User is not logged in.')
-        data = self.profile()
-        id_list = [i['email_user'] for i in data]
-
-        user_email = self.get_email()
-        if user_email in id_list:
-            index = id_list.index(user_email)
-            data[index]['qualification'] = id
-        else:
-            print('email not found')
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -3522,6 +3575,18 @@ class BorrowerScreen_Edu_10th(Screen):
         self.manager.current = 'BorrowerScreen3'
 
     def go_to_borrower_screen(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_loan_request_action10th(modal_view), 2)
+
+    def perform_loan_request_action10th(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -3665,6 +3730,18 @@ class BorrowerScreen_Edu_Intermediate(Screen):
         self.manager.current = 'BorrowerScreen3'
 
     def go_to_borrower_screen(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_loan_request_action11th(modal_view), 2)
+
+    def perform_loan_request_action11th(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -3840,6 +3917,18 @@ class BorrowerScreen_Edu_Bachelors(Screen):
         self.manager.current = 'BorrowerScreen3'
 
     def go_to_borrower_screen(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_loan_request_action_bachelors(modal_view), 2)
+
+    def perform_loan_request_action_bachelors(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -4041,6 +4130,18 @@ class BorrowerScreen_Edu_Masters(Screen):
         self.manager.current = 'BorrowerScreen3'
 
     def go_to_borrower_screen(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_masters_action(modal_view), 2)
+
+    def perform_masters_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -4266,6 +4367,19 @@ class BorrowerScreen_Edu_PHD(Screen):
         self.manager.current = 'BorrowerScreen3'
 
     def go_to_borrower_screen(self):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_phd_action(modal_view), 2)
+
+    def perform_phd_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -4288,6 +4402,16 @@ class BorrowerScreen4(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, street, city, zip_code, state, country):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action4(street, city, zip_code, state, country, modal_view), 2)
+
+    def perform_data_addition_action4(self, street, city, zip_code, state, country, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
 
         rows = cursor.fetchall()
@@ -4370,6 +4494,16 @@ class BorrowerScreen5(Screen):
         self.ids.father_ph_no.input_type = 'number'
 
     def add_data(self, father_name, father_age, father_occupation, father_ph_no):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(father_name, father_age, father_occupation, father_ph_no, modal_view), 2)
+
+    def perform_data_addition_action(self, father_name, father_age, father_occupation, father_ph_no, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4446,6 +4580,16 @@ class BorrowerScreen6(Screen):
         self.ids.mother_ph_no.input_type = 'number'
 
     def add_data(self, mother_name, mother_age, mother_occupation, mother_ph_no):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(mother_name, mother_age, mother_occupation, mother_ph_no, modal_view), 2)
+
+    def perform_data_addition_action(self, mother_name, mother_age, mother_occupation, mother_ph_no, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4514,21 +4658,51 @@ class BorrowerScreen7(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, spinner_id):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(spinner_id, modal_view), 2)
+
+    def perform_data_addition_action(self, spinner_id, modal_view):
+        modal_view.dismiss()
+        if spinner_id == 'Student':
+            sm = self.manager
+            borrower_screen = BorrowerScreen8(name='BorrowerScreen8')
+            sm.add_widget(borrower_screen)
+            sm.transition.direction = 'left'
+            sm.current = 'BorrowerScreen8'
+
+        elif spinner_id == 'Business':
+            sm = self.manager
+            borrower_screen = BorrowerScreen9(name='BorrowerScreen9')
+            sm.add_widget(borrower_screen)
+            sm.transition.direction = 'left'
+            sm.current = 'BorrowerScreen9'
+
+        elif spinner_id == 'Employee':
+            sm = self.manager
+            borrower_screen = BorrowerScreen12(name='BorrowerScreen12')
+            sm.add_widget(borrower_screen)
+            sm.transition.direction = 'left'
+            sm.current = 'BorrowerScreen12'
+        print(spinner_id)
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
         status = []
+
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
-
         if 'logged' in status:
             log_index = status.index('logged')
             cursor.execute(
                 "UPDATE fin_registration_table SET proficient_type = ? WHERE customer_id = ?",
                 (spinner_id, row_id_list[log_index]))
             conn.commit()
-
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
@@ -4544,30 +4718,6 @@ class BorrowerScreen7(Screen):
             data[index]['profficen'] = spinner_id
         else:
             print('no email found')
-        if spinner_id == 'Student':
-            # self.manager.current = 'BorrowerScreen8'
-            sm = self.manager
-            borrower_screen = BorrowerScreen8(name='BorrowerScreen8')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen8'
-
-        elif spinner_id == 'Business':
-            # self.manager.current = 'BorrowerScreen9'
-            sm = self.manager
-            borrower_screen = BorrowerScreen9(name='BorrowerScreen9')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen9'
-
-        elif spinner_id == 'Employee':
-            # self.manager.current = 'BorrowerScreen12'
-            sm = self.manager
-            borrower_screen = BorrowerScreen12(name='BorrowerScreen12')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen12'
-        print(id)
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -4671,6 +4821,16 @@ class BorrowerScreen8(Screen):
         self.ids.upload_label1.text = 'Upload Successfully'
 
     def add_data(self, collage_name, college_address, collage_id):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(collage_name, college_address, collage_id, modal_view), 2)
+
+    def perform_data_addition_action(self, collage_name, college_address, collage_id, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4680,14 +4840,18 @@ class BorrowerScreen8(Screen):
             status.append(row[-1])
 
         if 'logged' in status:
+            # Check if any user is logged in
             log_index = status.index('logged')
             cursor.execute(
                 "UPDATE fin_registration_table SET collage_name = ?, college_address = ?, college_id = ? WHERE customer_id = ?",
                 (collage_name, college_address, collage_id, row_id_list[log_index]))
             conn.commit()
+
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+            print("Moving to BorrowerScreen15...")
+
         data = self.profile()
         id_list = []
         for i in data:
@@ -4736,6 +4900,16 @@ class BorrowerScreen9(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, business_name, business_location, business_address):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(business_name, business_location, business_address, modal_view), 2)
+
+    def perform_data_addition_action(self,business_name, business_location, business_address, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4750,7 +4924,6 @@ class BorrowerScreen9(Screen):
                 "UPDATE fin_registration_table SET business_name = ?, business_location = ?, business_address = ? WHERE customer_id = ?",
                 (business_name, business_location, business_address, row_id_list[log_index]))
             conn.commit()
-
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
@@ -4759,7 +4932,6 @@ class BorrowerScreen9(Screen):
         id_list = []
         for i in data:
             id_list.append(i['email_user'])
-
         user_email = self.get_email()
         if user_email in id_list:
             index = id_list.index(user_email)
@@ -4774,6 +4946,7 @@ class BorrowerScreen9(Screen):
         sm.add_widget(borrower_screen)
         sm.transition.direction = 'left'
         sm.current = 'BorrowerScreen10'
+
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -4804,6 +4977,16 @@ class BorrowerScreen10(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, landmark, business_type, no_of_employees_working, registered_office_address, year_of_estd):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(landmark, business_type, no_of_employees_working, registered_office_address, year_of_estd, modal_view), 2)
+
+    def perform_data_addition_action(self, landmark, business_type, no_of_employees_working, registered_office_address, year_of_estd, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4819,10 +5002,10 @@ class BorrowerScreen10(Screen):
                 (landmark, business_type, no_of_employees_working, registered_office_address, year_of_estd,
                  row_id_list[log_index]))
             conn.commit()
-
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+
         data = self.profile()
         id_list = []
         for i in data:
@@ -4838,12 +5021,12 @@ class BorrowerScreen10(Screen):
             data[index]['company_landmark'] = landmark
         else:
             print('no email found')
-
         sm = self.manager
         borrower_screen = BorrowerScreen15(name='BorrowerScreen15')
         sm.add_widget(borrower_screen)
         sm.transition.direction = 'left'
         sm.current = 'BorrowerScreen15'
+
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -4951,6 +5134,16 @@ class BorrowerScreen11(Screen):
         self.ids.upload_label1.text = 'Upload Successfully'
 
     def add_data(self, industry_type, last_six_months_turnover):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(industry_type, last_six_months_turnover, modal_view), 2)
+
+    def perform_data_addition_action(self, industry_type, last_six_months_turnover, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4965,10 +5158,10 @@ class BorrowerScreen11(Screen):
                 "UPDATE fin_registration_table SET industry_type = ?, last_six_months_turnover = ? WHERE customer_id = ?",
                 (industry_type, last_six_months_turnover, row_id_list[log_index]))
             conn.commit()
-
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+
         data = self.profile()
         id_list = [i['email_user'] for i in data]
         user_email = self.get_email()
@@ -4978,11 +5171,13 @@ class BorrowerScreen11(Screen):
             data[index]['six_month_turnover'] = last_six_months_turnover
         else:
             print('email not found')
+
         sm = self.manager
         borrower_screen = BorrowerScreen12(name='BorrowerScreen12')
         sm.add_widget(borrower_screen)
         sm.transition.direction = 'left'
         sm.current = 'BorrowerScreen12'
+
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -5013,6 +5208,16 @@ class BorrowerScreen12(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, employment_type, company_name, organization):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(employment_type, company_name, organization, modal_view), 2)
+
+    def perform_data_addition_action(self, employment_type, company_name, organization, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -5028,24 +5233,25 @@ class BorrowerScreen12(Screen):
                 (employment_type, company_name, organization, row_id_list[log_index]))
             conn.commit()
 
+            data = self.profile()
+            id_list = [i['email_user'] for i in data]
+            user_email = self.get_email()
+            if user_email in id_list:
+                index = id_list.index(user_email)
+                data[index]['employment_type'] = employment_type
+                data[index]['company_name'] = company_name
+                data[index]['organization_type'] = organization
+            else:
+                print('email not found')
+
+            sm = self.manager
+            borrower_screen = BorrowerScreen13(name='BorrowerScreen13')
+            sm.add_widget(borrower_screen)
+            sm.transition.direction = 'left'
+            sm.current = 'BorrowerScreen13'
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
-        data = self.profile()
-        id_list = [i['email_user'] for i in data]
-        user_email = self.get_email()
-        if user_email in id_list:
-            index = id_list.index(user_email)
-            data[index]['employment_type'] = employment_type
-            data[index]['company_name'] = company_name
-            data[index]['organization_type'] = organization
-        else:
-            print('email not found')
-        sm = self.manager
-        borrower_screen = BorrowerScreen13(name='BorrowerScreen13')
-        sm.add_widget(borrower_screen)
-        sm.transition.direction = 'left'
-        sm.current = 'BorrowerScreen13'
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -5076,6 +5282,16 @@ class BorrowerScreen14(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, company_address, company_pincode, company_country, landmark, business_number):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(company_address, company_pincode, company_country, landmark, business_number, modal_view), 2)
+
+    def perform_data_addition_action(self, company_address, company_pincode, company_country, landmark, business_number, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -5091,26 +5307,27 @@ class BorrowerScreen14(Screen):
                 (company_address, company_pincode, company_country, landmark, business_number, row_id_list[log_index]))
             conn.commit()
 
+            data = self.profile()
+            id_list = [i['email_user'] for i in data]
+            user_email = self.get_email()
+            if user_email in id_list:
+                index = id_list.index(user_email)
+                data[index]['company_address'] = company_address
+                data[index]['company_landmark'] = landmark
+                data[index]['business_no'] = business_number
+                data[index]['company_country'] = company_country
+                data[index]['company_pincode'] = company_pincode
+            else:
+                print('email not found')
+
+            sm = self.manager
+            borrower_screen = BorrowerScreen15(name='BorrowerScreen15')
+            sm.add_widget(borrower_screen)
+            sm.transition.direction = 'left'
+            sm.current = 'BorrowerScreen15'
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
-        data = self.profile()
-        id_list = [i['email_user'] for i in data]
-        user_email = self.get_email()
-        if user_email in id_list:
-            index = id_list.index(user_email)
-            data[index]['company_address'] = company_address
-            data[index]['company_landmark'] = landmark
-            data[index]['business_no'] = business_number
-            data[index]['company_country'] = company_country
-            data[index]['company_pincode'] = company_pincode
-        else:
-            print('email not found')
-        sm = self.manager
-        borrower_screen = BorrowerScreen15(name='BorrowerScreen15')
-        sm.add_widget(borrower_screen)
-        sm.transition.direction = 'left'
-        sm.current = 'BorrowerScreen15'
 
     def on_company_pincode_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
@@ -5249,6 +5466,16 @@ class BorrowerScreen13(Screen):
         self.ids.upload_label2.text = 'Upload Successfully'
 
     def add_data(self, annual_salary, designation):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(annual_salary, designation, modal_view), 2)
+
+    def perform_data_addition_action(self, annual_salary, designation, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -5264,23 +5491,24 @@ class BorrowerScreen13(Screen):
                 (annual_salary, designation, row_id_list[log_index]))
             conn.commit()
 
+            data = self.profile()
+            id_list = [i['email_user'] for i in data]
+            user_email = self.get_email()
+            if user_email in id_list:
+                index = id_list.index(user_email)
+                data[index]['annual_salary'] = annual_salary
+                data[index]['designation'] = designation
+            else:
+                print('email not found')
+
+            sm = self.manager
+            borrower_screen = BorrowerScreen14(name='BorrowerScreen14')
+            sm.add_widget(borrower_screen)
+            sm.transition.direction = 'left'
+            sm.current = 'BorrowerScreen14'
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
-        data = self.profile()
-        id_list = [i['email_user'] for i in data]
-        user_email = self.get_email()
-        if user_email in id_list:
-            index = id_list.index(user_email)
-            data[index]['annual_salary'] = annual_salary
-            data[index]['designation'] = designation
-        else:
-            print('email not found')
-        sm = self.manager
-        borrower_screen = BorrowerScreen14(name='BorrowerScreen14')
-        sm.add_widget(borrower_screen)
-        sm.transition.direction = 'left'
-        sm.current = 'BorrowerScreen14'
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -5311,54 +5539,16 @@ class BorrowerScreen15(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, marital_status_id):
-        cursor.execute('select * from fin_users')
-        rows = cursor.fetchall()
-        row_id_list = []
-        status = []
-        for row in rows:
-            row_id_list.append(row[0])
-            status.append(row[-1])
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
 
-        if 'logged' in status:
-            log_index = status.index('logged')
-            cursor.execute(
-                "UPDATE fin_registration_table SET marital_status = ? WHERE customer_id = ?",
-                (marital_status_id, row_id_list[log_index]))
-            conn.commit()
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(marital_status_id, modal_view), 2)
 
-            if marital_status_id == 'Un-Married':
-                sm = self.manager
-                borrower_screen = BorrowerScreen18(name='BorrowerScreen18')
-                sm.add_widget(borrower_screen)
-                sm.transition.direction = 'left'
-                sm.current = 'BorrowerScreen18'
-
-            elif marital_status_id == 'Married':
-                sm = self.manager
-                borrower_screen = BorrowerScreen16(name='BorrowerScreen16')
-                sm.add_widget(borrower_screen)
-                sm.transition.direction = 'left'
-                sm.current = 'BorrowerScreen16'
-
-            elif marital_status_id == 'Divorced':
-                sm = self.manager
-                borrower_screen = BorrowerScreen18(name='BorrowerScreen18')
-                sm.add_widget(borrower_screen)
-                sm.transition.direction = 'left'
-                sm.current = 'BorrowerScreen18'
-
-        else:
-            # Handle the case where the user is not logged in
-            print("User is not logged in.")
-        data = self.profile()
-        id_list = [i['email_user'] for i in data]
-        user_email = self.get_email()
-        if user_email in id_list:
-            index = id_list.index(user_email)
-            data[index]['marital_status'] = marital_status_id
-        else:
-            print('email not found')
-
+    def perform_data_addition_action(self, marital_status_id, modal_view):
+        modal_view.dismiss()
         if marital_status_id == 'Un-Married':
             sm = self.manager
             borrower_screen = BorrowerScreen18(name='BorrowerScreen18')
@@ -5379,6 +5569,33 @@ class BorrowerScreen15(Screen):
             sm.add_widget(borrower_screen)
             sm.transition.direction = 'left'
             sm.current = 'BorrowerScreen18'
+
+        cursor.execute('select * from fin_users')
+        rows = cursor.fetchall()
+        row_id_list = []
+        status = []
+        for row in rows:
+            row_id_list.append(row[0])
+            status.append(row[-1])
+
+        if 'logged' in status:
+            log_index = status.index('logged')
+            cursor.execute(
+                "UPDATE fin_registration_table SET marital_status = ? WHERE customer_id = ?",
+                (marital_status_id, row_id_list[log_index]))
+            conn.commit()
+
+            data = self.profile()
+            id_list = [i['email_user'] for i in data]
+            user_email = self.get_email()
+            if user_email in id_list:
+                index = id_list.index(user_email)
+                data[index]['marital_status'] = marital_status_id
+            else:
+                print('email not found')
+        else:
+            # Handle the case where the user is not logged in
+            print("User is not logged in.")
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -5428,6 +5645,16 @@ class BorrowerScreen16(Screen):
         self.ids.spouse_date_textfield.text = f'{value.year}-{value.month}-{value.day}'
 
     def add_data(self, spouse_name, spouse_date_textfield, spouse_mobile, spouse_profession):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(spouse_name, spouse_date_textfield, spouse_mobile, spouse_profession, modal_view), 2)
+
+    def perform_data_addition_action(self, spouse_name, spouse_date_textfield, spouse_mobile, spouse_profession, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -5442,23 +5669,23 @@ class BorrowerScreen16(Screen):
                 "UPDATE fin_registration_table SET spouse_name = ?,spouse_date_textfield = ?, spouse_mobile = ?, spouse_profession = ? WHERE customer_id = ?",
                 (spouse_name, spouse_date_textfield, spouse_mobile, spouse_profession, row_id_list[log_index]))
             conn.commit()
+            data = self.profile()
 
+            id_list = [i['email_user'] for i in data]
+
+
+            user_email = self.get_email()
+            if user_email in id_list:
+                index = id_list.index(user_email)
+                data[index]['spouse_name'] = spouse_name
+                data[index]['spouse_mobile'] = spouse_mobile
+                data[index]['spouse_date'] = str(spouse_date_textfield)
+                data[index]['spouse_profession'] = spouse_profession
+            else:
+                print("email not there")
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
-        data = self.profile()
-
-        id_list = [i['email_user'] for i in data]
-
-        user_email = self.get_email()
-        if user_email in id_list:
-            index = id_list.index(user_email)
-            data[index]['spouse_name'] = spouse_name
-            data[index]['spouse_mobile'] = spouse_mobile
-            data[index]['spouse_date'] = str(spouse_date_textfield)
-            data[index]['spouse_profession'] = spouse_profession
-        else:
-            print("email not there")
 
         sm = self.manager
         borrower_screen = BorrowerScreen17(name='BorrowerScreen17')
@@ -5503,6 +5730,16 @@ class BorrowerScreen17(Screen):
         self.ids.spouse_office_no.input_type = 'number'
 
     def add_data(self, spouse_company_name, spouse_company_address, spouse_annual_salary, spouse_office_no):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(spouse_company_name, spouse_company_address, spouse_annual_salary, spouse_office_no, modal_view), 2)
+
+    def perform_data_addition_action(self, spouse_company_name, spouse_company_address, spouse_annual_salary, spouse_office_no, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -5518,21 +5755,19 @@ class BorrowerScreen17(Screen):
                 (spouse_company_name, spouse_company_address, spouse_annual_salary, spouse_office_no,
                  row_id_list[log_index]))
             conn.commit()
-
+            data = self.profile()
+            id_list = [i['email_user'] for i in data]
+            user_email = self.get_email()
+            if user_email in id_list:
+                index = id_list.index(user_email)
+                data[index]['spouse_company_name'] = spouse_company_name
+                data[index]['spouse_company_address'] = spouse_company_address
+                data[index]['spouse_annual_salary'] = spouse_annual_salary
+                data[index]['spouse_office_no'] = spouse_office_no
+            else:
+                print('email not valid')
         else:
             print('User is not logged in.')
-        data = self.profile()
-        id_list = [i['email_user'] for i in data]
-        user_email = self.get_email()
-        if user_email in id_list:
-            index = id_list.index(user_email)
-            data[index]['spouse_company_name'] = spouse_company_name
-            data[index]['spouse_company_address'] = spouse_company_address
-            data[index]['spouse_annual_salary'] = spouse_annual_salary
-            data[index]['spouse_office_no'] = spouse_office_no
-        else:
-            print('email not valid')
-
 
         sm = self.manager
         borrower_screen = BorrowerScreen18(name='BorrowerScreen18')
@@ -5569,6 +5804,16 @@ class BorrowerScreen18(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, account_holder_name, account_type, account_number, bank_name):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(account_holder_name, account_type, account_number, bank_name, modal_view), 2)
+
+    def perform_data_addition_action(self, account_holder_name, account_type, account_number, bank_name, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -5583,20 +5828,19 @@ class BorrowerScreen18(Screen):
                 "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
                 (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
             conn.commit()
-
+            data = self.profile()
+            id_list = [i['email_user'] for i in data]
+            user_email = self.get_email()
+            if user_email in id_list:
+                index = id_list.index(user_email)
+                data[index]['account_name'] = account_holder_name
+                data[index]['account_type'] = account_type
+                data[index]['account_number'] = account_number
+                data[index]['bank_name'] = bank_name
+            else:
+                print('email not valid')
         else:
             print('User is not logged in.')
-        data = self.profile()
-        id_list = [i['email_user'] for i in data]
-        user_email = self.get_email()
-        if user_email in id_list:
-            index = id_list.index(user_email)
-            data[index]['account_name'] = account_holder_name
-            data[index]['account_type'] = account_type
-            data[index]['account_number'] = account_number
-            data[index]['bank_name'] = bank_name
-        else:
-            print('email not valid')
 
         sm = self.manager
         borrower_screen = BorrowerScreen19(name='BorrowerScreen19')
@@ -5633,6 +5877,16 @@ class BorrowerScreen19(Screen):
         return anvil.server.call('profile')
 
     def go_to_borrower_dashboard(self, bank_id, branch_name):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(bank_id, branch_name, modal_view), 2)
+
+    def perform_data_addition_action(self, bank_id, branch_name, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -5645,23 +5899,21 @@ class BorrowerScreen19(Screen):
         if 'logged' in status:
             log_index = status.index('logged')
             cursor.execute(
-                "UPDATE fin_registration_table SET bank_id = ?, branch_name = ?,user_type = ?  WHERE customer_id = ?",
-                (bank_id, branch_name,b, row_id_list[log_index]))
+                "UPDATE fin_registration_table SET bank_id = ?, branch_name = ?, user_type = ?  WHERE customer_id = ?",
+                (bank_id, branch_name, b,row_id_list[log_index]))
             conn.commit()
-
+            data = self.profile()
+            id_list = [i['email_user'] for i in data]
+            user_email = self.get_email()
+            if user_email in id_list:
+                index = id_list.index(user_email)
+                data[index]['bank_id'] = bank_id
+                data[index]['account_bank_branch'] = branch_name
+                data[index]['usertype'] = b
+            else:
+                print('email not valid')
         else:
             print('User is not logged in.')
-        data = self.profile()
-        id_list = [i['email_user'] for i in data]
-        user_email = self.get_email()
-        if user_email in id_list:
-            index = id_list.index(user_email)
-            data[index]['bank_id'] = bank_id
-            data[index]['account_bank_branch'] = branch_name
-            data[index]['usertype'] = b
-            data[index]['registration_approve'] = True
-        else:
-            print('email not valid')
 
         sm = self.manager
         borrower_screen = DashboardScreen(name='DashboardScreen')

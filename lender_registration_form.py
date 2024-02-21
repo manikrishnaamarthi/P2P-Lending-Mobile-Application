@@ -25,6 +25,9 @@ from kivy.clock import mainthread
 from datetime import datetime
 from kivymd.uix.snackbar import Snackbar
 import anvil.server
+from kivy.uix.modalview import ModalView
+from kivymd.uix.spinner import MDSpinner
+from kivy.clock import Clock
 
 anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
 
@@ -2857,6 +2860,16 @@ class LenderScreen(Screen):
         self.ids.date_textfield.text = f'{value.year}-{value.month}-{value.day}'
 
     def add_data(self, name, gender, date):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(name, gender, date, modal_view), 2)
+
+    def perform_data_addition_action(self, name, gender, date, modal_view):
+        modal_view.dismiss()
 
         if not name.strip():
             self.show_snackbar("Please enter your full name.")
@@ -2952,6 +2965,16 @@ class LenderScreen1(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, mobile_number, alternate_email):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(mobile_number, alternate_email, modal_view), 2)
+
+    def perform_data_addition_action(self, mobile_number, alternate_email, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -3108,6 +3131,16 @@ class LenderScreen2(Screen):
     # Repeat similar methods for file manager 2...
 
     def add_data(self, aadhar_number, pan_number):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(aadhar_number, pan_number, modal_view), 2)
+
+    def perform_data_addition_action(self, aadhar_number, pan_number, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -3172,6 +3205,16 @@ class LenderScreen3(Screen):
     def profile(self):
         return anvil.server.call('profile')
     def next_pressed(self, id):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(id, modal_view), 2)
+
+    def perform_data_addition_action(self, id, modal_view):
+        modal_view.dismiss()
         if id == '10th class':
             LenderScreen_Edu_10th()
             sm = self.manager
@@ -3356,6 +3399,18 @@ class LenderScreen_Edu_10th(Screen):
         self.manager.current = 'LenderScreen3'
 
     def go_to_lender_screen4(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_loan_request_action10th(modal_view), 2)
+
+    def perform_loan_request_action10th(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -3497,6 +3552,18 @@ class LenderScreen_Edu_Intermediate(Screen):
         self.manager.current = 'LenderScreen3'
 
     def go_to_lender_screen4(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_loan_request_action11th(modal_view), 2)
+
+    def perform_loan_request_action11th(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -3668,6 +3735,18 @@ class LenderScreen_Edu_Bachelors(Screen):
         self.manager.current = 'LenderScreen3'
 
     def go_to_lender_screen4(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_loan_request_action_bachelors(modal_view), 2)
+
+    def perform_loan_request_action_bachelors(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -3867,6 +3946,18 @@ class LenderScreen_Edu_Masters(Screen):
         self.manager.current = 'LenderScreen3'
 
     def go_to_lender_screen4(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_masters_action(modal_view), 2)
+
+    def perform_masters_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -4089,6 +4180,18 @@ class LenderScreen_Edu_PHD(Screen):
         self.manager.current = 'LenderScreen3'
 
     def go_to_lender_screen4(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_phd_action(modal_view), 2)
+
+    def perform_phd_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
         # Get the existing ScreenManager
         sm = self.manager
 
@@ -4109,6 +4212,17 @@ class LenderScreen4(Screen):
         return data
 
     def add_data(self, street, city, zip_code, state, country):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(street, city, zip_code, state, country, modal_view), 2)
+
+    def perform_data_addition_action4(self,street, city, zip_code, state, country, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4184,6 +4298,17 @@ class LenderScreen5(Screen):
         return anvil.server.call('profile')
 
     def next_pressed(self, id, investment, period):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(id, investment, period, modal_view), 2)
+
+    def perform_data_addition_action4(self, id, investment, period, modal_view):
+        modal_view.dismiss()
         if id == 'Individual':
             # self.manager.current = 'LenderScreenIndividualForm1'
             sm = self.manager
@@ -4267,6 +4392,17 @@ class LenderScreenInstitutionalForm1(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, business_name, business_location, business_address, business_branch_name):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(business_name, business_location, business_address, business_branch_name, modal_view), 2)
+
+    def perform_data_addition_action4(self,business_name, business_location, business_address, business_branch_name, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4336,6 +4472,18 @@ class LenderScreenInstitutionalForm2(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, business_type, nearest_location, no_of_employees_working, year_of_estd):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4( business_type, nearest_location, no_of_employees_working, year_of_estd, modal_view), 2)
+
+    def perform_data_addition_action4(self, business_type, nearest_location, no_of_employees_working, year_of_estd,
+                                      modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4477,6 +4625,17 @@ class LenderScreenInstitutionalForm3(Screen):
         self.ids.upload_label1.text = 'Upload Successfully'
 
     def add_data(self, industry_type, last_six_months_turnover):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(industry_type, last_six_months_turnover, modal_view), 2)
+
+    def perform_data_addition_action4(self,industry_type, last_six_months_turnover, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4548,6 +4707,17 @@ class LenderScreenInstitutionalForm4(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, director_name, director_mobile_number, DIN, CIN):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(director_name, director_mobile_number, DIN, CIN, modal_view), 2)
+
+    def perform_data_addition_action4(self,director_name, director_mobile_number, DIN, CIN, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4694,6 +4864,18 @@ class LenderScreenInstitutionalForm5(Screen):
         self.ids.upload_label1.text = 'Upload Successfully'
 
     def add_data(self, registered_office_address):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action(registered_office_address, modal_view),
+            2)
+
+    def perform_data_addition_action(self,registered_office_address, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4761,6 +4943,17 @@ class LenderScreenIndividualForm1(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, employeent_type, company_name, organization):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(employeent_type, company_name, organization, modal_view), 2)
+
+    def perform_data_addition_action4(self, employeent_type, company_name, organization, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -4929,6 +5122,17 @@ class LenderScreenIndividualForm2(Screen):
         self.ids.upload_label2.text = 'Upload Successfully'
 
     def add_data(self, annual_salary, designation):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(annual_salary, designation, modal_view), 2)
+
+    def perform_data_addition_action4(self,annual_salary, designation, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -5004,6 +5208,17 @@ class LenderScreenIndividualForm3(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, company_address, company_pincode, company_country, landmark, business_number):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(company_address, company_pincode, company_country, landmark, business_number, modal_view), 2)
+
+    def perform_data_addition_action4(self, company_address, company_pincode, company_country, landmark, business_number, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -5086,6 +5301,17 @@ class LenderScreenIndividualBankForm1(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, account_holder_name, account_type, account_number, bank_name):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(account_holder_name, account_type, account_number, bank_name, modal_view), 2)
+
+    def perform_data_addition_action4(self, account_holder_name, account_type, account_number, bank_name, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -5159,6 +5385,18 @@ class LenderScreenIndividualBankForm2(Screen):
         return anvil.server.call('profile')
 
     def go_to_lender_dashboard(self, bank_id, branch_name):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(bank_id, branch_name,
+                                                          modal_view), 2)
+
+    def perform_data_addition_action4(self,bank_id, branch_name, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -5236,6 +5474,18 @@ class LenderScreenInstitutionalBankForm1(Screen):
         return anvil.server.call('profile')
 
     def add_data(self, account_holder_name, account_type, account_number, bank_name):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(account_holder_name, account_type, account_number, bank_name,
+                                                          modal_view), 2)
+
+    def perform_data_addition_action4(self, account_holder_name, account_type, account_number, bank_name, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
@@ -5305,6 +5555,18 @@ class LenderScreenInstitutionalBankForm2(Screen):
         return anvil.server.call('profile')
 
     def go_to_lender_dashboard(self, bank_id, branch_name):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., adding data)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(bank_id, branch_name,
+                                                          modal_view), 2)
+
+    def perform_data_addition_action4(self, bank_id, branch_name, modal_view):
+        modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
         row_id_list = []
