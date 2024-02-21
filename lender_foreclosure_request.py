@@ -1,11 +1,14 @@
-from kivymd.app import MDApp
-from kivymd.uix.list import *
-from kivy.lang import Builder
+import anvil
 from kivy.core.window import Window
-from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
-from kivy.utils import platform
-from kivy.clock import mainthread
-from kivymd.uix.filemanager import MDFileManager
+from kivy.uix.filechooser import platform
+from kivy.uix.screenmanager import Screen, ScreenManager
+import anvil.server
+from kivy.lang import Builder
+import anvil.server
+from kivy.uix.screenmanager import Screen, SlideTransition
+from kivymd.app import MDApp
+from kivymd.uix.list import ThreeLineAvatarIconListItem, IconLeftWidget
+
 if platform == 'android':
     from kivy.uix.button import Button
     from kivy.uix.modalview import ModalView
@@ -14,12 +17,9 @@ if platform == 'android':
     from android.permissions import (
         request_permissions, check_permission, Permission)
 
-
-import anvil.server
-
 anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
 
-lender_foreclouser = """
+lender_foreclouser = '''
 
 <WindowManager>:
     DashboardScreenLF:
@@ -29,584 +29,226 @@ lender_foreclouser = """
     UnderProcessLoansLF:
     ClosedLoansLF:
     ViewProfileScreenLF
-    
-    
+
 <DashboardScreenLF>:
-    BoxLayout:
-        orientation: 'vertical'
+    MDFloatLayout:
+        md_bg_color:1,1,1,1
+        size_hint: 1, 1 
+
         MDTopAppBar:
-            title: "Foreclose Dashboard"
+            title: "Foreclose Loans"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            title_align: 'left'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.96}
+
+        MDGridLayout:
+            cols: 2
+
+            spacing: dp(15)
+            size_hint_y: None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            height: self.minimum_height
+            width: self.minimum_width
+            size_hint_x: None
+
+            MDFlatButton:
+                size_hint: None, None
+
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color: 0.031, 0.463, 0.91, 1 
+
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+                on_release: root.go_to_open_loans()
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "Approved Loans"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDFlatButton:
+                size_hint: None, None
+
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color: 0.031, 0.463, 0.91, 1 
+                on_release: root.go_to_under_loans()
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "UnderProcess Loans"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDFlatButton:
+                size_hint: None, None
+
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color: 0.031, 0.463, 0.91, 1 
+                on_release: root.go_to_reject_loans()
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "Rejected Loans"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            MDFlatButton:
+                size_hint: None, None
+
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                md_bg_color: 0.031, 0.463, 0.91, 1 
+
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+                on_release: root.go_to_app_tracker()
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "Closed Loans"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
 
-        BoxLayout:
-            orientation: 'vertical'
-            size_hint: 1, 1 
-            padding: dp(40)
-            pos_hint: {'center_x':0.5, 'center_y':0.5}
 
-            MDGridLayout:
-                cols: 2
-                padding: dp(15)
-                spacing: dp(5)
-                pos_hint: {'center_x': .5, 'center_y': .5}
+            MDFlatButton:
+                size_hint: None, None
+                md_bg_color: 0.031, 0.463, 0.91, 1 
 
-                Button:
-                    text: "New Loan request"
-                    background_color: 0.529, 0.807, 0.922, 0
-                    on_release: app.root.current = "ViewAllLoansLF"
-                    color: 0, 0, 0, 1
-                    bold: True
-                    canvas.before:
-                        Color:
-                            rgba: 0.529, 0.807, 0.922, 1 
-                        Line:
-                            width: 0.9  
-                            rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
+                size_hint_y: None
+                height: dp(60)
+                size_hint_x: None
+                width: dp(110)
+                on_release: root.all_loanscreen()
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing:dp(10)
+                    MDLabel:
+                        text: "All Loans"
+                        font_size:dp(14)
+                        bold:True
+                        theme_text_color: 'Custom'
+                        halign: "center"
+                        text_color:1,1,1,1
 
-                Button:
-                    text: "Approved "
-                    text_color: 0, 0, 0, 1
-                    background_color: 0.529, 0.807, 0.922, 0
-                    color: 0, 0, 0, 1
-                    on_release: app.root.current = "ApprovedLoansLF"
-                    bold: True
-                    canvas.before:
-                        Color:
-                            rgba:0.529, 0.807, 0.922, 1 
-                        Line:
-                            width: 0.9  
-                            rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-                Button:
-                    text: "Rejected Loans"
-                    background_color: 0.529, 0.807, 0.922, 0 
-                    on_release: app.root.current = "RejectedLoansLF"
-                    color: 0, 0, 0, 1
-                    bold: True
-                    canvas.before:
-                        Color:
-                            rgba: 0.529, 0.807, 0.922, 1 
-                        Line:
-                            width: 0.9  # Border width
-                            rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-
-                Button:
-                    text: "Under Process"
-                    text_color: 0, 0, 0, 1
-                    on_release: app.root.current = "UnderProcessLoansLF"
-                    background_color: 0.529, 0.807, 0.922, 0
-                    color: 0, 0, 0, 1
-                    bold: True
-                    canvas.before:
-                        Color:
-                            rgba:0.529, 0.807, 0.922, 1 
-                        Line:
-                            width: 0.9  
-                            rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-                Button:
-                    text: "Closed Loans"
-                    background_color: 0.529, 0.807, 0.922, 0
-                    color: 0, 0, 0, 1
-                    on_release: app.root.current = "ClosedLoansLF"
-                    bold: True
-                    canvas.before:
-                        Color:
-                            rgba: 0.529, 0.807, 0.922, 1 
-                        Line:
-                            width: 0.9  
-                            rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
-
-
-
-"""
-lender_foreclouser += '''
 <ApprovedLoansLF>
     BoxLayout:
         orientation: 'vertical'
         MDTopAppBar:
-            title: "Approved Loans "
+            title: "Approved Loans"
             elevation: 3
-            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            left_action_items: [['arrow-left', lambda x: root.go_back_screen()]]
+            right_action_items: [['refresh', lambda x: root.refresh()]]
+        MDScrollView:
 
-        ScrollView:
+            MDList:
+                id: container1
 
-            MDBoxLayout:
-                orientation: 'vertical'
-                size_hint_y: None
-                height: self.minimum_height
-
-
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    size_hint_y: None
-                    height: self.minimum_height
-                    padding: dp(20)
-
-                    BoxLayout:
-                        id: box1
-                        orientation: 'vertical'
-                        size_hint_y: None
-                        height: 0
-
-                        padding: [10, 0,0,0]
-                        canvas.before:
-                            Color:
-                                rgba: 0, 0, 1, 1 
-                            Line:
-                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
-
-
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                text: 'Loan ID'
-                                size_hint_y: None
-                                height: dp(50)  
-                                bold: True
-
-
-                            MDLabel:
-                                text: 'Loan Amount'
-                                size_hint_y: None
-                                height: dp(50) 
-                                bold: True
-
-                            MDLabel:
-                                text: 'Loan Extension Status'
-                                size_hint_y: None
-                                height: dp(50) 
-                                bold: True
-                            MDLabel:
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50) 
-                                size_hint_x: None
-                                width: dp(20)
-                                bold: True
-                        Widget:
-                            size_hint_y: None
-                            height: dp(2) 
-                            canvas:
-                                Color:
-                                    rgba: 0, 0, 1, 1
-                                Line:
-                                    width: dp(0.6)  
-                                    points: self.x, self.y, self.x + self.width, self.y
-
-
-'''
-
-a = 50
-
-for i in range(a):
-    id_label = f"label_{i}"
-    amount = f"amount_{i}"
-    status = f"status_{i}"
-    icon = f"icon_{i}"
-    lender_foreclouser += f'''
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                id: {id_label}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)
-
-                            MDLabel:
-                                id: {amount}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50) 
-
-
-                            MDLabel:
-                                id: {status}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50) 
-
-
-                            MDIconButton:
-                                id: {icon}
-                                icon: 'arrow-right-thick'
-                                size_hint_y: None
-                                height: dp(50) 
-                                on_release: root.icon_button_clicked({id_label}.text)
-                                opacity: 0
-'''
-
-lender_foreclouser += '''
-<ViewAllLoansLF>
-    BoxLayout:
-        orientation: 'vertical'
-        MDTopAppBar:
-            title: "View All Loans "
-            elevation: 3
-            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
-
-        ScrollView:
-
-            MDBoxLayout:
-                orientation: 'vertical'
-                size_hint_y: None
-                height: self.minimum_height
-
-
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    size_hint_y: None
-                    height: self.minimum_height
-                    padding: dp(20)
-
-                    BoxLayout:
-                        id: box1
-                        orientation: 'vertical'
-                        size_hint_y: None
-                        height: 0
-
-                        padding: [10, 0,0,0]
-                        canvas.before:
-                            Color:
-                                rgba: 0, 0, 1, 1 
-                            Line:
-                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
-
-
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                text: 'Loan ID'
-                                size_hint_y: None
-                                height: dp(50) 
-                                bold: True
-
-
-                            MDLabel:
-                                text: 'Loan Amount'
-                                size_hint_y: None
-                                height: dp(50)  
-                                bold: True
-
-                            MDLabel:
-                                text: 'Loan Extension status'
-                                size_hint_y: None
-                                height: dp(50) 
-                                bold: True
-                            MDLabel:
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)
-                                size_hint_x: None
-                                width: dp(20)
-                                bold: True
-                        Widget:
-                            size_hint_y: None
-                            height: dp(2) 
-                            canvas:
-                                Color:
-                                    rgba: 0, 0, 1, 1
-                                Line:
-                                    width: dp(0.6)  
-                                    points: self.x, self.y, self.x + self.width, self.y
-
-
-'''
-
-a = 50
-
-for i in range(a):
-    id_label = f"label_{i}"
-    amount = f"amount_{i}"
-    status = f"status_{i}"
-    icon = f"icon_{i}"
-    lender_foreclouser += f'''
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                id: {id_label}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  
-
-                            MDLabel:
-                                id: {amount}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  
-
-
-                            MDLabel:
-                                id: {status}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  
-
-
-                            MDIconButton:
-                                id: {icon}
-                                icon: 'arrow-right-thick'
-                                size_hint_y: None
-                                height: dp(50)  
-                                on_release: root.icon_button_clicked({id_label}.text)
-                                opacity: 0
-'''
-lender_foreclouser += '''
-<RejectedLoansLF>
-    BoxLayout:
-        orientation: 'vertical'
-        MDTopAppBar:
-            title: "Rejected Loans "
-            elevation: 3
-            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
-
-        ScrollView:
-
-            MDBoxLayout:
-                orientation: 'vertical'
-                size_hint_y: None
-                height: self.minimum_height
-
-
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    size_hint_y: None
-                    height: self.minimum_height
-                    padding: dp(20)
-
-                    BoxLayout:
-                        id: box1
-                        orientation: 'vertical'
-                        size_hint_y: None
-                        height: 0
-
-                        padding: [10, 0,0,0]
-                        canvas.before:
-                            Color:
-                                rgba: 0, 0, 1, 1 
-                            Line:
-                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
-
-
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                text: 'Loan ID'
-                                size_hint_y: None
-                                height: dp(50)  
-                                bold: True
-
-
-                            MDLabel:
-                                text: 'Loan Amount'
-                                size_hint_y: None
-                                height: dp(50)  
-                                bold: True
-
-                            MDLabel:
-                                text: 'Loan Extension Status'
-                                size_hint_y: None
-                                height: dp(50)  
-                                bold: True
-                            MDLabel:
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  
-                                size_hint_x: None
-                                width: dp(20)
-                                bold: True
-                        Widget:
-                            size_hint_y: None
-                            height: dp(2) 
-                            canvas:
-                                Color:
-                                    rgba: 0, 0, 1, 1
-                                Line:
-                                    width: dp(0.6) 
-                                    points: self.x, self.y, self.x + self.width, self.y
-
-
-'''
-
-a = 50
-
-for i in range(a):
-    id_label = f"label_{i}"
-    amount = f"amount_{i}"
-    status = f"status_{i}"
-    icon = f"icon_{i}"
-    lender_foreclouser += f'''
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                id: {id_label}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  
-
-                            MDLabel:
-                                id: {amount}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)  
-
-
-                            MDLabel:
-                                id: {status}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50) 
-
-
-                            MDIconButton:
-                                id: {icon}
-                                icon: 'arrow-right-thick'
-                                size_hint_y: None
-                                height: dp(50) 
-                                on_release: root.icon_button_clicked({id_label}.text)
-                                opacity: 0
-'''
-lender_foreclouser += '''
 <UnderProcessLoansLF>
     BoxLayout:
         orientation: 'vertical'
         MDTopAppBar:
             title: "UnderProcess Loans"
             elevation: 3
-            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            left_action_items: [['arrow-left', lambda x: root.go_back_screen()]]
+            right_action_items: [['refresh', lambda x: root.refresh()]]
+        MDScrollView:
 
-        ScrollView:
-
-            MDBoxLayout:
-                orientation: 'vertical'
-                size_hint_y: None
-                height: self.minimum_height
-
-
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    size_hint_y: None
-                    height: self.minimum_height
-                    padding: dp(20)
-
-                    BoxLayout:
-                        id: box1
-                        orientation: 'vertical'
-                        size_hint_y: None
-                        height: 0
-
-                        padding: [10, 0,0,0]
-                        canvas.before:
-                            Color:
-                                rgba: 0, 0, 1, 1  
-                            Line:
-                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
-
-
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                text: 'Loan ID'
-                                size_hint_y: None
-                                height: dp(50) 
-                                bold: True
-
-
-                            MDLabel:
-                                text: 'Loan Amount'
-                                size_hint_y: None
-                                height: dp(50) 
-                                bold: True
-
-                            MDLabel:
-                                text: 'Loan Extension Status'
-                                size_hint_y: None
-                                height: dp(50)  
-                                bold: True
-                            MDLabel:
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50) 
-                                size_hint_x: None
-                                width: dp(20)
-                                bold: True
-                        Widget:
-                            size_hint_y: None
-                            height: dp(2) 
-                            canvas:
-                                Color:
-                                    rgba: 0, 0, 1, 1
-                                Line:
-                                    width: dp(0.6)  
-                                    points: self.x, self.y, self.x + self.width, self.y
-
-
-'''
-
-a = 50
-
-for i in range(a):
-    id_label = f"label_{i}"
-    amount = f"amount_{i}"
-    status = f"status_{i}"
-    icon = f"icon_{i}"
-    lender_foreclouser += f'''
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                id: {id_label}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50) 
-
-                            MDLabel:
-                                id: {amount}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50) 
-
-                            MDLabel:
-                                id: {status}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)
-
-                            MDIconButton:
-                                id: {icon}
-                                icon: 'arrow-right-thick'
-                                size_hint_y: None
-                                height: dp(50)  
-                                on_release: root.icon_button_clicked({id_label}.text)
-                                opacity: 0
-'''
-lender_foreclouser += '''
+            MDList:
+                id: container2
 <ClosedLoansLF>
     BoxLayout:
         orientation: 'vertical'
         MDTopAppBar:
             title: "Closed Loans"
             elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.go_back_screen()]]
+            right_action_items: [['refresh', lambda x: root.refresh()]]
+        MDScrollView:
+
+            MDList:
+                id: container3
+<RejectedLoansLF>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "Rejected Loans"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.go_back_screen()]]
+            right_action_items: [['refresh', lambda x: root.refresh()]]
+        MDScrollView:
+
+            MDList:
+                id: container4
+<ViewAllLoansLF>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "All Loans"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.go_back_screen()]]
+            right_action_items: [['refresh', lambda x: root.refresh()]]
+        MDScrollView:
+
+            MDList:
+                id: container5
+
+<ViewProfileScreenLF>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "View Profile"
+            elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
 
         ScrollView:
-
             MDBoxLayout:
                 orientation: 'vertical'
                 size_hint_y: None
                 height: self.minimum_height
-
-
+                BoxLayout:
+                    id: box1
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    MDLabel:
+                        text: "View Loan details"
+                        halign: "center"
+                        bold: True
                 MDBoxLayout:
                     orientation: 'vertical'
                     size_hint_y: None
@@ -617,523 +259,337 @@ lender_foreclouser += '''
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: 0
+                        height: dp(800)
 
                         padding: [10, 0,0,0]
                         canvas.before:
                             Color:
-                                rgba: 0, 0, 1, 1  
+                                rgba: 0, 0, 0, 1  # Blue color for the box
                             Line:
                                 rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
 
-
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
+                        MDGridLayout:
+                            cols: 2
+                            spacing: 5
                             MDLabel:
-                                text: 'Loan ID'
-                                size_hint_y: None
-                                height: dp(50) 
-                                bold: True
-
-
-                            MDLabel:
-                                text: 'Loan Amount'
-                                size_hint_y: None
-                                height: dp(50) 
-                                bold: True
-
-                            MDLabel:
-                                text: 'Loan Extension Status'
-                                size_hint_y: None
-                                height: dp(50)  
+                                text: "Loan Foreclosure for Loan A/C:"
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
                                 bold: True
                             MDLabel:
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50) 
-                                size_hint_x: None
-                                width: dp(20)
+                                id : loan1
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
                                 bold: True
-                        Widget:
-                            size_hint_y: None
-                            height: dp(2) 
-                            canvas:
-                                Color:
-                                    rgba: 0, 0, 1, 1
-                                Line:
-                                    width: dp(0.6)  
-                                    points: self.x, self.y, self.x + self.width, self.y
+                
+                        MDGridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Borrower Name:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: name
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                
+                        MDGridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Loan Amount:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: amount
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                    
+                        MDGridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Interest Rate:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: rate
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                        
+                        MDGridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Foreclosure Fee:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: fee
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                
+                        MDGridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Foreclosure Amount:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: famount
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                
+                        MDGridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Total Paid Amount:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: total_paid
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                
+                                
+                                
+                        MDGridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Outstanding Amount:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: samount
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                    
+                        MDGridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Reason For Foreclosure:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: reason
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"           
+                                    
+                        
+                        MDGridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Total Due Amount:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: due_amount
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"  
+                                
+                        
+               
+                        MDGridLayout:
+                            cols: 2
+                            spacing: 10
+                
+                            CheckBox:
+                                size_hint: (None, None)
+                                width: 50
+                                bold: True
+                                color: (195/255,110/255,108/255,1)
+                
+                            MDLabel:
+                                text: "I Agree Terms and Conditions"
+                                multiline: False
+                
+                
+                        MDGridLayout:
+                            cols: 2
+                            spacing: 30
+                            padding: 20
+                            size_hint: 1, 1
+                            pos_hint: {'center_x': 0.48, 'center_y': 0.5}
+                
+                            MDRaisedButton:
+                                text: "Decline"
+                                md_bg_color: 0.031, 0.463, 0.91, 1
+                                on_release: root.rejected_click()
+                                theme_text_color: 'Custom'
+                                text_color: 1, 1, 1, 1
+                                size_hint: 1, 1
+                
+                            MDRaisedButton:
+                                text: "Approve"
+                                theme_text_color: 'Custom'
+                                on_release: root.approved_click() 
+                                text_color: 1, 1, 1, 1
+                                md_bg_color: 0.031, 0.463, 0.91, 1
+                                size_hint: 1, 1
 
 
 '''
 
-a = 50
-
-for i in range(a):
-    id_label = f"label_{i}"
-    amount = f"amount_{i}"
-    status = f"status_{i}"
-    icon = f"icon_{i}"
-    lender_foreclouser += f'''
-                        GridLayout:
-                            cols: 4
-                            spacing: dp(20)
-                            MDLabel:
-                                id: {id_label}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50) 
-
-                            MDLabel:
-                                id: {amount}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50) 
-
-
-                            MDLabel:
-                                id: {status}
-                                text: ''
-                                size_hint_y: None
-                                height: dp(50)
-
-
-                            MDIconButton:
-                                id: {icon}
-                                icon: 'arrow-right-thick'
-                                size_hint_y: None
-                                height: dp(50)  
-                                on_release: root.icon_button_clicked({id_label}.text)
-                                opacity: 0
-'''
-lender_foreclouser += '''
-<ViewProfileScreenLF>:
-
-
-    BoxLayout:
-        pos_hint: {'center_x':0.5, 'center_y':0.5}
-        elevation: 2
-        padding: 40
-        spacing: 25
-        orientation: 'vertical'
-        radius: [10,]
-
-        MDGridLayout:
-            cols: 2
-            spacing: 5
-            MDLabel:
-                text: "Loan Foreclosure for Loan A/C:"
-                bold: True
-            MDLabel:
-                id : loan1
-                bold: True
-
-
-        Widget:
-            size_hint_y: None
-            height: 5
-
-            canvas:
-                Color:
-                    rgba: 0, 0, 0, 1  
-                Line:
-                    points: self.x, self.y, self.x + self.width, self.y
-
-
-        MDGridLayout:
-            cols: 2
-            spacing: 60
-
-            MDLabel:
-                text: "Borrower Name"
-
-            MDFloatLayout:
-                size_hint: None, None
-                size: dp(200), dp(40)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1  
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [10, 10, 10, 10]
-
-                    Color:
-                        rgba: 0, 0, 0, 1  
-
-                    Line:
-                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                        width: 1  # Border line width
-
-                MDTextField:
-                    id: name
-                    size_hint: None, None
-                    size_hint_x: 0.91
-                    multiline: False
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    line_color_normal: [1, 1, 1, 1]  
-                    line_color_focus: [1, 1, 1, 1]
-                    font_name: "Roboto-Bold"
-
-        MDGridLayout:
-            cols: 2
-            spacing: 60
-
-            MDLabel:
-                text: "Loan Amount"
-
-            MDFloatLayout:
-                size_hint: None, None
-                size: dp(200), dp(40)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1 
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [10, 10, 10, 10]
-
-                    Color:
-                        rgba: 0, 0, 0, 1  
-
-                    Line:
-                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                        width: 1  # Border line width
-
-                MDTextField:
-                    id: amount
-                    size_hint: None, None
-                    size_hint_x: 0.91
-                    multiline: False
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    line_color_normal: [1, 1, 1, 1]  
-                    line_color_focus: [1, 1, 1, 1]
-                    font_name: "Roboto-Bold"
-        MDGridLayout:
-            cols: 2
-            spacing: 60
-
-            MDLabel:
-                text: "Interest Rate"
-
-            MDFloatLayout:
-                size_hint: None, None
-                size: dp(200), dp(40)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1 
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [10, 10, 10, 10]
-
-                    Color:
-                        rgba: 0, 0, 0, 1  
-
-                    Line:
-                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                        width: 1  # Border line width
-
-                MDTextField:
-                    id: rate
-                    size_hint: None, None
-                    size_hint_x: 0.91
-                    multiline: False
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    line_color_normal: [1, 1, 1, 1]  
-                    line_color_focus: [1, 1, 1, 1]
-                    font_name: "Roboto-Bold"
-        MDGridLayout:
-            cols: 2
-            spacing: 60
-
-            MDLabel:
-                text: "Foreclosure Fee"
-
-            MDFloatLayout:
-                size_hint: None, None
-                size: dp(200), dp(40)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1  
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [10, 10, 10, 10]
-
-                    Color:
-                        rgba: 0, 0, 0, 1  
-
-                    Line:
-                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                        width: 1  
-
-                MDTextField:
-                    id: fee
-                    size_hint: None, None
-                    size_hint_x: 0.91
-                    multiline: False
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    line_color_normal: [1, 1, 1, 1]  
-                    line_color_focus: [1, 1, 1, 1]
-                    font_name: "Roboto-Bold"
-        MDGridLayout:
-            cols: 2
-            spacing: 60
-
-            MDLabel:
-                text: "Foreclosure Amount"
-
-            MDFloatLayout:
-                size_hint: None, None
-                size: dp(200), dp(40)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1  
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [10, 10, 10, 10]
-
-                    Color:
-                        rgba: 0, 0, 0, 1  
-
-                    Line:
-                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                        width: 1  # Border line width
-
-                MDTextField:
-                    id: famount
-                    size_hint: None, None
-                    size_hint_x: 0.91
-                    multiline: False
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    line_color_normal: [1, 1, 1, 1]  
-                    line_color_focus: [1, 1, 1, 1]
-                    font_name: "Roboto-Bold"
-        MDGridLayout:
-            cols: 2
-            spacing: 60
-
-            MDLabel:
-                text: "Total Paid Amount"
-
-            MDFloatLayout:
-                size_hint: None, None
-                size: dp(200), dp(40)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1 
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [10, 10, 10, 10]
-
-                    Color:
-                        rgba: 0, 0, 0, 1  
-
-                    Line:
-                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                        width: 1  
-
-                MDTextField:
-                    id: total_paid
-                    size_hint: None, None
-                    size_hint_x: 0.91
-                    multiline: False
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    line_color_normal: [1, 1, 1, 1]  
-                    line_color_focus: [1, 1, 1, 1]
-                    font_name: "Roboto-Bold"
-        MDGridLayout:
-            cols: 2
-            spacing: 60
-
-            MDLabel:
-                text: "Outstanding Amount"
-
-            MDFloatLayout:
-                size_hint: None, None
-                size: dp(200), dp(40)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1  
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [10, 10, 10, 10]
-
-                    Color:
-                        rgba: 0, 0, 0, 1  
-
-                    Line:
-                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                        width: 1  
-
-                MDTextField:
-                    id: samount
-                    size_hint: None, None
-                    size_hint_x: 0.91
-                    multiline: False
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    line_color_normal: [1, 1, 1, 1]  
-                    line_color_focus: [1, 1, 1, 1]
-                    font_name: "Roboto-Bold"
-        MDGridLayout:
-            cols: 2
-            spacing: 60
-
-            MDLabel:
-                text: "Reason For Foreclosure"
-
-            MDFloatLayout:
-                size_hint: None, None
-                size: dp(200), dp(40)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1  
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [10, 10, 10, 10]
-
-                    Color:
-                        rgba: 0, 0, 0, 1  
-
-                    Line:
-                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                        width: 1  
-
-                MDTextField:
-                    id: reason
-                    size_hint: None, None
-                    size_hint_x: 0.91
-                    multiline: False
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    line_color_normal: [1, 1, 1, 1]  
-                    line_color_focus: [1, 1, 1, 1]
-                    font_name: "Roboto-Bold"
-        MDGridLayout:
-            cols: 2
-            spacing: 60
-
-            MDLabel:
-                text: "Total Due Amount"
-
-            MDFloatLayout:
-                size_hint: None, None
-                size: dp(200), dp(40)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint_x: 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1  
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [10, 10, 10, 10]
-
-                    Color:
-                        rgba: 0, 0, 0, 1  
-
-                    Line:
-                        rounded_rectangle: [self.x + 5, self.y + 0.9, self.width - 2, self.height - 0.5, 10, 10, 10, 10]
-                        width: 1  
-
-                MDTextField:
-                    id: due_amount
-                    size_hint: None, None
-                    size_hint_x: 0.91
-                    multiline: False
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    line_color_normal: [1, 1, 1, 1]  
-                    line_color_focus: [1, 1, 1, 1]
-                    font_name: "Roboto-Bold"
-        MDGridLayout:
-            cols: 2
-            spacing: 10
-
-            CheckBox:
-                size_hint: (None, None)
-                width: 50
-                bold: True
-                color: (195/255,110/255,108/255,1)
-
-            MDLabel:
-                text: "I Agree Terms and Conditions"
-                multiline: False
-
-
-        MDGridLayout:
-            cols: 2
-            spacing: 30
-            padding: 20
-            size_hint: 1, 1
-            pos_hint: {'center_x': 0.48, 'center_y': 0.5}
-
-            MDRaisedButton:
-                text: "Decline"
-                md_bg_color: 0.031, 0.463, 0.91, 1
-                on_release: root.rejected_click()
-                theme_text_color: 'Custom'
-                text_color: 1, 1, 1, 1
-                size_hint: 1, 1
-
-            MDRaisedButton:
-                text: "Approve"
-                theme_text_color: 'Custom'
-                on_release: root.approved_click() 
-                text_color: 1, 1, 1, 1
-                md_bg_color: 0.031, 0.463, 0.91, 1
-                size_hint: 1, 1
-
-
-
-'''
 Builder.load_string(lender_foreclouser)
 
 
 class DashboardScreenLF(Screen):
-    pass
+
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def on_back_button_press(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'LenderDashboard'
+
+    def go_to_open_loans(self):
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = ApprovedLoansLF(name='ApprovedLoansLF')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'ApprovedLoansLF'
+
+    def go_to_under_loans(self):
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = UnderProcessLoansLF(name='UnderProcessLoansLF')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'UnderProcessLoansLF'
+
+    def go_to_app_tracker(self):
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = ClosedLoansLF(name='ClosedLoansLF')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'ClosedLoansLF'
+
+    def go_to_reject_loans(self):
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = RejectedLoansLF(name='RejectedLoansLF')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'RejectedLoansLF'
+
+    def all_loanscreen(self):
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = ViewAllLoansLF(name='ViewAllLoansLF')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'ViewAllLoansLF'
 
 
 class ApprovedLoansLF(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
         data = self.get_table_data()
+        customer_id = []
         loan_id = []
-        loan_amount = []
+        borrower_name = []
         loan_status = []
         s = 0
         for i in data:
             s += 1
+            # customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
-            loan_amount.append(i['loan_amount'])
+            borrower_name.append(i['borrower_name'])
             loan_status.append(i['status'])
 
         c = -1
         index_list = []
         for i in range(s):
             c += 1
-            if loan_status[i] == 'approved':
+            if loan_status[c] == 'approved':
                 index_list.append(c)
 
         b = 1
@@ -1141,35 +597,62 @@ class ApprovedLoansLF(Screen):
         for i in index_list:
             b += 1
             k += 1
-            id_label = f"label_{k}"
-            amount = f"amount_{k}"
-            status = f"status_{k}"
-            icon = f"icon_{k}"  # Fix the variable name here
+            item = ThreeLineAvatarIconListItem(
 
-            label_1 = self.ids[id_label]
-            label_1.text = loan_id[i]
-            label_2 = self.ids[amount]
-            label_2.text = str(loan_amount[i])
-            label_3 = self.ids[status]
-            label_3.text = loan_status[i]
-            icon = self.ids[icon]  # Fix the variable name here
-            icon.opacity = 1
+                IconLeftWidget(
+                    icon="card-account-details-outline"
+                ),
+                text=f"Loan ID : {loan_id[i]}",
+                secondary_text=f"Borrower Name: {borrower_name[i]}",
+                tertiary_text=f"Status: {loan_status[i]}",
+            )
+            item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
+            self.ids.container1.add_widget(item)
 
-        h = self.ids.box1.height
+    def icon_button_clicked(self, instance):
+        # Handle the on_release event here
+        value = instance.text.split(':')
+        value = value[-1][1:]
+        data = self.get_table_data()
+        sm = self.manager
 
-        for i in range(a + 1):
-            h += 150
-        self.ids.box1.height = h
+        # Create a new instance of the LoginScreen
+        profile = ViewProfileScreenLF(name='ViewProfileScreenLF')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile)
+
+        # Switch to the LoginScreen
+        sm.current = 'ViewProfileScreenLF'
+        self.manager.get_screen('ViewProfileScreenLF').initialize_with_value(value, data)
+
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back_screen(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'DashboardScreenLF'
+
+    def refresh(self):
+        self.ids.container1.clear_widgets()
+        self.__init__()
 
     def get_table_data(self):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('foreclosure_data')
-
-    def icon_button_clicked(self, value):
-        data = self.get_table_data()  # Fetch data here
-        self.manager.current = 'ViewProfileScreenLF'
-        self.manager.get_screen('ViewProfileScreenLF').initialize_with_value(value, data)
 
     def on_back_button_press(self):
         self.manager.current = 'DashboardScreenLF'
@@ -1178,23 +661,24 @@ class ApprovedLoansLF(Screen):
 class ClosedLoansLF(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
         data = self.get_table_data()
+        customer_id = []
         loan_id = []
-        loan_amount = []
+        borrower_name = []
         loan_status = []
         s = 0
         for i in data:
             s += 1
+            # customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
-            loan_amount.append(i['loan_amount'])
+            borrower_name.append(i['borrower_name'])
             loan_status.append(i['status'])
 
         c = -1
         index_list = []
         for i in range(s):
             c += 1
-            if loan_status[i] == 'closed':
+            if loan_status[c] == 'close':
                 index_list.append(c)
 
         b = 1
@@ -1202,60 +686,74 @@ class ClosedLoansLF(Screen):
         for i in index_list:
             b += 1
             k += 1
-            id_label = f"label_{k}"
-            amount = f"amount_{k}"
-            status = f"status_{k}"
-            icon = f"icon_{k}"  # Fix the variable name here
+            item = ThreeLineAvatarIconListItem(
 
-            label_1 = self.ids[id_label]
-            label_1.text = loan_id[i]
-            label_2 = self.ids[amount]
-            label_2.text = str(loan_amount[i])
-            label_3 = self.ids[status]
-            label_3.text = loan_status[i]
-            icon = self.ids[icon]  # Fix the variable name here
-            icon.opacity = 1
+                IconLeftWidget(
+                    icon="card-account-details-outline"
+                ),
+                text=f"Loan ID : {loan_id[i]}",
+                secondary_text=f"Borrower Name: {borrower_name[i]}",
+                tertiary_text=f"Status: {loan_status[i]}",
+            )
+            item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
+            self.ids.container3.add_widget(item)
 
-        h = self.ids.box1.height
+    def icon_button_clicked(self, instance):
+        # Handle the on_release event here
+        value = instance.text.split(':')
+        value = value[-1][1:]
+        data = self.get_table_data()
+        sm = self.manager
 
-        for i in range(a + 1):
-            h += 150
-        self.ids.box1.height = h
+        # Create a new instance of the LoginScreen
+        profile = ViewProfileScreenLF(name='ViewProfileScreenLF')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile)
+
+        # Switch to the LoginScreen
+        sm.current = 'ViewProfileScreenLF'
+        self.manager.get_screen('ViewProfileScreenLF').initialize_with_value(value, data)
 
     def get_table_data(self):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('foreclosure_data')
 
-    def icon_button_clicked(self, value):
-        data = self.get_table_data()  # Fetch data here
-        self.manager.current = 'ViewProfileScreenLF'
-        self.manager.get_screen('ViewProfileScreenLF').initialize_with_value(value, data)
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
 
-    def on_back_button_press(self):
+    def go_back_screen(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'DashboardScreenLF'
 
 
 class RejectedLoansLF(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
         data = self.get_table_data()
+        customer_id = []
         loan_id = []
-        loan_amount = []
+        borrower_name = []
         loan_status = []
         s = 0
         for i in data:
             s += 1
+            # customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
-            loan_amount.append(i['loan_amount'])
+            borrower_name.append(i['borrower_name'])
             loan_status.append(i['status'])
 
         c = -1
         index_list = []
         for i in range(s):
             c += 1
-            if loan_status[i] == 'rejected':
+            if loan_status[c] == 'rejected':
                 index_list.append(c)
 
         b = 1
@@ -1263,35 +761,52 @@ class RejectedLoansLF(Screen):
         for i in index_list:
             b += 1
             k += 1
-            id_label = f"label_{k}"
-            amount = f"amount_{k}"
-            status = f"status_{k}"
-            icon = f"icon_{k}"  # Fix the variable name here
+            item = ThreeLineAvatarIconListItem(
 
-            label_1 = self.ids[id_label]
-            label_1.text = loan_id[i]
-            label_2 = self.ids[amount]
-            label_2.text = str(loan_amount[i])
-            label_3 = self.ids[status]
-            label_3.text = loan_status[i]
-            icon = self.ids[icon]  # Fix the variable name here
-            icon.opacity = 1
+                IconLeftWidget(
+                    icon="card-account-details-outline"
+                ),
+                text=f"Loan ID : {loan_id[i]}",
+                secondary_text=f"Borrower Name: {borrower_name[i]}",
+                tertiary_text=f"Status: {loan_status[i]}",
+            )
+            item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
+            self.ids.container4.add_widget(item)
 
-        h = self.ids.box1.height
+    def icon_button_clicked(self, instance):
+        # Handle the on_release event here
+        value = instance.text.split(':')
+        value = value[-1][1:]
+        data = self.get_table_data()
+        sm = self.manager
 
-        for i in range(a + 1):
-            h += 150
-        self.ids.box1.height = h
+        # Create a new instance of the LoginScreen
+        profile = ViewProfileScreenLF(name='ViewProfileScreenLF')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile)
+
+        # Switch to the LoginScreen
+        sm.current = 'ViewProfileScreenLF'
+        self.manager.get_screen('ViewProfileScreenLF').initialize_with_value(value, data)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+
+    def go_back_screen(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'DashboardScreenLF'
 
     def get_table_data(self):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('foreclosure_data')
-
-    def icon_button_clicked(self, value):
-        data = self.get_table_data()  # Fetch data here
-        self.manager.current = 'ViewProfileScreenLF'
-        self.manager.get_screen('ViewProfileScreenLF').initialize_with_value(value, data)
 
     def on_back_button_press(self):
         self.manager.current = 'DashboardScreenLF'
@@ -1300,62 +815,84 @@ class RejectedLoansLF(Screen):
 class UnderProcessLoansLF(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
         data = self.get_table_data()
+        customer_id = []
         loan_id = []
-        loan_amount = []
+        borrower_name = []
         loan_status = []
         s = 0
         for i in data:
             s += 1
+            # customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
-            loan_amount.append(i['loan_amount'])
+            borrower_name.append(i['borrower_name'])
             loan_status.append(i['status'])
 
         c = -1
         index_list = []
         for i in range(s):
             c += 1
-            if loan_status[i] == 'under process':
+            if loan_status[c] == 'under process':
                 index_list.append(c)
 
         b = 1
         k = -1
-        for i, index in enumerate(index_list):
+        for i in index_list:
+            b += 1
             k += 1
-            id_label = f"label_{k}"
-            amount = f"amount_{k}"
-            status = f"status_{k}"
-            icon = f"icon_{k}"
+            item = ThreeLineAvatarIconListItem(
 
-            try:
-                label_1 = self.ids[id_label]
-                label_1.text = str(loan_id[index])
-                label_2 = self.ids[amount]
-                label_2.text = str(loan_amount[index])
-                label_3 = self.ids[status]
-                label_3.text = loan_status[index]
-                icon = self.ids[icon]
-                icon.opacity = 1
-            except KeyError as e:
-                print(
-                    f"KeyError: {e}, id_label: {id_label}, amount: {amount}, status: {status}, icon: {icon}, index: {index}, i: {i}")
+                IconLeftWidget(
+                    icon="card-account-details-outline"
+                ),
+                text=f"Loan ID : {loan_id[i]}",
+                secondary_text=f"Borrower Name: {borrower_name[i]}",
+                tertiary_text=f"Status: {loan_status[i]}",
+            )
+            item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
+            self.ids.container2.add_widget(item)
 
-        h = self.ids.box1.height
+    def icon_button_clicked(self, instance):
+        # Handle the on_release event here
+        value = instance.text.split(':')
+        value = value[-1][1:]
+        data = self.get_table_data()
+        sm = self.manager
 
-        for i in range(a + 1):
-            h += 150
-        self.ids.box1.height = h
+        # Create a new instance of the LoginScreen
+        profile = ViewProfileScreenLF(name='ViewProfileScreenLF')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile)
+
+        # Switch to the LoginScreen
+        sm.current = 'ViewProfileScreenLF'
+        self.manager.get_screen('ViewProfileScreenLF').initialize_with_value(value, data)
+
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back_screen(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'DashboardScreenLF'
 
     def get_table_data(self):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('foreclosure_data')
-
-    def icon_button_clicked(self, value):
-        data = self.get_table_data()  # Fetch data here
-        self.manager.current = 'ViewProfileScreenLF'
-        self.manager.get_screen('ViewProfileScreenLF').initialize_with_value(value, data)
 
     def on_back_button_press(self):
         self.manager.current = 'DashboardScreenLF'
@@ -1364,84 +901,87 @@ class UnderProcessLoansLF(Screen):
 class ViewAllLoansLF(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
         data = self.get_table_data()
+        customer_id = []
         loan_id = []
-        loan_amount = []
+        borrower_name = []
         loan_status = []
         s = 0
-        approved_loans = []
-        rejected_loans = []
-        underprocess_loans = []
-        closed_loans = []
         for i in data:
             s += 1
+            customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
-            loan_amount.append(i['loan_amount'])
-            loan_status.append(i['status'])
+            borrower_name.append(i['borrower_full_name'])
+            loan_status.append(i['loan_updated_status'])
 
-            if i['status'] == 'approved':
-                approved_loans.append(s - 1)
-            elif i['status'] == 'rejected':
-                rejected_loans.append(s - 1)
-            elif i['status'] == 'under process':
-                underprocess_loans.append(s - 1)
-            elif i['status'] == 'closed':
-                closed_loans.append(s - 1)
+        c = -1
+        index_list = []
+        for i in range(s):
+            c += 1
+            index_list.append(c)
 
-        # Iterate over approved loans
+        b = 1
         k = -1
-        for i in approved_loans:
+        for i in index_list:
+            b += 1
             k += 1
-            self.populate_loan_data(i, k, loan_id, loan_amount, loan_status)
+            item = ThreeLineAvatarIconListItem(
 
-        # Iterate over rejected loans
-        for i in rejected_loans:
-            k += 1
-            self.populate_loan_data(i, k, loan_id, loan_amount, loan_status)
+                IconLeftWidget(
+                    icon="card-account-details-outline"
+                ),
+                text=f"Loan ID : {loan_id[i]}",
+                secondary_text=f"Borrower Name: {borrower_name[i]}",
+                tertiary_text=f"Status: {loan_status[i]}",
+            )
+            item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
+            self.ids.container5.add_widget(item)
 
-        for i in underprocess_loans:
-            k += 1
-            self.populate_loan_data(i, k, loan_id, loan_amount, loan_status)
+    def icon_button_clicked(self, instance):
+        # Handle the on_release event here
+        value = instance.text.split(':')
+        value = value[-1][1:]
+        data = self.get_table_data()
+        sm = self.manager
 
-        for i in closed_loans:
-            k += 1
-            self.populate_loan_data(i, k, loan_id, loan_amount, loan_status)
-        # Iterate over new loans
+        # Create a new instance of the LoginScreen
+        profile = ViewProfileScreenLF(name='ViewProfileScreenLF')
 
-    def populate_loan_data(self, i, k, loan_id, loan_amount, loan_status):
-        id_label = f"label_{k}"
-        amount = f"amount_{k}"
-        status = f"status_{k}"
-        icon = f"icon_{k}"  # Fix the variable name here
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile)
 
-        label_1 = self.ids[id_label]
-        label_1.text = loan_id[i]
-        label_2 = self.ids[amount]
-        label_2.text = str(loan_amount[i])
-        label_3 = self.ids[status]
-        label_3.text = loan_status[i]
-        icon = self.ids[icon]  # Fix the variable name here
-        icon.opacity = 1
+        # Switch to the LoginScreen
+        sm.current = 'ViewProfileScreenLF'
+        self.manager.get_screen('ViewProfileScreenLF').initialize_with_value(value, data)
 
-        h = self.ids.box1.height
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
 
-        for i in range(a + 1):
-            h += 5
-        self.ids.box1.height = h
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
 
-    def on_back_button_press(self):
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back_screen(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'DashboardScreenLF'
+
+    def refresh(self):
+        self.ids.container2.clear_widgets()
+        self.__init__()
 
     def get_table_data(self):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
-        return anvil.server.call('foreclosure_data')
-
-    def icon_button_clicked(self, value):
-        data = self.get_table_data()  # Fetch data here
-        self.manager.current = 'ViewProfileScreenLF'
-        self.manager.get_screen('ViewProfileScreenLF').initialize_with_value(value, data)
+        return anvil.server.call('get_table_data')
 
 
 class ViewProfileScreenLF(Screen):
@@ -1508,6 +1048,8 @@ class ViewProfileScreenLF(Screen):
             index = loan_idlist.index(loan_id)
             data[index]['status'] = 'rejected'
             self.manager.current = 'DashboardScreenLF'
+    def on_back_button_press(self):
+        self.manager.current = 'DashboardScreenLF'
 
     def get_table_data(self):
         # Make a call to the Anvil server function
