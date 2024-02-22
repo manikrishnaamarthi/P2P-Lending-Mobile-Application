@@ -1494,13 +1494,13 @@ class LenderDashboard(Screen):
         sm = self.manager
 
         # Create a new instance of the LoginScreen
-        profile_screen = NewExtension(name=' NewExtension')
+        profile_screen = NewExtension(name='NewExtension')
 
         # Add the LoginScreen to the existing ScreenManager
         sm.add_widget(profile_screen)
 
         # Switch to the LoginScreen
-        sm.current = ' NewExtension'
+        sm.current = 'NewExtension'
 
     def view_loan_foreclose(self):
         sm = self.manager
