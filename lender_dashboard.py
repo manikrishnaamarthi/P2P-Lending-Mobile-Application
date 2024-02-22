@@ -12,6 +12,7 @@ from kivymd.uix.filemanager import MDFileManager
 from lender_view_loans import ViewLoansScreen
 from lender_view_loans_request import ViewLoansRequest
 from lender_view_extension_request import NewExtension
+from lender_foreclosure_request import DashboardScreenLF
 from kivy.uix.modalview import ModalView
 from kivymd.uix.spinner import MDSpinner
 from kivy.clock import Clock
@@ -220,9 +221,9 @@ user_helpers1 = """
 
             MDFlatButton:
                 size_hint: None, None
-
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color: 0.031, 0.463, 0.91, 1 
+                on_release: root.view_loan_foreclose()
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -1500,6 +1501,19 @@ class LenderDashboard(Screen):
 
         # Switch to the LoginScreen
         sm.current = ' NewExtension'
+
+    def view_loan_foreclose(self):
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = DashboardScreenLF(name='DashboardScreenLF')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'DashboardScreenLF'
+
 
 
 class ViewProfileScreen(Screen):

@@ -34,18 +34,11 @@ kv = '''
         size_hint: 1, 1 
 
         MDTopAppBar:
-            md_bg_color:1,1,1,1
-            specific_text_color:1/255, 26/255, 51/255, 1
+            title: "Borrower View Loan"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            title_align: 'left'
             pos_hint: {'center_x': 0.5, 'center_y': 0.96}
-        Image:
-            source:"LOGO.png"
-            pos_hint: {'center_x': 0.5, 'center_y': 0.96555}        
-            md_bg_color:0,0,0,1
-            size_hint: None,None 
-            height: dp(50)
-            width: dp(60)
         MDGridLayout:
             cols: 2
 
@@ -152,7 +145,7 @@ kv = '''
             MDFlatButton:
                 size_hint: None, None
                 md_bg_color: 0.031, 0.463, 0.91, 1 
-
+                on_release: root.go_to_foreclose_loans()
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -194,7 +187,7 @@ kv = '''
         MDScrollView:
 
             MDList:
-                id: container
+                id: container1
 <RejectedLoanVLB>
     BoxLayout:
         orientation: 'vertical'
@@ -207,7 +200,33 @@ kv = '''
         MDScrollView:
 
             MDList:
-                id: container
+                id: container2
+<ClosedLoanVLB>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "Close Loans"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.go_back()]]
+            right_action_items: [['refresh', lambda x: root.refresh()]]
+            title_align: 'left'
+        MDScrollView:
+
+            MDList:
+                id: container3
+<ForeCloseLoanVLB>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "Foreclose Loans"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.go_back()]]
+            right_action_items: [['refresh', lambda x: root.refresh()]]
+            title_align: 'left'
+        MDScrollView:
+
+            MDList:
+                id: container4
 
 <ViewLoansScreenVLB>
     BoxLayout:
@@ -328,7 +347,112 @@ kv = '''
                                 height:dp(50)
                                 halign: "center"
 
+<ViewLoansScreenVLBB>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: "View Profile"
+            elevation: 3
+            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
 
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                BoxLayout:
+                    id: box1
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    MDLabel:
+                        text: "View Loan details"
+                        halign: "center"
+                        bold: True
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(20)
+
+                    BoxLayout:
+                        id: box1
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: dp(400)
+
+                        padding: [10, 0,0,0]
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 0, 1  # Blue color for the box
+                            Line:
+                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
+
+                        GridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Loan ID:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: user1
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Borrower Name:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: borrower_name
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+
+                            MDLabel:
+                                text: "Loan Amount:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: amount
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Interest Rate:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: rate
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                            
+
+                            MDLabel:
+                                text: "Loan Updated Status:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: updated_status
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
 '''
 Builder.load_string(kv)
 
@@ -367,6 +491,28 @@ class DashboardScreenVLB(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'RejectedLoanVLB'
+    def go_to_app_tracker(self):
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = ClosedLoanVLB(name='ClosedLoanVLB')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'ClosedLoanVLB'
+    def go_to_foreclose_loans(self):
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = ForeCloseLoanVLB(name='ForeCloseLoanVLB')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'ForeCloseLoanVLB'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -387,6 +533,69 @@ class DashboardScreenVLB(Screen):
     def logout(self):
         self.manager.current = 'MainScreen'
 
+
+class ViewLoansScreenVLBB(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def initialize_with_value(self, value, data):
+        customer_id = []
+        loan_id = []
+        loan_amount = []
+        interest_rate = []
+        borrower_name = []
+        date_of_apply = []
+        status = []
+        for i in data:
+            #customer_id.append(i['borrower_customer_id'])
+            loan_id.append(i['loan_id'])
+            loan_amount.append(i['loan_amount'])
+            borrower_name.append(i['borrower_name'])
+            interest_rate.append(i['interest_rate'])
+            #date_of_apply.append(i['borrower_loan_created_timestamp'])
+            status.append(i['status'])
+
+        if value in loan_id:
+            index = loan_id.index(value)
+            self.ids.user1.text = str(loan_id[index])
+            self.ids.amount.text = str(loan_amount[index])
+            self.ids.borrower_name.text = str(borrower_name[index])
+            self.ids.rate.text = str(interest_rate[index])
+            #self.ids.date.text = str(date_of_apply[index])
+            self.ids.updated_status.text = str(status[index])
+
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def show_snackbar(self, text):
+        Snackbar(text=text, pos_hint={'top': 1}, md_bg_color=[1, 0, 0, 1]).open()
+
+    def get_table_data(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('get_table_data')
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'ViewLoansRequest'
+
+
+
+    def on_back_button_press(self):
+        self.manager.current = 'DashboardScreenVLB'
 
 
 
@@ -458,17 +667,19 @@ class ViewLoansScreenVLB(Screen):
 class OpenLoanVLB(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+
         data = self.get_table_data()
         customer_id = []
         loan_id = []
-        loan_amount = []
+        borrower_name = []
         loan_status = []
         s = 0
         for i in data:
             s += 1
             customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
-            loan_amount.append(i['loan_amount'])
+            borrower_name.append(i['borrower_full_name'])
             loan_status.append(i['loan_updated_status'])
 
         c = -1
@@ -489,7 +700,7 @@ class OpenLoanVLB(Screen):
                     icon="card-account-details-outline"
                 ),
                 text=f"Loan ID : {loan_id[i]}",
-                secondary_text=f"Amount: {loan_amount[i]}",
+                secondary_text=f"Borrower Name: {borrower_name[i]}",
                 tertiary_text=f"Status: {loan_status[i]}",
             )
             item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
@@ -562,14 +773,14 @@ class UnderProcessLoanVLB(Screen):
         data = self.get_table_data()
         customer_id = []
         loan_id = []
-        loan_amount = []
+        borrower_name = []
         loan_status = []
         s = 0
         for i in data:
             s += 1
             customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
-            loan_amount.append(i['loan_amount'])
+            borrower_name.append(i['borrower_full_name'])
             loan_status.append(i['loan_updated_status'])
 
         c = -1
@@ -590,11 +801,11 @@ class UnderProcessLoanVLB(Screen):
                     icon="card-account-details-outline"
                 ),
                 text=f"Loan ID : {loan_id[i]}",
-                secondary_text=f"Amount: {loan_amount[i]}",
+                secondary_text=f"Borrower Name: {borrower_name[i]}",
                 tertiary_text=f"Status: {loan_status[i]}",
             )
-            item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
-            self.ids.container.add_widget(item)
+            item.bind(on_release=self.icon_button_clicked)
+            self.ids.container1.add_widget(item)
 
     def icon_button_clicked(self, instance):
         # Handle the on_release event here
@@ -662,14 +873,14 @@ class RejectedLoanVLB(Screen):
         data = self.get_table_data()
         customer_id = []
         loan_id = []
-        loan_amount = []
+        borrower_name = []
         loan_status = []
         s = 0
         for i in data:
             s += 1
             customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
-            loan_amount.append(i['loan_amount'])
+            borrower_name.append(i['borrower_full_name'])
             loan_status.append(i['loan_updated_status'])
 
         c = -1
@@ -690,11 +901,11 @@ class RejectedLoanVLB(Screen):
                     icon="card-account-details-outline"
                 ),
                 text=f"Loan ID : {loan_id[i]}",
-                secondary_text=f"Amount: {loan_amount[i]}",
+                secondary_text=f"Borrower Name: {borrower_name[i]}",
                 tertiary_text=f"Status: {loan_status[i]}",
             )
-            item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
-            self.ids.container.add_widget(item)
+            item.bind(on_release=self.icon_button_clicked)
+            self.ids.container2.add_widget(item)
 
     def icon_button_clicked(self, instance):
         # Handle the on_release event here
@@ -754,6 +965,204 @@ class RejectedLoanVLB(Screen):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('get_table_data')
+class ClosedLoanVLB(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
+        data = self.get_table_data()
+        customer_id = []
+        loan_id = []
+        borrower_name = []
+        loan_status = []
+        s = 0
+        for i in data:
+            s += 1
+            customer_id.append(i['borrower_customer_id'])
+            loan_id.append(i['loan_id'])
+            borrower_name.append(i['borrower_full_name'])
+            loan_status.append(i['loan_updated_status'])
+
+        c = -1
+        index_list = []
+        for i in range(s):
+            c += 1
+            if loan_status[c] == 'closed':
+                index_list.append(c)
+
+        b = 1
+        k = -1
+        for i in index_list:
+            b += 1
+            k += 1
+            item = ThreeLineAvatarIconListItem(
+
+                IconLeftWidget(
+                    icon="card-account-details-outline"
+                ),
+                text=f"Loan ID : {loan_id[i]}",
+                secondary_text=f"Borrower Name: {borrower_name[i]}",
+                tertiary_text=f"Status: {loan_status[i]}",
+            )
+            item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
+            self.ids.container3.add_widget(item)
+
+    def icon_button_clicked(self, instance):
+        # Handle the on_release event here
+        value = instance.text.split(':')
+        value = value[-1][1:]
+        data = self.get_table_data()  # Fetch data here
+        loan_status = None
+        for loan in data:
+            if loan['loan_id'] == value:
+                loan_status = loan['loan_updated_status']
+                break
+
+        if loan_status == 'closed':
+            # Open the screen for approved loans
+
+            sm = self.manager
+
+            # Create a new instance of the LoginScreen
+            disbursed = ViewLoansScreenVLB(name='ViewLoansScreenVLB')
+
+            # Add the LoginScreen to the existing ScreenManager
+            sm.add_widget(disbursed)
+
+            # Switch to the LoginScreen
+            sm.current = 'ViewLoansScreenVLB'
+            self.manager.get_screen('ViewLoansScreenVLB').initialize_with_value(value, data)
+
+        else:
+            # Handle other loan statuses or show an error message
+            pass
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'DashboardScreenVLB'
+
+    def refresh(self):
+        self.ids.container.clear_widgets()
+        self.__init__()
+
+    def get_table_data(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('get_table_data')
+class ForeCloseLoanVLB(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
+        data = self.get_table_data()
+        customer_id = []
+        loan_id = []
+        borrower_name = []
+        loan_status = []
+        s = 0
+        for i in data:
+            s += 1
+            #customer_id.append(i['borrower_customer_id'])
+            loan_id.append(i['loan_id'])
+            borrower_name.append(i['borrower_name'])
+            loan_status.append(i['status'])
+
+        c = -1
+        index_list = []
+        for i in range(s):
+            c += 1
+            if loan_status[c] == 'approved':
+                index_list.append(c)
+
+        b = 1
+        k = -1
+        for i in index_list:
+            b += 1
+            k += 1
+            item = ThreeLineAvatarIconListItem(
+
+                IconLeftWidget(
+                    icon="card-account-details-outline"
+                ),
+                text=f"Loan ID : {loan_id[i]}",
+                secondary_text=f"Borrower Name: {borrower_name[i]}",
+                tertiary_text=f"Status: {loan_status[i]}",
+            )
+            item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
+            self.ids.container4.add_widget(item)
+
+    def icon_button_clicked(self, instance):
+        # Handle the on_release event here
+        value = instance.text.split(':')
+        value = value[-1][1:]
+        data = self.get_table_data()  # Fetch data here
+        loan_status = None
+        for loan in data:
+            if loan['loan_id'] == value:
+                loan_status = loan['status']
+                break
+
+        if loan_status == 'approved':
+            # Open the screen for approved loans
+
+            sm = self.manager
+
+            # Create a new instance of the LoginScreen
+            disbursed = ViewLoansScreenVLBB(name='ViewLoansScreenVLBB')
+
+            # Add the LoginScreen to the existing ScreenManager
+            sm.add_widget(disbursed)
+
+            # Switch to the LoginScreen
+            sm.current = 'ViewLoansScreenVLBB'
+            self.manager.get_screen('ViewLoansScreenVLBB').initialize_with_value(value, data)
+
+        else:
+            # Handle other loan statuses or show an error message
+            pass
+    def on_pre_enter(self):
+        # Bind the back button event to the on_back_button method
+        Window.bind(on_keyboard=self.on_back_button)
+
+    def on_pre_leave(self):
+        # Unbind the back button event when leaving the screen
+        Window.unbind(on_keyboard=self.on_back_button)
+
+    def on_back_button(self, instance, key, scancode, codepoint, modifier):
+        # Handle the back button event
+        if key == 27:  # 27 is the keycode for the hardware back button on Android
+            self.go_back()
+            return True  # Consume the event, preventing further handling
+        return False  # Continue handling the event
+
+    def go_back(self):
+        # Navigate to the previous screen with a slide transition
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'DashboardScreenVLB'
+
+    def refresh(self):
+        self.ids.container.clear_widgets()
+        self.__init__()
+
+    def get_table_data(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('foreclosure_data')
 
 
 class MyScreenManager(ScreenManager):

@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6cf0679d-622c-4cdd-bf68-04ce800fdca3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/P2P-Lending-Mobile-Application.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/P2P-Lending-Mobile-Application.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_loan_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/new_loan_request.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/borrower_foreclosure.py" beforeDir="false" afterPath="$PROJECT_DIR$/borrower_foreclosure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/borrower_viewloan.py" beforeDir="false" afterPath="$PROJECT_DIR$/borrower_viewloan.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fin_user_profile.db" beforeDir="false" afterPath="$PROJECT_DIR$/fin_user_profile.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lender_dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/lender_dashboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lender_foreclosure_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/lender_foreclosure_request.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +58,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-67fca87a943a-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.11799.259" />
+        <option value="bundled-python-sdk-5a2391486177-2887949eec09-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.13763.11" />
       </set>
     </attachedChunks>
   </component>
@@ -69,6 +72,7 @@
       <updated>1705126217854</updated>
       <workItem from="1707198999577" duration="2050000" />
       <workItem from="1708351813938" duration="89000" />
+      <workItem from="1708501452643" duration="19803000" />
     </task>
     <servers />
   </component>
@@ -85,5 +89,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/main_py$main.coverage" NAME="main Coverage Results" MODIFIED="1708539656999" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
