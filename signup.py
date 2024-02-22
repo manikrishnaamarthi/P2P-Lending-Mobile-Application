@@ -1,7 +1,9 @@
 import re
-
+import bcrypt
+from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.lang import Builder
+from kivy.uix.modalview import ModalView
 from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
 from kivymd.app import MDApp
 import sqlite3
@@ -10,8 +12,9 @@ from kivymd.uix.selectioncontrol import MDCheckbox
 from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRectangleFlatButton, MDFlatButton
-
+from dashboard import DashScreen
 import anvil.server
+from kivymd.uix.spinner import MDSpinner
 
 from login import LoginScreen
 
@@ -299,6 +302,9 @@ class SignupScreen(Screen):
             else:
                 next_user_id = 1000
 
+            hash_pashword = bcrypt.hashpw(self.ids.password.text.encode('utf-8'), bcrypt.gensalt())
+            hash_pashword = hash_pashword.decode('utf-8')
+
             cursor.execute('''
                 INSERT INTO fin_users (
                     user_id, fullname, email, mobile_number, password, confirm_password,
@@ -308,26 +314,39 @@ class SignupScreen(Screen):
             ''', (
                 next_user_id,
                 self.ids.name.text, self.ids.email.text, self.ids.mobile.text,
-                self.ids.password.text, self.ids.password2.text,
+                hash_pashword, hash_pashword,
                 "Accepted" if self.ids.terms_checkbox.active else "Rejected",
                 "Accepted" if self.ids.kyc_checkbox.active else "Rejected"
             ))
 
             conn.commit()
             cursor.execute('''INSERT INTO fin_registration_table (customer_id) VALUES (?)''', (next_user_id,))
-            self.add_data(user_id=user_id, email=self.ids.email.text, password=self.ids.password.text,
-                          name=self.ids.name.text, number=self.ids.mobile.text)
+
+            self.add_data(user_id=user_id, email=self.ids.email.text, password=hash_pashword,
+                          name=self.ids.name.text, number=self.ids.mobile.text, enable=True)
             conn.commit()
         except sqlite3.Error as e:
 
             print(f"SQLite error: {e}")
 
-    def add_data(self, user_id, email, password, name, number):
+    def add_data(self, user_id, email, password, name, number, enable):
         # Ensure 'YOUR_ANVIL_UPLINK_KEY' is replaced with your actual Anvil Uplink key
-        anvil.server.call('add_data', user_id, email, password, name, number)
+        anvil.server.call('add_data', user_id, email, password, name, number, enable)
 
     def go_to_login(self):
         # Retrieve user input data
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., saving data to the database)
+        Clock.schedule_once(lambda dt: self.perform_signup_action(modal_view), 2)
+        # Retrieve user input data
+
+    def perform_signup_action(self, modal_view):
+        # Close the modal view after
+        modal_view.dismiss()
         name = self.ids.name.text
         mobile = self.ids.mobile.text
         email = self.ids.email.text
@@ -414,10 +433,10 @@ class SignupScreen(Screen):
 
         # self.manager.current = 'LoginScreen'
         sm = self.manager
-        lender_screen = LoginScreen(name='LoginScreen')
+        lender_screen = DashScreen(name='DashScreen')
         sm.add_widget(lender_screen)
         sm.transition.direction = 'left'  # Set the transition direction explicitly
-        sm.current = 'LoginScreen'
+        sm.current = 'DashScreen'
 
     def show_validation_error(self, widget, error_text):
         widget.error = True
