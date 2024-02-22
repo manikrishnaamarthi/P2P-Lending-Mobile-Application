@@ -6,6 +6,7 @@ from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
 from kivy.utils import platform
 from kivy.clock import mainthread
 from kivymd.uix.filemanager import MDFileManager
+
 if platform == 'android':
     from kivy.uix.button import Button
     from kivy.uix.modalview import ModalView
@@ -25,9 +26,9 @@ kv = '''
     UnderProcessLoanVLB:
     RejectedLoanVLB:
     ViewLoansScreenVLB:
-    
-    
-    
+
+
+
 <DashboardScreenVLB>:
     MDFloatLayout:
         md_bg_color:1,1,1,1
@@ -439,7 +440,7 @@ kv = '''
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
-                            
+
 
                             MDLabel:
                                 text: "Loan Updated Status:" 
@@ -469,6 +470,7 @@ class DashboardScreenVLB(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'OpenLoanVLB'
+
     def go_to_under_loans(self):
         sm = self.manager
 
@@ -480,6 +482,7 @@ class DashboardScreenVLB(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'UnderProcessLoanVLB'
+
     def go_to_reject_loans(self):
         sm = self.manager
 
@@ -491,6 +494,7 @@ class DashboardScreenVLB(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'RejectedLoanVLB'
+
     def go_to_app_tracker(self):
         sm = self.manager
 
@@ -502,6 +506,7 @@ class DashboardScreenVLB(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'ClosedLoanVLB'
+
     def go_to_foreclose_loans(self):
         sm = self.manager
 
@@ -547,12 +552,12 @@ class ViewLoansScreenVLBB(Screen):
         date_of_apply = []
         status = []
         for i in data:
-            #customer_id.append(i['borrower_customer_id'])
+            # customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
             loan_amount.append(i['loan_amount'])
             borrower_name.append(i['borrower_name'])
             interest_rate.append(i['interest_rate'])
-            #date_of_apply.append(i['borrower_loan_created_timestamp'])
+            # date_of_apply.append(i['borrower_loan_created_timestamp'])
             status.append(i['status'])
 
         if value in loan_id:
@@ -561,7 +566,7 @@ class ViewLoansScreenVLBB(Screen):
             self.ids.amount.text = str(loan_amount[index])
             self.ids.borrower_name.text = str(borrower_name[index])
             self.ids.rate.text = str(interest_rate[index])
-            #self.ids.date.text = str(date_of_apply[index])
+            # self.ids.date.text = str(date_of_apply[index])
             self.ids.updated_status.text = str(status[index])
 
     def on_pre_enter(self):
@@ -592,11 +597,8 @@ class ViewLoansScreenVLBB(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'ViewLoansRequest'
 
-
-
     def on_back_button_press(self):
         self.manager.current = 'DashboardScreenVLB'
-
 
 
 class ViewLoansScreenVLB(Screen):
@@ -657,17 +659,13 @@ class ViewLoansScreenVLB(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'ViewLoansRequest'
 
-
-
     def on_back_button_press(self):
         self.manager.current = 'DashboardScreenVLB'
-
 
 
 class OpenLoanVLB(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
 
         data = self.get_table_data()
         customer_id = []
@@ -965,10 +963,11 @@ class RejectedLoanVLB(Screen):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('get_table_data')
+
+
 class ClosedLoanVLB(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
 
         data = self.get_table_data()
         customer_id = []
@@ -1036,6 +1035,7 @@ class ClosedLoanVLB(Screen):
         else:
             # Handle other loan statuses or show an error message
             pass
+
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_back_button)
@@ -1064,10 +1064,11 @@ class ClosedLoanVLB(Screen):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('get_table_data')
+
+
 class ForeCloseLoanVLB(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
 
         data = self.get_table_data()
         customer_id = []
@@ -1077,7 +1078,7 @@ class ForeCloseLoanVLB(Screen):
         s = 0
         for i in data:
             s += 1
-            #customer_id.append(i['borrower_customer_id'])
+            # customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
             borrower_name.append(i['borrower_name'])
             loan_status.append(i['status'])
@@ -1135,6 +1136,7 @@ class ForeCloseLoanVLB(Screen):
         else:
             # Handle other loan statuses or show an error message
             pass
+
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_back_button)
