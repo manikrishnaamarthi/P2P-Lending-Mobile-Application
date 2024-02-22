@@ -14,7 +14,7 @@ import anvil.server
 from dashboard import DashScreen
 from lender_dashboard import LenderDashboard
 from borrower_dashboard import DashboardScreen
-
+import bcrypt
 anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
 
 KV = """
@@ -274,24 +274,25 @@ class LoginScreen(Screen):
 
             if entered_email in email_list:
                 i = email_list.index(entered_email)
+                password_value = bcrypt.checkpw(entered_password.encode('utf-8'), password_list[i].encode('utf-8'))
                 if entered_email in email_user:
                     index = email_user.index(entered_email)
                 else:
                     print('no email found')
 
-                if (email_list[i] == entered_email) and (password_list[i] == entered_password) and (
+                if (email_list[i] == entered_email) and (password_value) and (
                         registartion_approve[index] == True) and (user_type[index] == 'borrower'):
                     # Schedule the creation of borrower DashboardScreen on the main thread
                     Clock.schedule_once(lambda dt: self.show_dashboard('DashboardScreen'), 0)
                     self.hide_loading_spinner()
                     return  # Added to exit the method after successful login as borrower
-                elif (email_list[i] == entered_email) and (password_list[i] == entered_password) and (
+                elif (email_list[i] == entered_email) and (password_value) and (
                         registartion_approve[index] == True) and (user_type[index] == 'lender'):
                     # Schedule the creation of lender DashboardScreen on the main thread
                     Clock.schedule_once(lambda dt: self.show_dashboard('LenderDashboard'), 0)
                     self.hide_loading_spinner()
                     return  # Added to exit the method after successful login as lender
-                elif (email_list[i] == entered_email) and (password_list[i] == entered_password):
+                elif (email_list[i] == entered_email) and (password_value):
                     self.share_email_with_anvil(email_list[i])
                     # Schedule the creation of default DashboardScreen on the main thread
                     Clock.schedule_once(lambda dt: self.show_dashboard('DashScreen'), 0)
@@ -304,8 +305,9 @@ class LoginScreen(Screen):
                     return  # Added to exit the method after showing error dialog
 
         if user_data:
-
-            if user_data[4] == entered_password:  # Fix index to 4 for the password field
+            password_value2 = bcrypt.checkpw(entered_password.encode('utf-8'), user_data[4].encode('utf-8'))
+            print(password_value2)
+            if password_value2:  # Fix index to 4 for the password field
 
                 users = cursor.execute('''SELECT * FROM fin_users''')
                 id_list = []
