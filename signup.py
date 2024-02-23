@@ -430,14 +430,16 @@ class SignupScreen(Screen):
         )
 
         snackbar.open()
-
+        self.share_email_with_anvil(email)
         # self.manager.current = 'LoginScreen'
         sm = self.manager
         lender_screen = DashScreen(name='DashScreen')
         sm.add_widget(lender_screen)
         sm.transition.direction = 'left'  # Set the transition direction explicitly
         sm.current = 'DashScreen'
-
+    def share_email_with_anvil(self, email):
+        # Make an API call to Anvil server to share the email
+        anvil.server.call('share_email', email)
     def show_validation_error(self, widget, error_text):
         widget.error = True
         widget.helper_text_color = (1, 0, 0, 1)
