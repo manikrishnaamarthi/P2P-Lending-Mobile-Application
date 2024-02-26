@@ -3,7 +3,6 @@ from kivy.core.window import Window
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
-
 from homepage import MainScreen
 import anvil.server
 anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")

@@ -13,8 +13,8 @@ from math import pow
 from kivymd.uix.dialog import MDDialog, dialog
 import anvil.server
 from kivy.uix.spinner import Spinner
+from datetime import datetime
 
-anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
 
 user_helpers2 = """
 <WindowManager>:
@@ -733,6 +733,8 @@ class NewloanScreen2(Screen):
         selected_category = self.root_screen.selected_category
         roi = float(self.ids.roi.text)
         total_repayment = float(self.ids.total.text)
+        date_of_apply = datetime.now().date()
+
 
         # Call the Anvil server function to add loan data
         try:
@@ -741,7 +743,8 @@ class NewloanScreen2(Screen):
                 loan_amount,
                 loan_tenure,
                 roi,
-                total_repayment
+                total_repayment,
+                date_of_apply
             )
             self.show_success_dialog(f"Loan details added successfully! Loan ID: {loan_id}")
         except anvil._server.AnvilWrappedError as e:
