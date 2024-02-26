@@ -282,12 +282,14 @@ class LoginScreen(Screen):
 
                 if (email_list[i] == entered_email) and (password_value) and (
                         registartion_approve[index] == True) and (user_type[index] == 'borrower'):
+                    self.share_email_with_anvil(email_list[i])
                     # Schedule the creation of borrower DashboardScreen on the main thread
                     Clock.schedule_once(lambda dt: self.show_dashboard('DashboardScreen'), 0)
                     self.hide_loading_spinner()
                     return  # Added to exit the method after successful login as borrower
                 elif (email_list[i] == entered_email) and (password_value) and (
                         registartion_approve[index] == True) and (user_type[index] == 'lender'):
+                    self.share_email_with_anvil(email_list[i])
                     # Schedule the creation of lender DashboardScreen on the main thread
                     Clock.schedule_once(lambda dt: self.show_dashboard('LenderDashboard'), 0)
                     self.hide_loading_spinner()
