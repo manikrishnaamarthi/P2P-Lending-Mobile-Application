@@ -5,22 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6cf0679d-622c-4cdd-bf68-04ce800fdca3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/borrower_wallet.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lender_wallet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/borrower_foreclosure.py" beforeDir="false" afterPath="$PROJECT_DIR$/borrower_foreclosure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/borrower_registration_forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/borrower_registration_forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/borrower_viewloan.py" beforeDir="false" afterPath="$PROJECT_DIR$/borrower_viewloan.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lender_dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/lender_dashboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lender_foreclosure_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/lender_foreclosure_request.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lender_registration_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/lender_registration_form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lender_view_extension_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/lender_view_extension_request.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lender_view_loans.py" beforeDir="false" afterPath="$PROJECT_DIR$/lender_view_loans.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lender_view_loans_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/lender_view_loans_request.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_loan_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/new_loan_request.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/signup.py" beforeDir="false" afterPath="$PROJECT_DIR$/signup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +54,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-5a2391486177-2887949eec09-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.13763.11" />
+        <option value="bundled-python-sdk-67fca87a943a-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.11799.259" />
       </set>
     </attachedChunks>
   </component>
