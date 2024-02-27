@@ -14,7 +14,6 @@ anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 extension_loan_request = """
 <WindowManager>:
     ExtensionLoansRequest:
-    ExtensionLoansProfileScreen2:
     ExtensionLoansProfileScreen:
     ExtensionLoansProfileScreen1:
     ExtendLoansScreen:
@@ -717,7 +716,12 @@ class ExtensionLoansProfileScreen(Screen):
         self.manager.current = 'ExtensionLoansRequest'
 
     def on_next(self):
-        self.manager.current = 'ExtensionLoansProfileScreen1'
+        data = self.get_table_data()
+        sm = self.manager
+        profile = ExtensionLoansProfileScreen1(name='ExtensionLoansProfileScreen1')
+        sm.add_widget(profile)  # Add the screen to the ScreenManager
+        sm.current = 'ExtensionLoansProfileScreen1'
+        self.manager.get_screen('ExtensionLoansProfileScreen1').initialize_with_value(value, data)
 
     def on_keyboard(self, window, key, *args):
         if key == 27:  # Key code for the 'Escape' key
@@ -732,14 +736,6 @@ class ExtensionLoansProfileScreen(Screen):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('get_table_data')
-
-    def extension_loans_profile_screen1(self,value):
-        data=self.get_table_data()
-        sm=self.manager
-        profile=ExtensionLoansProfileScreen1(name='ExtensionLoansProfileScreen1')
-        sm.add_widget(profile)
-        sm.current='ExtensionLoansProfileScreen1'
-        self.manager.get_screen('ExtensionLoansProfileScreen1').initialize_with_value(value, data)
 
 class ExtensionLoansProfileScreen1(Screen):
     def __init__(self, **kwargs):
@@ -784,7 +780,12 @@ class ExtensionLoansProfileScreen1(Screen):
         return anvil.server.call('get_table_data')
 
     def on_next(self):
-        self.manager.current = 'ExtendLoansScreen'
+        data = self.get_table_data()
+        sm = self.manager
+        profile = ExtendLoansScreen(name='ExtendLoansScreen')
+        sm.add_widget(profile)
+        sm.current = 'ExtendLoansScreen'
+        self.manager.get_screen('ExtendLoansScreen').initialize_with_value(value, data)
 
     def on_keyboard(self, window, key, *args):
         if key == 27:  # Key code for the 'Escape' key
@@ -816,14 +817,6 @@ class ExtensionLoansProfileScreen1(Screen):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'ExtensionLoansProfileScreen'
-
-    def extend_loans_screen(self,value):
-        data=self.get_table_data()
-        sm=self.manager
-        profile=ExtendLoansScreen(name='ExtendLoansScreen')
-        sm.add_widget(profile)
-        sm.current='ExtendLoansScreen'
-        self.manager.get_screen('ExtendLoansScreen').initialize_with_value(value, data)
 
 class ExtendLoansScreen(Screen):
     def __init__(self, **kwargs):
