@@ -14,6 +14,7 @@ anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 extension_loan_request = """
 <WindowManager>:
     ExtensionLoansRequest:
+    ExtensionLoansProfileScreen2:
     ExtensionLoansProfileScreen:
     ExtensionLoansProfileScreen1:
     ExtendLoansScreen:
@@ -737,6 +738,14 @@ class ExtensionLoansProfileScreen(Screen):
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('get_table_data')
 
+    def extension_loans_profile_screen1(self,value):
+        data=self.get_table_data()
+        sm=self.manager
+        profile=ExtensionLoansProfileScreen1(name='ExtensionLoansProfileScreen1')
+        sm.add_widget(profile)
+        sm.current='ExtensionLoansProfileScreen1'
+        self.manager.get_screen('ExtensionLoansProfileScreen1').initialize_with_value(value, data)
+
 class ExtensionLoansProfileScreen1(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -837,21 +846,21 @@ class ExtendLoansScreen(Screen):
         for i in data:
             loan_id.append(i['loan_id'])
             loan_amount.append(i['loan_amount'])
-            extension_amount.append(i['extension_amount'])
-            extension_fee.append(i['extend_fee'])
-            new_emi.append(i['new_emi'])
-            finial_repayment_amount.append(i['final_repayment_amount'])
-            reason.append(i['reason'])
+            #extension_amount.append(i['extension_amount'])
+            #extension_fee.append(i['extend_fee'])
+            #new_emi.append(i['new_emi'])
+            #finial_repayment_amount.append(i['final_repayment_amount'])
+            #reason.append(i['reason'])
 
         if value in loan_id:
             index = loan_id.index(value)
             self.ids.loan_id.text = str(loan_id[index])
             self.ids.loan_amount.text = str(loan_amount[index])
-            self.ids.extension_fee.text = str(extension_fee[index])
+            #self.ids.extension_fee.text = str(extension_fee[index])
             # Update the following lines for the checkbox and other fields
-            self.ids.new_emi.text = str(new_emi[index])
-            self.ids.finial_repayment_amount.text = str(finial_repayment_amount[index])
-            self.ids.reason.text = str(reason[index])
+            #self.ids.new_emi.text = str(new_emi[index])
+            #self.ids.finial_repayment_amount.text = str(finial_repayment_amount[index])
+            #self.ids.reason.text = str(reason[index])
 
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
