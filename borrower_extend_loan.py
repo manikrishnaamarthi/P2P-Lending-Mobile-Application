@@ -717,7 +717,12 @@ class ExtensionLoansProfileScreen(Screen):
         self.manager.current = 'ExtensionLoansRequest'
 
     def on_next(self):
-        self.manager.current = 'ExtensionLoansProfileScreen1'
+        data = self.get_table_data()
+        sm = self.manager
+        profile = ExtensionLoansProfileScreen1(name='ExtensionLoansProfileScreen1')
+        sm.add_widget(profile)  # Add the screen to the ScreenManager
+        sm.current = 'ExtensionLoansProfileScreen1'
+        self.manager.get_screen('ExtensionLoansProfileScreen1').initialize_with_value(value, data)
 
     def on_keyboard(self, window, key, *args):
         if key == 27:  # Key code for the 'Escape' key
@@ -784,7 +789,12 @@ class ExtensionLoansProfileScreen1(Screen):
         return anvil.server.call('get_table_data')
 
     def on_next(self):
-        self.manager.current = 'ExtendLoansScreen'
+        data = self.get_table_data()
+        sm = self.manager
+        profile = ExtendLoansScreen(name='ExtendLoansScreen')
+        sm.add_widget(profile)
+        sm.current = 'ExtendLoansScreen'
+        self.manager.get_screen('ExtendLoansScreen').initialize_with_value(value, data)
 
     def on_keyboard(self, window, key, *args):
         if key == 27:  # Key code for the 'Escape' key
@@ -817,14 +827,6 @@ class ExtensionLoansProfileScreen1(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'ExtensionLoansProfileScreen'
 
-    def extend_loans_screen(self,value):
-        data=self.get_table_data()
-        sm=self.manager
-        profile=ExtendLoansScreen(name='ExtendLoansScreen')
-        sm.add_widget(profile)
-        sm.current='ExtendLoansScreen'
-        self.manager.get_screen('ExtendLoansScreen').initialize_with_value(value, data)
-
 class ExtendLoansScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -844,21 +846,21 @@ class ExtendLoansScreen(Screen):
         for i in data:
             loan_id.append(i['loan_id'])
             loan_amount.append(i['loan_amount'])
-            extension_amount.append(i['extension_amount'])
-            extension_fee.append(i['extend_fee'])
-            new_emi.append(i['new_emi'])
-            finial_repayment_amount.append(i['final_repayment_amount'])
-            reason.append(i['reason'])
+            #extension_amount.append(i['extension_amount'])
+            #extension_fee.append(i['extend_fee'])
+            #new_emi.append(i['new_emi'])
+            #finial_repayment_amount.append(i['final_repayment_amount'])
+            #reason.append(i['reason'])
 
         if value in loan_id:
             index = loan_id.index(value)
             self.ids.loan_id.text = str(loan_id[index])
             self.ids.loan_amount.text = str(loan_amount[index])
-            self.ids.extension_fee.text = str(extension_fee[index])
+            #self.ids.extension_fee.text = str(extension_fee[index])
             # Update the following lines for the checkbox and other fields
-            self.ids.new_emi.text = str(new_emi[index])
-            self.ids.finial_repayment_amount.text = str(finial_repayment_amount[index])
-            self.ids.reason.text = str(reason[index])
+            #self.ids.new_emi.text = str(new_emi[index])
+            #self.ids.finial_repayment_amount.text = str(finial_repayment_amount[index])
+            #self.ids.reason.text = str(reason[index])
 
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
