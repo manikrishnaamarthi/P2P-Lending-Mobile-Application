@@ -9,7 +9,7 @@ import sqlite3
 from kivymd.app import MDApp
 from kivymd.uix.list import ThreeLineAvatarIconListItem, IconLeftWidget
 
-anvil.server.connect("server_OPXCTLBTELMVZ2CU7HCT3SUO-IFS5YCZ2MED5H763")
+anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 
 extension_loan_request = """
 <WindowManager>:
