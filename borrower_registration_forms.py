@@ -1,4 +1,3 @@
-
 import os
 import anvil.server
 from kivy.core.window import Window
@@ -40,7 +39,8 @@ if platform == 'android':
         request_permissions, check_permission, Permission
     )
 import anvil.server
-anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
+
+anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
 Borrower = '''
 <WindowManager>:
     BorrowerScreen:
@@ -153,11 +153,6 @@ Borrower = '''
                     helper_text_mode: "on_error"
                     font_name: "Roboto-Bold"
                     hint_text_color: 0, 0, 0, 1
-                MDIconButton:
-
-                    icon: 'calendar-check'
-                    on_press: root.show_date_picker()
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
 
             MDRectangleFlatButton:
@@ -2705,10 +2700,6 @@ Borrower = '''
                     font_name: "Roboto-Bold"
                     hint_text_color: 0, 0, 0, 1
 
-                MDIconButton:
-                    icon: 'calendar-check'
-                    on_press: root.show_date_picker()
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
             MDTextField:
                 id: spouse_mobile
@@ -3012,20 +3003,6 @@ class BorrowerScreen(Screen):
     def profile(self):
         return anvil.server.call('profile')
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.date_picker = MDDatePicker()
-        self.date_picker.bind(on_save=self.on_date_selected)
-
-    def show_date_picker(self):
-        date_dialog = MDDatePicker()
-        date_dialog.bind(on_save=self.on_date_selected)
-        self.date_picker.open()
-
-    def on_date_selected(self, instance, value, date_range):
-        print(f"Selected date: {value}")
-        self.ids.date_textfield.text = f'{value.year}-{value.month}-{value.day}'
-
     def validate_input(self, name, gender, date_of_birth):
         errors = []
 
@@ -3093,13 +3070,12 @@ class BorrowerScreen(Screen):
         for i in data:
             id_list.append(i['email_user'])
 
-        date_object = datetime.strptime(date_of_birth, '%Y-%m-%d')
         user_email = self.get_email()
         if user_email in id_list:
             index = id_list.index(user_email)
             data[index]['full_name'] = name
             data[index]['gender'] = gender
-            data[index]['date_of_birth'] = date_object.date()
+            data[index]['date_of_birth'] = date_of_birth
 
         else:
             print("email not there")
@@ -3110,10 +3086,9 @@ class BorrowerScreen(Screen):
         sm.transition.direction = 'left'  # Set the transition direction explicitly
         sm.current = 'BorrowerScreen1'
 
-
     def show_validation_error(self, error_text):
         # Show validation errors in a snackbar
-        Snackbar(text=error_text,pos_hint={'top': 1}, md_bg_color=[1, 0, 0, 1]).open()
+        Snackbar(text=error_text, pos_hint={'top': 1}, md_bg_color=[1, 0, 0, 1]).open()
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -3133,6 +3108,8 @@ class BorrowerScreen(Screen):
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'BorrowerLanding'
+
+
 class BorrowerScreen1(Screen):
     def get_email(self):
         data = anvil.server.call('another_method')
@@ -3153,7 +3130,8 @@ class BorrowerScreen1(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action1(mobile_number, alternate_email, modal_view), 2)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action1(mobile_number, alternate_email, modal_view),
+                            2)
 
     def perform_data_addition_action1(self, mobile_number, alternate_email, modal_view):
         modal_view.dismiss()
@@ -3387,7 +3365,7 @@ class BorrowerScreen3(Screen):
         # You can replace the sleep with your actual logic
         Clock.schedule_once(lambda dt: self.perform_loan_request_action3(modal_view, id), 2)
 
-    def perform_loan_request_action3(self, modal_view,id):
+    def perform_loan_request_action3(self, modal_view, id):
         # Close the modal view after performing the action
         modal_view.dismiss()
         if id == '10th class':
@@ -3440,17 +3418,17 @@ class BorrowerScreen3(Screen):
             cursor.execute("UPDATE fin_registration_table SET highest_qualification = ? WHERE customer_id = ?",
                            (id, row_id_list[log_index]))
             conn.commit()
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['qualification'] = id
-            else:
-                print('email not found')
         else:
             print('User is not logged in.')
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['qualification'] = id
+        else:
+            print('email not found')
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -4408,7 +4386,8 @@ class BorrowerScreen4(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action4(street, city, zip_code, state, country, modal_view), 2)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action4(street, city, zip_code, state, country, modal_view), 2)
 
     def perform_data_addition_action4(self, street, city, zip_code, state, country, modal_view):
         modal_view.dismiss()
@@ -4500,7 +4479,9 @@ class BorrowerScreen5(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action(father_name, father_age, father_occupation, father_ph_no, modal_view), 2)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action(father_name, father_age, father_occupation, father_ph_no,
+                                                         modal_view), 2)
 
     def perform_data_addition_action(self, father_name, father_age, father_occupation, father_ph_no, modal_view):
         modal_view.dismiss()
@@ -4586,7 +4567,9 @@ class BorrowerScreen6(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action(mother_name, mother_age, mother_occupation, mother_ph_no, modal_view), 2)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action(mother_name, mother_age, mother_occupation, mother_ph_no,
+                                                         modal_view), 2)
 
     def perform_data_addition_action(self, mother_name, mother_age, mother_occupation, mother_ph_no, modal_view):
         modal_view.dismiss()
@@ -4827,7 +4810,8 @@ class BorrowerScreen8(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action(collage_name, college_address, collage_id, modal_view), 2)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action(collage_name, college_address, collage_id, modal_view), 2)
 
     def perform_data_addition_action(self, collage_name, college_address, collage_id, modal_view):
         modal_view.dismiss()
@@ -4906,9 +4890,11 @@ class BorrowerScreen9(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action(business_name, business_location, business_address, modal_view), 2)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action(business_name, business_location, business_address,
+                                                         modal_view), 2)
 
-    def perform_data_addition_action(self,business_name, business_location, business_address, modal_view):
+    def perform_data_addition_action(self, business_name, business_location, business_address, modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -4947,7 +4933,6 @@ class BorrowerScreen9(Screen):
         sm.transition.direction = 'left'
         sm.current = 'BorrowerScreen10'
 
-
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
 
@@ -4983,9 +4968,12 @@ class BorrowerScreen10(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action(landmark, business_type, no_of_employees_working, registered_office_address, year_of_estd, modal_view), 2)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action(landmark, business_type, no_of_employees_working,
+                                                         registered_office_address, year_of_estd, modal_view), 2)
 
-    def perform_data_addition_action(self, landmark, business_type, no_of_employees_working, registered_office_address, year_of_estd, modal_view):
+    def perform_data_addition_action(self, landmark, business_type, no_of_employees_working, registered_office_address,
+                                     year_of_estd, modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -5026,7 +5014,6 @@ class BorrowerScreen10(Screen):
         sm.add_widget(borrower_screen)
         sm.transition.direction = 'left'
         sm.current = 'BorrowerScreen15'
-
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -5140,7 +5127,8 @@ class BorrowerScreen11(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action(industry_type, last_six_months_turnover, modal_view), 2)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action(industry_type, last_six_months_turnover, modal_view), 2)
 
     def perform_data_addition_action(self, industry_type, last_six_months_turnover, modal_view):
         modal_view.dismiss()
@@ -5178,7 +5166,6 @@ class BorrowerScreen11(Screen):
         sm.transition.direction = 'left'
         sm.current = 'BorrowerScreen12'
 
-
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
 
@@ -5214,7 +5201,8 @@ class BorrowerScreen12(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action(employment_type, company_name, organization, modal_view), 2)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action(employment_type, company_name, organization, modal_view), 2)
 
     def perform_data_addition_action(self, employment_type, company_name, organization, modal_view):
         modal_view.dismiss()
@@ -5233,25 +5221,26 @@ class BorrowerScreen12(Screen):
                 (employment_type, company_name, organization, row_id_list[log_index]))
             conn.commit()
 
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['employment_type'] = employment_type
-                data[index]['company_name'] = company_name
-                data[index]['organization_type'] = organization
-            else:
-                print('email not found')
-
-            sm = self.manager
-            borrower_screen = BorrowerScreen13(name='BorrowerScreen13')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen13'
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['employment_type'] = employment_type
+            data[index]['company_name'] = company_name
+            data[index]['organization_type'] = organization
+        else:
+            print('email not found')
+
+        sm = self.manager
+        borrower_screen = BorrowerScreen13(name='BorrowerScreen13')
+        sm.add_widget(borrower_screen)
+        sm.transition.direction = 'left'
+        sm.current = 'BorrowerScreen13'
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -5288,9 +5277,12 @@ class BorrowerScreen14(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action(company_address, company_pincode, company_country, landmark, business_number, modal_view), 2)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action(company_address, company_pincode, company_country, landmark,
+                                                         business_number, modal_view), 2)
 
-    def perform_data_addition_action(self, company_address, company_pincode, company_country, landmark, business_number, modal_view):
+    def perform_data_addition_action(self, company_address, company_pincode, company_country, landmark, business_number,
+                                     modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -5306,28 +5298,28 @@ class BorrowerScreen14(Screen):
                 "UPDATE fin_registration_table SET company_address = ?, company_pincode = ?, company_country = ?, landmark = ?, business_number = ? WHERE customer_id = ?",
                 (company_address, company_pincode, company_country, landmark, business_number, row_id_list[log_index]))
             conn.commit()
-
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['company_address'] = company_address
-                data[index]['company_landmark'] = landmark
-                data[index]['business_no'] = business_number
-                data[index]['company_country'] = company_country
-                data[index]['company_pincode'] = company_pincode
-            else:
-                print('email not found')
-
-            sm = self.manager
-            borrower_screen = BorrowerScreen15(name='BorrowerScreen15')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen15'
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['company_address'] = company_address
+            data[index]['company_landmark'] = landmark
+            data[index]['business_no'] = business_number
+            data[index]['company_country'] = company_country
+            data[index]['company_pincode'] = company_pincode
+        else:
+            print('email not found')
+
+        sm = self.manager
+        borrower_screen = BorrowerScreen15(name='BorrowerScreen15')
+        sm.add_widget(borrower_screen)
+        sm.transition.direction = 'left'
+        sm.current = 'BorrowerScreen15'
 
     def on_company_pincode_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
@@ -5490,25 +5482,25 @@ class BorrowerScreen13(Screen):
                 "UPDATE fin_registration_table SET annual_salary = ?, designation = ? WHERE customer_id = ?",
                 (annual_salary, designation, row_id_list[log_index]))
             conn.commit()
-
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['annual_salary'] = annual_salary
-                data[index]['designation'] = designation
-            else:
-                print('email not found')
-
-            sm = self.manager
-            borrower_screen = BorrowerScreen14(name='BorrowerScreen14')
-            sm.add_widget(borrower_screen)
-            sm.transition.direction = 'left'
-            sm.current = 'BorrowerScreen14'
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['annual_salary'] = annual_salary
+            data[index]['designation'] = designation
+        else:
+            print('email not found')
+
+        sm = self.manager
+        borrower_screen = BorrowerScreen14(name='BorrowerScreen14')
+        sm.add_widget(borrower_screen)
+        sm.transition.direction = 'left'
+        sm.current = 'BorrowerScreen14'
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -5584,18 +5576,18 @@ class BorrowerScreen15(Screen):
                 "UPDATE fin_registration_table SET marital_status = ? WHERE customer_id = ?",
                 (marital_status_id, row_id_list[log_index]))
             conn.commit()
-
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['marital_status'] = marital_status_id
-            else:
-                print('email not found')
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['marital_status'] = marital_status_id
+        else:
+            print('email not found')
 
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
@@ -5629,21 +5621,6 @@ class BorrowerScreen16(Screen):
         # Change keyboard mode to numeric when the mobile number text input is touched
         self.ids.spouse_mobile.input_type = 'number'
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.date_picker = MDDatePicker()
-        self.date_picker.bind(on_save=self.on_date_selected)
-
-    def show_date_picker(self):
-        date_dialog = MDDatePicker()
-        date_dialog.bind(on_save=self.on_date_selected)
-        date_dialog.open()
-
-    def on_date_selected(self, instance, value, date_range):
-        # This method will be called when the user selects a date
-        print(f"Selected date: {value}")
-        self.ids.spouse_date_textfield.text = f'{value.year}-{value.month}-{value.day}'
-
     def add_data(self, spouse_name, spouse_date_textfield, spouse_mobile, spouse_profession):
         modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
         spinner = MDSpinner()
@@ -5651,9 +5628,12 @@ class BorrowerScreen16(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action(spouse_name, spouse_date_textfield, spouse_mobile, spouse_profession, modal_view), 2)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action(spouse_name, spouse_date_textfield, spouse_mobile,
+                                                         spouse_profession, modal_view), 2)
 
-    def perform_data_addition_action(self, spouse_name, spouse_date_textfield, spouse_mobile, spouse_profession, modal_view):
+    def perform_data_addition_action(self, spouse_name, spouse_date_textfield, spouse_mobile, spouse_profession,
+                                     modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -5669,23 +5649,23 @@ class BorrowerScreen16(Screen):
                 "UPDATE fin_registration_table SET spouse_name = ?,spouse_date_textfield = ?, spouse_mobile = ?, spouse_profession = ? WHERE customer_id = ?",
                 (spouse_name, spouse_date_textfield, spouse_mobile, spouse_profession, row_id_list[log_index]))
             conn.commit()
-            data = self.profile()
-
-            id_list = [i['email_user'] for i in data]
-
-
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['spouse_name'] = spouse_name
-                data[index]['spouse_mobile'] = spouse_mobile
-                data[index]['spouse_date'] = str(spouse_date_textfield)
-                data[index]['spouse_profession'] = spouse_profession
-            else:
-                print("email not there")
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+
+        data = self.profile()
+
+        id_list = [i['email_user'] for i in data]
+
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['spouse_name'] = spouse_name
+            data[index]['spouse_mobile'] = spouse_mobile
+            data[index]['spouse_date'] = str(spouse_date_textfield)
+            data[index]['spouse_profession'] = spouse_profession
+        else:
+            print("email not there")
 
         sm = self.manager
         borrower_screen = BorrowerScreen17(name='BorrowerScreen17')
@@ -5736,9 +5716,12 @@ class BorrowerScreen17(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action(spouse_company_name, spouse_company_address, spouse_annual_salary, spouse_office_no, modal_view), 2)
+        Clock.schedule_once(lambda dt: self.perform_data_addition_action(spouse_company_name, spouse_company_address,
+                                                                         spouse_annual_salary, spouse_office_no,
+                                                                         modal_view), 2)
 
-    def perform_data_addition_action(self, spouse_company_name, spouse_company_address, spouse_annual_salary, spouse_office_no, modal_view):
+    def perform_data_addition_action(self, spouse_company_name, spouse_company_address, spouse_annual_salary,
+                                     spouse_office_no, modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -5755,19 +5738,20 @@ class BorrowerScreen17(Screen):
                 (spouse_company_name, spouse_company_address, spouse_annual_salary, spouse_office_no,
                  row_id_list[log_index]))
             conn.commit()
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['spouse_company_name'] = spouse_company_name
-                data[index]['spouse_company_address'] = spouse_company_address
-                data[index]['spouse_annual_salary'] = spouse_annual_salary
-                data[index]['spouse_office_no'] = spouse_office_no
-            else:
-                print('email not valid')
         else:
             print('User is not logged in.')
+
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['spouse_company_name'] = spouse_company_name
+            data[index]['spouse_company_address'] = spouse_company_address
+            data[index]['spouse_annual_salary'] = spouse_annual_salary
+            data[index]['spouse_office_no'] = spouse_office_no
+        else:
+            print('email not valid')
 
         sm = self.manager
         borrower_screen = BorrowerScreen18(name='BorrowerScreen18')
@@ -5810,7 +5794,9 @@ class BorrowerScreen18(Screen):
         modal_view.open()
 
         # Perform the actual action (e.g., adding data)
-        Clock.schedule_once(lambda dt: self.perform_data_addition_action(account_holder_name, account_type, account_number, bank_name, modal_view), 2)
+        Clock.schedule_once(
+            lambda dt: self.perform_data_addition_action(account_holder_name, account_type, account_number, bank_name,
+                                                         modal_view), 2)
 
     def perform_data_addition_action(self, account_holder_name, account_type, account_number, bank_name, modal_view):
         modal_view.dismiss()
@@ -5828,19 +5814,20 @@ class BorrowerScreen18(Screen):
                 "UPDATE fin_registration_table SET account_holder_name = ?, account_type = ?, account_number = ?, bank_name = ? WHERE customer_id = ?",
                 (account_holder_name, account_type, account_number, bank_name, row_id_list[log_index]))
             conn.commit()
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['account_name'] = account_holder_name
-                data[index]['account_type'] = account_type
-                data[index]['account_number'] = account_number
-                data[index]['bank_name'] = bank_name
-            else:
-                print('email not valid')
         else:
             print('User is not logged in.')
+
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['account_name'] = account_holder_name
+            data[index]['account_type'] = account_type
+            data[index]['account_number'] = account_number
+            data[index]['bank_name'] = bank_name
+        else:
+            print('email not valid')
 
         sm = self.manager
         borrower_screen = BorrowerScreen19(name='BorrowerScreen19')
@@ -5900,20 +5887,21 @@ class BorrowerScreen19(Screen):
             log_index = status.index('logged')
             cursor.execute(
                 "UPDATE fin_registration_table SET bank_id = ?, branch_name = ?, user_type = ?  WHERE customer_id = ?",
-                (bank_id, branch_name, b,row_id_list[log_index]))
+                (bank_id, branch_name, b, row_id_list[log_index]))
             conn.commit()
-            data = self.profile()
-            id_list = [i['email_user'] for i in data]
-            user_email = self.get_email()
-            if user_email in id_list:
-                index = id_list.index(user_email)
-                data[index]['bank_id'] = bank_id
-                data[index]['account_bank_branch'] = branch_name
-                data[index]['usertype'] = b
-            else:
-                print('email not valid')
         else:
             print('User is not logged in.')
+        data = self.profile()
+        id_list = [i['email_user'] for i in data]
+        user_email = self.get_email()
+        if user_email in id_list:
+            index = id_list.index(user_email)
+            data[index]['bank_id'] = bank_id
+            data[index]['account_bank_branch'] = branch_name
+            data[index]['usertype'] = b
+            data[index]['registration_approve'] = True
+        else:
+            print('email not valid')
 
         sm = self.manager
         borrower_screen = DashboardScreen(name='DashboardScreen')
