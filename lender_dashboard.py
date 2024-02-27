@@ -17,6 +17,7 @@ from kivy.uix.modalview import ModalView
 from kivymd.uix.spinner import MDSpinner
 from kivy.clock import Clock
 
+
 if platform == 'android':
     from kivy.uix.button import Button
     from kivy.uix.modalview import ModalView
@@ -25,7 +26,7 @@ if platform == 'android':
     from android.permissions import (
         request_permissions, check_permission, Permission)
 
-anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
+anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 
 user_helpers1 = """
 <WindowManager>:
@@ -42,7 +43,7 @@ user_helpers1 = """
             specific_text_color:1/255, 26/255, 51/255, 1
             elevation:2
             left_action_items: [['account', lambda x: root.profile()]]
-            right_action_items: [['logout', lambda x: root.logout()]]
+            right_action_items: [['wallet', lambda x:root.go_to_wallet()],['logout', lambda x: root.logout()]]
             pos_hint: {'center_x': 0.5, 'center_y': 0.96}
         Image:
             source:"LOGO.png"
@@ -1513,6 +1514,33 @@ class LenderDashboard(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'DashboardScreenLF'
+
+    def go_to_wallet(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_wallet(modal_view), 2)
+
+    def perform_wallet(self, modal_view):
+        from lender_wallet import WalletScreen
+
+        modal_view.dismiss()
+        # Get the existing ScreenManager
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        login_screen = WalletScreen(name='WalletScreen')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'WalletScreen'
+
 
 
 
