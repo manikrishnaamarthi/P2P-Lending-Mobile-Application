@@ -99,6 +99,7 @@ user_helpers2 = """
                       # Call the update method
                     values: ['Select Group'] + root.product_groups
                     on_text: root.load_product_categories()
+                    text_size: self.width - dp(20), None
 
         MDGridLayout:
             cols: 2
@@ -130,6 +131,7 @@ user_helpers2 = """
                             rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
                     values: root.product_categories
                     on_text: root.load_product_names()
+                    text_size: self.width - dp(20), None
 
         MDGridLayout:
             cols: 2
@@ -159,6 +161,7 @@ user_helpers2 = """
                             width: 0.7
                             rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
                     values: root.product_names
+                    text_size: self.width - dp(20), None
 
         MDLabel:
             text: " "             

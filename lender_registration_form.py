@@ -29,7 +29,7 @@ from kivy.uix.modalview import ModalView
 from kivymd.uix.spinner import MDSpinner
 from kivy.clock import Clock
 
-anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
+anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
 
 from lender_dashboard import LenderDashboard
 
@@ -160,12 +160,6 @@ KV = '''
 
                     font_name: "Roboto-Bold"
                     hint_text_color: 0, 0, 0, 1
-                MDIconButton:
-
-                    icon: 'calendar-check'
-                    on_press: root.show_date_picker()
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
 
 
 
@@ -2844,21 +2838,6 @@ class LenderScreen(Screen):
         data = anvil.server.call('another_method')
         return data
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.date_picker = MDDatePicker()
-        self.date_picker.bind(on_save=self.on_date_selected)
-
-    def show_date_picker(self):
-        date_dialog = MDDatePicker()
-        date_dialog.bind(on_save=self.on_date_selected)
-        date_dialog.open()
-
-    def on_date_selected(self, instance, value, date_range):
-        # This method will be called when the user selects a date
-        print(f"Selected date: {value}")
-        self.ids.date_textfield.text = f'{value.year}-{value.month}-{value.day}'
-
     def add_data(self, name, gender, date):
         modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
         spinner = MDSpinner()
@@ -2887,7 +2866,6 @@ class LenderScreen(Screen):
         email_list = []
         status = []
 
-
         for row in rows:
             row_id_list.append(row[0])
             status.append(row[-1])
@@ -2907,13 +2885,12 @@ class LenderScreen(Screen):
         for i in data:
             id_list.append(i['email_user'])
 
-        date_object = datetime.strptime(date, '%Y-%m-%d')
         user_email = self.get_email()
         if user_email in id_list:
             index = id_list.index(user_email)
             data[index]['full_name'] = name
             data[index]['gender'] = gender
-            data[index]['date_of_birth'] = date_object.date()
+            data[index]['date_of_birth'] = date
         else:
             print("email not there")
 
@@ -2925,7 +2902,6 @@ class LenderScreen(Screen):
 
     def show_snackbar(self, text):
         Snackbar(text=text, pos_hint={'top': 1}, md_bg_color=[1, 0, 0, 1]).open()
-
 
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
@@ -2987,8 +2963,9 @@ class LenderScreen1(Screen):
         if 'logged' in status:
             log_index = status.index('logged')
 
-            cursor.execute("UPDATE fin_registration_table SET mobile_number = ?, alternate_email = ? WHERE customer_id = ?",
-                           (mobile_number, alternate_email, row_id_list[log_index]))
+            cursor.execute(
+                "UPDATE fin_registration_table SET mobile_number = ?, alternate_email = ? WHERE customer_id = ?",
+                (mobile_number, alternate_email, row_id_list[log_index]))
             conn.commit()
         else:
             # Handle the case where the user is not logged in
@@ -3034,6 +3011,7 @@ class LenderScreen1(Screen):
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LenderScreen'
+
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
 
@@ -3196,7 +3174,6 @@ class LenderScreen2(Screen):
         self.manager.current = 'LenderScreen1'
 
 
-
 class LenderScreen3(Screen):
     def get_email(self):
         data = anvil.server.call('another_method')
@@ -3204,6 +3181,7 @@ class LenderScreen3(Screen):
 
     def profile(self):
         return anvil.server.call('profile')
+
     def next_pressed(self, id):
         modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
         spinner = MDSpinner()
@@ -3304,6 +3282,7 @@ class LenderScreen_Edu_10th(Screen):
 
     def profile(self):
         return anvil.server.call('profile')
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -3379,6 +3358,7 @@ class LenderScreen_Edu_10th(Screen):
             self.ids.upload_label1.text = 'Upload Successfully'
         else:
             print('User is not logged in.')
+
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
 
@@ -3532,6 +3512,7 @@ class LenderScreen_Edu_Intermediate(Screen):
             self.ids.upload_label2.text = 'Upload Successfully'
         except ValueError:
             print('User is not logged in.')
+
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
 
@@ -3584,6 +3565,7 @@ class LenderScreen_Edu_Bachelors(Screen):
 
     def profile(self):
         return anvil.server.call('profile')
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -3681,6 +3663,7 @@ class LenderScreen_Edu_Bachelors(Screen):
             self.ids.upload_label1.text = 'Upload Successfully'
         except ValueError:
             print('User is not logged in.')
+
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3698,6 +3681,7 @@ class LenderScreen_Edu_Bachelors(Screen):
             self.ids.upload_label2.text = 'Upload Successfully'
         except ValueError:
             print('User is not logged in.')
+
     def update_data_with_file_3(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3715,6 +3699,7 @@ class LenderScreen_Edu_Bachelors(Screen):
             self.ids.upload_label3.text = 'Upload Successfully'
         except ValueError:
             print('User is not logged in.')
+
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
 
@@ -3767,6 +3752,7 @@ class LenderScreen_Edu_Masters(Screen):
 
     def profile(self):
         return anvil.server.call('profile')
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -3875,6 +3861,7 @@ class LenderScreen_Edu_Masters(Screen):
             self.ids.upload_label1.text = 'Upload Successfully'
         except ValueError:
             print('User is not logged in.')
+
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3892,6 +3879,7 @@ class LenderScreen_Edu_Masters(Screen):
             self.ids.upload_label2.text = 'Upload Successfully'
         except ValueError:
             print('User is not logged in.')
+
     def update_data_with_file_3(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -3926,6 +3914,7 @@ class LenderScreen_Edu_Masters(Screen):
             self.ids.upload_label4.text = 'Upload Successfully'
         except ValueError:
             print('User is not logged in.')
+
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
 
@@ -3978,6 +3967,7 @@ class LenderScreen_Edu_PHD(Screen):
 
     def profile(self):
         return anvil.server.call('profile')
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -4092,6 +4082,7 @@ class LenderScreen_Edu_PHD(Screen):
             self.ids.upload_label1.text = 'Upload Successfully'
         except ValueError:
             print('User is not logged in.')
+
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -4109,6 +4100,7 @@ class LenderScreen_Edu_PHD(Screen):
             self.ids.upload_label2.text = 'Upload Successfully'
         except ValueError:
             print('User is not logged in.')
+
     def update_data_with_file_3(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -4126,6 +4118,7 @@ class LenderScreen_Edu_PHD(Screen):
             self.ids.upload_label3.text = 'Upload Successfully'
         except ValueError:
             print('User is not logged in.')
+
     def update_data_with_file_4(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -4143,6 +4136,7 @@ class LenderScreen_Edu_PHD(Screen):
             self.ids.upload_label4.text = 'Upload Successfully'
         except ValueError:
             print('User is not logged in.')
+
     def update_data_with_file_5(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -4160,6 +4154,7 @@ class LenderScreen_Edu_PHD(Screen):
             self.ids.upload_label5.text = 'Upload Successfully'
         except ValueError:
             print('User is not logged in.')
+
     def go_to_dashboard(self):
         self.manager.current = 'DashScreen'
 
@@ -4221,7 +4216,7 @@ class LenderScreen4(Screen):
         Clock.schedule_once(
             lambda dt: self.perform_data_addition_action4(street, city, zip_code, state, country, modal_view), 2)
 
-    def perform_data_addition_action4(self,street, city, zip_code, state, country, modal_view):
+    def perform_data_addition_action4(self, street, city, zip_code, state, country, modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -4399,9 +4394,11 @@ class LenderScreenInstitutionalForm1(Screen):
 
         # Perform the actual action (e.g., adding data)
         Clock.schedule_once(
-            lambda dt: self.perform_data_addition_action4(business_name, business_location, business_address, business_branch_name, modal_view), 2)
+            lambda dt: self.perform_data_addition_action4(business_name, business_location, business_address,
+                                                          business_branch_name, modal_view), 2)
 
-    def perform_data_addition_action4(self,business_name, business_location, business_address, business_branch_name, modal_view):
+    def perform_data_addition_action4(self, business_name, business_location, business_address, business_branch_name,
+                                      modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -4479,7 +4476,8 @@ class LenderScreenInstitutionalForm2(Screen):
 
         # Perform the actual action (e.g., adding data)
         Clock.schedule_once(
-            lambda dt: self.perform_data_addition_action4( business_type, nearest_location, no_of_employees_working, year_of_estd, modal_view), 2)
+            lambda dt: self.perform_data_addition_action4(business_type, nearest_location, no_of_employees_working,
+                                                          year_of_estd, modal_view), 2)
 
     def perform_data_addition_action4(self, business_type, nearest_location, no_of_employees_working, year_of_estd,
                                       modal_view):
@@ -4551,6 +4549,7 @@ class LenderScreenInstitutionalForm3(Screen):
 
     def profile(self):
         return anvil.server.call('profile')
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -4634,7 +4633,7 @@ class LenderScreenInstitutionalForm3(Screen):
         Clock.schedule_once(
             lambda dt: self.perform_data_addition_action4(industry_type, last_six_months_turnover, modal_view), 2)
 
-    def perform_data_addition_action4(self,industry_type, last_six_months_turnover, modal_view):
+    def perform_data_addition_action4(self, industry_type, last_six_months_turnover, modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -4714,9 +4713,10 @@ class LenderScreenInstitutionalForm4(Screen):
 
         # Perform the actual action (e.g., adding data)
         Clock.schedule_once(
-            lambda dt: self.perform_data_addition_action4(director_name, director_mobile_number, DIN, CIN, modal_view), 2)
+            lambda dt: self.perform_data_addition_action4(director_name, director_mobile_number, DIN, CIN, modal_view),
+            2)
 
-    def perform_data_addition_action4(self,director_name, director_mobile_number, DIN, CIN, modal_view):
+    def perform_data_addition_action4(self, director_name, director_mobile_number, DIN, CIN, modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -4789,6 +4789,7 @@ class LenderScreenInstitutionalForm5(Screen):
 
     def profile(self):
         return anvil.server.call('profile')
+
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
                                          "image_label1")
@@ -4874,7 +4875,7 @@ class LenderScreenInstitutionalForm5(Screen):
             lambda dt: self.perform_data_addition_action(registered_office_address, modal_view),
             2)
 
-    def perform_data_addition_action(self,registered_office_address, modal_view):
+    def perform_data_addition_action(self, registered_office_address, modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -5106,6 +5107,7 @@ class LenderScreenIndividualForm2(Screen):
         else:
             # Handle the case where the user is not logged in
             print("User is not logged in.")
+
     def update_data_with_file_2(self, file_path):
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -5131,7 +5133,7 @@ class LenderScreenIndividualForm2(Screen):
         Clock.schedule_once(
             lambda dt: self.perform_data_addition_action4(annual_salary, designation, modal_view), 2)
 
-    def perform_data_addition_action4(self,annual_salary, designation, modal_view):
+    def perform_data_addition_action4(self, annual_salary, designation, modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -5215,9 +5217,11 @@ class LenderScreenIndividualForm3(Screen):
 
         # Perform the actual action (e.g., adding data)
         Clock.schedule_once(
-            lambda dt: self.perform_data_addition_action4(company_address, company_pincode, company_country, landmark, business_number, modal_view), 2)
+            lambda dt: self.perform_data_addition_action4(company_address, company_pincode, company_country, landmark,
+                                                          business_number, modal_view), 2)
 
-    def perform_data_addition_action4(self, company_address, company_pincode, company_country, landmark, business_number, modal_view):
+    def perform_data_addition_action4(self, company_address, company_pincode, company_country, landmark,
+                                      business_number, modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -5308,7 +5312,8 @@ class LenderScreenIndividualBankForm1(Screen):
 
         # Perform the actual action (e.g., adding data)
         Clock.schedule_once(
-            lambda dt: self.perform_data_addition_action4(account_holder_name, account_type, account_number, bank_name, modal_view), 2)
+            lambda dt: self.perform_data_addition_action4(account_holder_name, account_type, account_number, bank_name,
+                                                          modal_view), 2)
 
     def perform_data_addition_action4(self, account_holder_name, account_type, account_number, bank_name, modal_view):
         modal_view.dismiss()
@@ -5395,7 +5400,7 @@ class LenderScreenIndividualBankForm2(Screen):
             lambda dt: self.perform_data_addition_action4(bank_id, branch_name,
                                                           modal_view), 2)
 
-    def perform_data_addition_action4(self,bank_id, branch_name, modal_view):
+    def perform_data_addition_action4(self, bank_id, branch_name, modal_view):
         modal_view.dismiss()
         cursor.execute('select * from fin_users')
         rows = cursor.fetchall()
@@ -5412,7 +5417,7 @@ class LenderScreenIndividualBankForm2(Screen):
 
             cursor.execute(
                 "UPDATE fin_registration_table SET bank_id = ?, branch_name = ?, user_type = ? WHERE customer_id = ?",
-                (bank_id, branch_name,b, row_id_list[log_index]))
+                (bank_id, branch_name, b, row_id_list[log_index]))
             conn.commit()
         else:
             # Handle the case where the user is not logged in
@@ -5580,8 +5585,9 @@ class LenderScreenInstitutionalBankForm2(Screen):
         if 'logged' in status:
             log_index = status.index('logged')
 
-            cursor.execute("UPDATE fin_registration_table SET bank_id = ?, branch_name = ?, user_type = ? WHERE customer_id = ?",
-                           (bank_id, branch_name,b, row_id_list[log_index]))
+            cursor.execute(
+                "UPDATE fin_registration_table SET bank_id = ?, branch_name = ?, user_type = ? WHERE customer_id = ?",
+                (bank_id, branch_name, b, row_id_list[log_index]))
             conn.commit()
         else:
             # Handle the case where the user is not logged in
