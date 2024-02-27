@@ -797,7 +797,7 @@ user_helpers1 = """
                         font_name: "Roboto-Bold"
 
                     MDTextField:
-                        id: text_input8
+                        id: text_input9
                         size_hint: None, None
                         size_hint_x: 0.91
                         multiline: False
@@ -843,7 +843,7 @@ user_helpers1 = """
                         font_name: "Roboto-Bold"
 
                     MDTextField:
-                        id: text_input9
+                        id: text_input10
                         size_hint: None, None
                         size_hint_x: 0.91
                         multiline: False
@@ -889,7 +889,7 @@ user_helpers1 = """
                         font_name: "Roboto-Bold"
 
                     MDTextField:
-                        id: text_input10
+                        id: text_input110
                         size_hint: None, None
                         size_hint_x: 0.91
                         multiline: False
@@ -1517,6 +1517,101 @@ class LenderDashboard(Screen):
 
 
 class ViewProfileScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        email = self.get_email()
+        data = self.get_table()
+        customer = []
+        email1 = []
+        name = []
+        mobile = []
+        date_of_birth = []
+        gender = []
+        alternate_email = []
+        government_type1 = []
+        government_type2 = []
+        highest_qualification = []
+        street_name = []
+        city = []
+        zipcode = []
+        state = []
+        country =[]
+        loan_type1 = []
+        investment = []
+        lending_period = []
+        user_type = []
+        acholder_name = []
+        account_type = []
+        account_number = []
+        bank_name = []
+        bank_id = []
+        branch_name = []
+        for row in data:
+            customer.append(row['customer_id'])
+            email1.append(row['email_user'])
+            name.append(row['full_name'])
+            mobile.append(row['mobile'])
+            date_of_birth.append(row['date_of_birth'])
+            gender.append(row['gender'])
+            alternate_email.append(row['another_email'])
+            government_type1.append(row['aadhaar_no'])
+            government_type2.append(row['pan_number'])
+            highest_qualification.append(row['qualification'])
+            street_name.append(row['street'])
+            city.append(row['city'])
+            zipcode.append(row['pincode'])
+            state.append(row['state'])
+            country.append(row['country'])
+            loan_type1.append(row['loan_type'])
+            investment.append(row['investment'])
+            lending_period.append(row['lending_period'])
+            user_type.append(row['usertype'])
+            acholder_name.append(row['account_name'])
+            account_type.append(row['account_type'])
+            account_number.append(row['account_number'])
+            bank_name.append(row['bank_name'])
+            bank_id.append(row['bank_id'])
+            branch_name.append(row['account_bank_branch'])
+
+
+        if email in email1:
+            index = email1.index(email)
+            self.ids.customer_id.text = str(customer[index])
+            self.ids.username.text = name[index]
+            self.ids.text_input1.text = str(mobile[index])
+            self.ids.text_input2.text = str(date_of_birth[index])
+            self.ids.text_input3.text = gender[index]
+            self.ids.text_input4.text = alternate_email[index]
+            self.ids.text_input5.text = str(government_type1[index])
+            self.ids.text_input6.text = str(government_type2[index])
+            self.ids.text_input7.text = highest_qualification[index]
+            self.ids.text_input8.text = street_name[index]
+            self.ids.text_input9.text = city[index]
+            self.ids.text_input10.text = zipcode[index]
+            self.ids.text_input110.text = state[index]
+            self.ids.text_input11.text = country[index]
+            self.ids.text_input12.text = loan_type1[index]
+            self.ids.text_input13.text = investment[index]
+            self.ids.text_input14.text = lending_period[index]
+            self.ids.text_input15.text = user_type[index]
+            self.ids.text_input16.text = acholder_name[index]
+            self.ids.text_input17.text = account_type[index]
+            self.ids.text_input18.text = str(account_number[index])
+            self.ids.text_input19.text = bank_name[index]
+            self.ids.text_input20.text = bank_id[index]
+            self.ids.text_input21.text = str(branch_name[index])
+
+        else:
+            print("email not Found")
+
+    def get_email(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('another_method')
+    def get_table(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('profile')
     def check_and_open_file_manager1(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1")
 
