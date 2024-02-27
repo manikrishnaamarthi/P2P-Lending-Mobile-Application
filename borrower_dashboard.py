@@ -8,7 +8,7 @@ from kivy.utils import platform
 from kivy.clock import mainthread
 from kivymd.uix.filemanager import MDFileManager
 from kivymd.uix.spinner import MDSpinner
-
+from borrower_extend_loan import ExtensionLoansRequest
 from borrower_application_tracker import ApplicationTrackerScreen
 from new_loan_request import NewloanScreen
 from borrower_viewloan import DashboardScreenVLB
@@ -206,10 +206,9 @@ user_helpers = """
                 text:""
             MDFlatButton:
                 size_hint: None, None
-
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color: 0.031, 0.463, 0.91, 1 
-
+                on_release:root.go_to_extend()
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -2623,6 +2622,27 @@ class DashboardScreen(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'ApplicationTrackerScreen'
+
+    def go_to_extend(self):
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.perform_extend_action(modal_view), 2)
+
+    def perform_extend_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
+        sm = self.manager
+        # Create a new instance of the LoginScreen
+        login_screen = ExtensionLoansRequest(name='ExtensionLoansRequest')
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(login_screen)
+        # Switch to the LoginScreen
+        sm.current = 'ExtensionLoansRequest'
 
     def go_to_fore_closer_details(self):
         modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
