@@ -40,7 +40,7 @@ if platform == 'android':
         request_permissions, check_permission, Permission
     )
 import anvil.server
-anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
+anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 Borrower = '''
 <WindowManager>:
     BorrowerScreen:

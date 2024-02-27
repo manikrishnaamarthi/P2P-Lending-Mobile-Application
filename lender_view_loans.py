@@ -7,6 +7,7 @@ import sqlite3
 import anvil.server
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivymd.uix.list import *
+anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 
 view_loans = '''
 <WindowManager>:
