@@ -940,7 +940,7 @@ class UnderProcessLoanVLB(Screen):
         self.manager.current = 'DashboardScreenVLB'
 
     def refresh(self):
-        self.ids.container.clear_widgets()
+        self.ids.container1.clear_widgets()
         self.__init__()
 
     def get_table_data(self):
@@ -1040,7 +1040,7 @@ class RejectedLoanVLB(Screen):
         self.manager.current = 'DashboardScreenVLB'
 
     def refresh(self):
-        self.ids.container.clear_widgets()
+        self.ids.container2.clear_widgets()
         self.__init__()
 
     def get_table_data(self):
@@ -1141,7 +1141,7 @@ class ClosedLoanVLB(Screen):
         self.manager.current = 'DashboardScreenVLB'
 
     def refresh(self):
-        self.ids.container.clear_widgets()
+        self.ids.container3.clear_widgets()
         self.__init__()
 
     def get_table_data(self):
@@ -1242,7 +1242,7 @@ class ForeCloseLoanVLB(Screen):
         self.manager.current = 'DashboardScreenVLB'
 
     def refresh(self):
-        self.ids.container.clear_widgets()
+        self.ids.container4.clear_widgets()
         self.__init__()
 
     def get_table_data(self):

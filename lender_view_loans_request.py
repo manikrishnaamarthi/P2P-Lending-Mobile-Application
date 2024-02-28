@@ -30,7 +30,7 @@ view_loan_request = """
             left_action_items: [['arrow-left', lambda x: root.go_back()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
         MDScrollView:
-        
+
             MDList:
                 id: container
 
@@ -90,7 +90,7 @@ view_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
-                                
+
                             MDLabel:
                                 text: "Borrower Name:" 
                                 size_hint_y:None
@@ -120,7 +120,7 @@ view_loan_request = """
                                 height:dp(50)
                                 halign: "center"
                                 bold: True
-                                
+
                             MDLabel:
                                 id: tenure
                                 text: "" 
@@ -139,7 +139,7 @@ view_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
-                                
+
                             MDLabel:
                                 text: "Credit Limit:" 
                                 size_hint_y:None
@@ -188,7 +188,7 @@ view_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
-                              
+
                             MDRaisedButton:
                                 text: "Reject"
                                 md_bg_color: 194/255, 2/255, 21/255, 1
@@ -262,7 +262,7 @@ view_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
-                                
+
                             MDLabel:
                                 text: "Borrower Name:" 
                                 size_hint_y:None
@@ -292,7 +292,7 @@ view_loan_request = """
                                 height:dp(50)
                                 halign: "center"
                                 bold: True
-                                
+
                             MDLabel:
                                 id: tenure
                                 text: "" 
@@ -311,7 +311,7 @@ view_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
-                                
+
                             MDLabel:
                                 text: "Credit Limit:" 
                                 size_hint_y:None
@@ -420,7 +420,7 @@ view_loan_request = """
                             cols: 2
                             spacing: dp(10)
                             padding: dp(10)
-                            
+
                             MDLabel:
                                 text: "User ID:" 
                                 size_hint_y:None
@@ -433,7 +433,7 @@ view_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
-                                
+
                             MDLabel:
                                 text: "Borrower Name:" 
                                 size_hint_y:None
@@ -463,7 +463,7 @@ view_loan_request = """
                                 height:dp(50)
                                 halign: "center"
                                 bold: True
-                                
+
                             MDLabel:
                                 id: tenure
                                 text: "" 
@@ -482,7 +482,7 @@ view_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
-                                
+
                             MDLabel:
                                 text: "Credit Limit:" 
                                 size_hint_y:None
@@ -554,6 +554,7 @@ class ViewLoansRequest(Screen):
         loan_id = []
         borrower_name = []
         loan_status = []
+        product_name = []
         s = 0
         for i in data:
             s += 1
@@ -561,6 +562,7 @@ class ViewLoansRequest(Screen):
             loan_id.append(i['loan_id'])
             borrower_name.append(i['borrower_full_name'])
             loan_status.append(i['loan_updated_status'])
+            product_name.append(i['product_name'])
 
         c = -1
         index_list = []
@@ -580,8 +582,14 @@ class ViewLoansRequest(Screen):
                     icon="card-account-details-outline"
                 ),
                 text=f"Loan ID : {loan_id[i]}",
-                secondary_text=f"Borrower Name: {borrower_name[i]}",
-                tertiary_text=f"Status: {loan_status[i]}",
+                secondary_text=f"Borrower Name : {borrower_name[i]}",
+                tertiary_text=f"Product Name : {product_name[i]}",
+                text_color=(0, 0, 0, 1),  # Black color
+                theme_text_color='Custom',
+                secondary_text_color=(0, 0, 0, 1),
+                secondary_theme_text_color='Custom',
+                tertiary_text_color=(0, 0, 0, 1),
+                tertiary_theme_text_color='Custom'
             )
             item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
             self.ids.container.add_widget(item)
@@ -660,13 +668,16 @@ class ViewLoansRequest(Screen):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'LenderDashboard'
+
     def refresh(self):
         self.ids.container.clear_widgets()
         self.__init__()
+
     def get_table_data(self):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('get_table_data')
+
 
 class ViewLoansProfileScreen(Screen):
     def __init__(self, **kwargs):
@@ -900,7 +911,6 @@ class ViewLoansProfileScreenLR(Screen):
             return
 
 
-
 class ViewLoansProfileScreenRL(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -961,4 +971,3 @@ class ViewLoansProfileScreenRL(Screen):
 
 class MyScreenManager(ScreenManager):
     pass
-

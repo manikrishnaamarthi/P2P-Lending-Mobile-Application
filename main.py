@@ -9,7 +9,6 @@ anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 
 class MyApp(MDApp):
     def build(self):
-
         sm = ScreenManager(transition=SlideTransition())
         main_screen = MainScreen(name='MainScreen')
 
