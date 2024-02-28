@@ -6,6 +6,10 @@ from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
 from kivy.utils import platform
 from kivy.clock import mainthread
 from kivymd.uix.filemanager import MDFileManager
+from kivymd.uix.snackbar import Snackbar
+from kivymd.uix.spinner import MDSpinner
+from kivy.uix.modalview import ModalView
+from kivy.clock import Clock
 
 if platform == 'android':
     from kivy.uix.button import Button
@@ -460,6 +464,20 @@ Builder.load_string(kv)
 
 class DashboardScreenVLB(Screen):
     def go_to_open_loans(self):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
+                               background_color=(0, 0, 0, 0))  # Set background color to white
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.performance_go_to_open_loans(modal_view), 2)
+
+
+    def performance_go_to_open_loans(self,modal_view):
+        modal_view.dismiss()
         sm = self.manager
 
         # Create a new instance of the LoginScreen
@@ -471,7 +489,23 @@ class DashboardScreenVLB(Screen):
         # Switch to the LoginScreen
         sm.current = 'OpenLoanVLB'
 
+
     def go_to_under_loans(self):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
+                               background_color=(0, 0, 0, 0))  # Set background color to white
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.performance_go_to_under_loans(modal_view), 2)
+
+
+    def performance_go_to_under_loans(self, modal_view):
+
+        modal_view.dismiss()
         sm = self.manager
 
         # Create a new instance of the LoginScreen
@@ -483,7 +517,23 @@ class DashboardScreenVLB(Screen):
         # Switch to the LoginScreen
         sm.current = 'UnderProcessLoanVLB'
 
+
+
     def go_to_reject_loans(self):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
+                               background_color=(0, 0, 0, 0))  # Set background color to white
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.performance_go_to_reject_loans(modal_view), 2)
+
+    def performance_go_to_reject_loans(self, modal_view):
+
+        modal_view.dismiss()
         sm = self.manager
 
         # Create a new instance of the LoginScreen
@@ -495,7 +545,24 @@ class DashboardScreenVLB(Screen):
         # Switch to the LoginScreen
         sm.current = 'RejectedLoanVLB'
 
+
+
     def go_to_app_tracker(self):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
+                               background_color=(0, 0, 0, 0))  # Set background color to white
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.performance_go_to_app_tracker(modal_view), 2)
+
+
+    def performance_go_to_app_tracker(self, modal_view):
+
+        modal_view.dismiss()
         sm = self.manager
 
         # Create a new instance of the LoginScreen
@@ -507,7 +574,24 @@ class DashboardScreenVLB(Screen):
         # Switch to the LoginScreen
         sm.current = 'ClosedLoanVLB'
 
+
+
     def go_to_foreclose_loans(self):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
+                               background_color=(0, 0, 0, 0))  # Set background color to white
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.performance_go_to_foreclose_loans(modal_view), 2)
+
+
+    def performance_go_to_foreclose_loans(self, modal_view):
+
+        modal_view.dismiss()
         sm = self.manager
 
         # Create a new instance of the LoginScreen
