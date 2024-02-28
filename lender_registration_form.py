@@ -29,7 +29,7 @@ from kivy.uix.modalview import ModalView
 from kivymd.uix.spinner import MDSpinner
 from kivy.clock import Clock
 
-anvil.server.connect("server_XMDWJM7BS6DPVJBNFH3FTXDG-GKKVNXBTBX6VWVHY")
+anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 
 from lender_dashboard import LenderDashboard
 

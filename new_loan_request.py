@@ -1,7 +1,8 @@
 import anvil
 
 from kivy.core.window import Window
-from kivy.properties import ListProperty
+from kivy.properties import ListProperty, Clock
+from kivy.uix.modalview import ModalView
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager, SlideTransition
@@ -14,6 +15,9 @@ from kivymd.uix.dialog import MDDialog, dialog
 import anvil.server
 from kivy.uix.spinner import Spinner
 from datetime import datetime
+
+from kivymd.uix.spinner import MDSpinner
+
 anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 
 user_helpers2 = """
@@ -513,7 +517,7 @@ class NewloanScreen(Screen):
         Window.bind(on_keyboard=self.on_back_button)
 
         # Specify the customer_id for which you want to fetch the credit_limit
-        customer_id = "1000"
+        customer_id = "100000"
 
         try:
             # Call the Anvil server function to get the latest credit limit for the specified customer_id
@@ -546,6 +550,21 @@ class NewloanScreen(Screen):
         self.manager.current = 'DashboardScreen'
 
     def go_to_newloan_screen1(self):
+
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
+                               background_color=(0, 0, 0, 0))  # Set background color to white
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.performance_go_to_newloan_screen1(modal_view), 2)
+
+
+    def performance_go_to_newloan_screen1(self,modal_view):
+
         selected_group = self.ids.group_id1.text
         selected_category = self.ids.group_id2.text
         self.selected_category = selected_category
@@ -563,6 +582,7 @@ class NewloanScreen(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'NewloanScreen1'
+        modal_view.dismiss()
         print(self.selected_category)
         print(product_name)
 
@@ -658,6 +678,19 @@ class NewloanScreen1(Screen):
         self.manager.current = 'NewloanScreen'
 
     def go_to_newloan_screen2(self):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
+                               background_color=(0, 0, 0, 0))  # Set background color to white
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.performance_go_to_newloan_screen2(modal_view), 2)
+
+    def performance_go_to_newloan_screen2(self,modal_view):
+
         loan_amount = self.ids.text_input1.text
         loan_tenure = self.ids.text_input2.text
         # Get the existing ScreenManager
@@ -671,6 +704,8 @@ class NewloanScreen1(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'NewloanScreen2'
+        modal_view.dismiss()
+
 
 
 class NewloanScreen2(Screen):
@@ -731,13 +766,24 @@ class NewloanScreen2(Screen):
         return loan_id
 
     def send_request(self):
+        # Show modal view with spinner
+        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
+                               background_color=(0, 0, 0, 0))  # Set background color to white
+        spinner = MDSpinner()
+        modal_view.add_widget(spinner)
+        modal_view.open()
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.performance_send_request(modal_view), 2)
+
+    def performance_send_request(self,modal_view):
         loan_amount = float(self.ids.loan_amount.text)
         loan_tenure = float(self.root_screen.ids.text_input2.text)
         selected_category = self.root_screen.selected_category
         roi = float(self.ids.roi.text)
         total_repayment = float(self.ids.total.text)
         date_of_apply = datetime.now().date()
-
 
         # Call the Anvil server function to add loan data
         try:
@@ -749,8 +795,10 @@ class NewloanScreen2(Screen):
                 total_repayment,
                 date_of_apply
             )
+            modal_view.dismiss()
             self.show_success_dialog(f"Loan details added successfully! Loan ID: {loan_id}")
         except anvil._server.AnvilWrappedError as e:
+            modal_view.dismiss()
             # Show error notification
             print(f"Anvil error: {e}")
 
