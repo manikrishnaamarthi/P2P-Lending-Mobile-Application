@@ -65,7 +65,7 @@ view_loan_request = """
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: dp(650)
+                        height: dp(680)
 
                         padding: [10, 0,0,0]
                         canvas.before:
@@ -141,13 +141,13 @@ view_loan_request = """
                                 halign: "center"
 
                             MDLabel:
-                                text: "Credit Limit:" 
+                                text: "Product Name:" 
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
                                 bold: True
                             MDLabel:
-                                id: limit
+                                id: product_name
                                 text: "" 
                                 size_hint_y:None
                                 height:dp(50)
@@ -184,6 +184,18 @@ view_loan_request = """
                                 bold: True
                             MDLabel:
                                 id: loan_id
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Loan Status:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: status
                                 text: "" 
                                 size_hint_y:None
                                 height:dp(50)
@@ -237,7 +249,7 @@ view_loan_request = """
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: dp(650)
+                        height: dp(680)
 
                         padding: [10, 0,0,0]
                         canvas.before:
@@ -313,13 +325,13 @@ view_loan_request = """
                                 halign: "center"
 
                             MDLabel:
-                                text: "Credit Limit:" 
+                                text: "Product Name:" 
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
                                 bold: True
                             MDLabel:
-                                id: limit
+                                id: product_name
                                 text: "" 
                                 size_hint_y:None
                                 height:dp(50)
@@ -356,6 +368,18 @@ view_loan_request = """
                                 bold: True
                             MDLabel:
                                 id: loan_id
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                            MDLabel:
+                                text: "Loan Status:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: status
                                 text: "" 
                                 size_hint_y:None
                                 height:dp(50)
@@ -407,7 +431,7 @@ view_loan_request = """
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: dp(650)
+                        height: dp(680)
 
                         padding: [10, 0,0,0]
                         canvas.before:
@@ -484,13 +508,13 @@ view_loan_request = """
                                 halign: "center"
 
                             MDLabel:
-                                text: "Credit Limit:" 
+                                text: "Product Name:" 
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
                                 bold: True
                             MDLabel:
-                                id: limit
+                                id: product_name
                                 text: "" 
                                 size_hint_y:None
                                 height:dp(50)
@@ -531,6 +555,18 @@ view_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
+                            MDLabel:
+                                text: "Loan Status:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: status
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
 
                         MDBoxLayout:
                             orientation: "vertical"
@@ -550,6 +586,7 @@ class ViewLoansRequest(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         data = self.get_table_data()
+        profile = self.profile()
         customer_id = []
         loan_id = []
         borrower_name = []
@@ -564,6 +601,11 @@ class ViewLoansRequest(Screen):
             loan_status.append(i['loan_updated_status'])
             product_name.append(i['product_name'])
 
+        profile_customer_id =[]
+        profile_mobile_number = []
+        for i in profile:
+            profile_customer_id.append(i['customer_id'])
+            profile_mobile_number.append(i['mobile'])
         c = -1
         index_list = []
         for i in range(s):
@@ -576,13 +618,14 @@ class ViewLoansRequest(Screen):
         for i in index_list:
             b += 1
             k += 1
+            number = profile_customer_id.index(customer_id[i])
             item = ThreeLineAvatarIconListItem(
 
                 IconLeftWidget(
                     icon="card-account-details-outline"
                 ),
-                text=f"Loan ID : {loan_id[i]}",
-                secondary_text=f"Borrower Name : {borrower_name[i]}",
+                text=f"Borrower Name : {borrower_name[i]}",
+                secondary_text=f"Mobile Number : {profile_mobile_number[number]}",
                 tertiary_text=f"Product Name : {product_name[i]}",
                 text_color=(0, 0, 0, 1),  # Black color
                 theme_text_color='Custom',
@@ -591,17 +634,16 @@ class ViewLoansRequest(Screen):
                 tertiary_text_color=(0, 0, 0, 1),
                 tertiary_theme_text_color='Custom'
             )
-            item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
+            item.bind(on_release=lambda instance, loan_id=loan_id[i]: self.icon_button_clicked(instance, loan_id))
             self.ids.container.add_widget(item)
 
-    def icon_button_clicked(self, instance):
+    def icon_button_clicked(self, instance, loan_id):
         # Handle the on_release event here
-        value = instance.text.split(':')
-        value = value[-1][1:]
+        print(loan_id)
         data = self.get_table_data()  # Fetch data here
         loan_status = None
         for loan in data:
-            if loan['loan_id'] == value:
+            if loan['loan_id'] == loan_id:
                 loan_status = loan['loan_updated_status']
                 break
 
@@ -618,7 +660,8 @@ class ViewLoansRequest(Screen):
 
             # Switch to the LoginScreen
             sm.current = 'ViewLoansProfileScreenLR'
-            self.manager.get_screen('ViewLoansProfileScreenLR').initialize_with_value(value, data)
+            self.manager.get_screen('ViewLoansProfileScreenLR').initialize_with_value(loan_id, data)
+
         elif loan_status == 'under process':
             # Open the screen for pending loans
             sm = self.manager
@@ -631,7 +674,7 @@ class ViewLoansRequest(Screen):
 
             # Switch to the LoginScreen
             sm.current = 'ViewLoansProfileScreen'
-            self.manager.get_screen('ViewLoansProfileScreen').initialize_with_value(value, data)
+            self.manager.get_screen('ViewLoansProfileScreen').initialize_with_value(loan_id, data)
         elif loan_status == 'rejected':
             # Open the screen for pending loans
             sm = self.manager
@@ -644,7 +687,7 @@ class ViewLoansRequest(Screen):
 
             # Switch to the LoginScreen
             sm.current = 'ViewLoansProfileScreenRL'
-            self.manager.get_screen('ViewLoansProfileScreenRL').initialize_with_value(value, data)
+            self.manager.get_screen('ViewLoansProfileScreenRL').initialize_with_value(loan_id, data)
         else:
             # Handle other loan statuses or show an error message
             pass
@@ -677,6 +720,8 @@ class ViewLoansRequest(Screen):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('get_table_data')
+    def profile(self):
+        return anvil.server.call('profile')
 
 
 class ViewLoansProfileScreen(Screen):
@@ -687,15 +732,20 @@ class ViewLoansProfileScreen(Screen):
         self.manager.current = 'ViewLoansRequest'
 
     def initialize_with_value(self, value, data):
+        profile = self.profile()
+        profile_customer_id = []
+        profile_mobile_number = []
+        for i in profile:
+            profile_customer_id.append(i['customer_id'])
+            profile_mobile_number.append(i['mobile'])
         customer_id = []
         loan_id = []
         tenure = []
         interest_rate = []
         loan_amount = []
-        member_rom = []
-        member_since = []
-        credit_limit = []
-        beseem_score = []
+        date_of_apply = []
+        loan_status = []
+        product_name = []
         name = []
         for i in data:
             customer_id.append(i['borrower_customer_id'])
@@ -703,18 +753,27 @@ class ViewLoansProfileScreen(Screen):
             tenure.append(i['tenure'])
             interest_rate.append(i['interest_rate'])
             loan_amount.append(i['loan_amount'])
-            credit_limit.append(i['credit_limit'])
+            product_name.append(i['product_name'])
             name.append(i['borrower_full_name'])
+            date_of_apply.append(i['borrower_loan_created_timestamp'])
+            loan_status.append(i['loan_updated_status'])
 
         if value in loan_id:
             index = loan_id.index(value)
+            number = profile_customer_id.index(customer_id[index])
             self.ids.loan_id.text = str(loan_id[index])
             self.ids.user1.text = str(customer_id[index])
             self.ids.interest.text = str(interest_rate[index])
             self.ids.tenure.text = str(tenure[index])
             self.ids.amount_applied.text = str(loan_amount[index])
-            self.ids.limit.text = str(credit_limit[index])
+            self.ids.product_name.text = str(product_name[index])
             self.ids.name.text = str(name[index])
+            self.ids.date.text = str(date_of_apply[index])
+            self.ids.status.text = str(loan_status[index])
+            self.ids.number.text = str(profile_mobile_number[number])
+
+    def profile(self):
+        return anvil.server.call('profile')
 
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
@@ -815,15 +874,20 @@ class ViewLoansProfileScreenLR(Screen):
         self.manager.current = 'ViewLoansRequest'
 
     def initialize_with_value(self, value, data):
+        profile = self.profile()
+        profile_customer_id = []
+        profile_mobile_number = []
+        for i in profile:
+            profile_customer_id.append(i['customer_id'])
+            profile_mobile_number.append(i['mobile'])
         customer_id = []
         loan_id = []
         tenure = []
         interest_rate = []
         loan_amount = []
-        member_rom = []
-        member_since = []
-        credit_limit = []
-        beseem_score = []
+        date_of_apply = []
+        loan_status = []
+        product_name = []
         name = []
         for i in data:
             customer_id.append(i['borrower_customer_id'])
@@ -831,18 +895,28 @@ class ViewLoansProfileScreenLR(Screen):
             tenure.append(i['tenure'])
             interest_rate.append(i['interest_rate'])
             loan_amount.append(i['loan_amount'])
-            credit_limit.append(i['credit_limit'])
+            product_name.append(i['product_name'])
             name.append(i['borrower_full_name'])
+            date_of_apply.append(i['borrower_loan_created_timestamp'])
+            loan_status.append(i['loan_updated_status'])
 
         if value in loan_id:
             index = loan_id.index(value)
+            number = profile_customer_id.index(customer_id[index])
             self.ids.loan_id.text = str(loan_id[index])
             self.ids.user1.text = str(customer_id[index])
             self.ids.interest.text = str(interest_rate[index])
             self.ids.tenure.text = str(tenure[index])
             self.ids.amount_applied.text = str(loan_amount[index])
-            self.ids.limit.text = str(credit_limit[index])
+            self.ids.product_name.text = str(product_name[index])
             self.ids.name.text = str(name[index])
+            self.ids.date.text = str(date_of_apply[index])
+            self.ids.status.text = str(loan_status[index])
+            self.ids.number.text = str(profile_mobile_number[number])
+
+    def profile(self):
+        return anvil.server.call('profile')
+
 
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
@@ -919,15 +993,20 @@ class ViewLoansProfileScreenRL(Screen):
         self.manager.current = 'ViewLoansRequest'
 
     def initialize_with_value(self, value, data):
+        profile = self.profile()
+        profile_customer_id = []
+        profile_mobile_number = []
+        for i in profile:
+            profile_customer_id.append(i['customer_id'])
+            profile_mobile_number.append(i['mobile'])
         customer_id = []
         loan_id = []
         tenure = []
         interest_rate = []
         loan_amount = []
-        member_rom = []
-        member_since = []
-        credit_limit = []
-        beseem_score = []
+        date_of_apply = []
+        loan_status = []
+        product_name = []
         name = []
         for i in data:
             customer_id.append(i['borrower_customer_id'])
@@ -935,18 +1014,28 @@ class ViewLoansProfileScreenRL(Screen):
             tenure.append(i['tenure'])
             interest_rate.append(i['interest_rate'])
             loan_amount.append(i['loan_amount'])
-            credit_limit.append(i['credit_limit'])
+            product_name.append(i['product_name'])
             name.append(i['borrower_full_name'])
+            date_of_apply.append(i['borrower_loan_created_timestamp'])
+            loan_status.append(i['loan_updated_status'])
 
         if value in loan_id:
             index = loan_id.index(value)
+            number = profile_customer_id.index(customer_id[index])
             self.ids.loan_id.text = str(loan_id[index])
             self.ids.user1.text = str(customer_id[index])
             self.ids.interest.text = str(interest_rate[index])
             self.ids.tenure.text = str(tenure[index])
             self.ids.amount_applied.text = str(loan_amount[index])
-            self.ids.limit.text = str(credit_limit[index])
+            self.ids.product_name.text = str(product_name[index])
             self.ids.name.text = str(name[index])
+            self.ids.date.text = str(date_of_apply[index])
+            self.ids.status.text = str(loan_status[index])
+            self.ids.number.text = str(profile_mobile_number[number])
+
+    def profile(self):
+        return anvil.server.call('profile')
+
 
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
