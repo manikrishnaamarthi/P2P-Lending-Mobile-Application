@@ -625,7 +625,7 @@ class ViewLoansRequest(Screen):
                     icon="card-account-details-outline"
                 ),
                 text=f"Borrower Name : {borrower_name[i]}",
-                secondary_text=f"Mobile Number : {profile_mobile_number[number]}",
+                secondary_text=f"Borrower Number : {profile_mobile_number[number]}",
                 tertiary_text=f"Product Name : {product_name[i]}",
                 text_color=(0, 0, 0, 1),  # Black color
                 theme_text_color='Custom',
@@ -775,6 +775,9 @@ class ViewLoansProfileScreen(Screen):
     def profile(self):
         return anvil.server.call('profile')
 
+    def email_user(self):
+        return anvil.server.call('another_method')
+
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_back_button)
@@ -791,6 +794,21 @@ class ViewLoansProfileScreen(Screen):
         return False  # Continue handling the event
 
     def approved_click(self):
+        profile = self.profile()
+        email_user = self.email_user()
+        profile_customer_id = []
+        profile_email = []
+        profile_name = []
+        for i in profile:
+            profile_customer_id.append(i['customer_id'])
+            profile_email.append(i['email_user'])
+            profile_name.append(i['full_name'])
+
+        if email_user in profile_email:
+            email_index = profile_email.index(email_user)
+        else:
+            print("no email found")
+
         approved_date = datetime.now()
         data = self.get_table_data()
         loan_id = self.ids.loan_id.text
@@ -804,6 +822,9 @@ class ViewLoansProfileScreen(Screen):
             index = loan_idlist.index(loan_id)
             data[index]['loan_updated_status'] = 'approved'
             data[index]['lender_accepted_timestamp'] = approved_date
+            data[index]['lender_customer_id'] = profile_customer_id[email_index]
+            data[index]['lender_full_name'] = profile_name[email_index]
+            data[index]['lender_email_id'] = profile_email[email_index]
             self.manager.current = 'ViewLoansRequest'
             self.show_snackbar(f"This Loan ID {loan_id} is Approved")
             return
