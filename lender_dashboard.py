@@ -16,6 +16,8 @@ from lender_foreclosure_request import DashboardScreenLF
 from kivy.uix.modalview import ModalView
 from kivymd.uix.spinner import MDSpinner
 from kivy.clock import Clock
+from kivy.animation import Animation
+from kivymd.uix.label import MDLabel
 
 
 if platform == 'android':
@@ -1423,7 +1425,30 @@ class LenderDashboard(Screen):
         self.manager.current = 'MainScreen'
 
     def profile(self):
+        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+
+        # Create MDLabel with white text color, increased font size, and bold text
+        loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
+                                theme_text_color="Custom", text_color=[1, 1, 1, 1],
+                                font_size="25sp", bold=True)
+
+        # Set initial y-position off-screen
+        loading_label.y = -loading_label.height
+
+        modal_view.add_widget(loading_label)
+        modal_view.open()
+
+        # Perform the animation
+        self.animate_loading_text(loading_label, modal_view.height)
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.permformance_profile(modal_view), 2)
+
+
+    def permformance_profile(self, modal_view):
         # self.manager.current = 'ViewProfileScreen'
+        modal_view.dismiss()
         sm = self.manager
 
         # Create a new instance of the LoginScreen
@@ -1435,17 +1460,35 @@ class LenderDashboard(Screen):
         # Switch to the LoginScreen
         sm.current = 'ViewProfileScreen'
 
+
     def view_loan_request(self):
-        # Show modal view with spinner
-        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
-                               background_color=(0, 0, 0, 0))  # Set background color to white
-        spinner = MDSpinner()
-        modal_view.add_widget(spinner)
+        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+
+        # Create MDLabel with white text color, increased font size, and bold text
+        loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
+                                theme_text_color="Custom", text_color=[1, 1, 1, 1],
+                                font_size="25sp", bold=True)
+
+        # Set initial y-position off-screen
+        loading_label.y = -loading_label.height
+
+        modal_view.add_widget(loading_label)
         modal_view.open()
+
+        # Perform the animation
+        self.animate_loading_text(loading_label, modal_view.height)
 
         # Perform the actual action (e.g., fetching loan requests)
         # You can replace the sleep with your actual logic
         Clock.schedule_once(lambda dt: self.perform_loan_request_action(modal_view), 2)
+
+    def animate_loading_text(self, loading_label, modal_height):
+        # Define the animation to move the label vertically
+        anim = Animation(y=modal_height - loading_label.height, duration=1) + \
+               Animation(y=0, duration=1)
+        anim.bind(on_complete=lambda *args: self.animate_loading_text(loading_label,
+                                                                      modal_height))  # Bind to the completion event to repeat the animation
+        anim.start(loading_label)
 
     def perform_loan_request_action(self, modal_view):
         # Close the modal view after performing the action
@@ -1457,12 +1500,21 @@ class LenderDashboard(Screen):
         sm.current = 'ViewLoansRequest'
 
     def view_loanscreen(self):
-        # Show modal view with spinner
-        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
-                               background_color=(0, 0, 0, 0))  # Set background color to white
-        spinner = MDSpinner()
-        modal_view.add_widget(spinner)
+        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+
+        # Create MDLabel with white text color, increased font size, and bold text
+        loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
+                                theme_text_color="Custom", text_color=[1, 1, 1, 1],
+                                font_size="25sp", bold=True)
+
+        # Set initial y-position off-screen
+        loading_label.y = -loading_label.height
+
+        modal_view.add_widget(loading_label)
         modal_view.open()
+
+        # Perform the animation
+        self.animate_loading_text(loading_label, modal_view.height)
 
         # Perform the actual action (e.g., fetching loan requests)
         # You can replace the sleep with your actual logic
@@ -1478,12 +1530,21 @@ class LenderDashboard(Screen):
         sm.current = 'ViewLoansScreen'
 
     def newloan_extension(self):
-        # Show modal view with spinner
-        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
-                               background_color=(0, 0, 0, 0))  # Set background color to white
-        spinner = MDSpinner()
-        modal_view.add_widget(spinner)
+        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+
+        # Create MDLabel with white text color, increased font size, and bold text
+        loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
+                                theme_text_color="Custom", text_color=[1, 1, 1, 1],
+                                font_size="25sp", bold=True)
+
+        # Set initial y-position off-screen
+        loading_label.y = -loading_label.height
+
+        modal_view.add_widget(loading_label)
         modal_view.open()
+
+        # Perform the animation
+        self.animate_loading_text(loading_label, modal_view.height)
 
         # Perform the actual action (e.g., fetching loan requests)
         # You can replace the sleep with your actual logic
@@ -1504,6 +1565,29 @@ class LenderDashboard(Screen):
         sm.current = 'NewExtension'
 
     def view_loan_foreclose(self):
+        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+
+        # Create MDLabel with white text color, increased font size, and bold text
+        loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
+                                theme_text_color="Custom", text_color=[1, 1, 1, 1],
+                                font_size="25sp", bold=True)
+
+        # Set initial y-position off-screen
+        loading_label.y = -loading_label.height
+
+        modal_view.add_widget(loading_label)
+        modal_view.open()
+
+        # Perform the animation
+        self.animate_loading_text(loading_label, modal_view.height)
+
+        # Perform the actual action (e.g., fetching loan requests)
+        # You can replace the sleep with your actual logic
+        Clock.schedule_once(lambda dt: self.performance_view_loan_foreclose(modal_view), 2)
+
+
+    def performance_view_loan_foreclose(self,modal_view):
+        modal_view.dismiss()
         sm = self.manager
 
         # Create a new instance of the LoginScreen
@@ -1516,10 +1600,21 @@ class LenderDashboard(Screen):
         sm.current = 'DashboardScreenLF'
 
     def go_to_wallet(self):
-        modal_view = ModalView(size_hint=(None, None), size=(100, 100), background_color=[0, 0, 0, 0])
-        spinner = MDSpinner()
-        modal_view.add_widget(spinner)
+        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+
+        # Create MDLabel with white text color, increased font size, and bold text
+        loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
+                                theme_text_color="Custom", text_color=[1, 1, 1, 1],
+                                font_size="25sp", bold=True)
+
+        # Set initial y-position off-screen
+        loading_label.y = -loading_label.height
+
+        modal_view.add_widget(loading_label)
         modal_view.open()
+
+        # Perform the animation
+        self.animate_loading_text(loading_label, modal_view.height)
 
         # Perform the actual action (e.g., fetching loan requests)
         # You can replace the sleep with your actual logic
@@ -1540,8 +1635,6 @@ class LenderDashboard(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'WalletScreen'
-
-
 
 
 class ViewProfileScreen(Screen):

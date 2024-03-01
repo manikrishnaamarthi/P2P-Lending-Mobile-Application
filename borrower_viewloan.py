@@ -10,6 +10,8 @@ from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.spinner import MDSpinner
 from kivy.uix.modalview import ModalView
 from kivy.clock import Clock
+from kivy.animation import Animation
+from kivymd.uix.label import MDLabel
 
 if platform == 'android':
     from kivy.uix.button import Button
@@ -463,20 +465,36 @@ Builder.load_string(kv)
 
 
 class DashboardScreenVLB(Screen):
+    def animate_loading_text(self, loading_label, modal_height):
+        # Define the animation to move the label vertically
+        anim = Animation(y=modal_height - loading_label.height, duration=1) + \
+               Animation(y=0, duration=1)
+        anim.bind(on_complete=lambda *args: self.animate_loading_text(loading_label,
+                                                                      modal_height))  # Bind to the completion event to repeat the animation
+        anim.start(loading_label)
+
     def go_to_open_loans(self):
-        # Show modal view with spinner
-        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
-                               background_color=(0, 0, 0, 0))  # Set background color to white
-        spinner = MDSpinner()
-        modal_view.add_widget(spinner)
+        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+
+        # Create MDLabel with white text color, increased font size, and bold text
+        loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
+                                theme_text_color="Custom", text_color=[1, 1, 1, 1],
+                                font_size="25sp", bold=True)
+
+        # Set initial y-position off-screen
+        loading_label.y = -loading_label.height
+
+        modal_view.add_widget(loading_label)
         modal_view.open()
+
+        # Perform the animation
+        self.animate_loading_text(loading_label, modal_view.height)
 
         # Perform the actual action (e.g., fetching loan requests)
         # You can replace the sleep with your actual logic
         Clock.schedule_once(lambda dt: self.performance_go_to_open_loans(modal_view), 2)
 
-
-    def performance_go_to_open_loans(self,modal_view):
+    def performance_go_to_open_loans(self, modal_view):
         modal_view.dismiss()
         sm = self.manager
 
@@ -489,23 +507,35 @@ class DashboardScreenVLB(Screen):
         # Switch to the LoginScreen
         sm.current = 'OpenLoanVLB'
 
-
     def go_to_under_loans(self):
-        # Show modal view with spinner
-        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
-                               background_color=(0, 0, 0, 0))  # Set background color to white
-        spinner = MDSpinner()
-        modal_view.add_widget(spinner)
+        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+
+        # Create MDLabel with white text color, increased font size, and bold text
+        loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
+                                theme_text_color="Custom", text_color=[1, 1, 1, 1],
+                                font_size="25sp", bold=True)
+
+        # Set initial y-position off-screen
+        loading_label.y = -loading_label.height
+
+        modal_view.add_widget(loading_label)
         modal_view.open()
+
+        # Perform the animation
+        self.animate_loading_text(loading_label, modal_view.height)
 
         # Perform the actual action (e.g., fetching loan requests)
         # You can replace the sleep with your actual logic
         Clock.schedule_once(lambda dt: self.performance_go_to_under_loans(modal_view), 2)
 
-
     def performance_go_to_under_loans(self, modal_view):
+        # Perform the actual action here (e.g., fetching loan requests)
+        # For demonstration purposes, let's simulate a delay of 2 seconds
+        # Replace this with your actual logic
 
+        # Dismiss the modal view once the action is complete
         modal_view.dismiss()
+
         sm = self.manager
 
         # Create a new instance of the LoginScreen
@@ -517,22 +547,28 @@ class DashboardScreenVLB(Screen):
         # Switch to the LoginScreen
         sm.current = 'UnderProcessLoanVLB'
 
-
-
     def go_to_reject_loans(self):
-        # Show modal view with spinner
-        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
-                               background_color=(0, 0, 0, 0))  # Set background color to white
-        spinner = MDSpinner()
-        modal_view.add_widget(spinner)
+        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+
+        # Create MDLabel with white text color, increased font size, and bold text
+        loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
+                                theme_text_color="Custom", text_color=[1, 1, 1, 1],
+                                font_size="25sp", bold=True)
+
+        # Set initial y-position off-screen
+        loading_label.y = -loading_label.height
+
+        modal_view.add_widget(loading_label)
         modal_view.open()
+
+        # Perform the animation
+        self.animate_loading_text(loading_label, modal_view.height)
 
         # Perform the actual action (e.g., fetching loan requests)
         # You can replace the sleep with your actual logic
         Clock.schedule_once(lambda dt: self.performance_go_to_reject_loans(modal_view), 2)
 
     def performance_go_to_reject_loans(self, modal_view):
-
         modal_view.dismiss()
         sm = self.manager
 
@@ -545,23 +581,28 @@ class DashboardScreenVLB(Screen):
         # Switch to the LoginScreen
         sm.current = 'RejectedLoanVLB'
 
-
-
     def go_to_app_tracker(self):
-        # Show modal view with spinner
-        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
-                               background_color=(0, 0, 0, 0))  # Set background color to white
-        spinner = MDSpinner()
-        modal_view.add_widget(spinner)
+        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+
+        # Create MDLabel with white text color, increased font size, and bold text
+        loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
+                                theme_text_color="Custom", text_color=[1, 1, 1, 1],
+                                font_size="25sp", bold=True)
+
+        # Set initial y-position off-screen
+        loading_label.y = -loading_label.height
+
+        modal_view.add_widget(loading_label)
         modal_view.open()
+
+        # Perform the animation
+        self.animate_loading_text(loading_label, modal_view.height)
 
         # Perform the actual action (e.g., fetching loan requests)
         # You can replace the sleep with your actual logic
         Clock.schedule_once(lambda dt: self.performance_go_to_app_tracker(modal_view), 2)
 
-
     def performance_go_to_app_tracker(self, modal_view):
-
         modal_view.dismiss()
         sm = self.manager
 
@@ -574,23 +615,28 @@ class DashboardScreenVLB(Screen):
         # Switch to the LoginScreen
         sm.current = 'ClosedLoanVLB'
 
-
-
     def go_to_foreclose_loans(self):
-        # Show modal view with spinner
-        modal_view = ModalView(size_hint=(None, None), size=(100, 100),
-                               background_color=(0, 0, 0, 0))  # Set background color to white
-        spinner = MDSpinner()
-        modal_view.add_widget(spinner)
+        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+
+        # Create MDLabel with white text color, increased font size, and bold text
+        loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
+                                theme_text_color="Custom", text_color=[1, 1, 1, 1],
+                                font_size="25sp", bold=True)
+
+        # Set initial y-position off-screen
+        loading_label.y = -loading_label.height
+
+        modal_view.add_widget(loading_label)
         modal_view.open()
+
+        # Perform the animation
+        self.animate_loading_text(loading_label, modal_view.height)
 
         # Perform the actual action (e.g., fetching loan requests)
         # You can replace the sleep with your actual logic
         Clock.schedule_once(lambda dt: self.performance_go_to_foreclose_loans(modal_view), 2)
 
-
     def performance_go_to_foreclose_loans(self, modal_view):
-
         modal_view.dismiss()
         sm = self.manager
 
