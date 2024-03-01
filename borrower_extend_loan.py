@@ -4,19 +4,17 @@ from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
+from kivymd.uix.list import *
+from kivy.lang import Builder
+from kivy.core.window import Window
 from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
-import sqlite3
-from kivymd.app import MDApp
-from kivymd.uix.list import ThreeLineAvatarIconListItem, IconLeftWidget
 
 anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 
 extension_loan_request = """
 <WindowManager>:
     ExtensionLoansRequest:
-    ExtensionLoansProfileScreen2:
     ExtensionLoansProfileScreen:
-    ExtensionLoansProfileScreen1:
     ExtendLoansScreen:
 
 <ExtensionLoansRequest> 
@@ -57,17 +55,20 @@ extension_loan_request = """
                     orientation: 'vertical'
                     size_hint_y: None
                     height: self.minimum_height
+                    width:self.minimum_width
                     padding: dp(20)
+                    spacing:dp(20)
                     BoxLayout:
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: dp(950)
+                        height: dp(700)
                         padding: [10, 0,0,0]
                         canvas.before:
                             Color:
                                 rgba: 0, 0, 0, 1  # Blue color for the box
                             Line:
+                                width:0.7
                                 rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
 
                         MDGridLayout:
@@ -79,6 +80,7 @@ extension_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
+                                bold: True
                             MDLabel:
                                 id: user1
                                 text: "" 
@@ -88,12 +90,13 @@ extension_loan_request = """
                         MDGridLayout:
                             cols: 2
                             spacing: dp(10)
-                            padding: dp(10)    
+                            padding: dp(10)
                             MDLabel:
                                 text: "Loan ID" 
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
+                                bold: True
                             MDLabel:
                                 id: loan_id
                                 text: "" 
@@ -103,12 +106,13 @@ extension_loan_request = """
                         MDGridLayout:
                             cols: 2
                             spacing: dp(10)
-                            padding: dp(10)    
+                            padding: dp(10)
                             MDLabel:
                                 text: "Name" 
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
+                                bold: True
                             MDLabel:
                                 id: name
                                 text: "" 
@@ -118,11 +122,44 @@ extension_loan_request = """
                         MDGridLayout:
                             cols: 2
                             spacing: dp(10)
-                            padding: dp(10)   
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Phone Number:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: number
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                        MDGridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Product Name:" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: product_name
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                        MDGridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
                             MDLabel:
                                 text: "Loan Tenure" 
                                 size_hint_y:None
                                 height:dp(50)
+                                bold: True
                                 halign: "center"
                             MDLabel:
                                 id: tenure
@@ -133,10 +170,11 @@ extension_loan_request = """
                         MDGridLayout:
                             cols: 2
                             spacing: dp(10)
-                            padding: dp(10)    
+                            padding: dp(10)
                             MDLabel:
                                 text: "Interest Rate" 
                                 size_hint_y:None
+                                bold: True
                                 height:dp(50)
                                 halign: "center"
                             MDLabel:
@@ -148,11 +186,12 @@ extension_loan_request = """
                         MDGridLayout:
                             cols: 2
                             spacing: dp(10)
-                            padding: dp(10)    
+                            padding: dp(10)
                             MDLabel:
                                 text: "Extension Allowed" 
                                 size_hint_y:None
                                 height:dp(50)
+                                bold: True
                                 halign: "center"
                             MDLabel:
                                 id: extension_allowed
@@ -163,11 +202,12 @@ extension_loan_request = """
                         MDGridLayout:
                             cols: 2
                             spacing: dp(10)
-                            padding: dp(10)    
+                            padding: dp(10)
                             MDLabel:
                                 text: "Extension Fees" 
                                 size_hint_y:None
                                 height:dp(50)
+                                bold: True
                                 halign: "center"
                             MDLabel:
                                 id: extension_fee
@@ -178,11 +218,12 @@ extension_loan_request = """
                         MDGridLayout:
                             cols: 2
                             spacing: dp(10)
-                            padding: dp(10)    
+                            padding: dp(10)
                             MDLabel:
                                 text: "Extension Months" 
                                 size_hint_y:None
                                 height:dp(50)
+                                bold: True
                                 halign: "center"
                             MDTextField:
                                 hint_text: ""
@@ -190,192 +231,20 @@ extension_loan_request = """
                                 height:dp(50)
                                 size_hint_y:None
                                 halign: "center"
-                        MDRaisedButton:
-                            id:extension_request
-                            text: "Extension Request"
-                            md_bg_color: 5/255, 235/255, 77/255, 1
-                            theme_text_color: 'Primary'
-                            font_name: "Roboto-Bold.ttf"
-                            text_color: 0, 0, 0, 1
-                            size_hint: 1, None
-                            on_release:root.on_next()
-<ExtensionLoansProfileScreen1>
-    BoxLayout:
-        orientation: 'vertical'
-        MDTopAppBar:
-            title: "Extension Loan Request"
-            elevation: 3
-            left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
-
-        ScrollView:
-            MDBoxLayout:
-                orientation: 'vertical'
-                size_hint_y: None
-                height: self.minimum_height
-                BoxLayout:
-                    id: box1
-                    orientation: 'vertical'
-                    size_hint_y: None
-                    MDLabel:
-                        text: " Borrower Extension Request"
-                        halign: "center"
-                        bold: True
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    size_hint_y: None
-                    height: self.minimum_height
-                    padding: dp(20)
-                    BoxLayout:
-                        id: box1
-                        orientation: 'vertical'
-                        size_hint_y: None
-                        height: dp(950)
-                        padding: [10, 0,0,0]
-                        canvas.before:
-                            Color:
-                                rgba: 0, 0, 0, 1  # Blue color for the box
-                            Line:
-                                rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
-
                         MDGridLayout:
-                            cols: 2
+                            cols: 1
                             spacing: dp(10)
                             padding: dp(10)
-                            MDLabel:
-                                text: "User ID" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                            MDLabel:
-                                id: user1
-                                text: "" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                        MDGridLayout:
-                            cols: 2
-                            spacing: dp(10)
-                            padding: dp(10)    
-                            MDLabel:
-                                text: "Loan ID" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                            MDLabel:
-                                id: loan_id
-                                text: "" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                        MDGridLayout:
-                            cols: 2
-                            spacing: dp(10)
-                            padding: dp(10)    
-                            MDLabel:
-                                text: "Name" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                            MDLabel:
-                                id: name
-                                text: "" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                        MDGridLayout:
-                            cols: 2
-                            spacing: dp(10)
-                            padding: dp(10)    
-                            MDLabel:
-                                text: "Loan Tenure" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                            MDLabel:
-                                id: tenure
-                                text: "" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                        MDGridLayout:
-                            cols: 2
-                            spacing: dp(10)
-                            padding: dp(10)    
-                            MDLabel:
-                                text: "Interest Rate" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                            MDLabel:
-                                id: interest
-                                text: "" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                        MDGridLayout:
-                            cols: 2
-                            spacing: dp(10)
-                            padding: dp(10)    
-                            MDLabel:
-                                text: "Extension Allowed" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                            MDLabel:
-                                id: extension_allowed
-                                text:""
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                        MDGridLayout:
-                            cols: 2
-                            spacing: dp(10)
-                            padding: dp(10)    
-                            MDLabel:
-                                text: "Extension Fees" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                            MDLabel:
-                                id: extension_fee
-                                text: "" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                        MDGridLayout:
-                            cols: 2
-                            spacing: dp(10)
-                            padding: dp(10)    
-                            MDLabel:
-                                text: "Extension Months" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                            MDLabel:
-                                text: ""
-                                id: extension_months
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                        MDGridLayout:
-                            cols: 2
-                            spacing: dp(10)
-                            padding: dp(10)
-                            MDLabel:
-                                text: "Your Requested Extension Loan has been Underprocess" 
-                                size_hint_y:None
-                                height:dp(50)
-                                halign: "center"
-                                bold: True           
-
-                        MDRaisedButton:
-                            text: "Extension Request"
-                            md_bg_color: 5/255, 235/255, 77/255, 1
-                            theme_text_color: 'Primary'
-                            font_name: "Roboto-Bold.ttf"
-                            text_color: 0, 0, 0, 1
-                            size_hint: 1, None
-                            on_release:root.on_next()
+                            MDRaisedButton:
+                                id:extension_request
+                                text: "Extension Request"
+                                md_bg_color: 5/255, 235/255, 77/255, 1
+                                theme_text_color: 'Primary'
+                                font_name: "Roboto-Bold.ttf"
+                                text_color: 0, 0, 0, 1
+                                size_hint: 1, None
+                                height: "40dp"
+                                on_release:root.on_extend()
 
 <ExtendLoansScreen>
     BoxLayout:
@@ -407,7 +276,7 @@ extension_loan_request = """
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: dp(950)
+                        height: dp(900)
                         padding: [10, 0,0,0]
                         canvas.before:
                             Color:
@@ -424,6 +293,7 @@ extension_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
+                                bold: True
                             MDLabel:
                                 id: loan_id
                                 text: "" 
@@ -439,12 +309,14 @@ extension_loan_request = """
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
+                                bold: True
                             MDLabel:
                                 id: loan_amount
                                 text: "" 
                                 size_hint_y:None
                                 height:dp(50)
                                 halign: "center"
+
                         MDGridLayout:
                             cols: 2
                             spacing: dp(10)
@@ -453,6 +325,7 @@ extension_loan_request = """
                                 text: "Extension Fee" 
                                 size_hint_y:None
                                 height:dp(50)
+                                bold: True
                                 halign: "center"
                             MDLabel:
                                 id: extension_fee
@@ -468,6 +341,7 @@ extension_loan_request = """
                                 text: "Extension Amount" 
                                 size_hint_y:None
                                 height:dp(50)
+                                bold: True
                                 halign: "center"
                             MDLabel:
                                 id: extension_amount
@@ -483,6 +357,7 @@ extension_loan_request = """
                                 text: "Finial Repayment Amount" 
                                 size_hint_y:None
                                 height:dp(50)
+                                bold: True
                                 halign: "center"
                             MDLabel:
                                 id: finial_repayment_amount
@@ -498,6 +373,7 @@ extension_loan_request = """
                                 text: "New EMI" 
                                 size_hint_y:None
                                 height:dp(50)
+                                bold: True
                                 halign: "center"
                             MDLabel:
                                 id: new_emi
@@ -507,7 +383,7 @@ extension_loan_request = """
                                 halign: "center"
                         MDGridLayout:
                             cols: 1
-                            spacing: dp(10)
+                            spacing: dp(5)
                             padding: dp(10)
                             MDLabel:
                                 text: "Reason For Extended Loan:" 
@@ -534,14 +410,19 @@ extension_loan_request = """
                                 theme_text_color: 'Primary'
                                 halign: 'left'
                                 valign: 'center'
+                                bold: True
 
-                        MDRaisedButton:
-                            text: "Submit"
-                            md_bg_color: 5/255, 235/255, 77/255, 1
-                            theme_text_color: 'Primary'
-                            font_name: "Roboto-Bold.ttf"
-                            text_color: 0, 0, 0, 1
-                            size_hint: 1, None
+                        MDGridLayout:
+                            cols: 1
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDRaisedButton:
+                                text: "Submit"
+                                md_bg_color: 5/255, 235/255, 77/255, 1
+                                theme_text_color: 'Primary'
+                                font_name: "Roboto-Bold.ttf"
+                                text_color: 0, 0, 0, 1
+                                size_hint: 1, None
 """
 Builder.load_string(extension_loan_request)
 
@@ -550,11 +431,13 @@ class ExtensionLoansRequest(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         data = self.get_table_data()
+        profile = self.profile()
         customer_id = []
         loan_id = []
         borrower_name = []
         loan_status = []
         tenure = []
+        product_name = []
         s = 0
         for i in data:
             s += 1
@@ -563,6 +446,13 @@ class ExtensionLoansRequest(Screen):
             borrower_name.append(i['borrower_full_name'])
             loan_status.append(i['loan_updated_status'])
             tenure.append(i['tenure'])
+            product_name.append(i['product_name'])
+
+        profile_customer_id = []
+        profile_mobile_number = []
+        for i in profile:
+            profile_customer_id.append(i['customer_id'])
+            profile_mobile_number.append(i['mobile'])
         c = -1
         index_list = []
         for i in range(s):
@@ -575,20 +465,31 @@ class ExtensionLoansRequest(Screen):
         for i in index_list:
             b += 1
             k += 1
+            number = profile_customer_id.index(customer_id[i])
             item = ThreeLineAvatarIconListItem(
 
                 IconLeftWidget(
                     icon="card-account-details-outline"
                 ),
-                text=f"Loan ID : {loan_id[i]}",
-                secondary_text=f"Borrower Name: {borrower_name[i]}",
-                tertiary_text=f"Status: {loan_status[i]}",
+                text=f"Borrower Name : {borrower_name[i]}",
+                secondary_text=f"Mobile Number : {profile_mobile_number[number]}",
+                tertiary_text=f"Product Name : {product_name[i]}",
+                text_color=(0, 0, 0, 1),  # Black color
+                theme_text_color='Custom',
+                secondary_text_color=(0, 0, 0, 1),
+                secondary_theme_text_color='Custom',
+                tertiary_text_color=(0, 0, 0, 1),
+                tertiary_theme_text_color='Custom'
             )
-            item.bind(on_release=self.icon_button_clicked)  # Corrected the binding
+            item.bind(on_release=lambda instance, loan_id=loan_id[i]: self.icon_button_clicked(instance,
+                                                                                               loan_id))  # Corrected the binding
             self.ids.container1.add_widget(item)
 
     def on_back_button_press(self):
         self.manager.current = 'DashboardScreen'
+
+    def profile(self):
+        return anvil.server.call('profile')
 
     def get_table_data(self):
         # Make a call to the Anvil server function
@@ -599,25 +500,25 @@ class ExtensionLoansRequest(Screen):
         self.ids.container1.clear_widgets()
         self.__init__()
 
-    def icon_button_clicked(self, instance):
-        value = instance.text.split(':')
-        value = value[-1][1:]
+    def icon_button_clicked(self, instance, loan_id):
+        print(loan_id)
         data = self.get_table_data()  # Fetch data here
         loan_status = None
         for loan in data:
-            if loan['loan_id'] == value:
+            if loan['loan_id'] == loan_id:
                 loan_status = loan['loan_updated_status']
                 break
 
         if loan_status == 'disbursed':
             # Open the screen for approved loans
-            sm=self.manager
-            disbursed=ExtensionLoansProfileScreen(name='ExtensionLoansProfileScreen')
+            sm = self.manager
+            disbursed = ExtensionLoansProfileScreen(name='ExtensionLoansProfileScreen')
             sm.add_widget(disbursed)
             sm.current = 'ExtensionLoansProfileScreen'
-            self.manager.get_screen('ExtensionLoansProfileScreen').initialize_with_value(value, data)
+            self.manager.get_screen('ExtensionLoansProfileScreen').initialize_with_value(loan_id, data)
         else:
             pass
+
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_keyboard)
@@ -649,36 +550,50 @@ class ExtensionLoansRequest(Screen):
     def on_start(self):
         Window.softinput_mode = "below_target"
 
+
 class ExtensionLoansProfileScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
     def initialize_with_value(self, value, data):
+        profile = self.profile()
+        profile_customer_id = []
+        profile_mobile_number = []
+        for i in profile:
+            profile_customer_id.append(i['customer_id'])
+            profile_mobile_number.append(i['mobile'])
+        product = self.product()
+        extension_allowed = []
+        extension_fee = []
+        for i in product:
+            extension_allowed.append(i['extension_allowed'])
+            extension_fee.append(i['extension_fee'])
         customer_id = []
         loan_id = []
         name = []
         tenure = []
         interest_rate = []
-        extension_allowed = []
-        extension_fee = []
-        extension_months = []
+        product_name = []
         for i in data:
             customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
             tenure.append(i['tenure'])
+            product_name.append(i['product_name'])
             interest_rate.append(i['interest_rate'])
-            extension_allowed.append(i['application_status'])
-            # extension_fee.append(i('extend_fee'))
             name.append(i['borrower_full_name'])
 
         if value in loan_id:
             index = loan_id.index(value)
+            number = profile_customer_id.index(customer_id[index])
             self.ids.loan_id.text = str(loan_id[index])
             self.ids.user1.text = str(customer_id[index])
             self.ids.interest.text = str(interest_rate[index])
             self.ids.tenure.text = str(tenure[index])
-            # self.ids.extension_allowed.active = bool(extension_allowed[index])
-            # self.ids.extension_fee.text = str(extension_fee[index])
+            self.ids.product_name.text = str(product_name[index])
+            self.ids.extension_allowed.text = str(extension_allowed[index])
+            self.ids.extension_fee.text = str(extension_fee[index])
             self.ids.name.text = str(name[index])
+            self.ids.number.text = str(profile_mobile_number[number])
             print(index)
             # Check if the button exists in ids before accessing its attributes
             if int(tenure[index] >= 12):
@@ -691,6 +606,12 @@ class ExtensionLoansProfileScreen(Screen):
         popup = Popup(title=title, content=Label(text=content), size_hint=(None, None), size=(400, 200))
         popup.open()
 
+    def product(self):
+        return anvil.server.call('product')
+
+    def profile(self):
+        return anvil.server.call('profile')
+
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_keyboard)
@@ -700,7 +621,6 @@ class ExtensionLoansProfileScreen(Screen):
         # Unbind the back button event when leaving the screen
         Window.bind(on_keyboard=self.on_keyboard)
         Window.bind(on_keyboard=self.on_back_button)
-
 
     def on_back_button(self, instance, key, scancode, codepoint, modifier):
         # Handle the back button event
@@ -713,88 +633,19 @@ class ExtensionLoansProfileScreen(Screen):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'ExtensionLoansRequest'
+
     def on_back_button_press(self):
         self.manager.current = 'ExtensionLoansRequest'
 
-    def on_next(self):
+    def on_extend(self):
         data = self.get_table_data()
+        loan_id = self.ids.loan_id.text
         sm = self.manager
-        profile = ExtensionLoansProfileScreen1(name='ExtensionLoansProfileScreen1')
-        sm.add_widget(profile)  # Add the screen to the ScreenManager
-        sm.current = 'ExtensionLoansProfileScreen1'
-        self.manager.get_screen('ExtensionLoansProfileScreen1').initialize_with_value(value, data)
-
-    def on_keyboard(self, window, key, *args):
-        if key == 27:  # Key code for the 'Escape' key
-            # Keyboard is closed, move the screen down
-            self.screen_manager.y = 0
-        return True
-
-    def on_start(self):
-        Window.softinput_mode = "below_target"
-
-    def get_table_data(self):
-        # Make a call to the Anvil server function
-        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
-        return anvil.server.call('get_table_data')
-
-    def extension_loans_profile_screen1(self,value):
-        data=self.get_table_data()
-        sm=self.manager
-        profile=ExtensionLoansProfileScreen1(name='ExtensionLoansProfileScreen1')
-        sm.add_widget(profile)
-        sm.current='ExtensionLoansProfileScreen1'
-        self.manager.get_screen('ExtensionLoansProfileScreen1').initialize_with_value(value, data)
-
-class ExtensionLoansProfileScreen1(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-    def initialize_with_value(self, value, data):
-        customer_id = []
-        loan_id = []
-        name = []
-        tenure = []
-        interest_rate = []
-        extension_allowed = []
-        extension_fee = []
-        extension_months = []
-
-        for i in data:
-            customer_id.append(i['borrower_customer_id'])
-            loan_id.append(i['loan_id'])
-            tenure.append(i['tenure'])
-            interest_rate.append(i['interest_rate'])
-            extension_allowed.append(i['application_status'])
-            # extension_fee.append(i('extend_fee'))
-            name.append(i['borrower_full_name'])
-        if value in loan_id:
-            index = loan_id.index(value)
-            self.ids.loan_id.text = str(loan_id[index])
-            self.ids.user1.text = str(customer_id[index])
-            self.ids.interest.text = str(interest_rate[index])
-            self.ids.tenure.text = str(tenure[index])
-            # Update the following lines for the checkbox and other fields
-            # self.ids.extension_allowed.active = bool(extension_allowed[index])
-            # self.ids.extension_fee.text = str(extension_fee[index])
-            self.ids.name.text = str(name[index])
-            print(index)
-
-    def on_back_button_press(self):
-        self.manager.current = 'ExtensionLoansProfileScreen'
-
-    def get_table_data(self):
-        # Make a call to the Anvil server function
-        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
-        return anvil.server.call('get_table_data')
-
-    def on_next(self):
-        data = self.get_table_data()
-        sm = self.manager
+        self.loan_id = self.ids.loan_id.text
         profile = ExtendLoansScreen(name='ExtendLoansScreen')
-        sm.add_widget(profile)
+        sm.add_widget(profile)  # Add the screen to the ScreenManager
         sm.current = 'ExtendLoansScreen'
-        self.manager.get_screen('ExtendLoansScreen').initialize_with_value(value, data)
+        self.manager.get_screen('ExtendLoansScreen').initialize_with_value(loan_id, data)
 
     def on_keyboard(self, window, key, *args):
         if key == 27:  # Key code for the 'Escape' key
@@ -804,63 +655,55 @@ class ExtensionLoansProfileScreen1(Screen):
 
     def on_start(self):
         Window.softinput_mode = "below_target"
-    def on_pre_enter(self):
-        # Bind the back button event to the on_back_button method
-        Window.bind(on_keyboard=self.on_keyboard)
-        Window.bind(on_keyboard=self.on_back_button)
 
-    def on_pre_leave(self):
-        # Unbind the back button event when leaving the screen
-        Window.bind(on_keyboard=self.on_keyboard)
-        Window.bind(on_keyboard=self.on_back_button)
+    def get_table_data(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('get_table_data')
 
-
-    def on_back_button(self, instance, key, scancode, codepoint, modifier):
-        # Handle the back button event
-        if key == 27:  # 27 is the keycode for the hardware back button on Android
-            self.go_back()
-            return True  # Consume the event, preventing further handling
-        return False  # Continue handling the event
-
-    def go_back(self):
-        # Navigate to the previous screen with a slide transition
-        self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'ExtensionLoansProfileScreen'
 
 class ExtendLoansScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def on_back_button_press(self):
-        self.manager.current = 'ExtensionLoansProfileScreen1'
+        self.manager.current = 'ExtensionLoansProfileScreen'
 
     def initialize_with_value(self, value, data):
+        profile = self.profile()
+        profile_customer_id = []
+        profile_mobile_number = []
+        for i in profile:
+            profile_customer_id.append(i['customer_id'])
+            profile_mobile_number.append(i['mobile'])
+        product = self.product()
+        extension_fee = []
+        for i in product:
+            extension_fee.append(i['extension_fee'])
         loan_id = []
         loan_amount = []
-        extension_fee = []
-        extension_amount = []
+        product_name = []
         new_emi = []
         finial_repayment_amount = []
         reason = []
+        customer_id = []
 
         for i in data:
             loan_id.append(i['loan_id'])
             loan_amount.append(i['loan_amount'])
-            #extension_amount.append(i['extension_amount'])
-            #extension_fee.append(i['extend_fee'])
-            #new_emi.append(i['new_emi'])
-            #finial_repayment_amount.append(i['final_repayment_amount'])
-            #reason.append(i['reason'])
+            # new_emi.append(i['new_emi'])
+            # finial_repayment_amount.append(i['final_repayment_amount'])
+            # reason.append(i['reason'])
 
         if value in loan_id:
             index = loan_id.index(value)
+            # Assign values to UI elements
             self.ids.loan_id.text = str(loan_id[index])
             self.ids.loan_amount.text = str(loan_amount[index])
-            #self.ids.extension_fee.text = str(extension_fee[index])
-            # Update the following lines for the checkbox and other fields
-            #self.ids.new_emi.text = str(new_emi[index])
-            #self.ids.finial_repayment_amount.text = str(finial_repayment_amount[index])
-            #self.ids.reason.text = str(reason[index])
+            self.ids.extension_fee.text = str(extension_fee[index])
+
+        else:
+            pass
 
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
@@ -878,6 +721,7 @@ class ExtendLoansScreen(Screen):
             self.go_back()
             return True  # Consume the event, preventing further handling
         return False  # Continue handling the event
+
     def on_keyboard(self, window, key, *args):
         if key == 27:  # Key code for the 'Escape' key
             # Keyboard is closed, move the screen down
@@ -890,7 +734,14 @@ class ExtendLoansScreen(Screen):
     def go_back(self):
         # Navigate to the previous screen with a slide transition
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'ExtensionLoansProfileScreen1'
+        self.manager.current = 'ExtensionLoansProfileScreen'
+
+    def profile(self):
+        return anvil.server.call('profile')
+
+    def product(self):
+        return anvil.server.call('product')
+
 
 class MyScreenManager(ScreenManager):
     pass

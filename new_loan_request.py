@@ -196,6 +196,7 @@ user_helpers2 = """
                 size_hint:0.4, None  
                 font_name:"Roboto-Bold"
                 font_size:dp(15)
+                on_release:root.add_data()
         MDLabel:
             text: " "  
 <NewloanScreen1>:
