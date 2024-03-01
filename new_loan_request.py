@@ -71,6 +71,24 @@ user_helpers2 = """
                     id: credit_limit        
                     text: "" 
                     font_size:dp(20)
+                    
+        MDGridLayout:
+            cols: 2
+            BoxLayout:
+                orientation:"horizontal"
+                pos_hint: {'center_x':0.5, 'center_y':0.5}
+                padding: dp(25)
+                spacing: dp(20)
+                MDLabel:
+                    text: "Product ID" 
+                    color:0.031, 0.463, 0.91, 1
+                    bold:True
+                    font_size:dp(23)
+                MDLabel:
+                    id: product_id       
+                    text: "" 
+                    font_size:dp(20)
+                    
         MDGridLayout:
             cols: 2
             BoxLayout:
@@ -513,18 +531,33 @@ class NewloanScreen(Screen):
             print(f"Error in load_product_names: {e}")
             self.product_names = ['Select Product Name']
 
+    def add_data(self):
+        product_id = str(self.ids.product_id.text)
+        product_name = str(self.ids.product_id1.text)
+        # Call the Anvil server function to add loan data
+        try:
+            anvil.server.call(
+                'add_loan',
+                product_id,
+                product_name,
+
+            )
+
+        except anvil._server.AnvilWrappedError as e:
+            # Show error notification
+            print(f"Anvil error: {e}")
+
     def on_pre_enter(self, *args):
         Window.bind(on_keyboard=self.on_back_button)
-
-        # Specify the customer_id for which you want to fetch the credit_limit
-        customer_id = "100000"
-
         try:
+
             # Call the Anvil server function to get the latest credit limit for the specified customer_id
-            credit_limit = anvil.server.call('get_credit_limit', customer_id)
+            credit_limit = anvil.server.call('get_credit_limit')
+            product_id = anvil.server.call('get_product')
 
             # Update the credit_limit MDLabel with the fetched data
             self.ids.credit_limit.text = str(credit_limit)
+            self.ids.product_id.text = str(product_id)
         except anvil._server.AnvilWrappedError as e:
             print(f"Anvil error: {e}")
 
