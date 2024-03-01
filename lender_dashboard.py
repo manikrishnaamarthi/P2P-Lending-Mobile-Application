@@ -1605,28 +1605,28 @@ class ViewProfileScreen(Screen):
         if email in email1:
             index = email1.index(email)
             self.ids.customer_id.text = str(customer[index])
-            self.ids.username.text = name[index]
+            self.ids.username.text = str(name[index])
             self.ids.text_input1.text = str(mobile[index])
             self.ids.text_input2.text = str(date_of_birth[index])
-            self.ids.text_input3.text = gender[index]
-            self.ids.text_input4.text = alternate_email[index]
+            self.ids.text_input3.text = str(gender[index])
+            self.ids.text_input4.text = str(alternate_email[index])
             self.ids.text_input5.text = str(government_type1[index])
             self.ids.text_input6.text = str(government_type2[index])
-            self.ids.text_input7.text = highest_qualification[index]
-            self.ids.text_input8.text = street_name[index]
-            self.ids.text_input9.text = city[index]
-            self.ids.text_input10.text = zipcode[index]
-            self.ids.text_input110.text = state[index]
-            self.ids.text_input11.text = country[index]
-            self.ids.text_input12.text = loan_type1[index]
-            self.ids.text_input13.text = investment[index]
-            self.ids.text_input14.text = lending_period[index]
-            self.ids.text_input15.text = user_type[index]
-            self.ids.text_input16.text = acholder_name[index]
-            self.ids.text_input17.text = account_type[index]
+            self.ids.text_input7.text = str(highest_qualification[index])
+            self.ids.text_input8.text = str(street_name[index])
+            self.ids.text_input9.text = str(city[index])
+            self.ids.text_input10.text = str(zipcode[index])
+            self.ids.text_input110.text = str(state[index])
+            self.ids.text_input11.text = str(country[index])
+            self.ids.text_input12.text = str(loan_type1[index])
+            self.ids.text_input13.text = str(investment[index])
+            self.ids.text_input14.text = str(lending_period[index])
+            self.ids.text_input15.text = str(user_type[index])
+            self.ids.text_input16.text = str(acholder_name[index])
+            self.ids.text_input17.text = str(account_type[index])
             self.ids.text_input18.text = str(account_number[index])
-            self.ids.text_input19.text = bank_name[index]
-            self.ids.text_input20.text = bank_id[index]
+            self.ids.text_input19.text = str(bank_name[index])
+            self.ids.text_input20.text = str(bank_id[index])
             self.ids.text_input21.text = str(branch_name[index])
 
         else:
