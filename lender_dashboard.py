@@ -13,6 +13,7 @@ from lender_view_loans import ViewLoansScreen
 from lender_view_loans_request import ViewLoansRequest
 from lender_view_extension_request import NewExtension
 from lender_foreclosure_request import DashboardScreenLF
+from lender_today_due import TodayDuesTD
 from kivy.uix.modalview import ModalView
 from kivymd.uix.spinner import MDSpinner
 from kivy.clock import Clock
@@ -109,11 +110,13 @@ user_helpers1 = """
                         halign: "center"
                         text_color:1,1,1,1
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        
             MDFlatButton:
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 md_bg_color:0.031, 0.463, 0.91, 1 
+                on_release: root.lender_today_due()
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -1459,6 +1462,18 @@ class LenderDashboard(Screen):
 
         # Switch to the LoginScreen
         sm.current = 'ViewProfileScreen'
+    def lender_today_due(self):
+        sm = self.manager
+
+        # Create a new instance of the LoginScreen
+        profile_screen = TodayDuesTD(name='TodayDuesTD')
+
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(profile_screen)
+
+        # Switch to the LoginScreen
+        sm.current = 'TodayDuesTD'
+
 
 
     def view_loan_request(self):
@@ -1490,6 +1505,14 @@ class LenderDashboard(Screen):
                                                                       modal_height))  # Bind to the completion event to repeat the animation
         anim.start(loading_label)
 
+    def perform_loan_request_action(self, modal_view):
+        # Close the modal view after performing the action
+        modal_view.dismiss()
+
+        sm = self.manager
+        profile_screen = ViewLoansRequest(name='ViewLoansRequest')
+        sm.add_widget(profile_screen)
+        sm.current = 'ViewLoansRequest'
     def perform_loan_request_action(self, modal_view):
         # Close the modal view after performing the action
         modal_view.dismiss()

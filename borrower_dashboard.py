@@ -10,7 +10,7 @@ from kivy.clock import mainthread
 from kivymd.uix.filemanager import MDFileManager
 from kivymd.uix.spinner import MDSpinner
 from borrower_extend_loan import ExtensionLoansRequest
-from borrower_application_tracker import ApplicationTrackerScreen
+from borrower_application_tracker import ALLLoansAPT
 from new_loan_request import NewloanScreen
 from borrower_viewloan import DashboardScreenVLB
 from borrower_foreclosure import LoansDetailsB
@@ -2611,13 +2611,13 @@ class DashboardScreen(Screen):
         sm = self.manager
 
         # Create a new instance of the LoginScreen
-        login_screen = ApplicationTrackerScreen(name='ApplicationTrackerScreen')
+        login_screen = ALLLoansAPT(name='ALLLoansAPT')
 
         # Add the LoginScreen to the existing ScreenManager
         sm.add_widget(login_screen)
 
         # Switch to the LoginScreen
-        sm.current = 'ApplicationTrackerScreen'
+        sm.current = 'ALLLoansAPT'
 
     def go_to_extend(self):
         modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
