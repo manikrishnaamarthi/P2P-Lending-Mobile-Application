@@ -8,7 +8,7 @@ from kivymd.app import MDApp
 from kivymd.uix.list import ThreeLineAvatarIconListItem, IconLeftWidget
 import anvil.server
 
-anvil.server.connect("server_K3TZHB42B6XUL7H4MUMSN2OP-6EK7FWYUEN6B7XVG")
+anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 
 lender_today_due = '''
 

@@ -69,7 +69,7 @@ user_helpers1 = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
 
                 size_hint_y: None
                 height: dp(60)
@@ -93,7 +93,7 @@ user_helpers1 = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color:0.031, 0.463, 0.91, 1 
+                md_bg_color:0.043, 0.145, 0.278, 1 
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -115,7 +115,7 @@ user_helpers1 = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color:0.031, 0.463, 0.91, 1 
+                md_bg_color:0.043, 0.145, 0.278, 1 
                 on_release: root.lender_today_due()
                 size_hint_y: None
                 height: dp(60)
@@ -138,7 +138,7 @@ user_helpers1 = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color:0.031, 0.463, 0.91, 1 
+                md_bg_color:0.043, 0.145, 0.278, 1
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -160,7 +160,7 @@ user_helpers1 = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color:0.031, 0.463, 0.91, 1  
+                md_bg_color:0.043, 0.145, 0.278, 1  
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -183,7 +183,7 @@ user_helpers1 = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color:0.031, 0.463, 0.91, 1 
+                md_bg_color:0.043, 0.145, 0.278, 1 
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -207,7 +207,7 @@ user_helpers1 = """
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 on_release: root.newloan_extension()
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -228,7 +228,7 @@ user_helpers1 = """
             MDFlatButton:
                 size_hint: None, None
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1
                 on_release: root.view_loan_foreclose()
                 size_hint_y: None
                 height: dp(60)
@@ -250,7 +250,7 @@ user_helpers1 = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color:0.031, 0.463, 0.91, 1 
+                md_bg_color:0.043, 0.145, 0.278, 1 
                 size_hint_y: None
                 height: dp(60)
                 size_hint_x: None
@@ -275,7 +275,7 @@ user_helpers1 = """
             theme_text_color: 'Custom'
             text_color: 1,1,1,1
             pos_hint: {'center_x': 0.92, 'center_y': 0.1}
-            md_bg_color: 0.031, 0.463, 0.91, 1              
+            md_bg_color: 0.043, 0.145, 0.278, 1              
 <ViewProfileScreen>
     canvas.before:
         Color:

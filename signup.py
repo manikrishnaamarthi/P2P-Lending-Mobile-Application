@@ -137,7 +137,7 @@ KV = """
             MDRaisedButton:
                 text: "Back"
                 on_release: app.root.get_screen("MainScreen").manager.current = 'MainScreen'
-                md_bg_color: 0.031, 0.463, 0.91, 1
+                md_bg_color:0.043, 0.145, 0.278, 1
                 theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
                 size_hint: 1, None
@@ -147,7 +147,7 @@ KV = """
             MDRaisedButton:
                 text: "Signup"
                 on_release: root.go_to_login()
-                md_bg_color: 0.031, 0.463, 0.91, 1
+                md_bg_color: 0.043, 0.145, 0.278, 1
                 pos_hint: {'right': 1, 'y': 0.5}
                 size_hint: 1, None
                 height: "50dp"
