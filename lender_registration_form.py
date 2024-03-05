@@ -876,7 +876,7 @@ KV = '''
                 valign: 'middle'  # Align the label text vertically in the center
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
-                text: "Upload B.tech/B.E certificate"
+                text: "Upload Bachelors certificate"
                 halign: 'center'
                 bold: True
 
@@ -1068,7 +1068,7 @@ KV = '''
                 valign: 'middle'  # Align the label text vertically in the center
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
-                text: "Upload B.tech/B.E Certificate"
+                text: "Upload Bachelors certificate"
                 halign: 'center'
                 bold: True
 
@@ -1306,7 +1306,7 @@ KV = '''
                 valign: 'middle'  # Align the label text vertically in the center
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             MDLabel:
-                text: "Upload Btech/B.E Certificate"
+                text: "Upload Bachelors certificate"
                 halign: 'center'
                 bold: True
 
@@ -2042,7 +2042,7 @@ KV = '''
         title: "P2P LENDING"
         elevation: 2
         pos_hint: {'top': 1}
-        left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenInstitutionalForm4')]]
+        left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenInstitutionalForm3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
 
@@ -4667,10 +4667,10 @@ class LenderScreenInstitutionalForm3(Screen):
             print('email not found')
         # self.manager.current = 'LenderScreenInstitutionalForm4'
         sm = self.manager
-        lender_screen = LenderScreenInstitutionalForm4(name='LenderScreenInstitutionalForm4')
+        lender_screen = LenderScreenInstitutionalForm5(name='LenderScreenInstitutionalForm5')
         sm.add_widget(lender_screen)
         sm.transition.direction = 'left'  # Set the transition direction explicitly
-        sm.current = 'LenderScreenInstitutionalForm4'
+        sm.current = 'LenderScreenInstitutionalForm5'
 
     def on_last_six_months_turnover_touch_down(self):
         # Change keyboard mode to numeric when the mobile number text input is touched
@@ -4931,7 +4931,7 @@ class LenderScreenInstitutionalForm5(Screen):
 
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'LenderScreenInstitutionalForm4'
+        self.manager.current = 'LenderScreenInstitutionalForm3'
 
 
 class LenderScreenIndividualForm1(Screen):
@@ -4939,6 +4939,7 @@ class LenderScreenIndividualForm1(Screen):
     def get_email(self):
         data = anvil.server.call('another_method')
         return data
+
 
     def profile(self):
         return anvil.server.call('profile')

@@ -190,7 +190,7 @@ user_helpers2 = """
         MDFloatLayout:
             MDRaisedButton:
                 text: "Next"
-                md_bg_color: 0.031, 0.463, 0.91, 1
+                md_bg_color: 0.043, 0.145, 0.278, 1
                 on_release: root.go_to_newloan_screen1()
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 size_hint:0.4, None  
@@ -315,7 +315,7 @@ user_helpers2 = """
         MDFloatLayout:
             MDRaisedButton:
                 text: "Next"
-                md_bg_color: 0.031, 0.463, 0.91, 1
+                md_bg_color:0.043, 0.145, 0.278, 1
                 on_release:  root.go_to_newloan_screen2()
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 size_hint:0.4, None  
@@ -449,7 +449,7 @@ user_helpers2 = """
                 MDRaisedButton:
                     text: "Back"
                     on_release: app.root.current = "NewloanScreen1"
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     theme_text_color: 'Custom'
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -458,7 +458,7 @@ user_helpers2 = """
                 MDRaisedButton:
                     text: "Send request"
                     on_release: root.send_request()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     size_hint: 1, None
                     height: "50dp"

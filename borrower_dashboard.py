@@ -42,7 +42,7 @@ user_helpers = """
         size_hint: 1, 1 
 
         MDTopAppBar:
-            md_bg_color:1,1,1,1
+            md_bg_color:11, 37,71,1
             specific_text_color:1/255, 26/255, 51/255, 1
             elevation: 3
             left_action_items: [['account', lambda x: root.go_to_profile()]]
@@ -69,7 +69,7 @@ user_helpers = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1
 
                 size_hint_y: None
                 height: dp(60)
@@ -92,7 +92,7 @@ user_helpers = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
                 on_release: root.go_to_view_loan_screen()
                 size_hint_y: None
                 height: dp(60)
@@ -115,7 +115,7 @@ user_helpers = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
 
                 size_hint_y: None
                 height: dp(60)
@@ -138,7 +138,7 @@ user_helpers = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
 
                 size_hint_y: None
                 height: dp(60)
@@ -163,7 +163,7 @@ user_helpers = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
 
                 size_hint_y: None
                 height: dp(60)
@@ -186,7 +186,7 @@ user_helpers = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
                 on_release: root.go_to_fore_closer_details()
                 size_hint_y: None
                 height: dp(60)
@@ -210,7 +210,7 @@ user_helpers = """
             MDFlatButton:
                 size_hint: None, None
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
                 on_release:root.go_to_extend()
                 size_hint_y: None
                 height: dp(60)
@@ -235,7 +235,7 @@ user_helpers = """
             theme_text_color: 'Custom'
             text_color: 1,1,1,1
             pos_hint: {'center_x': 0.92, 'center_y': 0.1}
-            md_bg_color: 0.031, 0.463, 0.91, 1     
+            md_bg_color: 0.043, 0.145, 0.278, 1     
 
 <ProfileScreen>
     canvas.before:
