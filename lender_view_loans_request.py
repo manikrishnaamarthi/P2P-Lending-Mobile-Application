@@ -12,6 +12,7 @@ from datetime import datetime, timedelta, timezone
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.snackbar import Snackbar
+from lender_wallet import WalletScreen
 
 anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 view_loan_request = """
@@ -618,7 +619,10 @@ class ViewLoansRequest(Screen):
         for i in index_list:
             b += 1
             k += 1
-            number = profile_customer_id.index(customer_id[i])
+            if customer_id[i] in profile_customer_id:
+                number = profile_customer_id.index(customer_id[i])
+            else:
+                number = 0
             item = ThreeLineAvatarIconListItem(
 
                 IconLeftWidget(
@@ -996,7 +1000,16 @@ class ViewLoansProfileScreenLR(Screen):
             self.show_snackbar(f"Amount Paid Successfully {loan_amount[index]} to this Loan ID {loan_id_list[index]}")
             data[index]['loan_updated_status'] = 'disbursed'
             data[index]['loan_disbursed_timestamp'] = paid_time
-            self.manager.current = 'ViewLoansRequest'
+            sm = self.manager
+
+            # Create a new instance of the LoginScreen
+            login_screen = WalletScreen(name='WalletScreen')
+
+            # Add the LoginScreen to the existing ScreenManager
+            sm.add_widget(login_screen)
+
+            # Switch to the LoginScreen
+            sm.current = 'WalletScreen'
             return
 
         elif minutes_difference > 30:
