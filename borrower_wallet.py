@@ -160,7 +160,7 @@ Builder.load_string(
 
         MDRoundFlatButton:
             text: "Submit"
-            md_bg_color: 6/255, 143/255, 236/255, 1
+            md_bg_color: 0.043, 0.145, 0.278, 1
             theme_text_color: 'Custom'
             font_name: "Roboto-Bold" 
             text_color: 1, 1, 1, 1
@@ -194,12 +194,16 @@ class WalletScreen(Screen):
             print("no email found")
     def highlight_button(self, button_type):
         if button_type == 'deposit':
-            self.ids.deposit_button_grid.md_bg_color = 6 / 255, 143 / 255, 236 / 255, 1
+            self.ids.deposit_button_grid.md_bg_color = 0.043, 0.145, 0.278, 1
             self.ids.withdraw_button_grid.md_bg_color = 253 / 255, 254 / 255, 254 / 255, 1
+            self.ids.deposit_button_grid.text_color= 1, 1, 1, 1
+            self.ids.withdraw_button_grid.text_color = 0, 0, 0, 1
             self.type = 'deposit'
         elif button_type == 'withdraw':
             self.ids.deposit_button_grid.md_bg_color = 253 / 255, 254 / 255, 254 / 255, 1
-            self.ids.withdraw_button_grid.md_bg_color = 6 / 255, 143 / 255, 236 / 255, 1
+            self.ids.withdraw_button_grid.md_bg_color = 0.043, 0.145, 0.278, 1
+            self.ids.withdraw_button_grid.text_color = 1, 1, 1, 1
+            self.ids.deposit_button_grid.text_color = 0, 0, 0, 1
             self.type = 'withdraw'
 
     def go_back(self):
