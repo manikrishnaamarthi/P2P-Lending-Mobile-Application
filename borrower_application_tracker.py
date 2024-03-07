@@ -12,9 +12,9 @@ from kivymd.uix.filemanager import MDFileManager
 import sqlite3
 
 from kivymd.uix.list import ThreeLineAvatarIconListItem, IconLeftWidget
+import anvil.server
 
-# anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
-
+anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 
 application_tracker = """
 
@@ -72,13 +72,13 @@ application_tracker = """
                     id: icon1
                     icon: "checkbox-blank-circle-outline"
                     theme_text_color: "Custom"
-                    text_color: 12/255, 105/255, 171/255, 1
+                    text_color: 0.043, 0.145, 0.278, 1
                     size_hint_y: None
                     height: 50
 
                     canvas:
                         Color:
-                            rgba: 12/255, 105/255, 171/255, 1
+                            rgba: 0.043, 0.145, 0.278, 1
                         Line:
                             width: 2
                             points: self.x + dp(24), self.y + dp(12) , self.x + dp(24), self.y - dp(34)
@@ -99,10 +99,10 @@ application_tracker = """
                     size_hint_y: None
                     height: 50
 
-                    text_color: 12/255, 105/255, 171/255, 1
+                    text_color: 0.043, 0.145, 0.278, 1
                     canvas:
                         Color:
-                            rgba: 12/255, 105/255, 171/255, 1
+                            rgba: 0.043, 0.145, 0.278, 1
                         Line:
                             width: 2
                             points: self.x + dp(24), self.y + dp(12) , self.x + dp(24), self.y - dp(34)
@@ -120,12 +120,12 @@ application_tracker = """
                     id: icon3
                     icon: "checkbox-blank-circle-outline"
                     theme_text_color: "Custom"
-                    text_color: 12/255, 105/255, 171/255, 1
+                    text_color: 0.043, 0.145, 0.278, 1
                     size_hint_y: None
                     height: 50
                     canvas:
                         Color:
-                            rgba: 12/255, 105/255, 171/255, 1
+                            rgba: 0.043, 0.145, 0.278, 1
                         Line:
                             width: 2
                             points: self.x + dp(24), self.y + dp(12) , self.x + dp(24), self.y - dp(34)
@@ -143,12 +143,12 @@ application_tracker = """
                     id: icon4
                     icon: "checkbox-blank-circle-outline"
                     theme_text_color: "Custom"
-                    text_color: 12/255, 105/255, 171/255, 1
+                    text_color: 0.043, 0.145, 0.278, 1
                     size_hint_y: None
                     height: 50
                     canvas:
                         Color:
-                            rgba: 12/255, 105/255, 171/255, 1
+                            rgba: 0.043, 0.145, 0.278, 1
                         Line:
                             width: 2
                             points: self.x + dp(24), self.y + dp(12) , self.x + dp(24), self.y - dp(34)
@@ -167,7 +167,7 @@ application_tracker = """
                     id: icon5
                     icon: "checkbox-blank-circle-outline"
                     theme_text_color: "Custom"
-                    text_color: 12/255, 105/255, 171/255, 1
+                    text_color: 0.043, 0.145, 0.278, 1
                     size_hint_y: None
                     height: 50
 
@@ -186,6 +186,146 @@ Builder.load_string(application_tracker)
 
 
 class ApplicationTrackerScreen(Screen):
+    def initialize_with_value(self, value, data):
+        email = self.get_table()
+        profile = self.profile()
+        print(value)
+        loan_id = []
+        loan_amount = []
+        loan_status = []
+
+        for i in data:
+            loan_id.append(i['loan_id'])
+            loan_amount.append(i['loan_amount'])
+            loan_status.append(i['loan_updated_status'])
+
+        profile_email_id = []
+        profile_account_number = []
+
+        for i in profile:
+            profile_email_id.append(i['email_user'])
+            profile_account_number.append(i['account_number'])
+
+        index1 = -1  # Initialize index1 to a default value
+
+        if email in profile_email_id:
+            index1 = profile_email_id.index(email)
+
+
+        if value in loan_id:
+            index = loan_id.index(value)
+            print(f"Loan Status: {loan_status[index]}")
+            print(f"Processing loan with ID {value}")
+            if loan_status[index] == 'under process':
+                print('under process')
+                self.ids.icon1.icon = 'circle-slice-8'
+                self.ids.icon2.icon = 'circle-slice-8'
+                self.ids.label1.theme_text_color = "Custom"
+                self.ids.label1.text_color = 0, 0, 0, 1
+                self.ids.label1.bold = True
+                self.ids.label2.theme_text_color = "Custom"
+                self.ids.label2.text_color = 0, 0, 0, 1
+                self.ids.label2.bold = True
+                self.ids.icon3.icon = 'checkbox-blank-circle-outline'
+                self.ids.label3.theme_text_color = "Custom"
+                self.ids.label3.text_color = 0.043, 0.145, 0.278, 1
+                self.ids.label3.bold = False
+                self.ids.icon4.icon = 'checkbox-blank-circle-outline'
+                self.ids.label4.theme_text_color = "Custom"
+                self.ids.label4.text_color = 0.043, 0.145, 0.278, 1
+                self.ids.label4.bold = False
+                self.ids.icon5.icon = 'checkbox-blank-circle-outline'
+                self.ids.label5.theme_text_color = "Custom"
+                self.ids.label5.text_color = 0.043, 0.145, 0.278, 1
+                self.ids.label5.bold = False
+                self.ids.label1.text = f"Application for {loan_amount[index]} sent"
+
+            elif loan_status[index] == 'approved':
+                self.ids.icon1.icon = 'circle-slice-8'
+                self.ids.icon2.icon = 'circle-slice-8'
+                self.ids.label1.theme_text_color = "Custom"
+                self.ids.label1.text_color = 0, 0, 0, 1
+                self.ids.label1.bold = True
+                self.ids.label2.theme_text_color = "Custom"
+                self.ids.label2.text_color = 0, 0, 0, 1
+                self.ids.label2.bold = True
+                self.ids.label1.text = f"Application for {loan_amount[index]} sent"
+                self.ids.icon3.icon = 'circle-slice-8'
+                self.ids.label3.theme_text_color = "Custom"
+                self.ids.label3.text_color = 0, 0, 0, 1
+                self.ids.label3.text = f'Loan is approved for {loan_amount[index]}'
+                self.ids.label3.bold = True
+                self.ids.icon4.icon = 'circle-slice-8'
+                self.ids.label4.theme_text_color = "Custom"
+                self.ids.label4.text_color = 0, 0, 0, 1
+                self.ids.label4.bold = True
+                self.ids.icon5.icon = 'checkbox-blank-circle-outline'
+                self.ids.label5.theme_text_color = "Custom"
+                self.ids.label5.text_color = 0.043, 0.145, 0.278, 1
+                self.ids.label5.bold = False
+
+            elif loan_status[index] == 'disbursed':
+                self.ids.icon1.icon = 'circle-slice-8'
+                self.ids.icon2.icon = 'circle-slice-8'
+                self.ids.label1.theme_text_color = "Custom"
+                self.ids.label1.text_color = 0, 0, 0, 1
+                self.ids.label1.bold = True
+                self.ids.label2.theme_text_color = "Custom"
+                self.ids.label2.text_color = 0, 0, 0, 1
+                self.ids.label2.bold = True
+                self.ids.label1.text = f"Application for {loan_amount[index]} sent"
+                self.ids.icon3.icon = 'circle-slice-8'
+                self.ids.label3.theme_text_color = "Custom"
+                self.ids.label3.text_color = 0, 0, 0, 1
+                self.ids.label3.text = f'Loan is approved for {loan_amount[index]}'
+                self.ids.label3.bold = True
+                self.ids.icon4.icon = 'circle-slice-8'
+                self.ids.label4.theme_text_color = "Custom"
+                self.ids.label4.text_color = 0, 0, 0, 1
+                self.ids.label4.bold = True
+                self.ids.icon5.icon = 'circle-slice-8'
+                self.ids.label5.theme_text_color = "Custom"
+                self.ids.label5.text_color = 0, 0, 0, 1
+                self.ids.label5.bold = True
+
+            elif loan_status[index] == 'rejected':
+                self.ids.icon1.icon = 'circle-slice-8'
+                self.ids.icon2.icon = 'circle-slice-8'
+                self.ids.label1.theme_text_color = "Custom"
+                self.ids.label1.text_color = 0, 0, 0, 1
+                self.ids.label1.bold = True
+                self.ids.label2.theme_text_color = "Custom"
+                self.ids.label2.text_color = 0, 0, 0, 1
+                self.ids.label2.bold = True
+                self.ids.label1.text = f"Application Rejected"
+                self.ids.icon3.icon = 'cancel'
+                self.ids.label3.theme_text_color = "Custom"
+                self.ids.label3.text_color = 0, 0, 0, 1
+                self.ids.label3.text = f'Loan is Rejected {loan_amount[index]}'
+                self.ids.label3.bold = True
+                self.ids.icon4.icon = 'checkbox-blank-circle-outline'
+                self.ids.label4.theme_text_color = "Custom"
+                self.ids.label4.text_color = 0.043, 0.145, 0.278, 1
+                self.ids.label4.bold = False
+                self.ids.icon5.icon = 'checkbox-blank-circle-outline'
+                self.ids.label5.theme_text_color = "Custom"
+                self.ids.label5.text_color = 0.043, 0.145, 0.278, 1
+                self.ids.label5.bold = False
+
+            if index1 != -1:
+                self.ids.label5.text = f"Loan credited to a/c {profile_account_number[index1]}"
+            else:
+                print("Email not found in profile_email_id")
+
+    def get_table(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('another_method')
+
+    def profile(self):
+        # Make a call to the Anvil server function
+        # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
+        return anvil.server.call('profile')
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -232,18 +372,23 @@ class ALLLoansAPT(Screen):
 
         profile_customer_id = []
         profile_mobile_number = []
+        profile_email_id = []
+        profile_account_number = []
+
         for i in profile:
             profile_customer_id.append(i['customer_id'])
             profile_mobile_number.append(i['mobile'])
-
-        cos_id = None  # or any appropriate default value
+            profile_email_id.append('email_user')
+            profile_account_number.append('account_number')
+        cos_id = None
         index = -1
+        if email in profile_email_id:
+            index = profile_email_id.index(email)
 
         if email in email1:
             index = email1.index(email)
             cos_id = customer_id[index]
 
-        # Now you can use cos_id safely
         if cos_id is not None:
             print(cos_id,type(cos_id))
             print(customer_id[-1], type(customer_id[-1]))
@@ -280,6 +425,8 @@ class ALLLoansAPT(Screen):
 
     def icon_button_clicked(self, instance, loan_id):
         print(loan_id)
+
+
         data = self.get_table_data()  # Fetch data here
         loan_status = None
         for loan in data:
@@ -287,88 +434,28 @@ class ALLLoansAPT(Screen):
                 loan_status = loan['loan_updated_status']
                 break
 
-        if loan_status == 'approved':
-            # Open the screen for approved loans
+        sm = self.manager
 
-            sm = self.manager
+        # Create a new instance of the LoginScreen
+        approved = ApplicationTrackerScreen(name='ApplicationTrackerScreen')
 
-            # Create a new instance of the LoginScreen
-            approved = ApplicationTrackerScreen(name='ApplicationTrackerScreen')
+        # Add the LoginScreen to the existing ScreenManager
+        sm.add_widget(approved)
 
-            # Add the LoginScreen to the existing ScreenManager
-            sm.add_widget(approved)
-
-            # Switch to the LoginScreen
-            sm.current = 'ApplicationTrackerScreen'
-            self.manager.get_screen('ApplicationTrackerScreen')
-
-        elif loan_status == 'under process':
-            # Open the screen for pending loans
-            sm = self.manager
-
-            # Create a new instance of the LoginScreen
-            under_process = ApplicationTrackerScreen(name='ApplicationTrackerScreen')
-
-            # Add the LoginScreen to the existing ScreenManager
-            sm.add_widget(under_process)
-
-            # Switch to the LoginScreen
-            sm.current = 'ApplicationTrackerScreen'
-            self.manager.get_screen('ApplicationTrackerScreen')
-
-        elif loan_status == 'rejected':
-            # Open the screen for pending loans
-            sm = self.manager
-
-            # Create a new instance of the LoginScreen
-            rejected = ApplicationTrackerScreen(name='ApplicationTrackerScreen')
-
-            # Add the LoginScreen to the existing ScreenManager
-            sm.add_widget(rejected)
-
-            # Switch to the LoginScreen
-            sm.current = 'ApplicationTrackerScreen'
-            self.manager.get_screen('ApplicationTrackerScreen')
-
-        elif loan_status == 'closed':
-            # Open the screen for pending loans
-            sm = self.manager
-
-            # Create a new instance of the LoginScreen
-            under_process = ApplicationTrackerScreen(name='ApplicationTrackerScreen')
-
-            # Add the LoginScreen to the existing ScreenManager
-            sm.add_widget(under_process)
-
-            # Switch to the LoginScreen
-            sm.current = 'ApplicationTrackerScreen'
-            self.manager.get_screen('ApplicationTrackerScreen')
-
-        elif loan_status == 'disbursed':
-            # Open the screen for pending loans
-            sm = self.manager
-
-            # Create a new instance of the LoginScreen
-            under_process = ApplicationTrackerScreen(name='ApplicationTrackerScreen')
-
-            # Add the LoginScreen to the existing ScreenManager
-            sm.add_widget(under_process)
-
-            # Switch to the LoginScreen
-            sm.current = 'ApplicationTrackerScreen'
-            self.manager.get_screen('ApplicationTrackerScreen')
-        else:
-            # Handle other loan statuses or show an error message
-            pass
+        # Switch to the LoginScreen
+        sm.current = 'ApplicationTrackerScreen'
+        self.manager.get_screen('ApplicationTrackerScreen').initialize_with_value(loan_id, data)
 
     def get_table_data(self):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('get_table_data')
+
     def get_table(self):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('another_method')
+
     def profile(self):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
