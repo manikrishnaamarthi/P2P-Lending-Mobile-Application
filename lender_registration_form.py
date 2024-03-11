@@ -78,6 +78,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: root.go_to_dashboard()]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
 
 
@@ -165,7 +166,7 @@ KV = '''
 
             MDRectangleFlatButton:
                 text: 'Next'
-                md_bg_color: 0.031, 0.463, 0.91, 1
+                md_bg_color: 0.043, 0.145, 0.278, 1
                 theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
                 size_hint: 1, None
@@ -183,6 +184,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -263,7 +265,7 @@ KV = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.add_data(mobile_number.text, altername_email.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -278,6 +280,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen1')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -424,7 +427,7 @@ KV = '''
             MDRectangleFlatButton:
                 text: "Next"
                 on_release: root.add_data(aadhar_number.text, pan_number.text)
-                md_bg_color: 0.031, 0.463, 0.91, 1
+                md_bg_color: 0.043, 0.145, 0.278, 1
                 pos_hint: {'right': 1, 'y': 0.5}
                 text_color: 1, 1, 1, 1
                 size_hint: 1, None
@@ -439,6 +442,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen2')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -499,7 +503,7 @@ KV = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_press: root.next_pressed(spinner_id.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -517,6 +521,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -606,7 +611,7 @@ KV = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.go_to_lender_screen4()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -621,6 +626,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -746,7 +752,7 @@ KV = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.go_to_lender_screen4()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -761,6 +767,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title"
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -933,7 +940,7 @@ KV = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.go_to_lender_screen4()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -948,6 +955,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1174,7 +1182,7 @@ KV = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.go_to_lender_screen4()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1189,6 +1197,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1455,7 +1464,7 @@ KV = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.go_to_lender_screen4()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1469,6 +1478,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
     MDBoxLayout:
         orientation: 'vertical'
         spacing: dp(30)
@@ -1543,7 +1553,7 @@ KV = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.add_data(street_address.text, city.text, zip_code.text, state.text, country.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1557,6 +1567,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen4')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1636,7 +1647,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Next"
                     on_press: root.next_pressed(spinner_id.text, investment.text, spinner2.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1650,6 +1661,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen5')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1724,7 +1736,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(business_name.text,business_location.text,business_address.text,branch_name.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1740,6 +1752,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenInstitutionalForm1')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1819,7 +1832,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(spin.text,nearest_location.text,spinner_id.text,year_of_estd.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1835,6 +1848,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenInstitutionalForm2')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1948,7 +1962,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(spinner_id.text,last_six_months_turnover.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1963,6 +1977,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenInstitutionalForm3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2030,7 +2045,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(director_name.text,director_mobile_number.text,din.text,cin.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2045,6 +2060,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenInstitutionalForm3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2068,7 +2084,7 @@ KV = '''
 
 
             MDLabel:
-                text: 'Step-5'
+                text: 'Step-4'
                 halign: 'center'
                 bold: True
 
@@ -2144,7 +2160,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(reg_office_address.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2161,6 +2177,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreen5')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2248,7 +2265,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(spinner1.text, company_name.text, spinner2.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2262,6 +2279,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenIndividualForm1')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2404,7 +2422,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(annual_salary.text, designation.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2419,6 +2437,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenIndividualForm2')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2494,7 +2513,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(company_address.text, company_pin_code.text, company_country.text, landmark.text, business_phone_number.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2512,6 +2531,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenIndividualForm3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2589,7 +2609,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(account_holder_name.text, spinner_id.text, account_number.text, bank_name.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2604,6 +2624,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenIndividualBankForm1')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2655,7 +2676,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Submit"
                     on_release: root.go_to_lender_dashboard(ifsc_code.text, branch_name.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2673,6 +2694,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenInstitutionalForm5')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2749,7 +2771,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(account_holder_name.text, spinner_id.text, account_number.text, bank_name.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2764,6 +2786,7 @@ KV = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'LenderScreenInstitutionalBankForm1')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
 
     MDBoxLayout:
@@ -2817,7 +2840,7 @@ KV = '''
                 MDRaisedButton:
                     text: "Submit"
                     on_release: root.go_to_lender_dashboard(ifsc_code.text, branch_name.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None

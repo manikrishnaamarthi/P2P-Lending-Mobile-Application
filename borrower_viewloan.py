@@ -46,9 +46,10 @@ kv = '''
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
             title_align: 'left'
             pos_hint: {'center_x': 0.5, 'center_y': 0.96}
+            md_bg_color: 0.043, 0.145, 0.278, 1
+            
         MDGridLayout:
             cols: 2
-
             spacing: dp(15)
             size_hint_y: None
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
@@ -60,7 +61,7 @@ kv = '''
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1
 
                 size_hint_y: None
                 height: dp(60)
@@ -83,7 +84,7 @@ kv = '''
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
                 on_release: root.go_to_under_loans()
                 size_hint_y: None
                 height: dp(60)
@@ -106,7 +107,7 @@ kv = '''
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
                 on_release: root.go_to_reject_loans()
                 size_hint_y: None
                 height: dp(60)
@@ -129,7 +130,7 @@ kv = '''
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
 
                 size_hint_y: None
                 height: dp(60)
@@ -151,7 +152,7 @@ kv = '''
 
             MDFlatButton:
                 size_hint: None, None
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1
                 on_release: root.go_to_foreclose_loans()
                 size_hint_y: None
                 height: dp(60)
@@ -178,6 +179,7 @@ kv = '''
             left_action_items: [['arrow-left', lambda x: root.go_back()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
             title_align: 'left'
+            md_bg_color: 0.043, 0.145, 0.278, 1
         MDScrollView:
 
             MDList:
@@ -191,6 +193,7 @@ kv = '''
             left_action_items: [['arrow-left', lambda x: root.go_back()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
             title_align: 'left'
+            md_bg_color: 0.043, 0.145, 0.278, 1
         MDScrollView:
 
             MDList:
@@ -204,6 +207,7 @@ kv = '''
             left_action_items: [['arrow-left', lambda x: root.go_back()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
             title_align: 'left'
+            md_bg_color: 0.043, 0.145, 0.278, 1
         MDScrollView:
 
             MDList:
@@ -217,6 +221,7 @@ kv = '''
             left_action_items: [['arrow-left', lambda x: root.go_back()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
             title_align: 'left'
+            md_bg_color: 0.043, 0.145, 0.278, 1
         MDScrollView:
 
             MDList:
@@ -230,6 +235,7 @@ kv = '''
             left_action_items: [['arrow-left', lambda x: root.go_back()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
             title_align: 'left'
+            md_bg_color: 0.043, 0.145, 0.278, 1
         MDScrollView:
 
             MDList:
@@ -242,6 +248,7 @@ kv = '''
             title: "View Profile"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
 
         ScrollView:
             MDBoxLayout:
@@ -361,6 +368,7 @@ kv = '''
             title: "View Profile"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
 
         ScrollView:
             MDBoxLayout:
@@ -468,13 +476,13 @@ class DashboardScreenVLB(Screen):
     def animate_loading_text(self, loading_label, modal_height):
         # Define the animation to move the label vertically
         anim = Animation(y=modal_height - loading_label.height, duration=1) + \
-               Animation(y=0, duration=1)
+               Animation(y=0, duration=5)
         anim.bind(on_complete=lambda *args: self.animate_loading_text(loading_label,
                                                                       modal_height))  # Bind to the completion event to repeat the animation
         anim.start(loading_label)
 
     def go_to_open_loans(self):
-        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+        modal_view = ModalView(size_hint=(None, None), size=(500, 200), background_color=[0, 0, 0, 0])
 
         # Create MDLabel with white text color, increased font size, and bold text
         loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
@@ -508,7 +516,7 @@ class DashboardScreenVLB(Screen):
         sm.current = 'OpenLoanVLB'
 
     def go_to_under_loans(self):
-        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+        modal_view = ModalView(size_hint=(None, None), size=(500, 200), background_color=[0, 0, 0, 0])
 
         # Create MDLabel with white text color, increased font size, and bold text
         loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
@@ -548,7 +556,7 @@ class DashboardScreenVLB(Screen):
         sm.current = 'UnderProcessLoanVLB'
 
     def go_to_reject_loans(self):
-        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+        modal_view = ModalView(size_hint=(None, None), size=(500, 200), background_color=[0, 0, 0, 0])
 
         # Create MDLabel with white text color, increased font size, and bold text
         loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
@@ -582,7 +590,7 @@ class DashboardScreenVLB(Screen):
         sm.current = 'RejectedLoanVLB'
 
     def go_to_app_tracker(self):
-        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+        modal_view = ModalView(size_hint=(None, None), size=(500, 200), background_color=[0, 0, 0, 0])
 
         # Create MDLabel with white text color, increased font size, and bold text
         loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
@@ -616,7 +624,7 @@ class DashboardScreenVLB(Screen):
         sm.current = 'ClosedLoanVLB'
 
     def go_to_foreclose_loans(self):
-        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+        modal_view = ModalView(size_hint=(None, None), size=(500, 200), background_color=[0, 0, 0, 0])
 
         # Create MDLabel with white text color, increased font size, and bold text
         loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",

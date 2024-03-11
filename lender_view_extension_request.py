@@ -45,6 +45,7 @@ lender_view_extension = """
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
             pos_hint: {'center_x': 0.5, 'center_y': 0.96}
+            md_bg_color: 0.043, 0.145, 0.278, 1
 
 
         MDGridLayout:
@@ -60,7 +61,7 @@ lender_view_extension = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
 
                 size_hint_y: None
                 height: dp(60)
@@ -83,7 +84,7 @@ lender_view_extension = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
                 on_release: root.go_to_under_process_loans()
                 size_hint_y: None
                 height: dp(60)
@@ -106,7 +107,7 @@ lender_view_extension = """
                 size_hint: None, None
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1
                 on_release: root.go_to_rejected_loans()
                 size_hint_y: None
                 height: dp(60)
@@ -127,7 +128,7 @@ lender_view_extension = """
 
             MDFlatButton:
                 size_hint: None, None
-                md_bg_color: 0.031, 0.463, 0.91, 1 
+                md_bg_color: 0.043, 0.145, 0.278, 1 
 
                 size_hint_y: None
                 height: dp(60)
@@ -153,6 +154,7 @@ lender_view_extension = """
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.go_back()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
         MDScrollView:
 
             MDList:
@@ -166,6 +168,7 @@ lender_view_extension = """
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.go_back()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
         MDScrollView:
 
             MDList:
@@ -178,6 +181,7 @@ lender_view_extension = """
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.go_back()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
         MDScrollView:
 
             MDList:
@@ -191,6 +195,7 @@ lender_view_extension = """
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.go_back()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
         MDScrollView:
 
             MDList:
@@ -203,6 +208,7 @@ lender_view_extension = """
             title: "Extension Loans"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
         ScrollView:
 
             MDBoxLayout:
@@ -349,6 +355,7 @@ lender_view_extension = """
             title: "Approved Loans"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
         ScrollView:
 
             MDBoxLayout:
@@ -480,6 +487,7 @@ lender_view_extension = """
             title: "Rejected Loans"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
         ScrollView:
 
             MDBoxLayout:

@@ -1,6 +1,5 @@
 import sqlite3
 import threading
-
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.lang import Builder
@@ -9,7 +8,8 @@ from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
 from kivymd.uix.label import MDLabel
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRaisedButton, MDFlatButton
-
+from kivy.properties import ListProperty
+from kivymd.uix.textfield import MDTextField
 import anvil.server
 from dashboard import DashScreen
 from lender_dashboard import LenderDashboard
@@ -20,6 +20,8 @@ anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 KV = """
 <WindowManager>:
     LoginScreen:
+    
+
 
 <LoginScreen>:
     MDFloatLayout:
@@ -62,13 +64,20 @@ KV = """
             MDTextField:
                 id: email      
                 hint_text: "Email"
+                hint_text_color: 0.043, 0.145, 0.278, 1  # Indigo color for hint text
                 helper_text_mode: "on_focus"
                 icon_right: "account"
                 font_name: "Roboto-Bold"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.57}
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Change the text color here (black in this example)
+
             MDTextField:
                 id: password
                 hint_text: "Password"
+                hint_text_color: 0.043, 0.145, 0.278, 1  # Indigo color for hint text
+                color_mode: 'custom'
+                line_color_normal: 0.043, 0.145, 0.278, 1
                 helper_text: "Enter your password"
                 helper_text_mode: "on_focus"
                 icon_right: "lock"
@@ -78,6 +87,9 @@ KV = """
                 width: dp(200)
                 pos_hint: {'center_x': 0.5, 'center_y': 0.46}
                 on_text_validate: app.validate_password()
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # Change the text color here (black in this example)
+
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
@@ -155,15 +167,15 @@ KV = """
             font_size:dp(18)
 
             theme_text_color: 'Custom'
-            text_color: 6/255, 143/255, 236/255, 1
+            text_color: 0.043, 0.145, 0.278, 1
             on_release: root.go_to_signup()
 
 
 """
-
+Builder.load_string(KV)
 
 class LoginScreen(Screen):
-    Builder.load_string(KV)
+
 
     def on_checkbox_active(self, checkbox, value):
         # Handle checkbox state change

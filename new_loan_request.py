@@ -741,42 +741,37 @@ class NewloanScreen1(Screen):
         modal_view.dismiss()
 
 
-
 class NewloanScreen2(Screen):
     loan_amount = ""
-
     loan_tenure = ""
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
         self.root_screen = self.manager.get_screen('NewloanScreen1')
-        loan_amount = float(self.root_screen.ids.text_input1.text)
-        self.loan_tenure = float(self.root_screen.ids.text_input2.text)
-        self.ids.loan_amount.text = str(loan_amount)
-        selected_category = self.root_screen.selected_category
-        self.ids.tenure.text = str(self.loan_tenure)
 
-        try:
-            details = anvil.server.call('get_details', selected_category)
-            roi = details.get('roi', '')
-            processing_fee = details.get('processing_fee', '')
-            self.ids.roi.text = str(roi)
-            self.ids.processing_fee.text = str(processing_fee)
-
-            # Call the Anvil server function to get details for the specified category
+        if self.root_screen and self.root_screen.ids:
+            loan_amount = float(self.root_screen.ids.text_input1.text)
+            self.loan_tenure = float(self.root_screen.ids.text_input2.text)  # Define loan_tenure here
+            self.ids.loan_amount.text = str(loan_amount)
             selected_category = self.root_screen.selected_category
-            loan_amount = self.root_screen.ids.text_input1.text
-            loan_tenure = self.root_screen.ids.text_input2.text
+            self.ids.tenure.text = str(self.loan_tenure)
 
-            emi = anvil.server.call('calculate_emi', selected_category, loan_amount, loan_tenure)
-            total_repayment = anvil.server.call('calculate_total_repayment', selected_category, loan_amount,
-                                                loan_tenure)
-            # Update the MDLabels with the calculated values
-            self.ids.monthly_emi.text = f"{float(emi):.2f}"
-            self.ids.total.text = f"{total_repayment:.2f}"
+            try:
+                details = anvil.server.call('get_details', selected_category)
+                roi = details.get('roi', '')
+                processing_fee = details.get('processing_fee', '')
+                self.ids.roi.text = str(roi)
+                self.ids.processing_fee.text = str(processing_fee)
 
-        except anvil._server.AnvilWrappedError as e:
-            print(f"Anvil error: {e}")
+                emi = anvil.server.call('calculate_emi', selected_category, loan_amount,
+                                        self.loan_tenure)  # Use self.loan_tenure here
+                total_repayment = anvil.server.call('calculate_total_repayment', selected_category, loan_amount,
+                                                    self.loan_tenure)  # Use self.loan_tenure here
+                self.ids.monthly_emi.text = f"{float(emi):.2f}"
+                self.ids.total.text = f"{total_repayment:.2f}"
+
+            except anvil._server.AnvilWrappedError as e:
+                print(f"Anvil error: {e}")
 
     def on_pre_leave(self):
         Window.unbind(on_keyboard=self.on_back_button)
@@ -795,46 +790,41 @@ class NewloanScreen2(Screen):
         self.manager.current = 'NewloanScreen1'
 
     def generate_loan_id(self):
-        # Call the Anvil server function to generate the loan ID
         loan_id = anvil.server.call('generate_loan_id')
         return loan_id
 
     def send_request(self):
-        # Show modal view with spinner
         modal_view = ModalView(size_hint=(None, None), size=(100, 100),
-                               background_color=(0, 0, 0, 0))  # Set background color to white
+                               background_color=(0, 0, 0, 0))
         spinner = MDSpinner()
         modal_view.add_widget(spinner)
         modal_view.open()
 
-        # Perform the actual action (e.g., fetching loan requests)
-        # You can replace the sleep with your actual logic
         Clock.schedule_once(lambda dt: self.performance_send_request(modal_view), 2)
 
-    def performance_send_request(self,modal_view):
-        loan_amount = float(self.ids.loan_amount.text)
-        loan_tenure = float(self.root_screen.ids.text_input2.text)
-        selected_category = self.root_screen.selected_category
-        roi = float(self.ids.roi.text)
-        total_repayment = float(self.ids.total.text)
-        date_of_apply = datetime.now().date()
+    def performance_send_request(self, modal_view):
+        if self.ids.loan_amount and self.ids.roi and self.ids.total:
+            loan_amount = float(self.ids.loan_amount.text)
+            loan_tenure = float(self.root_screen.ids.text_input2.text)
+            selected_category = self.root_screen.selected_category
+            roi = float(self.ids.roi.text)
+            total_repayment = float(self.ids.total.text)
+            date_of_apply = datetime.now().date()
 
-        # Call the Anvil server function to add loan data
-        try:
-            loan_id = anvil.server.call(
-                'add_loan_data',
-                loan_amount,
-                loan_tenure,
-                roi,
-                total_repayment,
-                date_of_apply
-            )
-            modal_view.dismiss()
-            self.show_success_dialog(f"Loan details added successfully! Loan ID: {loan_id}")
-        except anvil._server.AnvilWrappedError as e:
-            modal_view.dismiss()
-            # Show error notification
-            print(f"Anvil error: {e}")
+            try:
+                loan_id = anvil.server.call(
+                    'add_loan_data',
+                    loan_amount,
+                    loan_tenure,
+                    roi,
+                    total_repayment,
+                    date_of_apply
+                )
+                modal_view.dismiss()
+                self.show_success_dialog(f"Loan details added successfully! Loan ID: {loan_id}")
+            except anvil._server.AnvilWrappedError as e:
+                modal_view.dismiss()
+                print(f"Anvil error: {e}")
 
     def show_success_dialog(self, text):
         dialog = MDDialog(
@@ -845,7 +835,7 @@ class NewloanScreen2(Screen):
                     text="OK",
                     on_release=lambda *args: self.open_dashboard_screen(dialog),
                     theme_text_color="Custom",
-                    text_color=(1, 1, 1, 1),  # Black color
+                    text_color=(0.043, 0.145, 0.278, 1),
                 )
             ]
         )
@@ -856,8 +846,6 @@ class NewloanScreen2(Screen):
         self.manager.get_screen('NewloanScreen1').reset_fields()
 
         dialog.dismiss()
-        # Implement the logic to switch to the DashboardScreen
-        # For example:
         self.manager.current = 'DashboardScreen'
 
 

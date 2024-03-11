@@ -66,7 +66,7 @@ KV = """
         pos_hint: {'center_x': 0.5, 'center_y': 0.25}
         theme_text_color: "Custom"
         text_color:1,1,1,1
-        md_bg_color:0.302, 0.604, 0.929 ,1   
+        md_bg_color:0.043, 0.145, 0.278, 1   
         font_name: "Roboto-Bold"
         font_size:dp(15)
 
@@ -80,7 +80,7 @@ KV = """
         pos_hint: {'center_x': 0.5, 'center_y': 0.15}
         theme_text_color: "Custom"
         text_color: 1,1,1,1
-        md_bg_color:0.031, 0.463, 0.91, 1       
+        md_bg_color:0.043, 0.145, 0.278, 1      
 
         font_size:dp(15)
 """

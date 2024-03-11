@@ -77,6 +77,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: root.go_to_dashboard()]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -157,7 +158,7 @@ Borrower = '''
 
             MDRectangleFlatButton:
                 text: 'Next'
-                md_bg_color: 0.031, 0.463, 0.91, 1
+                md_bg_color: 0.043, 0.145, 0.278, 1
                 theme_text_color: 'Custom'
                 text_color: 1, 1, 1, 1
                 size_hint: 1, None
@@ -173,6 +174,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -251,7 +253,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.add_data(mobile_number.text, alternate_email.text, spinner_id.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -266,6 +268,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen1')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -412,7 +415,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.add_data(aadhar_number.text, pan_number.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -427,6 +430,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen2')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -483,7 +487,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_press: root.next_pressed(spinner_id.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -498,6 +502,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -584,7 +589,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.go_to_borrower_screen()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -599,6 +604,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -724,7 +730,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.go_to_borrower_screen()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -739,6 +745,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title"
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -908,7 +915,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.go_to_borrower_screen()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -923,6 +930,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1142,7 +1150,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.go_to_borrower_screen()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1157,6 +1165,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1423,7 +1432,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.go_to_borrower_screen()
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1438,6 +1447,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen3')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1515,7 +1525,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.add_data(street_address.text, city.text, zip_code.text, state.text, country.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1530,6 +1540,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen4')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1613,7 +1624,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.add_data(father_name.text, father_age.text, father_occupation.text, father_ph_no.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1628,6 +1639,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen5')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1723,7 +1735,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.add_data(mother_name.text, mother_age.text, mother_occupation.text, mother_ph_no.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1738,6 +1750,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen6')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1794,7 +1807,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_press: root.add_data(spinner_id.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1809,6 +1822,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen7')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1915,7 +1929,7 @@ Borrower = '''
                 MDRectangleFlatButton:
                     text: "Next"
                     on_release: root.add_data(collage_name.text, college_address.text, collage_id.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -1930,6 +1944,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen7')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -1996,7 +2011,7 @@ Borrower = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(business_name.text, business_location.text, business_address.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2011,6 +2026,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen9')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2101,7 +2117,7 @@ Borrower = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(landmark.text,spin.text,no_of_employees_working.text,reg_office_address.text,year_of_estd.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     size_hint: 1, None
                     height: "50dp"
@@ -2114,6 +2130,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen10')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2224,7 +2241,7 @@ Borrower = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(industry_type.text,last_six_months_turnover.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2239,6 +2256,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen7')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2314,7 +2332,7 @@ Borrower = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(spinner1.text, company_name.text, spinner2.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2329,6 +2347,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen12')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2484,7 +2503,7 @@ Borrower = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(annual_salary.text, designation.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2498,6 +2517,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen13')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2573,7 +2593,7 @@ Borrower = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(company_address.text, company_pincode.text, company_country.text, landmark.text, business_number.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2588,6 +2608,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen7')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2638,7 +2659,7 @@ Borrower = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(marital_status_id.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2653,6 +2674,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen15')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2727,7 +2749,7 @@ Borrower = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(spouse_name.text, spouse_date_textfield.text, spouse_mobile.text, spouse_profession.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2742,6 +2764,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen16')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2814,7 +2837,7 @@ Borrower = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(spouse_company_name.text, spouse_company_address.text, spouse_annual_salary.text, spouse_office_no.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2829,6 +2852,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen15')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2908,7 +2932,7 @@ Borrower = '''
                 MDRaisedButton:
                     text: "Next"
                     on_release: root.add_data(account_holder_name.text, account_type_id.text, account_number.text, bank_name.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None
@@ -2923,6 +2947,7 @@ Borrower = '''
         left_action_items: [['arrow-left', lambda x: setattr(app.root, 'current', 'BorrowerScreen18')]]
         right_action_items: [['home', lambda x: root.go_to_dashboard()]]
         title_align: 'center'  # Center-align the title
+        md_bg_color: 0.043, 0.145, 0.278, 1
 
     MDBoxLayout:
         orientation: 'vertical'
@@ -2981,7 +3006,7 @@ Borrower = '''
                 MDRaisedButton:
                     text: "Submit"
                     on_release: root.go_to_borrower_dashboard(ifsc_code.text, branch_name.text)
-                    md_bg_color: 0.031, 0.463, 0.91, 1
+                    md_bg_color: 0.043, 0.145, 0.278, 1
                     pos_hint: {'right': 1, 'y': 0.5}
                     text_color: 1, 1, 1, 1
                     size_hint: 1, None

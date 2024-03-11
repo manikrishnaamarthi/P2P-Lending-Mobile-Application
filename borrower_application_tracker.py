@@ -1,4 +1,4 @@
-import anvil
+
 from kivy import platform
 from kivy.core.window import Window
 from kivy.lang import Builder
@@ -12,8 +12,9 @@ from kivymd.uix.filemanager import MDFileManager
 import sqlite3
 
 from kivymd.uix.list import ThreeLineAvatarIconListItem, IconLeftWidget
+import anvil.server
 
-# anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
+anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
 
 
 application_tracker = """
@@ -29,6 +30,7 @@ application_tracker = """
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.go_back()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
         MDScrollView:
 
             MDList:

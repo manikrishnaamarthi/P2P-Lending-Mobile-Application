@@ -293,6 +293,7 @@ user_helpers1 = """
             title: "View Profile"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
         ScrollView:  # Add ScrollView here
             do_scroll_x: False
             BoxLayout:
@@ -1428,7 +1429,7 @@ class LenderDashboard(Screen):
         self.manager.current = 'MainScreen'
 
     def profile(self):
-        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+        modal_view = ModalView(size_hint=(None, None), size=(500, 200), background_color=[0, 0, 0, 0])
 
         # Create MDLabel with white text color, increased font size, and bold text
         loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
@@ -1474,10 +1475,8 @@ class LenderDashboard(Screen):
         # Switch to the LoginScreen
         sm.current = 'TodayDuesTD'
 
-
-
     def view_loan_request(self):
-        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+        modal_view = ModalView(size_hint=(None, None), size=(500, 200), background_color=[0, 0, 0, 0])
 
         # Create MDLabel with white text color, increased font size, and bold text
         loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
@@ -1500,7 +1499,7 @@ class LenderDashboard(Screen):
     def animate_loading_text(self, loading_label, modal_height):
         # Define the animation to move the label vertically
         anim = Animation(y=modal_height - loading_label.height, duration=1) + \
-               Animation(y=0, duration=1)
+               Animation(y=0, duration=5)
         anim.bind(on_complete=lambda *args: self.animate_loading_text(loading_label,
                                                                       modal_height))  # Bind to the completion event to repeat the animation
         anim.start(loading_label)
@@ -1513,17 +1512,9 @@ class LenderDashboard(Screen):
         profile_screen = ViewLoansRequest(name='ViewLoansRequest')
         sm.add_widget(profile_screen)
         sm.current = 'ViewLoansRequest'
-    def perform_loan_request_action(self, modal_view):
-        # Close the modal view after performing the action
-        modal_view.dismiss()
-
-        sm = self.manager
-        profile_screen = ViewLoansRequest(name='ViewLoansRequest')
-        sm.add_widget(profile_screen)
-        sm.current = 'ViewLoansRequest'
 
     def view_loanscreen(self):
-        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+        modal_view = ModalView(size_hint=(None, None), size=(500, 200), background_color=[0, 0, 0, 0])
 
         # Create MDLabel with white text color, increased font size, and bold text
         loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
@@ -1553,7 +1544,7 @@ class LenderDashboard(Screen):
         sm.current = 'ViewLoansScreen'
 
     def newloan_extension(self):
-        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+        modal_view = ModalView(size_hint=(None, None), size=(500, 200), background_color=[0, 0, 0, 0])
 
         # Create MDLabel with white text color, increased font size, and bold text
         loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
@@ -1588,7 +1579,7 @@ class LenderDashboard(Screen):
         sm.current = 'NewExtension'
 
     def view_loan_foreclose(self):
-        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+        modal_view = ModalView(size_hint=(None, None), size=(500, 200), background_color=[0, 0, 0, 0])
 
         # Create MDLabel with white text color, increased font size, and bold text
         loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
@@ -1623,7 +1614,7 @@ class LenderDashboard(Screen):
         sm.current = 'DashboardScreenLF'
 
     def go_to_wallet(self):
-        modal_view = ModalView(size_hint=(None, None), size=(150, 100), background_color=[0, 0, 0, 0])
+        modal_view = ModalView(size_hint=(None, None), size=(500, 200), background_color=[0, 0, 0, 0])
 
         # Create MDLabel with white text color, increased font size, and bold text
         loading_label = MDLabel(text="Loading...", halign="center", valign="bottom",
