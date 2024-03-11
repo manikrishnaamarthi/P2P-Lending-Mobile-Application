@@ -3,7 +3,9 @@ from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRaisedButton, MDFlatButton, MDRoundFlatButton
 from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
-from lender_dashboard import LenderDashboard
+from kivymd.uix.snackbar import Snackbar
+import anvil
+
 
 Builder.load_string(
     """
@@ -17,7 +19,7 @@ Builder.load_string(
         elevation: 2
         pos_hint: {'top': 1}
         left_action_items: [['arrow-left',lambda x: root.go_back()]]
-        right_action_items: [['wallet']]
+        right_action_items: [['refresh', lambda x: root.refresh()]]
         title_align: 'center'
 
     MDBoxLayout:
@@ -57,6 +59,7 @@ Builder.load_string(
                     halign: 'left'
                     bold: True
                 MDLabel:
+                    id: total_amount
                     halign: 'left'
                     bold: True
                     canvas.before:
@@ -88,7 +91,7 @@ Builder.load_string(
                 MDRoundFlatButton:
                     text: "Deposit"
                     id: deposit_button_grid
-                    md_bg_color: 6/255, 143/255, 236/255, 1
+                    md_bg_color: 253/255, 254/255, 254/255, 1
                     theme_text_color: 'Custom'
                     text_color: 0, 0, 0, 1
                     size_hint: 1, None
@@ -120,7 +123,8 @@ Builder.load_string(
                     halign: 'left'
                     bold: True 
 
-                MDTextField:      
+                MDTextField:
+                    id: enter_amount      
                     helper_text_mode: "on_focus"
                     icon_left: 'currency-inr'
                     font_name: "Roboto-Bold"  
@@ -155,40 +159,109 @@ Builder.load_string(
 
         MDRoundFlatButton:
             text: "Submit"
-            on_release: app.root.current ='MainScreen'
-            md_bg_color: 6/255, 143/255, 236/255, 1
+            md_bg_color: 0.043, 0.145, 0.278, 1
             theme_text_color: 'Custom'
             font_name: "Roboto-Bold" 
             text_color: 1, 1, 1, 1
             size_hint: 0.7, None
             height: "40dp"
             pos_hint: {'center_x': 0.5}
+            on_release: root.submit()
 
     """
 )
 
 
 class WalletScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.type = None
+        data = self.wallet()
+        email = self.email()
+        w_email = []
+        w_id = []
+        w_amount = []
+        for i in data:
+            w_email.append(i['user_email'])
+            w_id.append(i['wallet_id'])
+            w_amount.append(i['wallet_amount'])
+
+        if email in w_email:
+            index = w_email.index(email)
+            self.ids.total_amount.text = str(w_amount[index])
+        else:
+            print("no email found")
     def highlight_button(self, button_type):
         if button_type == 'deposit':
-            self.ids.deposit_button_grid.md_bg_color = 6 / 255, 143 / 255, 236 / 255, 1
+            self.ids.deposit_button_grid.md_bg_color = 0.043, 0.145, 0.278, 1
             self.ids.withdraw_button_grid.md_bg_color = 253 / 255, 254 / 255, 254 / 255, 1
+            self.ids.deposit_button_grid.text_color= 1, 1, 1, 1
+            self.ids.withdraw_button_grid.text_color = 0, 0, 0, 1
+            self.type = 'deposit'
         elif button_type == 'withdraw':
             self.ids.deposit_button_grid.md_bg_color = 253 / 255, 254 / 255, 254 / 255, 1
-            self.ids.withdraw_button_grid.md_bg_color = 6 / 255, 143 / 255, 236 / 255, 1
+            self.ids.withdraw_button_grid.md_bg_color = 0.043, 0.145, 0.278, 1
+            self.ids.withdraw_button_grid.text_color = 1, 1, 1, 1
+            self.ids.deposit_button_grid.text_color = 0, 0, 0, 1
+            self.type = 'withdraw'
 
     def go_back(self):
-        sm = self.manager
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'LenderDashboard'
+    def show_snackbar(self, text):
+        Snackbar(text=text, pos_hint={'top': 1}, md_bg_color=[1, 0, 0, 1]).open()
+    def submit(self):
+        if self.type == 'deposit':
+            data = self.wallet()
+            email = self.email()
+            w_email = []
+            w_id = []
+            w_amount = []
+            for i in data:
+                w_email.append(i['user_email'])
+                w_id.append(i['wallet_id'])
+                w_amount.append(i['wallet_amount'])
 
-        # Create a new instance of the LoginScreen
-        login_screen = LenderDashboard(name='LenderDashboard')
+            if email in w_email:
+                index = w_email.index(email)
+                data[index]['wallet_amount'] = int(self.ids.enter_amount.text) + w_amount[index]
+                self.show_snackbar(f'Amount {self.ids.enter_amount.text} Deposited to the this wallet ID {w_id[index]}')
+                self.ids.enter_amount.text = ''
+            else:
+                print("no email found")
 
-        # Add the LoginScreen to the existing ScreenManager
-        sm.add_widget(login_screen)
+        elif self.type == 'withdraw':
+            data = self.wallet()
+            email = self.email()
+            w_email = []
+            w_id = []
+            w_amount = []
+            for i in data:
+                w_email.append(i['user_email'])
+                w_id.append(i['wallet_id'])
+                w_amount.append(i['wallet_amount'])
 
-        # Switch to the LoginScreen
-        sm.current = 'LenderDashboard'
+            if email in w_email:
+                index = w_email.index(email)
+                if w_amount[index] > int(self.ids.enter_amount.text):
+                    data[index]['wallet_amount'] = w_amount[index] - int(self.ids.enter_amount.text)
+                    self.show_snackbar(f'Amount {self.ids.enter_amount.text} Withdraw from this wallet ID {w_id[index]}')
+                    self.ids.enter_amount.text = ''
+                else:
+                    self.show_snackbar(
+                        f'Insufficient Amount {self.ids.enter_amount.text} Please Deposit Required Money')
+                    self.ids.enter_amount.text = ''
+            else:
+                print("no email found")
 
+
+    def refresh(self):
+        self.__init__()
+    def email(self):
+        return anvil.server.call('another_method')
+
+    def wallet(self):
+        return anvil.server.call('wallet_data')
 
 class MyScreenManager(ScreenManager):
     pass
