@@ -25,6 +25,7 @@ extension_loan_request = """
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
             right_action_items: [['refresh', lambda x: root.refresh()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
         MDScrollView:
 
             MDList:
@@ -37,6 +38,7 @@ extension_loan_request = """
             title: "Extension Loan Request"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
 
         ScrollView:
             MDBoxLayout:
@@ -62,7 +64,7 @@ extension_loan_request = """
                         id: box1
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: dp(700)
+                        height: dp(750)
                         padding: [10, 0,0,0]
                         canvas.before:
                             Color:
@@ -103,6 +105,22 @@ extension_loan_request = """
                                 halign: "center"
                                 height:dp(50)
                                 size_hint_y:None
+                        MDGridLayout:
+                            cols: 2
+                            spacing: dp(10)
+                            padding: dp(10)
+                            MDLabel:
+                                text: "Loan Amount" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                id: loan_amount
+                                text: "" 
+                                size_hint_y:None
+                                height:dp(50)
+                                halign: "center"
                         MDGridLayout:
                             cols: 2
                             spacing: dp(10)
@@ -238,12 +256,10 @@ extension_loan_request = """
                             MDRaisedButton:
                                 id:extension_request
                                 text: "Extension Request"
-                                md_bg_color: 5/255, 235/255, 77/255, 1
-                                theme_text_color: 'Primary'
-                                font_name: "Roboto-Bold.ttf"
-                                text_color: 0, 0, 0, 1
+                                md_bg_color: 0.043, 0.145, 0.278, 1
+                                font_name: "Roboto-Bold"
                                 size_hint: 1, None
-                                height: "40dp"
+                                height: dp(50)
                                 on_release:root.on_extend()
 
 <ExtendLoansScreen>
@@ -253,6 +269,7 @@ extension_loan_request = """
             title: "Extension Loan Request"
             elevation: 3
             left_action_items: [['arrow-left', lambda x: root.on_back_button_press()]]
+            md_bg_color: 0.043, 0.145, 0.278, 1
 
         ScrollView:
             MDBoxLayout:
@@ -418,11 +435,10 @@ extension_loan_request = """
                             padding: dp(10)
                             MDRaisedButton:
                                 text: "Submit"
-                                md_bg_color: 5/255, 235/255, 77/255, 1
-                                theme_text_color: 'Primary'
-                                font_name: "Roboto-Bold.ttf"
-                                text_color: 0, 0, 0, 1
+                                md_bg_color: 0.043, 0.145, 0.278, 1
+                                font_name: "Roboto-Bold"
                                 size_hint: 1, None
+                                height:"50dp"
 """
 Builder.load_string(extension_loan_request)
 
@@ -434,6 +450,7 @@ class ExtensionLoansRequest(Screen):
         profile = self.profile()
         customer_id = []
         loan_id = []
+        loan_amount = []
         borrower_name = []
         loan_status = []
         tenure = []
@@ -443,6 +460,7 @@ class ExtensionLoansRequest(Screen):
             s += 1
             customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
+            loan_amount.append(i['loan_amount'])
             borrower_name.append(i['borrower_full_name'])
             loan_status.append(i['loan_updated_status'])
             tenure.append(i['tenure'])
@@ -472,7 +490,7 @@ class ExtensionLoansRequest(Screen):
                     icon="card-account-details-outline"
                 ),
                 text=f"Borrower Name : {borrower_name[i]}",
-                secondary_text=f"Mobile Number : {profile_mobile_number[number]}",
+                secondary_text=f"Borrower Mobile Number : {profile_mobile_number[number]}",
                 tertiary_text=f"Product Name : {product_name[i]}",
                 text_color=(0, 0, 0, 1),  # Black color
                 theme_text_color='Custom',
@@ -570,6 +588,7 @@ class ExtensionLoansProfileScreen(Screen):
             extension_fee.append(i['extension_fee'])
         customer_id = []
         loan_id = []
+        loan_amount = []
         name = []
         tenure = []
         interest_rate = []
@@ -577,6 +596,7 @@ class ExtensionLoansProfileScreen(Screen):
         for i in data:
             customer_id.append(i['borrower_customer_id'])
             loan_id.append(i['loan_id'])
+            loan_amount.append(i['loan_amount'])
             tenure.append(i['tenure'])
             product_name.append(i['product_name'])
             interest_rate.append(i['interest_rate'])
@@ -586,6 +606,7 @@ class ExtensionLoansProfileScreen(Screen):
             index = loan_id.index(value)
             number = profile_customer_id.index(customer_id[index])
             self.ids.loan_id.text = str(loan_id[index])
+            self.ids.loan_amount.text = str(loan_amount[index])
             self.ids.user1.text = str(customer_id[index])
             self.ids.interest.text = str(interest_rate[index])
             self.ids.tenure.text = str(tenure[index])
@@ -638,14 +659,13 @@ class ExtensionLoansProfileScreen(Screen):
         self.manager.current = 'ExtensionLoansRequest'
 
     def on_extend(self):
-        data = self.get_table_data()
         loan_id = self.ids.loan_id.text
+        extension_fee = self.ids.extension_fee.text
         sm = self.manager
-        self.loan_id = self.ids.loan_id.text
+        self.loan_id = loan_id
         profile = ExtendLoansScreen(name='ExtendLoansScreen')
         sm.add_widget(profile)  # Add the screen to the ScreenManager
         sm.current = 'ExtendLoansScreen'
-        self.manager.get_screen('ExtendLoansScreen').initialize_with_value(loan_id, data)
 
     def on_keyboard(self, window, key, *args):
         if key == 27:  # Key code for the 'Escape' key
@@ -663,52 +683,47 @@ class ExtensionLoansProfileScreen(Screen):
 
 
 class ExtendLoansScreen(Screen):
+    loan_id = ""
+    loan_amount = ""
+    extension_fee = ""
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def on_back_button_press(self):
         self.manager.current = 'ExtensionLoansProfileScreen'
-
-    def initialize_with_value(self, value, data):
-        profile = self.profile()
-        profile_customer_id = []
-        profile_mobile_number = []
-        for i in profile:
-            profile_customer_id.append(i['customer_id'])
-            profile_mobile_number.append(i['mobile'])
-        product = self.product()
-        extension_fee = []
-        for i in product:
-            extension_fee.append(i['extension_fee'])
-        loan_id = []
-        loan_amount = []
-        product_name = []
-        new_emi = []
-        finial_repayment_amount = []
-        reason = []
-        customer_id = []
-
-        for i in data:
-            loan_id.append(i['loan_id'])
-            loan_amount.append(i['loan_amount'])
-            # new_emi.append(i['new_emi'])
-            # finial_repayment_amount.append(i['final_repayment_amount'])
-            # reason.append(i['reason'])
-
-        if value in loan_id:
-            index = loan_id.index(value)
-            # Assign values to UI elements
-            self.ids.loan_id.text = str(loan_id[index])
-            self.ids.loan_amount.text = str(loan_amount[index])
-            self.ids.extension_fee.text = str(extension_fee[index])
-
-        else:
-            pass
+        # Assuming you have these labels in your Kivy app
 
     def on_pre_enter(self):
         # Bind the back button event to the on_back_button method
         Window.bind(on_keyboard=self.on_keyboard)
         Window.bind(on_keyboard=self.on_back_button)
+        self.root_screen = self.manager.get_screen('ExtensionLoansProfileScreen')
+        loan_id = str(self.root_screen.ids.loan_id.text)
+        self.ids.loan_id.text = str(loan_id)
+        loan_amount = str(self.root_screen.ids.loan_amount.text)
+        self.ids.loan_amount.text = str(loan_amount)
+        extension_fee = str(self.root_screen.ids.extension_fee.text)
+        self.ids.extension_fee.text = str(extension_fee)
+        tenure = self.root_screen.ids.tenure.text
+        loan_extension_months = self.root_screen.ids.extension_months.text
+        try:
+            # Assuming loan_amount and extension_fee are single values
+            extension_amount = anvil.server.call('calculate_extension_details', loan_id, loan_amount, extension_fee)
+            print(extension_amount)
+            emi = anvil.server.call('calculate_extension_emi', loan_amount, tenure, loan_extension_months)
+            print(emi)
+            remaining_loan_amount = anvil.server.call('calculate_extension_loan', loan_id, loan_extension_months)
+            print(remaining_loan_amount)
+            # Assuming extension_amount is a single value
+            self.ids.extension_amount.text = f"{str(extension_amount)}"
+            self.ids.finial_repayment_amount.text = f"{remaining_loan_amount:.2f}"
+            self.ids.new_emi.text = f"{float(emi):.2f}"
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            # Handle exceptions gracefully (log or print the error)
+            print(f"An error occurred in loan_id: {e}")
 
     def on_pre_leave(self):
         # Unbind the back button event when leaving the screen
