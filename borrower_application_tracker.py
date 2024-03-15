@@ -15,10 +15,6 @@ from kivymd.uix.list import ThreeLineAvatarIconListItem, IconLeftWidget
 import anvil.server
 
 anvil.server.connect("server_VRGEXX5AO24374UMBBQ24XN6-ZAWBX57M6ZDN6TBV")
-<<<<<<< HEAD
-
-=======
->>>>>>> cdda6af27ebdb5044321574e230b32560a8d8745
 
 application_tracker = """
 
@@ -432,7 +428,7 @@ class ALLLoansAPT(Screen):
         print(loan_id)
 
 
-        data = self.get_table_data()  # Fetch data here
+        data = self.get_table_data()
         loan_status = None
         for loan in data:
             if loan['loan_id'] == loan_id:
