@@ -1,9 +1,13 @@
-
 import anvil
 from anvil import tables
 from anvil.tables import app_tables
 from kivy.animation import Animation
 from kivy.uix.popup import Popup
+from kivymd.uix.list import OneLineListItem
+from kivy.app import App
+from kivy.uix.screenmanager import Screen, ScreenManager, SlideTransition
+from kivy.factory import Factory
+
 import server
 from kivy.core.window import Window
 from kivy.factory import Factory
@@ -31,6 +35,12 @@ user_helpers2 = """
     NewloanScreen:
     NewloanScreen1:
     NewloanScreen2:
+    MenuScreen:
+        name: 'menu'
+    PaymentDetailsScreen:
+        name: 'payment_details'
+
+
 <NewloanScreen>:
     name: 'NewloanScreen' 
     BoxLayout:
@@ -42,7 +52,7 @@ user_helpers2 = """
             elevation: 2
             pos_hint: {'top': 1}
             left_action_items: [['arrow-left', lambda x: root.go_back()]]
-            right_action_items: [['refresh', lambda x: root.refresh()]]
+            right_action_items: [['home', lambda x:root.go_to_lender_dashboard()]]
             title_align: 'center'
             md_bg_color: 0.043, 0.145, 0.278, 1
 
@@ -51,7 +61,7 @@ user_helpers2 = """
             BoxLayout:
                 orientation: "vertical"
                 padding:dp(10)
-                spacing:dp(30)
+                spacing:dp(25)
                 size_hint_y: None
                 height: self.minimum_height
 
@@ -70,8 +80,7 @@ user_helpers2 = """
                     underline:True
                     italic:True
                     pos_hint: {'center_x': 0.5, 'center_y': 0.4}
-                MDLabel:
-                    text:""
+
                 MDGridLayout:
                     cols: 2
                     padding: dp(25)
@@ -117,7 +126,7 @@ user_helpers2 = """
                         size_hint: None, None
                         pos_hint: {'center_x':0.5, 'center_y':0.5}
                         size: "180dp", "45dp"
-                        height:dp(50)
+                        height:dp(40)
                         halign: "center"
                         background_color: 1, 1, 1, 0
                         color: 0, 0, 0, 1
@@ -125,11 +134,11 @@ user_helpers2 = """
                             Color:
                                 rgba: 0, 0, 0, 1
                             Line:
-                                width: 0.7
+                                width: 0.25
                                 rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
                         on_press: app.fetch_product_groups()
-                        text_size: self.width, None
+                        text_size: self.width - dp(20), None
                 MDLabel:
                     text:""
                 MDLabel:
@@ -155,7 +164,7 @@ user_helpers2 = """
                         width: dp(200)
                         multiline: False
                         size_hint: None, None
-                        height:dp(50)
+                        height:dp(40)
                         halign: "center"
                         pos_hint: {'center_x':0.5, 'center_y':0.5}
                         size: "180dp", "45dp"
@@ -165,11 +174,11 @@ user_helpers2 = """
                             Color:
                                 rgba: 0, 0, 0, 1
                             Line:
-                                width: 0.7
+                                width: 0.25
                                 rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
                         on_press: app.fetch_product_categories()
-                        text_size: self.width , None
+                        text_size: self.width - dp(20), None
                         disabled: not group_id1.text or group_id1.text == 'Select Group'
                 MDLabel:
                     text:""
@@ -194,7 +203,7 @@ user_helpers2 = """
                         width: dp(200)
                         multiline: False
                         size_hint: None, None
-                        height:dp(50)
+                        height:dp(40)
                         halign: "center"
                         pos_hint: {'center_x':0.5, 'center_y':0.5}
                         size: "180dp", "45dp"
@@ -204,11 +213,11 @@ user_helpers2 = """
                             Color:
                                 rgba: 0, 0, 0, 1
                             Line:
-                                width: 0.7
+                                width: 0.25
                                 rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
                         on_press: app.fetch_product_name()
-                        text_size: self.width, None
+                        text_size: self.width - dp(20), None
                         disabled: not group_id2.text or group_id2.text == 'Select Categories'
                         on_text: app.fetch_product_description()
                 MDLabel:
@@ -244,9 +253,9 @@ user_helpers2 = """
                                 pos: self.pos
                                 radius: [15, 15, 15, 15]  # Adjust radius for rounded corners
                             Color:
-                                rgba: 0.043, 0.145, 0.278, 1
+                                rgba: 1, 1, 1, 1
                             Line:
-                                width: 1.5
+                                width: 0.3
                                 rectangle: (self.x, self.y, self.width, self.height)
                 MDLabel:
                     text: " "  
@@ -281,14 +290,14 @@ user_helpers2 = """
         elevation: 2
         pos_hint: {'top': 1}
         left_action_items: [['arrow-left', lambda x: root.go_back()]]
-        right_action_items: [['refresh', lambda x: root.refresh()]]
+        right_action_items: [['home', lambda x:root.go_to_lender_dashboard()]]
         title_align: 'center'
         md_bg_color: 0.043, 0.145, 0.278, 1
     BoxLayout:
         pos_hint: {'center_x':0.5, 'center_y':0.43}
         elevation: 2
         padding: dp(20)
-        spacing: dp(20)
+        spacing: dp(10)
         orientation: 'vertical'
         radius: [10,]
 
@@ -335,8 +344,7 @@ user_helpers2 = """
             text:""
         MDLabel:
             text:""
-        MDLabel:
-            text:""
+
 
         MDGridLayout:
             cols: 2
@@ -401,7 +409,10 @@ user_helpers2 = """
                 line_color_normal: 0, 0, 0, 1  # Set the line color to black
                 color: 0, 0, 0, 1
         MDLabel:
-            text:""
+            id: max_tenure 
+            color:1,1,1,1      
+            text: "" 
+            font_size:dp(1)
         MDLabel:
             text:""
         MDGridLayout:
@@ -421,46 +432,61 @@ user_helpers2 = """
                 size_hint: None, None
                 pos_hint: {'center_x':0.5, 'center_y':0.5}
                 size: "180dp", "45dp"
+                height:dp(40)
                 background_color: 1, 1, 1, 0
                 color: 0, 0, 0, 1
                 canvas.before:
                     Color:
                         rgba: 0, 0, 0, 1
                     Line:
-                        width: 0.7
+                        width: 0.25
                         rounded_rectangle: (self.x, self.y, self.width, self.height, 15)
 
                 on_press: app.fetch_emi_type()
                 text_size: self.width - dp(20), None
                 disabled: not group_id4.text or group_id4.text == 'Select Categories'
 
-
-        MDLabel:
-            id: max_tenure 
-            color:1,1,1,1      
-            text: "" 
-            font_size:dp(1)
         MDLabel:
             id: min_tenure 
             color:1,1,1,1      
             text: "" 
             font_size:dp(1)
+        MDLabel:
+            text:""
+
+
+        MDGridLayout:
+            cols: 2
+            padding: dp(25)
+            spacing: dp(5)
+
+            MDLabel:
+                text: "Payment Details"
+                font_size:dp(16)
+                bold:True
+
+            Button:
+                text:'View Payment Details here'
+                background_color: 0, 0, 0, 0
+                color: 0, 0.5, 1, 1
+                font_size: '15sp'
+                size_hint: None, None
+                size: self.texture_size
+                pos_hint: {'center_x': 0.22, 'center_y': 0.5}
+                on_release: root.go_to_menu_screen()
+                halign:"left"
+
 
         MDLabel:
             id: max_amount
             color:1,1,1,1      
             text: "" 
             font_size:dp(1)
+
+
         MDLabel:
-            id: min_amount
-            color:1,1,1,1      
-            text: "" 
-            font_size:dp(1)
-        MDLabel:
-            id: product_id
-            color:1,1,1,1      
-            text: "" 
-            font_size:dp(1)
+            text:""
+
         MDFloatLayout:
             MDRaisedButton:
                 text: "Next"
@@ -471,9 +497,15 @@ user_helpers2 = """
                 font_name:"Roboto-Bold"
                 font_size:dp(15)
         MDLabel:
-            text: " "
+            id: min_amount
+            color:1,1,1,1      
+            text: "" 
+            font_size:dp(1)
         MDLabel:
-            text: " "
+            id: product_id
+            color:1,1,1,1      
+            text: "" 
+            font_size:dp(1)
 
 
 <NewloanScreen2>:
@@ -481,8 +513,8 @@ user_helpers2 = """
         title: "View Deatils"
         elevation: 2
         pos_hint: {'top': 1}
+
         title_align: 'center'
-        left_action_items: [['arrow-left', lambda x: root.go_back()]]
         md_bg_color: 0.043, 0.145, 0.278, 1
     BoxLayout:
         pos_hint: {'center_x':0.5, 'center_y':0.4}
@@ -594,7 +626,7 @@ user_helpers2 = """
             text: " "
         MDFloatLayout:
             GridLayout:
-                cols: 2
+                cols: 3
                 spacing:dp(20)
                 padding:dp(20)
                 pos_hint: {'center_x': 0.5, 'center_y': 1}
@@ -617,8 +649,259 @@ user_helpers2 = """
                     size_hint: 1, None
                     height: "50dp"
                     font_name: "Roboto-Bold"
+
         MDLabel:
             text: " "
+<MenuScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+
+
+        MDTopAppBar:
+            title: "Payment Schedule"
+            elevation: 2
+            pos_hint: {'top': 1}
+            left_action_items: [['arrow-left', lambda x: root.go_back()]]
+            title_align: 'center'
+            md_bg_color: 0.043, 0.145, 0.278, 1
+        ScrollView:
+            MDList:
+                id: container
+
+<PaymentDetailsScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        MDTopAppBar:
+            title: "Payment Schedule"
+            elevation: 2
+            pos_hint: {'top': 1}
+            left_action_items: [['arrow-left', lambda x: root.go_to_menu_screen() ]]
+            title_align: 'center'
+            md_bg_color: 0.043, 0.145, 0.278, 1
+
+        MDGridLayout:
+            cols: 2
+
+            padding: dp(25)
+            spacing: dp(20)
+            MDLabel:
+                font_size: dp(16)
+                text: "Beginning Balance:"
+                bold: True
+            MDLabel:
+                id: beginning_balance_label
+                text: " Rs. 0.00"
+                font_size: dp(11)
+                size_hint_y: None
+                halign: "center"
+                padding: dp(5)
+                height: self.texture_size[1] + dp(10) if self.text else 0  # Adjust height to fit content
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # Background color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [15, 15, 15, 15]  # Adjust radius for rounded corners
+                    Color:
+                        rgba: 0.043, 0.145, 0.278, 1
+                    Line:
+                        width: 0.25
+                        rectangle: (self.x, self.y, self.width, self.height)
+
+
+        MDGridLayout:
+            cols: 2
+
+            padding: dp(25)
+            spacing: dp(20)
+            MDLabel:
+                font_size: dp(16)
+                text: "Scheduled Payment:"
+                bold: True
+            MDLabel:
+                id: emi_label
+                text: "Rs. 0.00"
+                font_size: dp(11)
+                size_hint_y: None
+                halign: "center"
+                padding: dp(5)
+                height: self.texture_size[1] + dp(10) if self.text else 0  # Adjust height to fit content
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # Background color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [15, 15, 15, 15]  # Adjust radius for rounded corners
+                    Color:
+                        rgba: 0.043, 0.145, 0.278, 1
+                    Line:
+                        width: 0.25
+                        rectangle: (self.x, self.y, self.width, self.height)
+
+        MDGridLayout:
+            cols: 2
+
+            padding: dp(25)
+            spacing: dp(20)
+            MDLabel:
+                font_size: dp(16)
+                text: "Interest Amount:"
+                bold: True
+            MDLabel:
+                id: interest_label
+                text: " Rs. 0.00"
+                font_size: dp(11)
+                size_hint_y: None
+                halign: "center"
+                padding: dp(5)
+                height: self.texture_size[1] + dp(10) if self.text else 0  # Adjust height to fit content
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # Background color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [15, 15, 15, 15]  # Adjust radius for rounded corners
+                    Color:
+                        rgba: 0.043, 0.145, 0.278, 1
+                    Line:
+                        width: 0.25
+                        rectangle: (self.x, self.y, self.width, self.height)
+
+        MDGridLayout:
+            cols: 2
+
+            padding: dp(25)
+            spacing: dp(20)
+            MDLabel:
+                font_size: dp(16)
+                text: "Processing Amount:"
+                bold: True
+            MDLabel:
+                id: processing_fee_label
+                text: " Rs. 0.00"
+                font_size: dp(11)
+                size_hint_y: None
+                halign: "center"
+                padding: dp(5)
+                height: self.texture_size[1] + dp(10) if self.text else 0  # Adjust height to fit content
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # Background color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [15, 15, 15, 15]  # Adjust radius for rounded corners
+                    Color:
+                        rgba: 0.043, 0.145, 0.278, 1
+                    Line:
+                        width: 0.25
+                        rectangle: (self.x, self.y, self.width, self.height)
+
+        MDGridLayout:
+            cols: 2
+
+            padding: dp(25)
+            spacing: dp(20)
+            MDLabel:
+                font_size: dp(16)
+                text: "Principal Amount:"
+                bold: True
+            MDLabel:
+                id: principal_label
+                text: " Rs. 0.00"
+                font_size: dp(11)
+                size_hint_y: None
+                halign: "center"
+                padding: dp(5)
+                height: self.texture_size[1] + dp(10) if self.text else 0  # Adjust height to fit content
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # Background color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [15, 15, 15, 15]  # Adjust radius for rounded corners
+                    Color:
+                        rgba: 0.043, 0.145, 0.278, 1
+                    Line:
+                        width: 0.25
+                        rectangle: (self.x, self.y, self.width, self.height)
+        MDGridLayout:
+            cols: 2
+
+            padding: dp(25)
+            spacing: dp(20)
+            MDLabel:
+                font_size: dp(16)
+                text: "Total Payment:"
+                bold: True
+            MDLabel:
+                id: total_payment_label
+                text: " Rs. 0.00"
+                font_size: dp(11)
+                size_hint_y: None
+                halign: "center"
+                padding: dp(5)
+                height: self.texture_size[1] + dp(10) if self.text else 0  # Adjust height to fit content
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # Background color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [15, 15, 15, 15]  # Adjust radius for rounded corners
+                    Color:
+                        rgba: 0.043, 0.145, 0.278, 1
+                    Line:
+                        width: 0.25
+                        rectangle: (self.x, self.y, self.width, self.height)
+
+        MDGridLayout:
+            cols: 2
+
+            padding: dp(25)
+            spacing: dp(20)
+            MDLabel:
+                font_size: dp(16)
+                text: "Ending Balance:"
+                bold: True
+            MDLabel:
+                id: balance_label
+                text: " Rs. 0.00"
+                font_size: dp(11)
+                size_hint_y: None
+                halign: "center"
+                padding: dp(5)
+                height: self.texture_size[1] + dp(10) if self.text else 0  # Adjust height to fit content
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1  # Background color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [15, 15, 15, 15]  # Adjust radius for rounded corners
+                    Color:
+                        rgba: 0.043, 0.145, 0.278, 1
+                    Line:
+                        width: 0.25
+                        rectangle: (self.x, self.y, self.width, self.height)
+
+
+
+        MDRaisedButton:
+            text: "Back"
+            on_press: root.manager.current = 'menu'
+            md_bg_color: 0.043, 0.145, 0.278, 1
+            pos_hint: {'right': 1, 'y': 0.5}
+            size_hint: 1, None
+            height: "50dp"
+            font_name: "Roboto-Bold"
+
 """
 
 Builder.load_string(user_helpers2)
@@ -654,8 +937,9 @@ class NewloanScreen(Screen):
         self.manager.transition = SlideTransition(direction='right')
         self.manager.current = 'DashboardScreen'
 
-    def refresh(self):
-       pass
+    def go_to_lender_dashboard(self):
+        self.manager.add_widget(Factory.DashboardScreen(name='DashboardScreen'))
+        self.manager.current = 'DashboardScreen'
 
     def current(self):
         self.manager.current = 'DashboardScreen'
@@ -680,11 +964,11 @@ class NewloanScreen(Screen):
             self.show_popup("Please select all fields.")
         else:
             # Show modal view with loading label
-            modal_view = ModalView(size_hint=(None, None), size=(500, 100),
+            modal_view = ModalView(size_hint=(None, None), size=(300, 100),
                                    background_color=(0, 0, 0, 0))  # Set background color to transparent
 
             # Create a loading label
-            loading_label = Label(text="Loading...", font_size=50)
+            loading_label = Label(text="Loading...", font_size=25)
             modal_view.add_widget(loading_label)
             modal_view.open()
 
@@ -782,8 +1066,10 @@ class NewloanScreen1(Screen):
 
         text_input.bind(on_focus=reset_helper_text)
 
-    def refresh(self):
-        pass
+    def go_to_lender_dashboard(self):
+        self.manager.add_widget(Factory.DashboardScreen(name='DashboardScreen'))
+        self.manager.current = 'DashboardScreen'
+
     def reset_fields(self):
         self.ids.text_input1.text = ""
         self.ids.text_input2.text = ""
@@ -855,11 +1141,11 @@ class NewloanScreen1(Screen):
             self.show_popup("Please enter all fields.")
         else:
             # Show modal view with loading label
-            modal_view = ModalView(size_hint=(None, None), size=(500, 100),
+            modal_view = ModalView(size_hint=(None, None), size=(300, 100),
                                    background_color=(0, 0, 0, 0))  # Set background color to transparent
 
             # Create a loading label
-            loading_label = Label(text="Loading...", font_size=50)
+            loading_label = Label(text="Loading...", font_size=25)
             modal_view.add_widget(loading_label)
             modal_view.open()
 
@@ -893,7 +1179,32 @@ class NewloanScreen1(Screen):
         popup = Popup(title="Warning", content=content, size_hint=(None, None), size=(400, 200))
         popup.open()
 
+    def go_to_menu_screen(self):
+        loan_amount = self.ids.text_input1.text.strip()
+        loan_tenure = self.ids.text_input2.text.strip()
+        emi_type = self.ids.group_id4.text.strip()
 
+        if not loan_amount or not loan_tenure or emi_type == 'Select EMI type':
+            self.show_popup("Please enter all fields.")
+        else:
+            interest_rate = float(self.ids.roi.text)  # Accessing IDs directly from NewloanScreen2
+            processing_fee = float(self.ids.processing_fee.text)  # Accessing IDs directly from NewloanScreen2
+
+            # Check if MenuScreen already exists in the ScreenManager
+            if 'menu' in self.manager.screen_names:
+                # If it exists, get a reference to the existing MenuScreen
+                menu_screen = self.manager.get_screen('menu')
+
+                # Update the existing MenuScreen with new values
+                menu_screen.update_values(loan_amount, loan_tenure, interest_rate, processing_fee, emi_type)
+                self.manager.current = 'menu'  # Switch to the existing MenuScreen
+            else:
+                # If it doesn't exist, create a new MenuScreen and switch to it
+                menu_screen = MenuScreen(name='menu', loan_amount=loan_amount, loan_tenure=loan_tenure,
+                                         interest_rate=interest_rate, processing_fee=processing_fee,
+                                         emi_type=emi_type)
+                self.manager.add_widget(menu_screen)
+                self.manager.current = 'menu'
 class NewloanScreen2(Screen):
     loan_amount = ""
     loan_tenure = ""
@@ -979,11 +1290,11 @@ class NewloanScreen2(Screen):
 
     def send_request(self):
         # Show modal view with loading label
-        modal_view = ModalView(size_hint=(None, None), size=(500, 150),
+        modal_view = ModalView(size_hint=(None, None), size=(300, 150),
                                background_color=(0, 0, 0, 0))  # Set background color to transparent
 
         # Create a loading label
-        loading_label = Label(text="Loading...", font_size=50)
+        loading_label = Label(text="Loading...", font_size=25)
         modal_view.add_widget(loading_label)
         modal_view.open()
 
@@ -1093,6 +1404,423 @@ class NewloanScreen2(Screen):
 
         dialog.dismiss()
         self.manager.current = 'DashboardScreen'
+
+    # Assuming you are in NewloanScreen2 class
+
+
+class PaymentDetailsScreen(Screen):
+    def go_to_menu_screen(self):
+        self.manager.add_widget(Factory.MenuScreen(name='menu'))
+        self.manager.current = 'menu'
+
+
+# Register the PaymentDetailsScreen class with the Factory
+Factory.register('PaymentDetailsScreen', cls=PaymentDetailsScreen)
+
+
+class MenuScreen(Screen):
+
+    def __init__(self, loan_amount=0, loan_tenure=0, interest_rate=0, processing_fee=0, emi_type="", **kwargs):
+        super().__init__(**kwargs)
+
+        self.loan_amount = float(loan_amount)
+        self.loan_tenure = float(loan_tenure)
+        self.interest_rate = float(interest_rate)
+        self.processing_fee = float(processing_fee)
+        self.emi_type = emi_type  # Assign selected EMI type
+
+        if self.emi_type == 'Monthly':
+            self.calculate_schedule()
+        elif self.emi_type == 'One Time':
+            self.calculate_one_time_payment()
+        elif self.emi_type == 'Three Months':
+            self.calculate_three_months_payment()
+        elif self.emi_type == 'Six Months':
+            self.calculate_six_months_payment()
+        print(self.loan_amount)
+        print(self.loan_tenure)
+        print(interest_rate)
+        print(processing_fee)
+        print(self.emi_type)
+
+    def update_values(self, loan_amount, loan_tenure, interest_rate, processing_fee, emi_type):
+        self.loan_amount = float(loan_amount)
+        self.loan_tenure = float(loan_tenure)
+        self.interest_rate = float(interest_rate)
+        self.processing_fee = float(processing_fee)
+        self.emi_type = emi_type
+
+        if self.emi_type == 'Monthly':
+            self.calculate_schedule()
+        elif self.emi_type == 'One Time':
+            self.calculate_one_time_payment()
+        elif self.emi_type == 'Three Months':
+            self.calculate_three_months_payment()
+        elif self.emi_type == 'Six Months':
+            self.calculate_six_months_payment()
+    def calculate_schedule(self):
+        print("Calculating payment schedule...")
+        container = self.ids.container
+        container.clear_widgets()
+
+        # Calculate total interest and processing fee based on provided rates and loan tenure
+        monthly_interest_rate = (self.interest_rate / 100) / 12
+        total_processing_fee_amount = (self.processing_fee / 100) * self.loan_amount
+
+        print("Monthly Interest Rate:", monthly_interest_rate)
+        print("Total Processing Fee Amount:", total_processing_fee_amount)
+
+        # Check if loan tenure is zero or monthly interest rate is zero
+        if self.loan_tenure == 0 or monthly_interest_rate == 0:
+            print("Error: Loan tenure or monthly interest rate is zero.")
+            # Handle error condition here (e.g., display an error message)
+            return
+
+        # Calculate EMI
+        emi_numerator = self.loan_amount * monthly_interest_rate * ((1 + monthly_interest_rate) ** self.loan_tenure)
+        emi_denominator = ((1 + monthly_interest_rate) ** self.loan_tenure) - 1
+
+        if emi_denominator == 0:
+            print("Error: Denominator for EMI calculation is zero.")
+            # Handle error condition here (e.g., display an error message)
+            return
+
+        monthly_emi = emi_numerator / emi_denominator
+        total_interest_amount = monthly_emi * self.loan_tenure - self.loan_amount
+
+        print("Monthly EMI:", monthly_emi)
+        print("Total Interest Amount:", total_interest_amount)
+
+        # Initialize beginning balance
+        loan_amount_beginning_balance = self.loan_amount
+        beginning_balance = monthly_emi * self.loan_tenure + total_interest_amount + total_processing_fee_amount
+
+        # Create and add payment items to the schedule
+        for month in range(1, int(self.loan_tenure) + 1):
+            # Calculate total payment for the month
+            monthly_interest = loan_amount_beginning_balance * monthly_interest_rate
+            monthly_processing_fee = (self.processing_fee / 100) * self.loan_amount / self.loan_tenure
+            total_payment = monthly_emi + monthly_interest + monthly_processing_fee
+
+            # Calculate principal for the month
+            principal = monthly_emi - monthly_interest
+
+            # Calculate ending balance for subsequent months
+            ending_balance = max(0, beginning_balance - total_payment)
+            loan_amount_ending_balance = max(0, loan_amount_beginning_balance - principal)
+
+            # Print statements for each month
+            print(f"Month: {month}")
+            print("Monthly Interest:", monthly_interest)
+            print("Monthly Processing Fee:", monthly_processing_fee)
+            print("Principal:", principal)
+            print("Total Payment:", total_payment)
+            print("Ending Balance:", ending_balance)
+            print("loan amount Ending Balance:", loan_amount_ending_balance)
+            print("Beginning Balance:", beginning_balance)
+            print("loan amountBeginning Balance:", loan_amount_beginning_balance)
+
+            # Create and add payment item
+            payment_str = f"Payment Schedule {month}"
+            print("Adding payment item:", payment_str)
+            item = PaymentItem(payment_str=payment_str, loan_amount=self.loan_amount, emi_amount=monthly_emi,
+                               interest_amount=monthly_interest, processing_fee_amount=monthly_processing_fee,
+                               total_payment=total_payment, balance_amount=ending_balance, principal=principal,
+                               beginning_balance=beginning_balance)
+            container.add_widget(item)
+
+            # Update beginning balance for the next month
+            beginning_balance = ending_balance
+            loan_amount_beginning_balance = loan_amount_ending_balance
+
+        print("Payment schedule calculation complete.")
+
+    def calculate_one_time_payment(self):
+        print("Calculating one-time payment...")
+        container = self.ids.container
+        container.clear_widgets()
+
+        # Calculate total interest and processing fee based on provided rates and loan tenure
+        monthly_interest_rate = (self.interest_rate / 100) / 12
+        total_processing_fee_amount = (self.processing_fee / 100) * self.loan_amount
+
+        # Calculate EMI
+        emi_numerator = self.loan_amount * monthly_interest_rate * ((1 + monthly_interest_rate) ** self.loan_tenure)
+        emi_denominator = ((1 + monthly_interest_rate) ** self.loan_tenure) - 1
+
+        if emi_denominator == 0:
+            print("Error: Denominator for EMI calculation is zero.")
+            # Handle error condition here (e.g., display an error message)
+            return
+
+        monthly_emi = emi_numerator / emi_denominator
+
+        total_interest_amount = monthly_emi * self.loan_tenure - self.loan_amount
+        total_payment = monthly_emi + total_interest_amount + total_processing_fee_amount
+        beginning_balance = monthly_emi * self.loan_tenure + total_interest_amount + total_processing_fee_amount
+
+        # Print one-time payment details
+        print("One-Time Payment:")
+        print("Monthly EMI:", monthly_emi)
+        print("Total Interest Amount:", total_interest_amount)
+        print("Total payment:", total_payment)
+        print("Total processing Amount:", total_processing_fee_amount)
+
+        # Create and add one-time payment item
+        item = PaymentItem(payment_str="Payment Schedule 1", loan_amount=self.loan_amount, emi_amount=beginning_balance,
+                           interest_amount=total_interest_amount, processing_fee_amount=total_processing_fee_amount,
+                           total_payment=beginning_balance,
+                           balance_amount=0, principal=self.loan_amount,
+                           beginning_balance=beginning_balance)
+        container.add_widget(item)
+        print("One-time payment added.")
+
+    def calculate_three_months_payment(self):
+        print("Calculating payment for every three months...")
+        container = self.ids.container
+        container.clear_widgets()
+
+        # Calculate total interest and processing fee based on provided rates and loan tenure
+        monthly_interest_rate = (self.interest_rate / 100) / 12
+        total_processing_fee_amount = (self.processing_fee / 100) * self.loan_amount
+
+        # Calculate EMI
+        emi_numerator = self.loan_amount * monthly_interest_rate * ((1 + monthly_interest_rate) ** self.loan_tenure)
+        emi_denominator = ((1 + monthly_interest_rate) ** self.loan_tenure) - 1
+
+        if emi_denominator == 0:
+            print("Error: Denominator for EMI calculation is zero.")
+            # Handle error condition here (e.g., display an error message)
+            return
+
+        monthly_emi = emi_numerator / emi_denominator
+
+        total_interest_amount = monthly_emi * self.loan_tenure - self.loan_amount
+
+        # Calculate number of three-month periods
+        num_periods = int(self.loan_tenure / 3)
+
+        # Initialize loan amount beginning balance
+        loan_amount_beginning_balance = self.loan_amount
+        beginning_balance = monthly_emi * self.loan_tenure + total_interest_amount + total_processing_fee_amount
+        for period in range(1, num_periods + 1):
+            # Calculate payments for this three-month period
+            principal_sum = 0
+            interest_sum = 0
+            processing_fee_sum = 0
+
+            for month in range(1, 4):  # Calculate for each month in the three-month period
+                # Calculate total payment for the month
+                monthly_interest = loan_amount_beginning_balance * monthly_interest_rate
+                monthly_processing_fee = (self.processing_fee / 100) * self.loan_amount / self.loan_tenure
+
+                # Calculate principal for the month
+                principal = monthly_emi - monthly_interest
+
+                principal_sum += principal
+                interest_sum += monthly_interest
+                processing_fee_sum += monthly_processing_fee
+                total_payment = monthly_emi * 3 + interest_sum + processing_fee_sum
+            # Calculate ending balance for this three-month period
+            ending_balance = max(0, beginning_balance - total_payment)
+            loan_amount_ending_balance = max(0, loan_amount_beginning_balance - principal_sum)
+
+            # Create and add payment item for the three-month period
+            payment_str = f"Payment Schedule {period}"
+            item = PaymentItem(payment_str=payment_str, loan_amount=self.loan_amount,
+                               emi_amount=monthly_emi * 3, interest_amount=interest_sum,
+                               processing_fee_amount=processing_fee_sum, total_payment=total_payment,
+                               balance_amount=ending_balance, principal=principal_sum,
+                               beginning_balance=beginning_balance)
+            container.add_widget(item)
+
+            # Update loan amount beginning balance for the next three-month period
+            beginning_balance = ending_balance
+            loan_amount_beginning_balance = loan_amount_ending_balance
+
+        # Calculate remaining months
+        remaining_months = int(self.loan_tenure - (num_periods * 3))
+        if remaining_months > 0:
+            # Calculate payments for remaining months
+            principal_sum = 0
+            interest_sum = 0
+            processing_fee_sum = 0
+
+            for month in range(1, remaining_months + 1):
+                # Calculate total payment for the month
+                monthly_interest = loan_amount_beginning_balance * monthly_interest_rate
+                monthly_processing_fee = (self.processing_fee / 100) * self.loan_amount / self.loan_tenure
+                # total_payment = monthly_emi + monthly_interest + monthly_processing_fee
+
+                # Calculate principal for the month
+                principal = monthly_emi - monthly_interest
+
+                principal_sum += principal
+                interest_sum += monthly_interest
+                processing_fee_sum += monthly_processing_fee
+                total_payment = monthly_emi * remaining_months + interest_sum + processing_fee_sum
+
+            # Calculate ending balance for the remaining months
+            ending_balance = max(0, beginning_balance - total_payment)
+
+            # Create and add payment item for the remaining months
+            payment_str = f"Payment Schedule {num_periods + 1}"
+            item = PaymentItem(payment_str=payment_str, loan_amount=self.loan_amount,
+                               emi_amount=monthly_emi * remaining_months, interest_amount=interest_sum,
+                               processing_fee_amount=processing_fee_sum, total_payment=total_payment,
+                               balance_amount=ending_balance, principal=principal_sum,
+                               beginning_balance=beginning_balance)
+            container.add_widget(item)
+
+        print("Payment calculation complete.")
+
+    def calculate_six_months_payment(self):
+        print("Calculating payment for every three months...")
+        container = self.ids.container
+        container.clear_widgets()
+
+        # Calculate total interest and processing fee based on provided rates and loan tenure
+        monthly_interest_rate = (self.interest_rate / 100) / 12
+        total_processing_fee_amount = (self.processing_fee / 100) * self.loan_amount
+
+        # Calculate EMI
+        emi_numerator = self.loan_amount * monthly_interest_rate * ((1 + monthly_interest_rate) ** self.loan_tenure)
+        emi_denominator = ((1 + monthly_interest_rate) ** self.loan_tenure) - 1
+
+        if emi_denominator == 0:
+            print("Error: Denominator for EMI calculation is zero.")
+            # Handle error condition here (e.g., display an error message)
+            return
+
+        monthly_emi = emi_numerator / emi_denominator
+
+        total_interest_amount = monthly_emi * self.loan_tenure - self.loan_amount
+
+        # Calculate number of three-month periods
+        num_periods = int(self.loan_tenure / 6)
+
+        # Initialize loan amount beginning balance
+        loan_amount_beginning_balance = self.loan_amount
+        beginning_balance = monthly_emi * self.loan_tenure + total_interest_amount + total_processing_fee_amount
+        for period in range(1, num_periods + 1):
+            # Calculate payments for this three-month period
+            principal_sum = 0
+            interest_sum = 0
+            processing_fee_sum = 0
+
+            for month in range(1, 7):  # Calculate for each month in the three-month period
+                # Calculate total payment for the month
+                monthly_interest = loan_amount_beginning_balance * monthly_interest_rate
+                monthly_processing_fee = (self.processing_fee / 100) * self.loan_amount / self.loan_tenure
+
+                # Calculate principal for the month
+                principal = monthly_emi - monthly_interest
+
+                principal_sum += principal
+                interest_sum += monthly_interest
+                processing_fee_sum += monthly_processing_fee
+                total_payment = monthly_emi * 6 + interest_sum + processing_fee_sum
+            # Calculate ending balance for this three-month period
+            ending_balance = max(0, beginning_balance - total_payment)
+            loan_amount_ending_balance = max(0, loan_amount_beginning_balance - principal_sum)
+
+            # Create and add payment item for the three-month period
+            payment_str = f"Payment Schedule {period}"
+            item = PaymentItem(payment_str=payment_str, loan_amount=self.loan_amount,
+                               emi_amount=monthly_emi * 6, interest_amount=interest_sum,
+                               processing_fee_amount=processing_fee_sum, total_payment=total_payment,
+                               balance_amount=ending_balance, principal=principal_sum,
+                               beginning_balance=beginning_balance)
+            container.add_widget(item)
+
+            # Update loan amount beginning balance for the next three-month period
+            beginning_balance = ending_balance
+            loan_amount_beginning_balance = loan_amount_ending_balance
+
+        # Calculate remaining months
+        remaining_months = int(self.loan_tenure - (num_periods * 3))
+        if remaining_months > 0:
+            # Calculate payments for remaining months
+            principal_sum = 0
+            interest_sum = 0
+            processing_fee_sum = 0
+
+            for month in range(1, remaining_months + 1):
+                # Calculate total payment for the month
+                monthly_interest = loan_amount_beginning_balance * monthly_interest_rate
+                monthly_processing_fee = (self.processing_fee / 100) * self.loan_amount / self.loan_tenure
+                # total_payment = monthly_emi + monthly_interest + monthly_processing_fee
+
+                # Calculate principal for the month
+                principal = monthly_emi - monthly_interest
+
+                principal_sum += principal
+                interest_sum += monthly_interest
+                processing_fee_sum += monthly_processing_fee
+                total_payment = monthly_emi * remaining_months + interest_sum + processing_fee_sum
+
+            # Calculate ending balance for the remaining months
+            ending_balance = max(0, beginning_balance - total_payment)
+
+            # Create and add payment item for the remaining months
+            payment_str = f"Payment Schedule {num_periods + 1}"
+            item = PaymentItem(payment_str=payment_str, loan_amount=self.loan_amount,
+                               emi_amount=monthly_emi * remaining_months, interest_amount=interest_sum,
+                               processing_fee_amount=processing_fee_sum, total_payment=total_payment,
+                               balance_amount=ending_balance, principal=principal_sum,
+                               beginning_balance=beginning_balance)
+            container.add_widget(item)
+
+        print("Payment calculation complete.")
+
+    def go_back(self):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'NewloanScreen1'
+
+
+# Define the PaymentItem class
+class PaymentItem(OneLineListItem):
+    def __init__(self, payment_str='', loan_amount=0, emi_amount=0, interest_amount=0,
+                 processing_fee_amount=0, total_payment=0, balance_amount=0, principal=0, beginning_balance=0,
+                 **kwargs):
+        super().__init__(**kwargs)
+        self.text = payment_str
+        self.loan_amount = loan_amount
+        self.emi_amount = emi_amount
+        self.interest_amount = interest_amount
+        self.processing_fee_amount = processing_fee_amount
+        self.total_payment = total_payment
+        self.balance_amount = balance_amount
+        self.principal = principal
+        self.beginning_balance = beginning_balance
+        self.bind(on_release=self.on_item_click)
+
+    def on_item_click(self, *args):
+        app = App.get_running_app()
+        screen_manager = app.root
+
+        # Check if the PaymentDetailsScreen already exists in the ScreenManager
+        if 'payment_details' in screen_manager.screen_names:
+            # If it exists, get the reference to the existing screen
+            payment_details_screen = screen_manager.get_screen('payment_details')
+        else:
+            # If it doesn't exist, create a new PaymentDetailsScreen
+            payment_details_screen = PaymentDetailsScreen(name='payment_details')
+            # Add the PaymentDetailsScreen to the ScreenManager
+            screen_manager.add_widget(payment_details_screen)
+
+        # Update the labels with the corresponding values
+        # payment_details_screen.ids.loan_label.text = f" Rs. {self.loan_amount:.2f}"
+        payment_details_screen.ids.emi_label.text = f"Rs. {self.emi_amount:.2f}"
+        payment_details_screen.ids.interest_label.text = f" Rs. {self.interest_amount:.2f}"
+        payment_details_screen.ids.processing_fee_label.text = f" Rs. {self.processing_fee_amount:.2f}"
+        payment_details_screen.ids.total_payment_label.text = f" Rs. {self.total_payment:.2f}"
+        payment_details_screen.ids.balance_label.text = f" Rs. {self.balance_amount:.2f}"
+        payment_details_screen.ids.principal_label.text = f" Rs. {self.principal:.2f}"
+        payment_details_screen.ids.beginning_balance_label.text = f" Rs. {self.beginning_balance:.2f}"
+
+        # Switch to the PaymentDetailsScreen
+        screen_manager.current = 'payment_details'
 
 
 class MyScreenManager(ScreenManager):
