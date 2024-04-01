@@ -7,7 +7,6 @@ Screen:
     ScrollView:
         MDList:
             id: container
-
 """
 
 
